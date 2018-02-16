@@ -1,0 +1,16 @@
+{
+  "name": "tokenpool",
+  "version": "0.0.1",
+  "description": "A token pool coordinator which poolmines tokens by coordinating miners ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "token",
+    "mine",
+    "pool"
+  ],
+  "author": "admazzola",
+  "license": "MIT"
+}
