@@ -1,0 +1,87 @@
+
+.font-primary-title
+{
+
+    font-family: 'Anton', sans-serif;
+
+}
+
+
+
+html
+{
+  //color: white;
+  //background-color: pink;
+  font-family: "Arial, Helvetica, sans-serif";
+
+
+}
+
+a
+{
+  color: #ff7209;
+}
+
+.color-primary
+{
+  color: #ff7209;
+}
+
+.button-primary
+{
+  color: white;
+
+   background: linear-gradient(#ff7209, #ff6206);
+}
+
+.button-secondary
+{
+  color: #ff7209;
+
+   background: linear-gradient(#fff, #eee);
+}
+
+.button-bubble
+{
+  padding:8px;
+  border: 1px solid black;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.navbar-item
+{
+  padding: 2px;
+}
+
+@media only screen and (max-width: 768px) {
+
+  .has-small-text-mobile
+  {
+    font-size: 10px;
+  }
+}
+
+.orange-theme
+{
+  background-color: #ff7209;
+
+   
+
+  .color-primary
+  {
+    color: white;
+  }
+
+  .button-primary
+  {
+    color: white;
+
+  }
+
+  .button-secondary
+  {
+    color: black;
+
+  }
+}

@@ -2,6 +2,10 @@
 var INFURA_ROPSTEN_URL = 'https://ropsten.infura.io/gmXEVo5luMPUGPqg6mhy';
 var INFURA_MAINNET_URL = 'https://mainnet.infura.io/gmXEVo5luMPUGPqg6mhy';
 
+
+var https_enabled = process.argv[2] === 'https';
+
+
 console.log('init');
 
 fs = require('fs');
@@ -24,6 +28,6 @@ async function init(web3)
 {
   peerInterface.init() //initJSONRPCServer();
   tokenInterface.init(web3)
-  webServer.init()
+  webServer.init(https_enabled)
 
 }
