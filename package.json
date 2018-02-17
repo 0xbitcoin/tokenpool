@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node index.js"
+    "server": "node index.js",
+    "redis": "redis-server"
   },
   "keywords": [
     "token",
@@ -15,8 +16,10 @@
   "author": "admazzola",
   "license": "MIT",
   "dependencies": {
+    "express": "^4.16.2",
     "jayson": "^2.0.5",
     "mocha": "^5.0.1",
+    "redis": "^2.8.0",
     "web3": "^1.0.0-beta.30"
   }
 }

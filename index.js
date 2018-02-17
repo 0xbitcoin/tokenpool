@@ -6,6 +6,10 @@ console.log('init');
 
 fs = require('fs');
 
+var peerInterface = require('./lib/peer-interface')
+var tokenInterface = require('./lib/token-interface')
+var webServer = require('./lib/web-server')
+
 var Web3 = require('web3')
 
 var web3 = new Web3();
@@ -18,36 +22,8 @@ init(web3);
 
 async function init(web3)
 {
-  initJSONRPCServer();
-
-
+  peerInterface.init() //initJSONRPCServer();
+  tokenInterface.init(web3)
+  webServer.init()
 
 }
-
-async function initJSONRPCServer()
-   {
-
-     var jayson = require('jayson');
-
-     console.log('listening on JSONRPC server localhost:4040')
-       // create a server
-       var server = jayson.server({
-         getShareDifficulty: function(args, callback) {
-
-           if(punkOwnersCollected == false )
-           {
-             callback(null, 'notSynced');
-           }
-
-
-           var punk_id = args[0];
-           var punk_owner_address = punkOwners[punk_id];
-           callback(null, punk_owner_address);
-
-
-         }
-       });
-
-       server.http().listen(8586);
-
-   }
