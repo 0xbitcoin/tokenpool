@@ -4,7 +4,8 @@
   "description": "A token pool coordinator which poolmines tokens by coordinating miners ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node index.js"
   },
   "keywords": [
     "token",
@@ -12,5 +13,10 @@
     "pool"
   ],
   "author": "admazzola",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "jayson": "^2.0.5",
+    "mocha": "^5.0.1",
+    "web3": "^1.0.0-beta.30"
+  }
 }
