@@ -19,7 +19,7 @@ var Web3 = require('web3')
 var web3 = new Web3();
 web3.setProvider(INFURA_ROPSTEN_URL);
 
-console.log('web3', web3);
+//console.log('web3', web3);
 
 init(web3);
 
