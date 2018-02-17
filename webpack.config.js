@@ -15,7 +15,7 @@ var htmlPlugin = new HtmlWebpackPlugin({
 });
 */
 var extractPlugin = new ExtractTextPlugin({
-   filename: 'assets/main.css'
+   filename: 'app/assets/main.css'
 });
 
 
