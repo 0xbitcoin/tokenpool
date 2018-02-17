@@ -6,6 +6,10 @@ var INFURA_MAINNET_URL = 'https://mainnet.infura.io/gmXEVo5luMPUGPqg6mhy';
 var https_enabled = process.argv[2] === 'https';
 
 
+const poolConfig = require('./pool.config').config;
+
+console.log(poolConfig)
+
 console.log('init');
 
 fs = require('fs');
@@ -26,7 +30,7 @@ init(web3);
 
 async function init(web3)
 {
-  peerInterface.init() //initJSONRPCServer();
+  peerInterface.init(poolConfig) //initJSONRPCServer();
   tokenInterface.init(web3)
   webServer.init(https_enabled)
 
