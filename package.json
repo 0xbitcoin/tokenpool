@@ -1,6 +1,9 @@
 {
   "name": "tokenpool",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=8.9"
+  },
   "description": "A token pool coordinator which poolmines tokens by coordinating miners ",
   "main": "index.js",
   "scripts": {
@@ -24,6 +27,7 @@
     "bn.js": "^4.11.8",
     "browserify": "^15.2.0",
     "bulma": "^0.6.2",
+    "ethereumjs-tx": "^1.3.3",
     "express": "^4.16.2",
     "extract-text-webpack-plugin": "^3.0.2",
     "html-loader": "^0.5.5",
@@ -32,8 +36,9 @@
     "mocha": "^5.0.1",
     "redis": "^2.8.0",
     "vue": "^2.5.13",
-    "web3": "^0.14.0",
-    "web3-utils": "^1.0.0-beta.30",
+    "web3": "^1.0.0-beta.29",
+    "web3-eth": "^1.0.0-beta.30",
+    "web3-utils": "^1.0.0-beta.29",
     "webpack": "^3.11.0",
     "worker-loader": "^1.1.0"
   },
