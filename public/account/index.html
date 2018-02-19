@@ -1,2 +1,127 @@
-<head><link href="/app/assets/main.css" rel="stylesheet"></head>Account Html
-<script type="text/javascript" src="/bundle.js"></script>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <title>Account Overview</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      <link rel="icon" type="image/png" href="/app/assets/images/0xbitcoin.png" />
+
+  <link href="/app/assets/main.css" rel="stylesheet"></head>
+  <body>
+
+        <nav id="navbar" class="navbar" role="navigation" aria-label="main navigation">
+       <div class="navbar-brand" style="padding-left:10px;">
+         <a class="navbar-item" href="/">
+           <img :src="brandImageUrl" height="28" width="28" />
+         </a>
+
+
+
+       </div>
+
+       <div class="navbar-menu">
+         <div class="navbar-end" style="padding:5px;">
+           <a href="https://github.com/0xbitcoin/0xbitcoin-token" target="_blank">
+             <img :src="githubLogo" height="28" width="28" target="_blank"/>
+           </a>
+         </div>
+       </div>
+</nav>
+
+
+
+<div class="page-container" id="account">
+
+      <section class="hero">
+        <div class="hero-body">
+          <div class="container has-text-centered">
+            <h1 class="title font-primary-title color-primary">
+              Mining Account List
+            </h1>
+            <h2 class="subtitle">
+             Token Mining Pool
+            </h2>
+
+
+
+             <div class="whitespace-sm"></div>
+
+           <div id="view-account-form" class="box has-text-centered">
+
+             <input class="" v-model="mining_address" placeholder="Mining address">
+
+             <div class="button-bubble button-primary view-account-button acts-as-link"> View your Shares </div>
+
+          </div>
+        </div>
+      </section>
+
+
+
+
+      <div id="poolstats" class="box  " style="overflow-x:auto; min-height:480px;">
+        <div class='subtitle'>Pool Stats</div>
+        <table class='table'>
+
+          <tbody>
+            <tr> <td> Network: MAINNET </td> </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div id="accountlist" class="box  " style="overflow-x:auto; min-height:480px;">
+        <div class='subtitle'>Miners</div>
+        <table class='table'>
+
+          <tbody>
+            <tr> <td> Network: MAINNET </td> </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+
+
+      <div id="about" class="box has-text-centered">
+
+        <div class='title'> Token Mining Pool </div>
+        <div class='subtitle '> Mine Ethereum tokens distributed using Proof of Work </div>
+
+
+        <div class="">
+
+        </div>
+
+        <div class="">
+          <p> Read more on <a href="https://reddit.com/r/tokenmining" target="_blank"> Reddit </a> </p>
+
+
+        </div>
+      </div>
+
+
+  </div>
+
+
+      <footer class="footer">
+   <div class="container">
+     <div class="content has-text-centered">
+       <p>
+         <strong>0xBitcoin</strong> Mineable ERC20 Token.
+
+          <br>
+          The source code is licensed
+         <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+         is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+       </p>
+     </div>
+   </div>
+ </footer>
+
+
+
+  <script type="text/javascript" src="/bundle.js"></script></body>
+</html>

@@ -12,5 +12,14 @@
 
 
 
+
+
+
 ## Requires    Redis connection to 127.0.0.1:6379
-  1. sudo apt-get install redis 
+  1. sudo apt-get install redis
+
+
+
+## TODO
+
+Need to add websockets (see space app) which will pull data (ultimately) from redis !! 

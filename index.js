@@ -34,6 +34,6 @@ async function init(web3)
   await tokenInterface.init(web3,accountConfig,poolConfig)
   await peerInterface.init(accountConfig,poolConfig,tokenInterface) //initJSONRPCServer();
 
-  webServer.init(https_enabled)
+  webServer.init(https_enabled,peerInterface)
 
 }
