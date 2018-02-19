@@ -45954,10 +45954,21 @@ var io = __webpack_require__(131);
 var app;
 var dashboardData;
 
+var accountlist;
+
+var API = {
+  serverIP: 'localhost'
+};
+
 class AccountRenderer {
 
   async init() {
 
+    this.accountListData = {
+      minerAccountData: [{ 'test': 123 }]
+    };
+
+    var self = this;
     const socketServer = 'http://' + API.serverIP + ':4000';
 
     const options = { transports: ['websocket'], forceNew: true };
@@ -45972,28 +45983,34 @@ class AccountRenderer {
       console.log('disconnected from socket.io server');
     });
 
-    this.socket.on('pong', function (data) {
-      console.log('heard pong', JSON.stringify(data));
+    this.socket.on('minerData', function (data) {
+      console.log('got miner data ', JSON.stringify(data));
+      self.accountListData.minerAccountData = data;
+
+      __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].set(accountlist.accounts, 'account_list', data);
     });
 
-    var accountData = await findMinerData(null);
+    this.findAllMinerData();
 
-    console.log('accountData', accountData);
+    accountlist = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
+      el: '#accountlist',
+      data: {
+        //parentMessage: 'Parent',
+        accounts: {
+          account_list: this.accountListData.minerAccountData
+        }
+      }
+    });
   }
 
-  async findMinerData(minerEthAddress) {
-    this.socket.emit('ping', minerEthAddress);
+  async findAllMinerData(minerEthAddress) {
+    console.log('request miner data');
+    this.socket.emit('getAllMinerData');
   }
 
-  update() {
-    console.log('rd2', renderData);
-    dashboardData = renderData;
+  async update() {
 
-    //  app.data =   renderData;
-
-    //vm.$forceUpdate();
-
-    this.show();
+    var accountData = await this.findAllMinerData();
   }
 
   hide() {

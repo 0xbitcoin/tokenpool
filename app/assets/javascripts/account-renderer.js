@@ -9,11 +9,22 @@ var io = require('socket.io-client');
 var app;
 var dashboardData;
 
+var accountlist;
+
+var API = {
+  serverIP: 'localhost'
+}
+
 export default class AccountRenderer {
 
     async init( )
     {
 
+      this.accountListData = {
+        minerAccountData: [{'test': 123}]
+      }
+
+      var self = this;
       const socketServer = 'http://'+API.serverIP+':4000';
 
       const options = {transports: ['websocket'], forceNew: true};
@@ -31,38 +42,48 @@ export default class AccountRenderer {
       });
 
 
-      this.socket.on('pong', function (data) {
-        console.log('heard pong', JSON.stringify(data));
+      this.socket.on('minerData', function (data) {
+        console.log('got miner data ', JSON.stringify(data));
+        self.accountListData.minerAccountData = data;
+
+        Vue.set(accountlist.accounts, 'account_list',  data )
 
       });
 
 
-      var accountData = await findMinerData(null)
+       this.findAllMinerData();
 
-      console.log('accountData',accountData )
+
+
+       accountlist = new Vue({
+          el: '#accountlist',
+          data: {
+            //parentMessage: 'Parent',
+            accounts: {
+              account_list: this.accountListData.minerAccountData
+            }
+          }
+        })
     }
 
 
-    async findMinerData(minerEthAddress)
+    async findAllMinerData(minerEthAddress)
     {
-      this.socket.emit('ping', minerEthAddress);
+      console.log('request miner data')
+      this.socket.emit('getAllMinerData');
 
 
     }
 
 
-
-
-     update( )
+     async update( )
     {
-      console.log('rd2',renderData)
-      dashboardData = renderData;
 
-      //  app.data =   renderData;
+      var accountData = await this.findAllMinerData()
 
-        //vm.$forceUpdate();
 
-        this.show();
+
+
     }
 
     hide()

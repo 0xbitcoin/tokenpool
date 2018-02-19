@@ -40,7 +40,31 @@
         </div>
       </section>
 
+      <div id="accountlist" class="box  " style="overflow-x:auto; min-height:480px;">
+        <div class='subtitle'>Miners</div>
+        <table class='table'>
 
+          <thead>
+            <tr >
+              <td> Miner # </td>
+              <td> Eth Address </td>
+              <td> Share Credits </td>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr v-for="(item, index) in accounts.account_list">
+              <td> Miner {{ index }} </td>
+              <td> {{ item.minerAddress }} </td>
+              <td>  {{ item.minerData.shareCredits }} </td>
+            </tr>
+
+
+          </tbody>
+        </table>
+
+      </div>
 
 
       <div id="poolstats" class="box  " style="overflow-x:auto; min-height:480px;">
@@ -54,16 +78,7 @@
 
       </div>
 
-      <div id="accountlist" class="box  " style="overflow-x:auto; min-height:480px;">
-        <div class='subtitle'>Miners</div>
-        <table class='table'>
 
-          <tbody>
-            <tr> <td> Network: MAINNET </td> </tr>
-          </tbody>
-        </table>
-
-      </div>
 
 
 
