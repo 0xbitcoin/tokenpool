@@ -13,9 +13,7 @@ A pool for mining 'energy' tokens such as 0xBTC
 
 ### HOW TO USE
 1. Point a poolminer at with http://localhost:8586
-2. View website interface at http://localhost:3000 
-
-
+2. View website interface at http://localhost:3000
 
 
 ## Requires    Redis connection to 127.0.0.1:6379
