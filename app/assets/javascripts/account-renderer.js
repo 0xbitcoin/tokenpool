@@ -21,7 +21,7 @@ export default class AccountRenderer {
     {
 
       this.accountListData = {
-        minerAccountData: [{'test': 123}]
+        minerAccountData: [{'n/a': 0}]
       }
 
       var self = this;

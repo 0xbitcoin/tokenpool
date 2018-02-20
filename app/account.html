@@ -48,7 +48,9 @@
             <tr >
               <td> Miner # </td>
               <td> Eth Address </td>
+
               <td> Share Credits </td>
+              <td> Token Balance </td>
             </tr>
           </thead>
 
@@ -57,7 +59,9 @@
             <tr v-for="(item, index) in accounts.account_list">
               <td> Miner {{ index }} </td>
               <td> {{ item.minerAddress }} </td>
+
               <td>  {{ item.minerData.shareCredits }} </td>
+              <td>  {{ item.minerData.tokenBalance }} </td>
             </tr>
 
 
