@@ -47,6 +47,9 @@ export default class AccountRenderer {
 
       this.socket.on('minerData', function (data) {
         console.log('got miner data ', JSON.stringify(data));
+
+        data.tokenBalanceFormatted = (data.tokenBalance / parseFloat(1e8) )
+
         self.accountListData.minerAccountData = data;
 
         Vue.set(accountlist.accounts, 'account_list',  data )

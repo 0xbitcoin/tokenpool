@@ -22,5 +22,6 @@ A pool for mining 'energy' tokens such as 0xBTC
 
 
 ## TODO
-
-Need to add websockets (see space app) which will pull data (ultimately) from redis !!
+- add a table on the dashboard which shows solutions attempted - to help debug
+- get var diff working
+- actually transfer tokens every hour
