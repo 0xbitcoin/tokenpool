@@ -57,7 +57,7 @@ export default class AccountRenderer {
       });
 
 
-       this.findAllMinerData();
+      this.socket.emit('getAllMinerData');
 
 
 
@@ -72,23 +72,13 @@ export default class AccountRenderer {
         })
     }
 
-
-    async findAllMinerData(minerEthAddress)
-    {
-      console.log('request miner data')
-      this.socket.emit('getAllMinerData');
-
-
-    }
-
-
+ 
      async update( )
     {
 
-      var accountData = await this.findAllMinerData()
+    //  var accountData = await this.findAllMinerData()
 
-
-
+      this.socket.emit('getAllMinerData');
 
     }
 

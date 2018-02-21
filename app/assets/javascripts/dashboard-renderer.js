@@ -115,6 +115,10 @@ export default class DashboardRenderer {
      update(renderData)
     {
 
+      this.socket.emit('getPoolData');
+      this.socket.emit('getAllTransactionData');
+
+
         this.show();
     }
 
