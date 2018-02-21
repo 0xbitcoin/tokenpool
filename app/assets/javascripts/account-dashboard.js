@@ -6,7 +6,7 @@ const $ = require('jquery');
 export default class AccountDashboard {
 
 
-  init(ethHelper,web3,accountRenderer)
+  init(accountRenderer)
   {
     setInterval( function(){
       console.log("updating account data")

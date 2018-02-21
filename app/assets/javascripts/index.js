@@ -23,7 +23,7 @@ import AccountDashboard from './account-dashboard'
 var dashboardRenderer = new DashboardRenderer();
 var accountRenderer = new AccountRenderer();
 var alertRenderer = new AlertRenderer();
-var ethHelper = new EthHelper();
+//var ethHelper = new EthHelper();
 var home = new HomeDashboard();
 var account = new AccountDashboard();
 
@@ -41,17 +41,17 @@ $(document).ready(function(){
 
 
       if($("#home").length > 0){
-        var web3 = ethHelper.init( alertRenderer);
+      //  var web3 = ethHelper.init( alertRenderer);
 
-        home.init(ethHelper,web3,dashboardRenderer);
+        home.init(dashboardRenderer);
       }
 
 
 
       if($("#account").length > 0){
-        var web3 = ethHelper.init( alertRenderer);
+        //var web3 = ethHelper.init( alertRenderer);
 
-        account.init(ethHelper,web3,accountRenderer);
+        account.init(accountRenderer);
       }
 
 

@@ -45734,7 +45734,7 @@ const $ = __webpack_require__(23);
 var dashboardRenderer = new __WEBPACK_IMPORTED_MODULE_4__dashboard_renderer__["a" /* default */]();
 var accountRenderer = new __WEBPACK_IMPORTED_MODULE_5__account_renderer__["a" /* default */]();
 var alertRenderer = new __WEBPACK_IMPORTED_MODULE_3__alert_renderer__["a" /* default */]();
-var ethHelper = new __WEBPACK_IMPORTED_MODULE_6__ethhelper__["a" /* default */]();
+//var ethHelper = new EthHelper();
 var home = new __WEBPACK_IMPORTED_MODULE_7__home_dashboard__["a" /* default */]();
 var account = new __WEBPACK_IMPORTED_MODULE_8__account_dashboard__["a" /* default */]();
 
@@ -45749,15 +45749,15 @@ var navbar = new __WEBPACK_IMPORTED_MODULE_2_vue__["a" /* default */]({
 $(document).ready(function () {
 
   if ($("#home").length > 0) {
-    var web3 = ethHelper.init(alertRenderer);
+    //  var web3 = ethHelper.init( alertRenderer);
 
-    home.init(ethHelper, web3, dashboardRenderer);
+    home.init(dashboardRenderer);
   }
 
   if ($("#account").length > 0) {
-    var web3 = ethHelper.init(alertRenderer);
+    //var web3 = ethHelper.init( alertRenderer);
 
-    account.init(ethHelper, web3, accountRenderer);
+    account.init(accountRenderer);
   }
 });
 
@@ -49342,7 +49342,7 @@ class EthHelper {
   }
 
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = EthHelper;
+/* unused harmony export default */
 
 
 /***/ }),
@@ -87706,7 +87706,7 @@ const $ = __webpack_require__(23);
 
 class HomeDashboard {
 
-  init(ethHelper, web3, dashboardRenderer) {
+  init(dashboardRenderer) {
     setInterval(function () {
 
       dashboardRenderer.update();
@@ -87729,7 +87729,7 @@ const $ = __webpack_require__(23);
 
 class AccountDashboard {
 
-  init(ethHelper, web3, accountRenderer) {
+  init(accountRenderer) {
     setInterval(function () {
       console.log("updating account data");
 
