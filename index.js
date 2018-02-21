@@ -45,7 +45,7 @@ async function init(web3)
   await redisInterface.init()
 
   await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,test_mode)
-  await peerInterface.init(accountConfig,poolConfig,redisInterface,tokenInterface,test_mode) //initJSONRPCServer();
+  await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode) //initJSONRPCServer();
 
   webServer.init(https_enabled,peerInterface)
 
