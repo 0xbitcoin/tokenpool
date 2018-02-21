@@ -48,7 +48,9 @@ export default class AccountRenderer {
       this.socket.on('minerData', function (data) {
         console.log('got miner data ', JSON.stringify(data));
 
-        data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  )) 
+        data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  ))
+        data.map(item => item.minerData.tokenRewardsFormatted = (item.minerData.tokensAwarded / parseFloat(1e8)  ))
+ 
 
         self.accountListData.minerAccountData = data;
 
