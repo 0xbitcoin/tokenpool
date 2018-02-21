@@ -45965,7 +45965,7 @@ class AccountRenderer {
   async init() {
 
     this.accountListData = {
-      minerAccountData: [{ 'test': 123 }]
+      minerAccountData: []
     };
 
     var self = this;
@@ -45988,6 +45988,9 @@ class AccountRenderer {
 
     this.socket.on('minerData', function (data) {
       console.log('got miner data ', JSON.stringify(data));
+
+      data.map(item => item.minerData.tokenBalanceFormatted = item.minerData.tokenBalance / parseFloat(1e8));
+
       self.accountListData.minerAccountData = data;
 
       __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].set(accountlist.accounts, 'account_list', data);

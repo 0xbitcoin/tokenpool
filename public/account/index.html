@@ -48,13 +48,19 @@
 
              <div class="whitespace-sm"></div>
 
-           <div id="view-account-form" class="box has-text-centered">
+
+
+      <!--      <div id="view-account-form" class="box has-text-centered">
 
              <input class="" v-model="mining_address" placeholder="Mining address">
 
              <div class="button-bubble button-primary view-account-button acts-as-link"> View your Shares </div>
 
           </div>
+        -->
+
+
+
         </div>
       </section>
 
@@ -66,7 +72,9 @@
             <tr >
               <td> Miner # </td>
               <td> Eth Address </td>
+
               <td> Share Credits </td>
+              <td> Token Balance </td>
             </tr>
           </thead>
 
@@ -75,7 +83,9 @@
             <tr v-for="(item, index) in accounts.account_list">
               <td> Miner {{ index }} </td>
               <td> {{ item.minerAddress }} </td>
-              <td>  {{ item.minerData.shareCredits }} </td>
+
+              <td>  {{ item.minerData.shareCredits}} </td>
+              <td>  {{ item.minerData.tokenBalanceFormatted }} </td>
             </tr>
 
 
@@ -84,7 +94,7 @@
 
       </div>
 
-
+          <!--
       <div id="poolstats" class="box  " style="overflow-x:auto; min-height:480px;">
         <div class='subtitle'>Pool Stats</div>
         <table class='table'>
@@ -95,6 +105,8 @@
         </table>
 
       </div>
+
+    -->
 
 
 
