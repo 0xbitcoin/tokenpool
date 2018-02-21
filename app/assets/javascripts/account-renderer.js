@@ -11,9 +11,7 @@ var dashboardData;
 
 var accountlist;
 
-var API = {
-  serverIP: 'localhost'
-}
+
 
 export default class AccountRenderer {
 
@@ -50,7 +48,7 @@ export default class AccountRenderer {
 
         data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  ))
         data.map(item => item.minerData.tokenRewardsFormatted = (item.minerData.tokensAwarded / parseFloat(1e8)  ))
- 
+
 
         self.accountListData.minerAccountData = data;
 

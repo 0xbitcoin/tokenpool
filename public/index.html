@@ -36,13 +36,20 @@
 
       <section class="hero">
         <div class="hero-body">
-          <div class="container has-text-centered">
+          <div class="container has-text-centered" id='jumbotron'>
             <h1 class="title font-primary-title color-primary">
               Token Mining Pool
             </h1>
+
             <h2 class="subtitle">
               Mine 0xBitcoin with us
             </h2>
+
+
+              <p> {{pool.poolData.address}}</p>
+
+              <div class="whitespace-sm"></div>
+
 
             <div class= "box" style="max-width:60%;margin: 0 auto;">
               <p>Download the mining software - version 1.5 or higher</p>
@@ -55,9 +62,14 @@
 
              <div class="whitespace-sm"></div>
 
+
              <a href="/account" target="_blank">
                <div class='button-bubble button-white'>View Account Shares</div>
              </a>
+
+             <div class="whitespace-sm"></div>
+
+
           </div>
         </div>
       </section>
@@ -76,25 +88,36 @@
         </a>
       </div>
 
-      <div id="dashboard" class="box has-small-text-mobile" style="overflow-x:auto; min-height:480px;">
-        <div class='subtitle'>Pool Stats</div>
+      <div id="txlist" class="box  " style="overflow-x:auto; min-height:480px;">
+        <div class='subtitle'>Recent Transactions</div>
         <table class='table'>
 
-        <tbody>
-          <tr> <td> Network: MAINNET </td> </tr>
-          <tr> <td> Address: <a :href='contractUrl' target="_blank"> {{ contractAddress }} </a>  </td> </tr>
-          <tr> <td> Total Supply:  {{ totalSupply }} </td> </tr>
-          <tr> <td> Amount Mined:  {{ amountMined }}</td></tr>
-        <tr> <td> Mining Difficulty:  {{ difficulty }}</td></tr>
-        <tr> <td> Mining Challenge:  {{ challenge_number }}</td></tr>
+          <thead>
+            <tr >
+              <td> TxHash </td>
+              <td> Type </td>
+              <td> Status </td>
+            </tr>
+          </thead>
 
-        <tr> <td> Last Reward To:  {{ lastRewardTo }}</td></tr>
-        <tr> <td> Last Reward Amount:  {{ lastRewardAmount }}</td></tr>
-        <tr> <td> Last Reward EthBlock#:  {{ lastRewardEthBlockNumber }}</td></tr>
-       </tbody>
+          <tbody>
+
+            <tr v-for="(item, index) in transactions.tx_list">
+              <td>  {{ item.txHash  }} </td>
+              <td> {{  item.txType }} </td>
+
+              <td>  {{ item.formattedStatus}} </td>
+
+            </tr>
+
+
+          </tbody>
         </table>
 
       </div>
+
+
+
 
       <div id="about" class="box has-text-centered">
 

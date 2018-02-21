@@ -8,24 +8,19 @@ export default class HomeDashboard {
 
   init(ethHelper,web3,dashboardRenderer)
   {
-    setInterval( function(){
-      console.log("updating contract data")
+    setInterval( function(){ 
 
-       ethHelper.connectToContract( web3 , dashboardRenderer, function(contractData){
 
-         dashboardRenderer.update(contractData);
-
-       } );
+         dashboardRenderer.update();
 
 
 
     },30*1000);
 
-      ethHelper.connectToContract( web3 , dashboardRenderer, function(contractData){
 
-        dashboardRenderer.init(contractData);
+        dashboardRenderer.init();
 
-      } );
+
   }
 
 
