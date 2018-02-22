@@ -6,7 +6,7 @@ var INFURA_MAINNET_URL = 'https://mainnet.infura.io/gmXEVo5luMPUGPqg6mhy';
 var https_enabled = process.argv[2] === 'https';
 var test_mode = process.argv[2] === 'test';
 
-
+var cluster = require('cluster')
 
 const poolConfig = require('./pool.config').config
 
@@ -42,11 +42,54 @@ init(web3);
 
 async function init(web3)
 {
-  await redisInterface.init()
 
-  await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,test_mode)
-  await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode) //initJSONRPCServer();
 
-  webServer.init(https_enabled,peerInterface)
+        // Code to run if we're in the master process
+      if (cluster.isMaster) {
+
+          // Count the machine's CPUs
+          var cpuCount = require('os').cpus().length;
+
+          // Create a worker for each CPU
+          for (var i = 0; i < 2; i += 1) {
+              cluster.fork();
+          }
+
+          await redisInterface.init()
+          await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,test_mode)
+          await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode) //initJSONRPCServer();
+          await webServer.init(https_enabled,peerInterface)
+
+
+      // Code to run if we're in a worker process
+      } else {
+        var worker_id = cluster.worker.id
+
+            if(worker_id == 1)
+            {
+              await redisInterface.init()
+              await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,test_mode)
+
+              tokenInterface.update();
+            }
+            if(worker_id == 2)
+            {
+              await redisInterface.init()
+              await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,test_mode)
+
+
+              await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode) //initJSONRPCServer();
+
+              peerInterface.update();
+            }
+            if(worker_id == 3)
+            {
+
+            }
+      }
+
+
+
+
 
 }

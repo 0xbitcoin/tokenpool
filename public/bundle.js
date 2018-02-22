@@ -46088,6 +46088,9 @@ class DashboardRenderer {
 
   update(renderData) {
 
+    this.socket.emit('getPoolData');
+    this.socket.emit('getAllTransactionData');
+
     this.show();
   }
 
@@ -49218,7 +49221,7 @@ class AccountRenderer {
       __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].set(accountlist.accounts, 'account_list', data);
     });
 
-    this.findAllMinerData();
+    this.socket.emit('getAllMinerData');
 
     accountlist = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
       el: '#accountlist',
@@ -49231,14 +49234,11 @@ class AccountRenderer {
     });
   }
 
-  async findAllMinerData(minerEthAddress) {
-    console.log('request miner data');
-    this.socket.emit('getAllMinerData');
-  }
-
   async update() {
 
-    var accountData = await this.findAllMinerData();
+    //  var accountData = await this.findAllMinerData()
+
+    this.socket.emit('getAllMinerData');
   }
 
   hide() {
