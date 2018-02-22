@@ -65,24 +65,18 @@ async function init(web3)
       } else {
         var worker_id = cluster.worker.id
 
-            if(worker_id == 1)
-            {
-              await redisInterface.init()
-              await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,test_mode)
 
-              tokenInterface.update();
-            }
-            if(worker_id == 2)
+            if(worker_id == 1)
             {
               await redisInterface.init()
               await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,test_mode)
 
 
               await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode) //initJSONRPCServer();
-
+                tokenInterface.update();
               peerInterface.update();
             }
-            if(worker_id == 3)
+            if(worker_id == 2)
             {
 
             }
