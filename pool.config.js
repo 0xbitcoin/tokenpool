@@ -1,9 +1,9 @@
 var poolconfig = {
   minimumShareDifficulty: 4,
-  solutionGasPriceWei: 5,
-  transferGasPriceWei: 1,
-  poolTokenFee: 5,
-  minBalanceForTransfer: 100000000
+  solutionGasPriceWei: 35,
+  transferGasPriceWei: 5,
+  poolTokenFee: 10,
+  minBalanceForTransfer: 500000000
 }
 
 
