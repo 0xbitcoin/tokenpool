@@ -1,5 +1,7 @@
 ### Token Mining Pool  
 
+(GNU PUBLIC LICENSE)
+
 A pool for mining 'energy' tokens such as 0xBTC
 
 
