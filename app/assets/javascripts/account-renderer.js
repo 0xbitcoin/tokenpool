@@ -52,7 +52,7 @@ export default class AccountRenderer {
         for(var i in data)
         {
           var shares = parseInt(data[i].minerData.shareCredits)
-          if( isNaN(shares) || shares < 0)
+          if( isNaN(shares) || shares <= 0)
           {
 
             data.splice(i, 1);
