@@ -34,6 +34,7 @@ const routesData = {
   routes: [
     {url: '/', title: 'Token Mining Pool', template: 'app/index.html', filename: 'index.html'},
     {url: '/account', title: 'Account Overview', template: 'app/account.html', filename: 'account/index.html'},
+    {url: '/dashboard', title: 'Dashbaord Overview', template: 'app/dashboard.html', filename: 'dashboard/index.html'},
   ]
 }
 
