@@ -54,7 +54,8 @@ export default class AccountRenderer {
           var shares = parseInt(data[i].minerData.shareCredits)
           if( isNaN(shares) || shares > 0)
           {
-            data[i].pop()
+             
+            data.splice(i, 1);
           }
 
             data[i].tokenBalanceFormatted = (  data[i].minerData.tokenBalance / parseFloat(1e8))
