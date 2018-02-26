@@ -49213,17 +49213,19 @@ class AccountRenderer {
     this.socket.on('minerData', function (data) {
       console.log('got miner data ', JSON.stringify(data));
 
-      //data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  ))
-      //  data.map(item => item.minerData.tokenRewardsFormatted = (item.minerData.tokensAwarded / parseFloat(1e8)  ))
+      data.map(item => item.minerData.tokenBalanceFormatted = item.minerData.tokenBalance / parseFloat(1e8));
+      data.map(item => item.minerData.tokenRewardsFormatted = item.minerData.tokensAwarded / parseFloat(1e8));
 
       for (var i in data) {
         var shares = parseInt(data[i].minerData.shareCredits);
-        if (isNaN(shares) || shares > 0) {
-          data[i].pop();
+        console.log(shares);
+        if (isNaN(shares) || shares <= 0) {
+          data.splice(i, 1);
         }
 
-        data[i].tokenBalanceFormatted = data[i].minerData.tokenBalance / parseFloat(1e8);
-        data[i].tokenRewardsFormatted = data[i].minerData.tokensAwarded / parseFloat(1e8);
+        //  data[i].tokenBalanceFormatted = (  data[i].minerData.tokenBalance / parseFloat(1e8))
+        //  data[i].tokenRewardsFormatted = (  data[i].minerData.tokensAwarded / parseFloat(1e8))
+
       }
 
       self.accountListData.minerAccountData = data;
