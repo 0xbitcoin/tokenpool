@@ -8,7 +8,8 @@ import Vue from 'vue'
 
 import AlertRenderer from './alert-renderer'
 
-import DashboardRenderer from './dashboard-renderer'
+import OverviewRenderer from './overview-renderer'
+import HomeRenderer from './home-renderer'
 import AccountRenderer from './account-renderer'
 
 import EthHelper from './ethhelper'
@@ -16,17 +17,18 @@ import EthHelper from './ethhelper'
 
 import HomeDashboard from './home-dashboard'
 import AccountDashboard from './account-dashboard'
-
+import OverviewDashboard from './overview-dashboard'
 
 //var web3 = this.connectWeb3();
 
-var dashboardRenderer = new DashboardRenderer();
+var overviewRenderer = new OverviewRenderer();
+var homeRenderer = new HomeRenderer();
 var accountRenderer = new AccountRenderer();
 var alertRenderer = new AlertRenderer();
 //var ethHelper = new EthHelper();
 var home = new HomeDashboard();
 var account = new AccountDashboard();
-
+var overview = new OverviewDashboard();
 
 var navbar = new Vue({
   el: '#navbar',
@@ -43,7 +45,7 @@ $(document).ready(function(){
       if($("#home").length > 0){
       //  var web3 = ethHelper.init( alertRenderer);
 
-        home.init(dashboardRenderer);
+        home.init(homeRenderer);
       }
 
 
@@ -54,6 +56,12 @@ $(document).ready(function(){
         account.init(accountRenderer);
       }
 
+
+      if($("#overview").length > 0){
+      //  var web3 = ethHelper.init( alertRenderer);
+
+        overview.init(overviewRenderer);
+      }
 
 });
 

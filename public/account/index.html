@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-    <title>Account Overview</title>
+    <title>Mining Accounts</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -84,7 +84,7 @@
             <tr v-for="(item, index) in accounts.account_list">
               <td> Miner {{ index }} </td>
               <td> {{ item.minerAddress }} </td>
-              <td> {{ item.hashRate }} </td>
+              <td> {{ item.minerData.hashRate }} </td>
 
               <td>  {{ item.minerData.shareCredits}} </td>
               <td>  {{ item.minerData.tokenBalanceFormatted }} </td>

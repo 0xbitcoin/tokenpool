@@ -19,6 +19,7 @@ fs = require('fs');
 var redisInterface = require('./lib/redis-interface')
 var peerInterface = require('./lib/peer-interface')
 var tokenInterface = require('./lib/token-interface')
+var webInterface = require('./lib/web-interface')
 var webServer = require('./lib/web-server')
 var accountConfig;
 var Web3 = require('web3')
@@ -55,10 +56,12 @@ async function init(web3)
               cluster.fork();
           }
 
+
           await redisInterface.init()
+          await webInterface.init(web3,accountConfig,poolConfig,redisInterface)
           await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,test_mode)
           await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode) //initJSONRPCServer();
-          await webServer.init(https_enabled,peerInterface)
+          await webServer.init(https_enabled,webInterface,peerInterface)
 
 
       // Code to run if we're in a worker process

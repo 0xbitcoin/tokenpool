@@ -106,8 +106,8 @@ if (typeof Object.create === 'function') {
 
 
 
-var base64 = __webpack_require__(163);
-var ieee754 = __webpack_require__(164);
+var base64 = __webpack_require__(164);
+var ieee754 = __webpack_require__(165);
 var isArray = __webpack_require__(75);
 
 exports.Buffer = Buffer;
@@ -1984,7 +1984,7 @@ module.exports = g;
 
   var Buffer;
   try {
-    Buffer = __webpack_require__(173).Buffer;
+    Buffer = __webpack_require__(174).Buffer;
   } catch (e) {}
 
   BN.isBN = function isBN(num) {
@@ -5290,7 +5290,7 @@ module.exports = g;
     return res._forceRed(this);
   };
 })(typeof module === 'undefined' || module, this);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)(module)))
 
 /***/ }),
 /* 5 */
@@ -6890,8 +6890,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscor
 
 
 
-var errors = __webpack_require__(159);
-var formatters = __webpack_require__(160);
+var errors = __webpack_require__(160);
+var formatters = __webpack_require__(161);
 
 module.exports = {
     errors: errors,
@@ -6907,15 +6907,15 @@ module.exports = {
 
 var elliptic = exports;
 
-elliptic.version = __webpack_require__(244).version;
-elliptic.utils = __webpack_require__(245);
+elliptic.version = __webpack_require__(245).version;
+elliptic.utils = __webpack_require__(246);
 elliptic.rand = __webpack_require__(105);
-elliptic.curve = __webpack_require__(42);
-elliptic.curves = __webpack_require__(250);
+elliptic.curve = __webpack_require__(43);
+elliptic.curves = __webpack_require__(251);
 
 // Protocols
-elliptic.ec = __webpack_require__(258);
-elliptic.eddsa = __webpack_require__(262);
+elliptic.ec = __webpack_require__(259);
+elliptic.eddsa = __webpack_require__(263);
 
 /***/ }),
 /* 8 */
@@ -7135,10 +7135,10 @@ process.umask = function () {
  */
 
 var _ = __webpack_require__(5);
-var ethjsUnit = __webpack_require__(161);
+var ethjsUnit = __webpack_require__(162);
 var utils = __webpack_require__(77);
-var soliditySha3 = __webpack_require__(169);
-var randomHex = __webpack_require__(170);
+var soliditySha3 = __webpack_require__(170);
+var randomHex = __webpack_require__(171);
 
 /**
  * Fires an error in an event emitter and callback and returns the eventemitter
@@ -7460,7 +7460,7 @@ assert.equal = function assertEqual(l, r, msg) {
 
 var _ = __webpack_require__(5);
 var utils = __webpack_require__(9);
-var BN = __webpack_require__(189);
+var BN = __webpack_require__(190);
 var SolidityParam = __webpack_require__(86);
 
 /**
@@ -7949,8 +7949,8 @@ exports.shr64_lo = shr64_lo;
 /***/ (function(module, exports, __webpack_require__) {
 
 var Buffer = __webpack_require__(2).Buffer;
-var Transform = __webpack_require__(38).Transform;
-var StringDecoder = __webpack_require__(55).StringDecoder;
+var Transform = __webpack_require__(39).Transform;
+var StringDecoder = __webpack_require__(56).StringDecoder;
 var inherits = __webpack_require__(0);
 
 function CipherBase(hashMode) {
@@ -8050,1974 +8050,6 @@ module.exports = CipherBase;
 
 /***/ }),
 /* 14 */
-/***/ (function(module, exports) {
-
-module.exports = function (module) {
-	if (!module.webpackPolyfill) {
-		module.deprecate = function () {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if (!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function () {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function () {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/*
-    This file is part of web3.js.
-
-    web3.js is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    web3.js is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public License
-    along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
-*/
-/**
- * @file index.js
- * @author Fabian Vogelsteller <fabian@ethereum.org>
- * @date 2017
- */
-
-
-
-var requestManager = __webpack_require__(158);
-var extend = __webpack_require__(184);
-
-module.exports = {
-    packageInit: function (pkg, args) {
-        args = Array.prototype.slice.call(args);
-
-        if (!pkg) {
-            throw new Error('You need to instantiate using the "new" keyword.');
-        }
-
-        // make property of pkg._provider, which can properly set providers
-        Object.defineProperty(pkg, 'currentProvider', {
-            get: function () {
-                return pkg._provider;
-            },
-            set: function (value) {
-                return pkg.setProvider(value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-
-        // inherit from web3 umbrella package
-        if (args[0] && args[0]._requestManager) {
-            pkg._requestManager = new requestManager.Manager(args[0].currentProvider);
-
-            // set requestmanager on package
-        } else {
-            pkg._requestManager = new requestManager.Manager();
-            pkg._requestManager.setProvider(args[0], args[1]);
-        }
-
-        // add givenProvider
-        pkg.givenProvider = requestManager.Manager.givenProvider;
-        pkg.providers = requestManager.Manager.providers;
-
-        pkg._provider = pkg._requestManager.provider;
-
-        // add SETPROVIDER function (don't overwrite if already existing)
-        if (!pkg.setProvider) {
-            pkg.setProvider = function (provider, net) {
-                pkg._requestManager.setProvider(provider, net);
-                pkg._provider = pkg._requestManager.provider;
-                return true;
-            };
-        }
-
-        // attach batch request creation
-        pkg.BatchRequest = requestManager.BatchManager.bind(null, pkg._requestManager);
-
-        // attach extend function
-        pkg.extend = extend(pkg);
-    },
-    addProviders: function (pkg) {
-        pkg.givenProvider = requestManager.Manager.givenProvider;
-        pkg.providers = requestManager.Manager.providers;
-    }
-};
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/*
-    This file is part of web3.js.
-
-    web3.js is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    web3.js is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public License
-    along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
-*/
-/**
- * @file index.js
- * @author Fabian Vogelsteller <fabian@ethereum.org>
- * @author Marek Kotewicz <marek@parity.io>
- * @date 2017
- */
-
-
-
-var _ = __webpack_require__(5);
-var errors = __webpack_require__(6).errors;
-var formatters = __webpack_require__(6).formatters;
-var utils = __webpack_require__(9);
-var promiEvent = __webpack_require__(82);
-var Subscriptions = __webpack_require__(35).subscriptions;
-
-var TIMEOUTBLOCK = 50;
-var CONFIRMATIONBLOCKS = 24;
-
-var Method = function Method(options) {
-
-    if (!options.call || !options.name) {
-        throw new Error('When creating a method you need to provide at least the "name" and "call" property.');
-    }
-
-    this.name = options.name;
-    this.call = options.call;
-    this.params = options.params || 0;
-    this.inputFormatter = options.inputFormatter;
-    this.outputFormatter = options.outputFormatter;
-    this.transformPayload = options.transformPayload;
-    this.extraFormatters = options.extraFormatters;
-
-    this.requestManager = options.requestManager;
-
-    // reference to eth.accounts
-    this.accounts = options.accounts;
-
-    this.defaultBlock = options.defaultBlock || 'latest';
-    this.defaultAccount = options.defaultAccount || null;
-};
-
-Method.prototype.setRequestManager = function (requestManager, accounts) {
-    this.requestManager = requestManager;
-
-    // reference to eth.accounts
-    if (accounts) {
-        this.accounts = accounts;
-    }
-};
-
-Method.prototype.createFunction = function (requestManager, accounts) {
-    var func = this.buildCall();
-    func.call = this.call;
-
-    this.setRequestManager(requestManager || this.requestManager, accounts || this.accounts);
-
-    return func;
-};
-
-Method.prototype.attachToObject = function (obj) {
-    var func = this.buildCall();
-    func.call = this.call;
-    var name = this.name.split('.');
-    if (name.length > 1) {
-        obj[name[0]] = obj[name[0]] || {};
-        obj[name[0]][name[1]] = func;
-    } else {
-        obj[name[0]] = func;
-    }
-};
-
-/**
- * Should be used to determine name of the jsonrpc method based on arguments
- *
- * @method getCall
- * @param {Array} arguments
- * @return {String} name of jsonrpc method
- */
-Method.prototype.getCall = function (args) {
-    return _.isFunction(this.call) ? this.call(args) : this.call;
-};
-
-/**
- * Should be used to extract callback from array of arguments. Modifies input param
- *
- * @method extractCallback
- * @param {Array} arguments
- * @return {Function|Null} callback, if exists
- */
-Method.prototype.extractCallback = function (args) {
-    if (_.isFunction(args[args.length - 1])) {
-        return args.pop(); // modify the args array!
-    }
-};
-
-/**
- * Should be called to check if the number of arguments is correct
- *
- * @method validateArgs
- * @param {Array} arguments
- * @throws {Error} if it is not
- */
-Method.prototype.validateArgs = function (args) {
-    if (args.length !== this.params) {
-        throw errors.InvalidNumberOfParams(args.length, this.params, this.name);
-    }
-};
-
-/**
- * Should be called to format input args of method
- *
- * @method formatInput
- * @param {Array}
- * @return {Array}
- */
-Method.prototype.formatInput = function (args) {
-    var _this = this;
-
-    if (!this.inputFormatter) {
-        return args;
-    }
-
-    return this.inputFormatter.map(function (formatter, index) {
-        // bind this for defaultBlock, and defaultAccount
-        return formatter ? formatter.call(_this, args[index]) : args[index];
-    });
-};
-
-/**
- * Should be called to format output(result) of method
- *
- * @method formatOutput
- * @param {Object}
- * @return {Object}
- */
-Method.prototype.formatOutput = function (result) {
-    var _this = this;
-
-    if (_.isArray(result)) {
-        return result.map(function (res) {
-            return _this.outputFormatter && res ? _this.outputFormatter(res) : res;
-        });
-    } else {
-        return this.outputFormatter && result ? this.outputFormatter(result) : result;
-    }
-};
-
-/**
- * Should create payload from given input args
- *
- * @method toPayload
- * @param {Array} args
- * @return {Object}
- */
-Method.prototype.toPayload = function (args) {
-    var call = this.getCall(args);
-    var callback = this.extractCallback(args);
-    var params = this.formatInput(args);
-    this.validateArgs(params);
-
-    var payload = {
-        method: call,
-        params: params,
-        callback: callback
-    };
-
-    if (this.transformPayload) {
-        payload = this.transformPayload(payload);
-    }
-
-    return payload;
-};
-
-Method.prototype._confirmTransaction = function (defer, result, payload) {
-    var method = this,
-        promiseResolved = false,
-        canUnsubscribe = true,
-        timeoutCount = 0,
-        confirmationCount = 0,
-        intervalId = null,
-        gasProvided = _.isObject(payload.params[0]) && payload.params[0].gas ? payload.params[0].gas : null,
-        isContractDeployment = _.isObject(payload.params[0]) && payload.params[0].data && payload.params[0].from && !payload.params[0].to;
-
-    // add custom send Methods
-    var _ethereumCalls = [new Method({
-        name: 'getTransactionReceipt',
-        call: 'eth_getTransactionReceipt',
-        params: 1,
-        inputFormatter: [null],
-        outputFormatter: formatters.outputTransactionReceiptFormatter
-    }), new Method({
-        name: 'getCode',
-        call: 'eth_getCode',
-        params: 2,
-        inputFormatter: [formatters.inputAddressFormatter, formatters.inputDefaultBlockNumberFormatter]
-    }), new Subscriptions({
-        name: 'subscribe',
-        type: 'eth',
-        subscriptions: {
-            'newBlockHeaders': {
-                subscriptionName: 'newHeads', // replace subscription with this name
-                params: 0,
-                outputFormatter: formatters.outputBlockFormatter
-            }
-        }
-    })];
-    // attach methods to this._ethereumCall
-    var _ethereumCall = {};
-    _.each(_ethereumCalls, function (mthd) {
-        mthd.attachToObject(_ethereumCall);
-        mthd.requestManager = method.requestManager; // assign rather than call setRequestManager()
-    });
-
-    // fire "receipt" and confirmation events and resolve after
-    var checkConfirmation = function (err, blockHeader, sub, existingReceipt) {
-        if (!err) {
-            // create fake unsubscribe
-            if (!sub) {
-                sub = {
-                    unsubscribe: function () {
-                        clearInterval(intervalId);
-                    }
-                };
-            }
-            // if we have a valid receipt we don't need to send a request
-            return (existingReceipt ? promiEvent.resolve(existingReceipt) : _ethereumCall.getTransactionReceipt(result)).
-            // catch error from requesting receipt
-            catch(function (err) {
-                sub.unsubscribe();
-                promiseResolved = true;
-                utils._fireError({ message: 'Failed to check for transaction receipt:', data: err }, defer.eventEmitter, defer.reject);
-            })
-            // if CONFIRMATION listener exists check for confirmations, by setting canUnsubscribe = false
-            .then(function (receipt) {
-
-                if (!receipt || !receipt.blockHash) {
-                    throw new Error('Receipt missing or blockHash null');
-                }
-
-                // apply extra formatters
-                if (method.extraFormatters && method.extraFormatters.receiptFormatter) {
-                    receipt = method.extraFormatters.receiptFormatter(receipt);
-                }
-
-                // check if confirmation listener exists
-                if (defer.eventEmitter.listeners('confirmation').length > 0) {
-
-                    defer.eventEmitter.emit('confirmation', confirmationCount, receipt);
-
-                    canUnsubscribe = false;
-                    confirmationCount++;
-
-                    if (confirmationCount === CONFIRMATIONBLOCKS + 1) {
-                        // add 1 so we account for conf 0
-                        sub.unsubscribe();
-                        defer.eventEmitter.removeAllListeners();
-                    }
-                }
-
-                return receipt;
-            })
-            // CHECK for CONTRACT DEPLOYMENT
-            .then(function (receipt) {
-
-                if (isContractDeployment && !promiseResolved) {
-
-                    if (!receipt.contractAddress) {
-
-                        if (canUnsubscribe) {
-                            sub.unsubscribe();
-                            promiseResolved = true;
-                        }
-
-                        return utils._fireError(new Error('The transaction receipt didn\'t contain a contract address.'), defer.eventEmitter, defer.reject);
-                    }
-
-                    _ethereumCall.getCode(receipt.contractAddress, function (e, code) {
-
-                        if (!code) {
-                            return;
-                        }
-
-                        if (code.length > 2) {
-                            defer.eventEmitter.emit('receipt', receipt);
-
-                            // if contract, return instance instead of receipt
-                            if (method.extraFormatters && method.extraFormatters.contractDeployFormatter) {
-                                defer.resolve(method.extraFormatters.contractDeployFormatter(receipt));
-                            } else {
-                                defer.resolve(receipt);
-                            }
-
-                            // need to remove listeners, as they aren't removed automatically when succesfull
-                            if (canUnsubscribe) {
-                                defer.eventEmitter.removeAllListeners();
-                            }
-                        } else {
-                            utils._fireError(new Error('The contract code couldn\'t be stored, please check your gas limit.'), defer.eventEmitter, defer.reject);
-                        }
-
-                        if (canUnsubscribe) {
-                            sub.unsubscribe();
-                        }
-                        promiseResolved = true;
-                    });
-                }
-
-                return receipt;
-            })
-            // CHECK for normal tx check for receipt only
-            .then(function (receipt) {
-
-                if (!isContractDeployment && !promiseResolved) {
-
-                    if (!receipt.outOfGas && (!gasProvided || gasProvided !== receipt.gasUsed)) {
-                        defer.eventEmitter.emit('receipt', receipt);
-                        defer.resolve(receipt);
-
-                        // need to remove listeners, as they aren't removed automatically when succesfull
-                        if (canUnsubscribe) {
-                            defer.eventEmitter.removeAllListeners();
-                        }
-                    } else {
-                        if (receipt) {
-                            receipt = JSON.stringify(receipt, null, 2);
-                        }
-                        utils._fireError(new Error("Transaction ran out of gas. Please provide more gas:\n" + receipt), defer.eventEmitter, defer.reject);
-                    }
-
-                    if (canUnsubscribe) {
-                        sub.unsubscribe();
-                    }
-                    promiseResolved = true;
-                }
-            })
-            // time out the transaction if not mined after 50 blocks
-            .catch(function () {
-                timeoutCount++;
-
-                if (timeoutCount - 1 >= TIMEOUTBLOCK) {
-                    sub.unsubscribe();
-                    promiseResolved = true;
-                    return utils._fireError(new Error('Transaction was not mined within 50 blocks, please make sure your transaction was properly sent. Be aware that it might still be mined!'), defer.eventEmitter, defer.reject);
-                }
-            });
-        } else {
-            sub.unsubscribe();
-            promiseResolved = true;
-            return utils._fireError({ message: 'Failed to subscribe to new newBlockHeaders to confirm the transaction receipts.', data: err }, defer.eventEmitter, defer.reject);
-        }
-    };
-
-    // start watching for confirmation depending on the support features of the provider
-    var startWatching = function () {
-        // if provider allows PUB/SUB
-        if (_.isFunction(this.requestManager.provider.on)) {
-            _ethereumCall.subscribe('newBlockHeaders', checkConfirmation);
-        } else {
-            intervalId = setInterval(checkConfirmation, 1000);
-        }
-    }.bind(this);
-
-    // first check if we already have a confirmed transaction
-    _ethereumCall.getTransactionReceipt(result).then(function (receipt) {
-        if (receipt && receipt.blockHash) {
-            if (defer.eventEmitter.listeners('confirmation').length > 0) {
-                // if the promise has not been resolved we must keep on watching for new Blocks, if a confrimation listener is present
-                setTimeout(function () {
-                    if (!promiseResolved) startWatching();
-                }, 1000);
-            }
-
-            return checkConfirmation(null, null, null, receipt);
-        } else if (!promiseResolved) {
-            startWatching();
-        }
-    }).catch(function () {
-        if (!promiseResolved) startWatching();
-    });
-};
-
-var getWallet = function (from, accounts) {
-    var wallet = null;
-
-    // is index given
-    if (_.isNumber(from)) {
-        wallet = accounts.wallet[from];
-
-        // is account given
-    } else if (_.isObject(from) && from.address && from.privateKey) {
-        wallet = from;
-
-        // search in wallet for address
-    } else {
-        wallet = accounts.wallet[from.toLowerCase()];
-    }
-
-    return wallet;
-};
-
-Method.prototype.buildCall = function () {
-    var method = this,
-        isSendTx = method.call === 'eth_sendTransaction' || method.call === 'eth_sendRawTransaction'; // || method.call === 'personal_sendTransaction'
-
-    // actual send function
-    var send = function () {
-        var defer = promiEvent(!isSendTx),
-            payload = method.toPayload(Array.prototype.slice.call(arguments));
-
-        // CALLBACK function
-        var sendTxCallback = function (err, result) {
-            try {
-                result = method.formatOutput(result);
-            } catch (e) {
-                err = e;
-            }
-
-            if (result instanceof Error) {
-                err = result;
-            }
-
-            if (!err) {
-                if (payload.callback) {
-                    payload.callback(null, result);
-                }
-            } else {
-                if (err.error) {
-                    err = err.error;
-                }
-
-                return utils._fireError(err, defer.eventEmitter, defer.reject, payload.callback);
-            }
-
-            // return PROMISE
-            if (!isSendTx) {
-
-                if (!err) {
-                    defer.resolve(result);
-                }
-
-                // return PROMIEVENT
-            } else {
-                defer.eventEmitter.emit('transactionHash', result);
-
-                method._confirmTransaction(defer, result, payload);
-            }
-        };
-
-        // SENDS the SIGNED SIGNATURE
-        var sendSignedTx = function (sign) {
-
-            var signedPayload = _.extend({}, payload, {
-                method: 'eth_sendRawTransaction',
-                params: [sign.rawTransaction]
-            });
-
-            method.requestManager.send(signedPayload, sendTxCallback);
-        };
-
-        var sendRequest = function (payload, method) {
-
-            if (method && method.accounts && method.accounts.wallet && method.accounts.wallet.length) {
-                var wallet;
-
-                // ETH_SENDTRANSACTION
-                if (payload.method === 'eth_sendTransaction') {
-                    var tx = payload.params[0];
-                    wallet = getWallet(_.isObject(tx) ? tx.from : null, method.accounts);
-
-                    // If wallet was found, sign tx, and send using sendRawTransaction
-                    if (wallet && wallet.privateKey) {
-                        return method.accounts.signTransaction(_.omit(tx, 'from'), wallet.privateKey).then(sendSignedTx);
-                    }
-
-                    // ETH_SIGN
-                } else if (payload.method === 'eth_sign') {
-                    var data = payload.params[1];
-                    wallet = getWallet(payload.params[0], method.accounts);
-
-                    // If wallet was found, sign tx, and send using sendRawTransaction
-                    if (wallet && wallet.privateKey) {
-                        var sign = method.accounts.sign(data, wallet.privateKey);
-
-                        if (payload.callback) {
-                            payload.callback(null, sign.signature);
-                        }
-
-                        defer.resolve(sign.signature);
-                        return;
-                    }
-                }
-            }
-
-            return method.requestManager.send(payload, sendTxCallback);
-        };
-
-        // Send the actual transaction
-        if (isSendTx && _.isObject(payload.params[0]) && !payload.params[0].gasPrice) {
-
-            var getGasPrice = new Method({
-                name: 'getGasPrice',
-                call: 'eth_gasPrice',
-                params: 0
-            }).createFunction(method.requestManager);
-
-            getGasPrice(function (err, gasPrice) {
-
-                if (gasPrice) {
-                    payload.params[0].gasPrice = gasPrice;
-                }
-                sendRequest(payload, method);
-            });
-        } else {
-            sendRequest(payload, method);
-        }
-
-        return defer.eventEmitter;
-    };
-
-    // necessary to attach things to the method
-    send.method = method;
-    // necessary for batch requests
-    send.request = this.request.bind(this);
-    return send;
-};
-
-/**
- * Should be called to create the pure JSONRPC request which can be used in a batch request
- *
- * @method request
- * @return {Object} jsonrpc request
- */
-Method.prototype.request = function () {
-    var payload = this.toPayload(Array.prototype.slice.call(arguments));
-    payload.format = this.formatOutput.bind(this);
-    return payload;
-};
-
-module.exports = Method;
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var f = __webpack_require__(11);
-var SolidityParam = __webpack_require__(86);
-
-/**
- * SolidityType prototype is used to encode/decode solidity params of certain type
- */
-var SolidityType = function (config) {
-    this._inputFormatter = config.inputFormatter;
-    this._outputFormatter = config.outputFormatter;
-};
-
-/**
- * Should be used to determine if this SolidityType do match given name
- *
- * @method isType
- * @param {String} name
- * @return {Bool} true if type match this SolidityType, otherwise false
- */
-SolidityType.prototype.isType = function (name) {
-    throw "This method should be overwritten for type " + name;
-};
-
-/**
- * Should be used to determine what is the length of static part in given type
- *
- * @method staticPartLength
- * @param {String} name
- * @return {Number} length of static part in bytes
- */
-SolidityType.prototype.staticPartLength = function (name) {
-    // If name isn't an array then treat it like a single element array.
-    return (this.nestedTypes(name) || ['[1]']).map(function (type) {
-        // the length of the nested array
-        return parseInt(type.slice(1, -1), 10) || 1;
-    }).reduce(function (previous, current) {
-        return previous * current;
-        // all basic types are 32 bytes long
-    }, 32);
-};
-
-/**
- * Should be used to determine if type is dynamic array
- * eg:
- * "type[]" => true
- * "type[4]" => false
- *
- * @method isDynamicArray
- * @param {String} name
- * @return {Bool} true if the type is dynamic array
- */
-SolidityType.prototype.isDynamicArray = function (name) {
-    var nestedTypes = this.nestedTypes(name);
-    return !!nestedTypes && !nestedTypes[nestedTypes.length - 1].match(/[0-9]{1,}/g);
-};
-
-/**
- * Should be used to determine if type is static array
- * eg:
- * "type[]" => false
- * "type[4]" => true
- *
- * @method isStaticArray
- * @param {String} name
- * @return {Bool} true if the type is static array
- */
-SolidityType.prototype.isStaticArray = function (name) {
-    var nestedTypes = this.nestedTypes(name);
-    return !!nestedTypes && !!nestedTypes[nestedTypes.length - 1].match(/[0-9]{1,}/g);
-};
-
-/**
- * Should return length of static array
- * eg.
- * "int[32]" => 32
- * "int256[14]" => 14
- * "int[2][3]" => 3
- * "int" => 1
- * "int[1]" => 1
- * "int[]" => 1
- *
- * @method staticArrayLength
- * @param {String} name
- * @return {Number} static array length
- */
-SolidityType.prototype.staticArrayLength = function (name) {
-    var nestedTypes = this.nestedTypes(name);
-    if (nestedTypes) {
-        return parseInt(nestedTypes[nestedTypes.length - 1].match(/[0-9]{1,}/g) || 1);
-    }
-    return 1;
-};
-
-/**
- * Should return nested type
- * eg.
- * "int[32]" => "int"
- * "int256[14]" => "int256"
- * "int[2][3]" => "int[2]"
- * "int" => "int"
- * "int[]" => "int"
- *
- * @method nestedName
- * @param {String} name
- * @return {String} nested name
- */
-SolidityType.prototype.nestedName = function (name) {
-    // remove last [] in name
-    var nestedTypes = this.nestedTypes(name);
-    if (!nestedTypes) {
-        return name;
-    }
-
-    return name.substr(0, name.length - nestedTypes[nestedTypes.length - 1].length);
-};
-
-/**
- * Should return true if type has dynamic size by default
- * such types are "string", "bytes"
- *
- * @method isDynamicType
- * @param {String} name
- * @return {Bool} true if is dynamic, otherwise false
- */
-SolidityType.prototype.isDynamicType = function () {
-    return false;
-};
-
-/**
- * Should return array of nested types
- * eg.
- * "int[2][3][]" => ["[2]", "[3]", "[]"]
- * "int[] => ["[]"]
- * "int" => null
- *
- * @method nestedTypes
- * @param {String} name
- * @return {Array} array of nested types
- */
-SolidityType.prototype.nestedTypes = function (name) {
-    // return list of strings eg. "[]", "[3]", "[]", "[2]"
-    return name.match(/(\[[0-9]*\])/g);
-};
-
-/**
- * Should be used to encode the value
- *
- * @method encode
- * @param {Object} value
- * @param {String} name
- * @return {String} encoded value
- */
-SolidityType.prototype.encode = function (value, name) {
-    var self = this;
-    if (this.isDynamicArray(name)) {
-
-        return function () {
-            var length = value.length; // in int
-            var nestedName = self.nestedName(name);
-
-            var result = [];
-            result.push(f.formatInputInt(length).encode());
-
-            value.forEach(function (v) {
-                result.push(self.encode(v, nestedName));
-            });
-
-            return result;
-        }();
-    } else if (this.isStaticArray(name)) {
-
-        return function () {
-            var length = self.staticArrayLength(name); // in int
-            var nestedName = self.nestedName(name);
-
-            var result = [];
-            for (var i = 0; i < length; i++) {
-                result.push(self.encode(value[i], nestedName));
-            }
-
-            return result;
-        }();
-    }
-
-    return this._inputFormatter(value, name).encode();
-};
-
-/**
- * Should be used to decode value from bytes
- *
- * @method decode
- * @param {String} bytes
- * @param {Number} offset in bytes
- * @param {String} name type name
- * @returns {Object} decoded value
- */
-SolidityType.prototype.decode = function (bytes, offset, name) {
-    var self = this;
-
-    if (this.isDynamicArray(name)) {
-
-        return function () {
-            var arrayOffset = parseInt('0x' + bytes.substr(offset * 2, 64)); // in bytes
-            var length = parseInt('0x' + bytes.substr(arrayOffset * 2, 64)); // in int
-            var arrayStart = arrayOffset + 32; // array starts after length; // in bytes
-
-            var nestedName = self.nestedName(name);
-            var nestedStaticPartLength = self.staticPartLength(nestedName); // in bytes
-            var roundedNestedStaticPartLength = Math.floor((nestedStaticPartLength + 31) / 32) * 32;
-            var result = [];
-
-            for (var i = 0; i < length * roundedNestedStaticPartLength; i += roundedNestedStaticPartLength) {
-                result.push(self.decode(bytes, arrayStart + i, nestedName));
-            }
-
-            return result;
-        }();
-    } else if (this.isStaticArray(name)) {
-
-        return function () {
-            var length = self.staticArrayLength(name); // in int
-            var arrayStart = offset; // in bytes
-
-            var nestedName = self.nestedName(name);
-            var nestedStaticPartLength = self.staticPartLength(nestedName); // in bytes
-            var roundedNestedStaticPartLength = Math.floor((nestedStaticPartLength + 31) / 32) * 32;
-            var result = [];
-
-            for (var i = 0; i < length * roundedNestedStaticPartLength; i += roundedNestedStaticPartLength) {
-                result.push(self.decode(bytes, arrayStart + i, nestedName));
-            }
-
-            return result;
-        }();
-    } else if (this.isDynamicType(name)) {
-
-        return function () {
-            var dynamicOffset = parseInt('0x' + bytes.substr(offset * 2, 64)); // in bytes
-            var length = parseInt('0x' + bytes.substr(dynamicOffset * 2, 64)); // in bytes
-            var roundedLength = Math.floor((length + 31) / 32); // in int
-            var param = new SolidityParam(bytes.substr(dynamicOffset * 2, (1 + roundedLength) * 64), 0, bytes);
-            return self._outputFormatter(param, name);
-        }();
-    }
-
-    var length = this.staticPartLength(name);
-    var param = new SolidityParam(bytes.substr(offset * 2, length * 2), undefined, bytes);
-    return this._outputFormatter(param, name);
-};
-
-module.exports = SolidityType;
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-// a duplex stream is just a stream that is both readable and writable.
-// Since JS doesn't have multiple prototypal inheritance, this class
-// prototypally inherits from Readable, and then parasitically from
-// Writable.
-
-
-
-/*<replacement>*/
-
-var processNextTick = __webpack_require__(39).nextTick;
-/*</replacement>*/
-
-/*<replacement>*/
-var objectKeys = Object.keys || function (obj) {
-  var keys = [];
-  for (var key in obj) {
-    keys.push(key);
-  }return keys;
-};
-/*</replacement>*/
-
-module.exports = Duplex;
-
-/*<replacement>*/
-var util = __webpack_require__(26);
-util.inherits = __webpack_require__(0);
-/*</replacement>*/
-
-var Readable = __webpack_require__(87);
-var Writable = __webpack_require__(54);
-
-util.inherits(Duplex, Readable);
-
-var keys = objectKeys(Writable.prototype);
-for (var v = 0; v < keys.length; v++) {
-  var method = keys[v];
-  if (!Duplex.prototype[method]) Duplex.prototype[method] = Writable.prototype[method];
-}
-
-function Duplex(options) {
-  if (!(this instanceof Duplex)) return new Duplex(options);
-
-  Readable.call(this, options);
-  Writable.call(this, options);
-
-  if (options && options.readable === false) this.readable = false;
-
-  if (options && options.writable === false) this.writable = false;
-
-  this.allowHalfOpen = true;
-  if (options && options.allowHalfOpen === false) this.allowHalfOpen = false;
-
-  this.once('end', onend);
-}
-
-// the no-half-open enforcer
-function onend() {
-  // if we allow half-open state, or if the writable side ended,
-  // then we're ok.
-  if (this.allowHalfOpen || this._writableState.ended) return;
-
-  // no more data can be written.
-  // But allow more writes to happen in this tick.
-  processNextTick(onEndNT, this);
-}
-
-function onEndNT(self) {
-  self.end();
-}
-
-Object.defineProperty(Duplex.prototype, 'destroyed', {
-  get: function () {
-    if (this._readableState === undefined || this._writableState === undefined) {
-      return false;
-    }
-    return this._readableState.destroyed && this._writableState.destroyed;
-  },
-  set: function (value) {
-    // we ignore the value if the stream
-    // has not been initialized yet
-    if (this._readableState === undefined || this._writableState === undefined) {
-      return;
-    }
-
-    // backward compatibility, the user is explicitly
-    // managing destroyed
-    this._readableState.destroyed = value;
-    this._writableState.destroyed = value;
-  }
-});
-
-Duplex.prototype._destroy = function (err, cb) {
-  this.push(null);
-  this.end();
-
-  processNextTick(cb, err);
-};
-
-function forEach(xs, f) {
-  for (var i = 0, l = xs.length; i < l; i++) {
-    f(xs[i], i);
-  }
-}
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/**
- * Expose `Emitter`.
- */
-
-if (true) {
-  module.exports = Emitter;
-}
-
-/**
- * Initialize a new `Emitter`.
- *
- * @api public
- */
-
-function Emitter(obj) {
-  if (obj) return mixin(obj);
-};
-
-/**
- * Mixin the emitter properties.
- *
- * @param {Object} obj
- * @return {Object}
- * @api private
- */
-
-function mixin(obj) {
-  for (var key in Emitter.prototype) {
-    obj[key] = Emitter.prototype[key];
-  }
-  return obj;
-}
-
-/**
- * Listen on the given `event` with `fn`.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.on = Emitter.prototype.addEventListener = function (event, fn) {
-  this._callbacks = this._callbacks || {};
-  (this._callbacks['$' + event] = this._callbacks['$' + event] || []).push(fn);
-  return this;
-};
-
-/**
- * Adds an `event` listener that will be invoked a single
- * time then automatically removed.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.once = function (event, fn) {
-  function on() {
-    this.off(event, on);
-    fn.apply(this, arguments);
-  }
-
-  on.fn = fn;
-  this.on(event, on);
-  return this;
-};
-
-/**
- * Remove the given callback for `event` or all
- * registered callbacks.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.off = Emitter.prototype.removeListener = Emitter.prototype.removeAllListeners = Emitter.prototype.removeEventListener = function (event, fn) {
-  this._callbacks = this._callbacks || {};
-
-  // all
-  if (0 == arguments.length) {
-    this._callbacks = {};
-    return this;
-  }
-
-  // specific event
-  var callbacks = this._callbacks['$' + event];
-  if (!callbacks) return this;
-
-  // remove all handlers
-  if (1 == arguments.length) {
-    delete this._callbacks['$' + event];
-    return this;
-  }
-
-  // remove specific handler
-  var cb;
-  for (var i = 0; i < callbacks.length; i++) {
-    cb = callbacks[i];
-    if (cb === fn || cb.fn === fn) {
-      callbacks.splice(i, 1);
-      break;
-    }
-  }
-  return this;
-};
-
-/**
- * Emit `event` with the given args.
- *
- * @param {String} event
- * @param {Mixed} ...
- * @return {Emitter}
- */
-
-Emitter.prototype.emit = function (event) {
-  this._callbacks = this._callbacks || {};
-  var args = [].slice.call(arguments, 1),
-      callbacks = this._callbacks['$' + event];
-
-  if (callbacks) {
-    callbacks = callbacks.slice(0);
-    for (var i = 0, len = callbacks.length; i < len; ++i) {
-      callbacks[i].apply(this, args);
-    }
-  }
-
-  return this;
-};
-
-/**
- * Return array of callbacks for `event`.
- *
- * @param {String} event
- * @return {Array}
- * @api public
- */
-
-Emitter.prototype.listeners = function (event) {
-  this._callbacks = this._callbacks || {};
-  return this._callbacks['$' + event] || [];
-};
-
-/**
- * Check if this emitter has `event` handlers.
- *
- * @param {String} event
- * @return {Boolean}
- * @api public
- */
-
-Emitter.prototype.hasListeners = function (event) {
-  return !!this.listeners(event).length;
-};
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {/**
- * Module dependencies.
- */
-
-var keys = __webpack_require__(140);
-var hasBinary = __webpack_require__(66);
-var sliceBuffer = __webpack_require__(141);
-var after = __webpack_require__(142);
-var utf8 = __webpack_require__(143);
-
-var base64encoder;
-if (global && global.ArrayBuffer) {
-  base64encoder = __webpack_require__(144);
-}
-
-/**
- * Check if we are running an android browser. That requires us to use
- * ArrayBuffer with polling transports...
- *
- * http://ghinda.net/jpeg-blob-ajax-android/
- */
-
-var isAndroid = typeof navigator !== 'undefined' && /Android/i.test(navigator.userAgent);
-
-/**
- * Check if we are running in PhantomJS.
- * Uploading a Blob with PhantomJS does not work correctly, as reported here:
- * https://github.com/ariya/phantomjs/issues/11395
- * @type boolean
- */
-var isPhantomJS = typeof navigator !== 'undefined' && /PhantomJS/i.test(navigator.userAgent);
-
-/**
- * When true, avoids using Blobs to encode payloads.
- * @type boolean
- */
-var dontSendBlobs = isAndroid || isPhantomJS;
-
-/**
- * Current protocol version.
- */
-
-exports.protocol = 3;
-
-/**
- * Packet types.
- */
-
-var packets = exports.packets = {
-  open: 0 // non-ws
-  , close: 1 // non-ws
-  , ping: 2,
-  pong: 3,
-  message: 4,
-  upgrade: 5,
-  noop: 6
-};
-
-var packetslist = keys(packets);
-
-/**
- * Premade error packet.
- */
-
-var err = { type: 'error', data: 'parser error' };
-
-/**
- * Create a blob api even for blob builder when vendor prefixes exist
- */
-
-var Blob = __webpack_require__(145);
-
-/**
- * Encodes a packet.
- *
- *     <packet type id> [ <data> ]
- *
- * Example:
- *
- *     5hello world
- *     3
- *     4
- *
- * Binary is encoded in an identical principle
- *
- * @api private
- */
-
-exports.encodePacket = function (packet, supportsBinary, utf8encode, callback) {
-  if (typeof supportsBinary === 'function') {
-    callback = supportsBinary;
-    supportsBinary = false;
-  }
-
-  if (typeof utf8encode === 'function') {
-    callback = utf8encode;
-    utf8encode = null;
-  }
-
-  var data = packet.data === undefined ? undefined : packet.data.buffer || packet.data;
-
-  if (global.ArrayBuffer && data instanceof ArrayBuffer) {
-    return encodeArrayBuffer(packet, supportsBinary, callback);
-  } else if (Blob && data instanceof global.Blob) {
-    return encodeBlob(packet, supportsBinary, callback);
-  }
-
-  // might be an object with { base64: true, data: dataAsBase64String }
-  if (data && data.base64) {
-    return encodeBase64Object(packet, callback);
-  }
-
-  // Sending data as a utf-8 string
-  var encoded = packets[packet.type];
-
-  // data fragment is optional
-  if (undefined !== packet.data) {
-    encoded += utf8encode ? utf8.encode(String(packet.data), { strict: false }) : String(packet.data);
-  }
-
-  return callback('' + encoded);
-};
-
-function encodeBase64Object(packet, callback) {
-  // packet data is an object { base64: true, data: dataAsBase64String }
-  var message = 'b' + exports.packets[packet.type] + packet.data.data;
-  return callback(message);
-}
-
-/**
- * Encode packet helpers for binary types
- */
-
-function encodeArrayBuffer(packet, supportsBinary, callback) {
-  if (!supportsBinary) {
-    return exports.encodeBase64Packet(packet, callback);
-  }
-
-  var data = packet.data;
-  var contentArray = new Uint8Array(data);
-  var resultBuffer = new Uint8Array(1 + data.byteLength);
-
-  resultBuffer[0] = packets[packet.type];
-  for (var i = 0; i < contentArray.length; i++) {
-    resultBuffer[i + 1] = contentArray[i];
-  }
-
-  return callback(resultBuffer.buffer);
-}
-
-function encodeBlobAsArrayBuffer(packet, supportsBinary, callback) {
-  if (!supportsBinary) {
-    return exports.encodeBase64Packet(packet, callback);
-  }
-
-  var fr = new FileReader();
-  fr.onload = function () {
-    packet.data = fr.result;
-    exports.encodePacket(packet, supportsBinary, true, callback);
-  };
-  return fr.readAsArrayBuffer(packet.data);
-}
-
-function encodeBlob(packet, supportsBinary, callback) {
-  if (!supportsBinary) {
-    return exports.encodeBase64Packet(packet, callback);
-  }
-
-  if (dontSendBlobs) {
-    return encodeBlobAsArrayBuffer(packet, supportsBinary, callback);
-  }
-
-  var length = new Uint8Array(1);
-  length[0] = packets[packet.type];
-  var blob = new Blob([length.buffer, packet.data]);
-
-  return callback(blob);
-}
-
-/**
- * Encodes a packet with binary data in a base64 string
- *
- * @param {Object} packet, has `type` and `data`
- * @return {String} base64 encoded message
- */
-
-exports.encodeBase64Packet = function (packet, callback) {
-  var message = 'b' + exports.packets[packet.type];
-  if (Blob && packet.data instanceof global.Blob) {
-    var fr = new FileReader();
-    fr.onload = function () {
-      var b64 = fr.result.split(',')[1];
-      callback(message + b64);
-    };
-    return fr.readAsDataURL(packet.data);
-  }
-
-  var b64data;
-  try {
-    b64data = String.fromCharCode.apply(null, new Uint8Array(packet.data));
-  } catch (e) {
-    // iPhone Safari doesn't let you apply with typed arrays
-    var typed = new Uint8Array(packet.data);
-    var basic = new Array(typed.length);
-    for (var i = 0; i < typed.length; i++) {
-      basic[i] = typed[i];
-    }
-    b64data = String.fromCharCode.apply(null, basic);
-  }
-  message += global.btoa(b64data);
-  return callback(message);
-};
-
-/**
- * Decodes a packet. Changes format to Blob if requested.
- *
- * @return {Object} with `type` and `data` (if any)
- * @api private
- */
-
-exports.decodePacket = function (data, binaryType, utf8decode) {
-  if (data === undefined) {
-    return err;
-  }
-  // String data
-  if (typeof data === 'string') {
-    if (data.charAt(0) === 'b') {
-      return exports.decodeBase64Packet(data.substr(1), binaryType);
-    }
-
-    if (utf8decode) {
-      data = tryDecode(data);
-      if (data === false) {
-        return err;
-      }
-    }
-    var type = data.charAt(0);
-
-    if (Number(type) != type || !packetslist[type]) {
-      return err;
-    }
-
-    if (data.length > 1) {
-      return { type: packetslist[type], data: data.substring(1) };
-    } else {
-      return { type: packetslist[type] };
-    }
-  }
-
-  var asArray = new Uint8Array(data);
-  var type = asArray[0];
-  var rest = sliceBuffer(data, 1);
-  if (Blob && binaryType === 'blob') {
-    rest = new Blob([rest]);
-  }
-  return { type: packetslist[type], data: rest };
-};
-
-function tryDecode(data) {
-  try {
-    data = utf8.decode(data, { strict: false });
-  } catch (e) {
-    return false;
-  }
-  return data;
-}
-
-/**
- * Decodes a packet encoded in a base64 string
- *
- * @param {String} base64 encoded message
- * @return {Object} with `type` and `data` (if any)
- */
-
-exports.decodeBase64Packet = function (msg, binaryType) {
-  var type = packetslist[msg.charAt(0)];
-  if (!base64encoder) {
-    return { type: type, data: { base64: true, data: msg.substr(1) } };
-  }
-
-  var data = base64encoder.decode(msg.substr(1));
-
-  if (binaryType === 'blob' && Blob) {
-    data = new Blob([data]);
-  }
-
-  return { type: type, data: data };
-};
-
-/**
- * Encodes multiple messages (payload).
- *
- *     <length>:data
- *
- * Example:
- *
- *     11:hello world2:hi
- *
- * If any contents are binary, they will be encoded as base64 strings. Base64
- * encoded strings are marked with a b before the length specifier
- *
- * @param {Array} packets
- * @api private
- */
-
-exports.encodePayload = function (packets, supportsBinary, callback) {
-  if (typeof supportsBinary === 'function') {
-    callback = supportsBinary;
-    supportsBinary = null;
-  }
-
-  var isBinary = hasBinary(packets);
-
-  if (supportsBinary && isBinary) {
-    if (Blob && !dontSendBlobs) {
-      return exports.encodePayloadAsBlob(packets, callback);
-    }
-
-    return exports.encodePayloadAsArrayBuffer(packets, callback);
-  }
-
-  if (!packets.length) {
-    return callback('0:');
-  }
-
-  function setLengthHeader(message) {
-    return message.length + ':' + message;
-  }
-
-  function encodeOne(packet, doneCallback) {
-    exports.encodePacket(packet, !isBinary ? false : supportsBinary, false, function (message) {
-      doneCallback(null, setLengthHeader(message));
-    });
-  }
-
-  map(packets, encodeOne, function (err, results) {
-    return callback(results.join(''));
-  });
-};
-
-/**
- * Async array map using after
- */
-
-function map(ary, each, done) {
-  var result = new Array(ary.length);
-  var next = after(ary.length, done);
-
-  var eachWithIndex = function (i, el, cb) {
-    each(el, function (error, msg) {
-      result[i] = msg;
-      cb(error, result);
-    });
-  };
-
-  for (var i = 0; i < ary.length; i++) {
-    eachWithIndex(i, ary[i], next);
-  }
-}
-
-/*
- * Decodes data when a payload is maybe expected. Possible binary contents are
- * decoded from their base64 representation
- *
- * @param {String} data, callback method
- * @api public
- */
-
-exports.decodePayload = function (data, binaryType, callback) {
-  if (typeof data !== 'string') {
-    return exports.decodePayloadAsBinary(data, binaryType, callback);
-  }
-
-  if (typeof binaryType === 'function') {
-    callback = binaryType;
-    binaryType = null;
-  }
-
-  var packet;
-  if (data === '') {
-    // parser error - ignoring payload
-    return callback(err, 0, 1);
-  }
-
-  var length = '',
-      n,
-      msg;
-
-  for (var i = 0, l = data.length; i < l; i++) {
-    var chr = data.charAt(i);
-
-    if (chr !== ':') {
-      length += chr;
-      continue;
-    }
-
-    if (length === '' || length != (n = Number(length))) {
-      // parser error - ignoring payload
-      return callback(err, 0, 1);
-    }
-
-    msg = data.substr(i + 1, n);
-
-    if (length != msg.length) {
-      // parser error - ignoring payload
-      return callback(err, 0, 1);
-    }
-
-    if (msg.length) {
-      packet = exports.decodePacket(msg, binaryType, false);
-
-      if (err.type === packet.type && err.data === packet.data) {
-        // parser error in individual packet - ignoring payload
-        return callback(err, 0, 1);
-      }
-
-      var ret = callback(packet, i + n, l);
-      if (false === ret) return;
-    }
-
-    // advance cursor
-    i += n;
-    length = '';
-  }
-
-  if (length !== '') {
-    // parser error - ignoring payload
-    return callback(err, 0, 1);
-  }
-};
-
-/**
- * Encodes multiple messages (payload) as binary.
- *
- * <1 = binary, 0 = string><number from 0-9><number from 0-9>[...]<number
- * 255><data>
- *
- * Example:
- * 1 3 255 1 2 3, if the binary contents are interpreted as 8 bit integers
- *
- * @param {Array} packets
- * @return {ArrayBuffer} encoded payload
- * @api private
- */
-
-exports.encodePayloadAsArrayBuffer = function (packets, callback) {
-  if (!packets.length) {
-    return callback(new ArrayBuffer(0));
-  }
-
-  function encodeOne(packet, doneCallback) {
-    exports.encodePacket(packet, true, true, function (data) {
-      return doneCallback(null, data);
-    });
-  }
-
-  map(packets, encodeOne, function (err, encodedPackets) {
-    var totalLength = encodedPackets.reduce(function (acc, p) {
-      var len;
-      if (typeof p === 'string') {
-        len = p.length;
-      } else {
-        len = p.byteLength;
-      }
-      return acc + len.toString().length + len + 2; // string/binary identifier + separator = 2
-    }, 0);
-
-    var resultArray = new Uint8Array(totalLength);
-
-    var bufferIndex = 0;
-    encodedPackets.forEach(function (p) {
-      var isString = typeof p === 'string';
-      var ab = p;
-      if (isString) {
-        var view = new Uint8Array(p.length);
-        for (var i = 0; i < p.length; i++) {
-          view[i] = p.charCodeAt(i);
-        }
-        ab = view.buffer;
-      }
-
-      if (isString) {
-        // not true binary
-        resultArray[bufferIndex++] = 0;
-      } else {
-        // true binary
-        resultArray[bufferIndex++] = 1;
-      }
-
-      var lenStr = ab.byteLength.toString();
-      for (var i = 0; i < lenStr.length; i++) {
-        resultArray[bufferIndex++] = parseInt(lenStr[i]);
-      }
-      resultArray[bufferIndex++] = 255;
-
-      var view = new Uint8Array(ab);
-      for (var i = 0; i < view.length; i++) {
-        resultArray[bufferIndex++] = view[i];
-      }
-    });
-
-    return callback(resultArray.buffer);
-  });
-};
-
-/**
- * Encode as Blob
- */
-
-exports.encodePayloadAsBlob = function (packets, callback) {
-  function encodeOne(packet, doneCallback) {
-    exports.encodePacket(packet, true, true, function (encoded) {
-      var binaryIdentifier = new Uint8Array(1);
-      binaryIdentifier[0] = 1;
-      if (typeof encoded === 'string') {
-        var view = new Uint8Array(encoded.length);
-        for (var i = 0; i < encoded.length; i++) {
-          view[i] = encoded.charCodeAt(i);
-        }
-        encoded = view.buffer;
-        binaryIdentifier[0] = 0;
-      }
-
-      var len = encoded instanceof ArrayBuffer ? encoded.byteLength : encoded.size;
-
-      var lenStr = len.toString();
-      var lengthAry = new Uint8Array(lenStr.length + 1);
-      for (var i = 0; i < lenStr.length; i++) {
-        lengthAry[i] = parseInt(lenStr[i]);
-      }
-      lengthAry[lenStr.length] = 255;
-
-      if (Blob) {
-        var blob = new Blob([binaryIdentifier.buffer, lengthAry.buffer, encoded]);
-        doneCallback(null, blob);
-      }
-    });
-  }
-
-  map(packets, encodeOne, function (err, results) {
-    return callback(new Blob(results));
-  });
-};
-
-/*
- * Decodes data when a payload is maybe expected. Strings are decoded by
- * interpreting each byte as a key code for entries marked to start with 0. See
- * description of encodePayloadAsBinary
- *
- * @param {ArrayBuffer} data, callback method
- * @api public
- */
-
-exports.decodePayloadAsBinary = function (data, binaryType, callback) {
-  if (typeof binaryType === 'function') {
-    callback = binaryType;
-    binaryType = null;
-  }
-
-  var bufferTail = data;
-  var buffers = [];
-
-  while (bufferTail.byteLength > 0) {
-    var tailArray = new Uint8Array(bufferTail);
-    var isString = tailArray[0] === 0;
-    var msgLength = '';
-
-    for (var i = 1;; i++) {
-      if (tailArray[i] === 255) break;
-
-      // 310 = char length of Number.MAX_VALUE
-      if (msgLength.length > 310) {
-        return callback(err, 0, 1);
-      }
-
-      msgLength += tailArray[i];
-    }
-
-    bufferTail = sliceBuffer(bufferTail, 2 + msgLength.length);
-    msgLength = parseInt(msgLength);
-
-    var msg = sliceBuffer(bufferTail, 0, msgLength);
-    if (isString) {
-      try {
-        msg = String.fromCharCode.apply(null, new Uint8Array(msg));
-      } catch (e) {
-        // iPhone Safari doesn't let you apply to typed arrays
-        var typed = new Uint8Array(msg);
-        msg = '';
-        for (var i = 0; i < typed.length; i++) {
-          msg += String.fromCharCode(typed[i]);
-        }
-      }
-    }
-
-    buffers.push(msg);
-    bufferTail = sliceBuffer(bufferTail, msgLength);
-  }
-
-  var total = buffers.length;
-  buffers.forEach(function (buffer, i) {
-    callback(exports.decodePacket(buffer, binaryType, true), i, total);
-  });
-};
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global, process) {
-
-function oldBrowser() {
-  throw new Error('Secure random number generation is not supported by this browser.\nUse Chrome, Firefox or Internet Explorer 11');
-}
-
-var Buffer = __webpack_require__(2).Buffer;
-var crypto = global.crypto || global.msCrypto;
-
-if (crypto && crypto.getRandomValues) {
-  module.exports = randomBytes;
-} else {
-  module.exports = oldBrowser;
-}
-
-function randomBytes(size, cb) {
-  // phantomjs needs to throw
-  if (size > 65536) throw new Error('requested too many random bytes');
-  // in case browserify  isn't using the Uint8Array version
-  var rawBytes = new global.Uint8Array(size);
-
-  // This will not work in older browsers.
-  // See https://developer.mozilla.org/en-US/docs/Web/API/window.crypto.getRandomValues
-  if (size > 0) {
-    // getRandomValues fails on IE if size == 0
-    crypto.getRandomValues(rawBytes);
-  }
-
-  // XXX: phantomjs doesn't like a buffer being passed here
-  var bytes = Buffer.from(rawBytes.buffer);
-
-  if (typeof cb === 'function') {
-    return process.nextTick(function () {
-      cb(null, bytes);
-    });
-  }
-
-  return bytes;
-}
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(8)))
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Buffer = __webpack_require__(2).Buffer;
-
-// prototype class for hash functions
-function Hash(blockSize, finalSize) {
-  this._block = Buffer.alloc(blockSize);
-  this._finalSize = finalSize;
-  this._blockSize = blockSize;
-  this._len = 0;
-}
-
-Hash.prototype.update = function (data, enc) {
-  if (typeof data === 'string') {
-    enc = enc || 'utf8';
-    data = Buffer.from(data, enc);
-  }
-
-  var block = this._block;
-  var blockSize = this._blockSize;
-  var length = data.length;
-  var accum = this._len;
-
-  for (var offset = 0; offset < length;) {
-    var assigned = accum % blockSize;
-    var remainder = Math.min(length - offset, blockSize - assigned);
-
-    for (var i = 0; i < remainder; i++) {
-      block[assigned + i] = data[offset + i];
-    }
-
-    accum += remainder;
-    offset += remainder;
-
-    if (accum % blockSize === 0) {
-      this._update(block);
-    }
-  }
-
-  this._len += length;
-  return this;
-};
-
-Hash.prototype.digest = function (enc) {
-  var rem = this._len % this._blockSize;
-
-  this._block[rem] = 0x80;
-
-  // zero (rem + 1) trailing bits, where (rem + 1) is the smallest
-  // non-negative solution to the equation (length + 1 + (rem + 1)) === finalSize mod blockSize
-  this._block.fill(0, rem + 1);
-
-  if (rem >= this._finalSize) {
-    this._update(this._block);
-    this._block.fill(0);
-  }
-
-  var bits = this._len * 8;
-
-  // uint32
-  if (bits <= 0xffffffff) {
-    this._block.writeUInt32BE(bits, this._blockSize - 4);
-
-    // uint64
-  } else {
-    var lowBits = (bits & 0xffffffff) >>> 0;
-    var highBits = (bits - lowBits) / 0x100000000;
-
-    this._block.writeUInt32BE(highBits, this._blockSize - 8);
-    this._block.writeUInt32BE(lowBits, this._blockSize - 4);
-  }
-
-  this._update(this._block);
-  var hash = this._hash();
-
-  return enc ? hash.toString(enc) : hash;
-};
-
-Hash.prototype._update = function () {
-  throw new Error('_update must be implemented by subclass');
-};
-
-module.exports = Hash;
-
-/***/ }),
-/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -19940,6 +17972,1974 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 });
 
 /***/ }),
+/* 15 */
+/***/ (function(module, exports) {
+
+module.exports = function (module) {
+	if (!module.webpackPolyfill) {
+		module.deprecate = function () {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if (!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function () {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function () {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/*
+    This file is part of web3.js.
+
+    web3.js is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    web3.js is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/**
+ * @file index.js
+ * @author Fabian Vogelsteller <fabian@ethereum.org>
+ * @date 2017
+ */
+
+
+
+var requestManager = __webpack_require__(159);
+var extend = __webpack_require__(185);
+
+module.exports = {
+    packageInit: function (pkg, args) {
+        args = Array.prototype.slice.call(args);
+
+        if (!pkg) {
+            throw new Error('You need to instantiate using the "new" keyword.');
+        }
+
+        // make property of pkg._provider, which can properly set providers
+        Object.defineProperty(pkg, 'currentProvider', {
+            get: function () {
+                return pkg._provider;
+            },
+            set: function (value) {
+                return pkg.setProvider(value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        // inherit from web3 umbrella package
+        if (args[0] && args[0]._requestManager) {
+            pkg._requestManager = new requestManager.Manager(args[0].currentProvider);
+
+            // set requestmanager on package
+        } else {
+            pkg._requestManager = new requestManager.Manager();
+            pkg._requestManager.setProvider(args[0], args[1]);
+        }
+
+        // add givenProvider
+        pkg.givenProvider = requestManager.Manager.givenProvider;
+        pkg.providers = requestManager.Manager.providers;
+
+        pkg._provider = pkg._requestManager.provider;
+
+        // add SETPROVIDER function (don't overwrite if already existing)
+        if (!pkg.setProvider) {
+            pkg.setProvider = function (provider, net) {
+                pkg._requestManager.setProvider(provider, net);
+                pkg._provider = pkg._requestManager.provider;
+                return true;
+            };
+        }
+
+        // attach batch request creation
+        pkg.BatchRequest = requestManager.BatchManager.bind(null, pkg._requestManager);
+
+        // attach extend function
+        pkg.extend = extend(pkg);
+    },
+    addProviders: function (pkg) {
+        pkg.givenProvider = requestManager.Manager.givenProvider;
+        pkg.providers = requestManager.Manager.providers;
+    }
+};
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/*
+    This file is part of web3.js.
+
+    web3.js is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    web3.js is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/**
+ * @file index.js
+ * @author Fabian Vogelsteller <fabian@ethereum.org>
+ * @author Marek Kotewicz <marek@parity.io>
+ * @date 2017
+ */
+
+
+
+var _ = __webpack_require__(5);
+var errors = __webpack_require__(6).errors;
+var formatters = __webpack_require__(6).formatters;
+var utils = __webpack_require__(9);
+var promiEvent = __webpack_require__(82);
+var Subscriptions = __webpack_require__(36).subscriptions;
+
+var TIMEOUTBLOCK = 50;
+var CONFIRMATIONBLOCKS = 24;
+
+var Method = function Method(options) {
+
+    if (!options.call || !options.name) {
+        throw new Error('When creating a method you need to provide at least the "name" and "call" property.');
+    }
+
+    this.name = options.name;
+    this.call = options.call;
+    this.params = options.params || 0;
+    this.inputFormatter = options.inputFormatter;
+    this.outputFormatter = options.outputFormatter;
+    this.transformPayload = options.transformPayload;
+    this.extraFormatters = options.extraFormatters;
+
+    this.requestManager = options.requestManager;
+
+    // reference to eth.accounts
+    this.accounts = options.accounts;
+
+    this.defaultBlock = options.defaultBlock || 'latest';
+    this.defaultAccount = options.defaultAccount || null;
+};
+
+Method.prototype.setRequestManager = function (requestManager, accounts) {
+    this.requestManager = requestManager;
+
+    // reference to eth.accounts
+    if (accounts) {
+        this.accounts = accounts;
+    }
+};
+
+Method.prototype.createFunction = function (requestManager, accounts) {
+    var func = this.buildCall();
+    func.call = this.call;
+
+    this.setRequestManager(requestManager || this.requestManager, accounts || this.accounts);
+
+    return func;
+};
+
+Method.prototype.attachToObject = function (obj) {
+    var func = this.buildCall();
+    func.call = this.call;
+    var name = this.name.split('.');
+    if (name.length > 1) {
+        obj[name[0]] = obj[name[0]] || {};
+        obj[name[0]][name[1]] = func;
+    } else {
+        obj[name[0]] = func;
+    }
+};
+
+/**
+ * Should be used to determine name of the jsonrpc method based on arguments
+ *
+ * @method getCall
+ * @param {Array} arguments
+ * @return {String} name of jsonrpc method
+ */
+Method.prototype.getCall = function (args) {
+    return _.isFunction(this.call) ? this.call(args) : this.call;
+};
+
+/**
+ * Should be used to extract callback from array of arguments. Modifies input param
+ *
+ * @method extractCallback
+ * @param {Array} arguments
+ * @return {Function|Null} callback, if exists
+ */
+Method.prototype.extractCallback = function (args) {
+    if (_.isFunction(args[args.length - 1])) {
+        return args.pop(); // modify the args array!
+    }
+};
+
+/**
+ * Should be called to check if the number of arguments is correct
+ *
+ * @method validateArgs
+ * @param {Array} arguments
+ * @throws {Error} if it is not
+ */
+Method.prototype.validateArgs = function (args) {
+    if (args.length !== this.params) {
+        throw errors.InvalidNumberOfParams(args.length, this.params, this.name);
+    }
+};
+
+/**
+ * Should be called to format input args of method
+ *
+ * @method formatInput
+ * @param {Array}
+ * @return {Array}
+ */
+Method.prototype.formatInput = function (args) {
+    var _this = this;
+
+    if (!this.inputFormatter) {
+        return args;
+    }
+
+    return this.inputFormatter.map(function (formatter, index) {
+        // bind this for defaultBlock, and defaultAccount
+        return formatter ? formatter.call(_this, args[index]) : args[index];
+    });
+};
+
+/**
+ * Should be called to format output(result) of method
+ *
+ * @method formatOutput
+ * @param {Object}
+ * @return {Object}
+ */
+Method.prototype.formatOutput = function (result) {
+    var _this = this;
+
+    if (_.isArray(result)) {
+        return result.map(function (res) {
+            return _this.outputFormatter && res ? _this.outputFormatter(res) : res;
+        });
+    } else {
+        return this.outputFormatter && result ? this.outputFormatter(result) : result;
+    }
+};
+
+/**
+ * Should create payload from given input args
+ *
+ * @method toPayload
+ * @param {Array} args
+ * @return {Object}
+ */
+Method.prototype.toPayload = function (args) {
+    var call = this.getCall(args);
+    var callback = this.extractCallback(args);
+    var params = this.formatInput(args);
+    this.validateArgs(params);
+
+    var payload = {
+        method: call,
+        params: params,
+        callback: callback
+    };
+
+    if (this.transformPayload) {
+        payload = this.transformPayload(payload);
+    }
+
+    return payload;
+};
+
+Method.prototype._confirmTransaction = function (defer, result, payload) {
+    var method = this,
+        promiseResolved = false,
+        canUnsubscribe = true,
+        timeoutCount = 0,
+        confirmationCount = 0,
+        intervalId = null,
+        gasProvided = _.isObject(payload.params[0]) && payload.params[0].gas ? payload.params[0].gas : null,
+        isContractDeployment = _.isObject(payload.params[0]) && payload.params[0].data && payload.params[0].from && !payload.params[0].to;
+
+    // add custom send Methods
+    var _ethereumCalls = [new Method({
+        name: 'getTransactionReceipt',
+        call: 'eth_getTransactionReceipt',
+        params: 1,
+        inputFormatter: [null],
+        outputFormatter: formatters.outputTransactionReceiptFormatter
+    }), new Method({
+        name: 'getCode',
+        call: 'eth_getCode',
+        params: 2,
+        inputFormatter: [formatters.inputAddressFormatter, formatters.inputDefaultBlockNumberFormatter]
+    }), new Subscriptions({
+        name: 'subscribe',
+        type: 'eth',
+        subscriptions: {
+            'newBlockHeaders': {
+                subscriptionName: 'newHeads', // replace subscription with this name
+                params: 0,
+                outputFormatter: formatters.outputBlockFormatter
+            }
+        }
+    })];
+    // attach methods to this._ethereumCall
+    var _ethereumCall = {};
+    _.each(_ethereumCalls, function (mthd) {
+        mthd.attachToObject(_ethereumCall);
+        mthd.requestManager = method.requestManager; // assign rather than call setRequestManager()
+    });
+
+    // fire "receipt" and confirmation events and resolve after
+    var checkConfirmation = function (err, blockHeader, sub, existingReceipt) {
+        if (!err) {
+            // create fake unsubscribe
+            if (!sub) {
+                sub = {
+                    unsubscribe: function () {
+                        clearInterval(intervalId);
+                    }
+                };
+            }
+            // if we have a valid receipt we don't need to send a request
+            return (existingReceipt ? promiEvent.resolve(existingReceipt) : _ethereumCall.getTransactionReceipt(result)).
+            // catch error from requesting receipt
+            catch(function (err) {
+                sub.unsubscribe();
+                promiseResolved = true;
+                utils._fireError({ message: 'Failed to check for transaction receipt:', data: err }, defer.eventEmitter, defer.reject);
+            })
+            // if CONFIRMATION listener exists check for confirmations, by setting canUnsubscribe = false
+            .then(function (receipt) {
+
+                if (!receipt || !receipt.blockHash) {
+                    throw new Error('Receipt missing or blockHash null');
+                }
+
+                // apply extra formatters
+                if (method.extraFormatters && method.extraFormatters.receiptFormatter) {
+                    receipt = method.extraFormatters.receiptFormatter(receipt);
+                }
+
+                // check if confirmation listener exists
+                if (defer.eventEmitter.listeners('confirmation').length > 0) {
+
+                    defer.eventEmitter.emit('confirmation', confirmationCount, receipt);
+
+                    canUnsubscribe = false;
+                    confirmationCount++;
+
+                    if (confirmationCount === CONFIRMATIONBLOCKS + 1) {
+                        // add 1 so we account for conf 0
+                        sub.unsubscribe();
+                        defer.eventEmitter.removeAllListeners();
+                    }
+                }
+
+                return receipt;
+            })
+            // CHECK for CONTRACT DEPLOYMENT
+            .then(function (receipt) {
+
+                if (isContractDeployment && !promiseResolved) {
+
+                    if (!receipt.contractAddress) {
+
+                        if (canUnsubscribe) {
+                            sub.unsubscribe();
+                            promiseResolved = true;
+                        }
+
+                        return utils._fireError(new Error('The transaction receipt didn\'t contain a contract address.'), defer.eventEmitter, defer.reject);
+                    }
+
+                    _ethereumCall.getCode(receipt.contractAddress, function (e, code) {
+
+                        if (!code) {
+                            return;
+                        }
+
+                        if (code.length > 2) {
+                            defer.eventEmitter.emit('receipt', receipt);
+
+                            // if contract, return instance instead of receipt
+                            if (method.extraFormatters && method.extraFormatters.contractDeployFormatter) {
+                                defer.resolve(method.extraFormatters.contractDeployFormatter(receipt));
+                            } else {
+                                defer.resolve(receipt);
+                            }
+
+                            // need to remove listeners, as they aren't removed automatically when succesfull
+                            if (canUnsubscribe) {
+                                defer.eventEmitter.removeAllListeners();
+                            }
+                        } else {
+                            utils._fireError(new Error('The contract code couldn\'t be stored, please check your gas limit.'), defer.eventEmitter, defer.reject);
+                        }
+
+                        if (canUnsubscribe) {
+                            sub.unsubscribe();
+                        }
+                        promiseResolved = true;
+                    });
+                }
+
+                return receipt;
+            })
+            // CHECK for normal tx check for receipt only
+            .then(function (receipt) {
+
+                if (!isContractDeployment && !promiseResolved) {
+
+                    if (!receipt.outOfGas && (!gasProvided || gasProvided !== receipt.gasUsed)) {
+                        defer.eventEmitter.emit('receipt', receipt);
+                        defer.resolve(receipt);
+
+                        // need to remove listeners, as they aren't removed automatically when succesfull
+                        if (canUnsubscribe) {
+                            defer.eventEmitter.removeAllListeners();
+                        }
+                    } else {
+                        if (receipt) {
+                            receipt = JSON.stringify(receipt, null, 2);
+                        }
+                        utils._fireError(new Error("Transaction ran out of gas. Please provide more gas:\n" + receipt), defer.eventEmitter, defer.reject);
+                    }
+
+                    if (canUnsubscribe) {
+                        sub.unsubscribe();
+                    }
+                    promiseResolved = true;
+                }
+            })
+            // time out the transaction if not mined after 50 blocks
+            .catch(function () {
+                timeoutCount++;
+
+                if (timeoutCount - 1 >= TIMEOUTBLOCK) {
+                    sub.unsubscribe();
+                    promiseResolved = true;
+                    return utils._fireError(new Error('Transaction was not mined within 50 blocks, please make sure your transaction was properly sent. Be aware that it might still be mined!'), defer.eventEmitter, defer.reject);
+                }
+            });
+        } else {
+            sub.unsubscribe();
+            promiseResolved = true;
+            return utils._fireError({ message: 'Failed to subscribe to new newBlockHeaders to confirm the transaction receipts.', data: err }, defer.eventEmitter, defer.reject);
+        }
+    };
+
+    // start watching for confirmation depending on the support features of the provider
+    var startWatching = function () {
+        // if provider allows PUB/SUB
+        if (_.isFunction(this.requestManager.provider.on)) {
+            _ethereumCall.subscribe('newBlockHeaders', checkConfirmation);
+        } else {
+            intervalId = setInterval(checkConfirmation, 1000);
+        }
+    }.bind(this);
+
+    // first check if we already have a confirmed transaction
+    _ethereumCall.getTransactionReceipt(result).then(function (receipt) {
+        if (receipt && receipt.blockHash) {
+            if (defer.eventEmitter.listeners('confirmation').length > 0) {
+                // if the promise has not been resolved we must keep on watching for new Blocks, if a confrimation listener is present
+                setTimeout(function () {
+                    if (!promiseResolved) startWatching();
+                }, 1000);
+            }
+
+            return checkConfirmation(null, null, null, receipt);
+        } else if (!promiseResolved) {
+            startWatching();
+        }
+    }).catch(function () {
+        if (!promiseResolved) startWatching();
+    });
+};
+
+var getWallet = function (from, accounts) {
+    var wallet = null;
+
+    // is index given
+    if (_.isNumber(from)) {
+        wallet = accounts.wallet[from];
+
+        // is account given
+    } else if (_.isObject(from) && from.address && from.privateKey) {
+        wallet = from;
+
+        // search in wallet for address
+    } else {
+        wallet = accounts.wallet[from.toLowerCase()];
+    }
+
+    return wallet;
+};
+
+Method.prototype.buildCall = function () {
+    var method = this,
+        isSendTx = method.call === 'eth_sendTransaction' || method.call === 'eth_sendRawTransaction'; // || method.call === 'personal_sendTransaction'
+
+    // actual send function
+    var send = function () {
+        var defer = promiEvent(!isSendTx),
+            payload = method.toPayload(Array.prototype.slice.call(arguments));
+
+        // CALLBACK function
+        var sendTxCallback = function (err, result) {
+            try {
+                result = method.formatOutput(result);
+            } catch (e) {
+                err = e;
+            }
+
+            if (result instanceof Error) {
+                err = result;
+            }
+
+            if (!err) {
+                if (payload.callback) {
+                    payload.callback(null, result);
+                }
+            } else {
+                if (err.error) {
+                    err = err.error;
+                }
+
+                return utils._fireError(err, defer.eventEmitter, defer.reject, payload.callback);
+            }
+
+            // return PROMISE
+            if (!isSendTx) {
+
+                if (!err) {
+                    defer.resolve(result);
+                }
+
+                // return PROMIEVENT
+            } else {
+                defer.eventEmitter.emit('transactionHash', result);
+
+                method._confirmTransaction(defer, result, payload);
+            }
+        };
+
+        // SENDS the SIGNED SIGNATURE
+        var sendSignedTx = function (sign) {
+
+            var signedPayload = _.extend({}, payload, {
+                method: 'eth_sendRawTransaction',
+                params: [sign.rawTransaction]
+            });
+
+            method.requestManager.send(signedPayload, sendTxCallback);
+        };
+
+        var sendRequest = function (payload, method) {
+
+            if (method && method.accounts && method.accounts.wallet && method.accounts.wallet.length) {
+                var wallet;
+
+                // ETH_SENDTRANSACTION
+                if (payload.method === 'eth_sendTransaction') {
+                    var tx = payload.params[0];
+                    wallet = getWallet(_.isObject(tx) ? tx.from : null, method.accounts);
+
+                    // If wallet was found, sign tx, and send using sendRawTransaction
+                    if (wallet && wallet.privateKey) {
+                        return method.accounts.signTransaction(_.omit(tx, 'from'), wallet.privateKey).then(sendSignedTx);
+                    }
+
+                    // ETH_SIGN
+                } else if (payload.method === 'eth_sign') {
+                    var data = payload.params[1];
+                    wallet = getWallet(payload.params[0], method.accounts);
+
+                    // If wallet was found, sign tx, and send using sendRawTransaction
+                    if (wallet && wallet.privateKey) {
+                        var sign = method.accounts.sign(data, wallet.privateKey);
+
+                        if (payload.callback) {
+                            payload.callback(null, sign.signature);
+                        }
+
+                        defer.resolve(sign.signature);
+                        return;
+                    }
+                }
+            }
+
+            return method.requestManager.send(payload, sendTxCallback);
+        };
+
+        // Send the actual transaction
+        if (isSendTx && _.isObject(payload.params[0]) && !payload.params[0].gasPrice) {
+
+            var getGasPrice = new Method({
+                name: 'getGasPrice',
+                call: 'eth_gasPrice',
+                params: 0
+            }).createFunction(method.requestManager);
+
+            getGasPrice(function (err, gasPrice) {
+
+                if (gasPrice) {
+                    payload.params[0].gasPrice = gasPrice;
+                }
+                sendRequest(payload, method);
+            });
+        } else {
+            sendRequest(payload, method);
+        }
+
+        return defer.eventEmitter;
+    };
+
+    // necessary to attach things to the method
+    send.method = method;
+    // necessary for batch requests
+    send.request = this.request.bind(this);
+    return send;
+};
+
+/**
+ * Should be called to create the pure JSONRPC request which can be used in a batch request
+ *
+ * @method request
+ * @return {Object} jsonrpc request
+ */
+Method.prototype.request = function () {
+    var payload = this.toPayload(Array.prototype.slice.call(arguments));
+    payload.format = this.formatOutput.bind(this);
+    return payload;
+};
+
+module.exports = Method;
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var f = __webpack_require__(11);
+var SolidityParam = __webpack_require__(86);
+
+/**
+ * SolidityType prototype is used to encode/decode solidity params of certain type
+ */
+var SolidityType = function (config) {
+    this._inputFormatter = config.inputFormatter;
+    this._outputFormatter = config.outputFormatter;
+};
+
+/**
+ * Should be used to determine if this SolidityType do match given name
+ *
+ * @method isType
+ * @param {String} name
+ * @return {Bool} true if type match this SolidityType, otherwise false
+ */
+SolidityType.prototype.isType = function (name) {
+    throw "This method should be overwritten for type " + name;
+};
+
+/**
+ * Should be used to determine what is the length of static part in given type
+ *
+ * @method staticPartLength
+ * @param {String} name
+ * @return {Number} length of static part in bytes
+ */
+SolidityType.prototype.staticPartLength = function (name) {
+    // If name isn't an array then treat it like a single element array.
+    return (this.nestedTypes(name) || ['[1]']).map(function (type) {
+        // the length of the nested array
+        return parseInt(type.slice(1, -1), 10) || 1;
+    }).reduce(function (previous, current) {
+        return previous * current;
+        // all basic types are 32 bytes long
+    }, 32);
+};
+
+/**
+ * Should be used to determine if type is dynamic array
+ * eg:
+ * "type[]" => true
+ * "type[4]" => false
+ *
+ * @method isDynamicArray
+ * @param {String} name
+ * @return {Bool} true if the type is dynamic array
+ */
+SolidityType.prototype.isDynamicArray = function (name) {
+    var nestedTypes = this.nestedTypes(name);
+    return !!nestedTypes && !nestedTypes[nestedTypes.length - 1].match(/[0-9]{1,}/g);
+};
+
+/**
+ * Should be used to determine if type is static array
+ * eg:
+ * "type[]" => false
+ * "type[4]" => true
+ *
+ * @method isStaticArray
+ * @param {String} name
+ * @return {Bool} true if the type is static array
+ */
+SolidityType.prototype.isStaticArray = function (name) {
+    var nestedTypes = this.nestedTypes(name);
+    return !!nestedTypes && !!nestedTypes[nestedTypes.length - 1].match(/[0-9]{1,}/g);
+};
+
+/**
+ * Should return length of static array
+ * eg.
+ * "int[32]" => 32
+ * "int256[14]" => 14
+ * "int[2][3]" => 3
+ * "int" => 1
+ * "int[1]" => 1
+ * "int[]" => 1
+ *
+ * @method staticArrayLength
+ * @param {String} name
+ * @return {Number} static array length
+ */
+SolidityType.prototype.staticArrayLength = function (name) {
+    var nestedTypes = this.nestedTypes(name);
+    if (nestedTypes) {
+        return parseInt(nestedTypes[nestedTypes.length - 1].match(/[0-9]{1,}/g) || 1);
+    }
+    return 1;
+};
+
+/**
+ * Should return nested type
+ * eg.
+ * "int[32]" => "int"
+ * "int256[14]" => "int256"
+ * "int[2][3]" => "int[2]"
+ * "int" => "int"
+ * "int[]" => "int"
+ *
+ * @method nestedName
+ * @param {String} name
+ * @return {String} nested name
+ */
+SolidityType.prototype.nestedName = function (name) {
+    // remove last [] in name
+    var nestedTypes = this.nestedTypes(name);
+    if (!nestedTypes) {
+        return name;
+    }
+
+    return name.substr(0, name.length - nestedTypes[nestedTypes.length - 1].length);
+};
+
+/**
+ * Should return true if type has dynamic size by default
+ * such types are "string", "bytes"
+ *
+ * @method isDynamicType
+ * @param {String} name
+ * @return {Bool} true if is dynamic, otherwise false
+ */
+SolidityType.prototype.isDynamicType = function () {
+    return false;
+};
+
+/**
+ * Should return array of nested types
+ * eg.
+ * "int[2][3][]" => ["[2]", "[3]", "[]"]
+ * "int[] => ["[]"]
+ * "int" => null
+ *
+ * @method nestedTypes
+ * @param {String} name
+ * @return {Array} array of nested types
+ */
+SolidityType.prototype.nestedTypes = function (name) {
+    // return list of strings eg. "[]", "[3]", "[]", "[2]"
+    return name.match(/(\[[0-9]*\])/g);
+};
+
+/**
+ * Should be used to encode the value
+ *
+ * @method encode
+ * @param {Object} value
+ * @param {String} name
+ * @return {String} encoded value
+ */
+SolidityType.prototype.encode = function (value, name) {
+    var self = this;
+    if (this.isDynamicArray(name)) {
+
+        return function () {
+            var length = value.length; // in int
+            var nestedName = self.nestedName(name);
+
+            var result = [];
+            result.push(f.formatInputInt(length).encode());
+
+            value.forEach(function (v) {
+                result.push(self.encode(v, nestedName));
+            });
+
+            return result;
+        }();
+    } else if (this.isStaticArray(name)) {
+
+        return function () {
+            var length = self.staticArrayLength(name); // in int
+            var nestedName = self.nestedName(name);
+
+            var result = [];
+            for (var i = 0; i < length; i++) {
+                result.push(self.encode(value[i], nestedName));
+            }
+
+            return result;
+        }();
+    }
+
+    return this._inputFormatter(value, name).encode();
+};
+
+/**
+ * Should be used to decode value from bytes
+ *
+ * @method decode
+ * @param {String} bytes
+ * @param {Number} offset in bytes
+ * @param {String} name type name
+ * @returns {Object} decoded value
+ */
+SolidityType.prototype.decode = function (bytes, offset, name) {
+    var self = this;
+
+    if (this.isDynamicArray(name)) {
+
+        return function () {
+            var arrayOffset = parseInt('0x' + bytes.substr(offset * 2, 64)); // in bytes
+            var length = parseInt('0x' + bytes.substr(arrayOffset * 2, 64)); // in int
+            var arrayStart = arrayOffset + 32; // array starts after length; // in bytes
+
+            var nestedName = self.nestedName(name);
+            var nestedStaticPartLength = self.staticPartLength(nestedName); // in bytes
+            var roundedNestedStaticPartLength = Math.floor((nestedStaticPartLength + 31) / 32) * 32;
+            var result = [];
+
+            for (var i = 0; i < length * roundedNestedStaticPartLength; i += roundedNestedStaticPartLength) {
+                result.push(self.decode(bytes, arrayStart + i, nestedName));
+            }
+
+            return result;
+        }();
+    } else if (this.isStaticArray(name)) {
+
+        return function () {
+            var length = self.staticArrayLength(name); // in int
+            var arrayStart = offset; // in bytes
+
+            var nestedName = self.nestedName(name);
+            var nestedStaticPartLength = self.staticPartLength(nestedName); // in bytes
+            var roundedNestedStaticPartLength = Math.floor((nestedStaticPartLength + 31) / 32) * 32;
+            var result = [];
+
+            for (var i = 0; i < length * roundedNestedStaticPartLength; i += roundedNestedStaticPartLength) {
+                result.push(self.decode(bytes, arrayStart + i, nestedName));
+            }
+
+            return result;
+        }();
+    } else if (this.isDynamicType(name)) {
+
+        return function () {
+            var dynamicOffset = parseInt('0x' + bytes.substr(offset * 2, 64)); // in bytes
+            var length = parseInt('0x' + bytes.substr(dynamicOffset * 2, 64)); // in bytes
+            var roundedLength = Math.floor((length + 31) / 32); // in int
+            var param = new SolidityParam(bytes.substr(dynamicOffset * 2, (1 + roundedLength) * 64), 0, bytes);
+            return self._outputFormatter(param, name);
+        }();
+    }
+
+    var length = this.staticPartLength(name);
+    var param = new SolidityParam(bytes.substr(offset * 2, length * 2), undefined, bytes);
+    return this._outputFormatter(param, name);
+};
+
+module.exports = SolidityType;
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+// a duplex stream is just a stream that is both readable and writable.
+// Since JS doesn't have multiple prototypal inheritance, this class
+// prototypally inherits from Readable, and then parasitically from
+// Writable.
+
+
+
+/*<replacement>*/
+
+var processNextTick = __webpack_require__(40).nextTick;
+/*</replacement>*/
+
+/*<replacement>*/
+var objectKeys = Object.keys || function (obj) {
+  var keys = [];
+  for (var key in obj) {
+    keys.push(key);
+  }return keys;
+};
+/*</replacement>*/
+
+module.exports = Duplex;
+
+/*<replacement>*/
+var util = __webpack_require__(26);
+util.inherits = __webpack_require__(0);
+/*</replacement>*/
+
+var Readable = __webpack_require__(87);
+var Writable = __webpack_require__(55);
+
+util.inherits(Duplex, Readable);
+
+var keys = objectKeys(Writable.prototype);
+for (var v = 0; v < keys.length; v++) {
+  var method = keys[v];
+  if (!Duplex.prototype[method]) Duplex.prototype[method] = Writable.prototype[method];
+}
+
+function Duplex(options) {
+  if (!(this instanceof Duplex)) return new Duplex(options);
+
+  Readable.call(this, options);
+  Writable.call(this, options);
+
+  if (options && options.readable === false) this.readable = false;
+
+  if (options && options.writable === false) this.writable = false;
+
+  this.allowHalfOpen = true;
+  if (options && options.allowHalfOpen === false) this.allowHalfOpen = false;
+
+  this.once('end', onend);
+}
+
+// the no-half-open enforcer
+function onend() {
+  // if we allow half-open state, or if the writable side ended,
+  // then we're ok.
+  if (this.allowHalfOpen || this._writableState.ended) return;
+
+  // no more data can be written.
+  // But allow more writes to happen in this tick.
+  processNextTick(onEndNT, this);
+}
+
+function onEndNT(self) {
+  self.end();
+}
+
+Object.defineProperty(Duplex.prototype, 'destroyed', {
+  get: function () {
+    if (this._readableState === undefined || this._writableState === undefined) {
+      return false;
+    }
+    return this._readableState.destroyed && this._writableState.destroyed;
+  },
+  set: function (value) {
+    // we ignore the value if the stream
+    // has not been initialized yet
+    if (this._readableState === undefined || this._writableState === undefined) {
+      return;
+    }
+
+    // backward compatibility, the user is explicitly
+    // managing destroyed
+    this._readableState.destroyed = value;
+    this._writableState.destroyed = value;
+  }
+});
+
+Duplex.prototype._destroy = function (err, cb) {
+  this.push(null);
+  this.end();
+
+  processNextTick(cb, err);
+};
+
+function forEach(xs, f) {
+  for (var i = 0, l = xs.length; i < l; i++) {
+    f(xs[i], i);
+  }
+}
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/**
+ * Expose `Emitter`.
+ */
+
+if (true) {
+  module.exports = Emitter;
+}
+
+/**
+ * Initialize a new `Emitter`.
+ *
+ * @api public
+ */
+
+function Emitter(obj) {
+  if (obj) return mixin(obj);
+};
+
+/**
+ * Mixin the emitter properties.
+ *
+ * @param {Object} obj
+ * @return {Object}
+ * @api private
+ */
+
+function mixin(obj) {
+  for (var key in Emitter.prototype) {
+    obj[key] = Emitter.prototype[key];
+  }
+  return obj;
+}
+
+/**
+ * Listen on the given `event` with `fn`.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.on = Emitter.prototype.addEventListener = function (event, fn) {
+  this._callbacks = this._callbacks || {};
+  (this._callbacks['$' + event] = this._callbacks['$' + event] || []).push(fn);
+  return this;
+};
+
+/**
+ * Adds an `event` listener that will be invoked a single
+ * time then automatically removed.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.once = function (event, fn) {
+  function on() {
+    this.off(event, on);
+    fn.apply(this, arguments);
+  }
+
+  on.fn = fn;
+  this.on(event, on);
+  return this;
+};
+
+/**
+ * Remove the given callback for `event` or all
+ * registered callbacks.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.off = Emitter.prototype.removeListener = Emitter.prototype.removeAllListeners = Emitter.prototype.removeEventListener = function (event, fn) {
+  this._callbacks = this._callbacks || {};
+
+  // all
+  if (0 == arguments.length) {
+    this._callbacks = {};
+    return this;
+  }
+
+  // specific event
+  var callbacks = this._callbacks['$' + event];
+  if (!callbacks) return this;
+
+  // remove all handlers
+  if (1 == arguments.length) {
+    delete this._callbacks['$' + event];
+    return this;
+  }
+
+  // remove specific handler
+  var cb;
+  for (var i = 0; i < callbacks.length; i++) {
+    cb = callbacks[i];
+    if (cb === fn || cb.fn === fn) {
+      callbacks.splice(i, 1);
+      break;
+    }
+  }
+  return this;
+};
+
+/**
+ * Emit `event` with the given args.
+ *
+ * @param {String} event
+ * @param {Mixed} ...
+ * @return {Emitter}
+ */
+
+Emitter.prototype.emit = function (event) {
+  this._callbacks = this._callbacks || {};
+  var args = [].slice.call(arguments, 1),
+      callbacks = this._callbacks['$' + event];
+
+  if (callbacks) {
+    callbacks = callbacks.slice(0);
+    for (var i = 0, len = callbacks.length; i < len; ++i) {
+      callbacks[i].apply(this, args);
+    }
+  }
+
+  return this;
+};
+
+/**
+ * Return array of callbacks for `event`.
+ *
+ * @param {String} event
+ * @return {Array}
+ * @api public
+ */
+
+Emitter.prototype.listeners = function (event) {
+  this._callbacks = this._callbacks || {};
+  return this._callbacks['$' + event] || [];
+};
+
+/**
+ * Check if this emitter has `event` handlers.
+ *
+ * @param {String} event
+ * @return {Boolean}
+ * @api public
+ */
+
+Emitter.prototype.hasListeners = function (event) {
+  return !!this.listeners(event).length;
+};
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/**
+ * Module dependencies.
+ */
+
+var keys = __webpack_require__(140);
+var hasBinary = __webpack_require__(66);
+var sliceBuffer = __webpack_require__(141);
+var after = __webpack_require__(142);
+var utf8 = __webpack_require__(143);
+
+var base64encoder;
+if (global && global.ArrayBuffer) {
+  base64encoder = __webpack_require__(144);
+}
+
+/**
+ * Check if we are running an android browser. That requires us to use
+ * ArrayBuffer with polling transports...
+ *
+ * http://ghinda.net/jpeg-blob-ajax-android/
+ */
+
+var isAndroid = typeof navigator !== 'undefined' && /Android/i.test(navigator.userAgent);
+
+/**
+ * Check if we are running in PhantomJS.
+ * Uploading a Blob with PhantomJS does not work correctly, as reported here:
+ * https://github.com/ariya/phantomjs/issues/11395
+ * @type boolean
+ */
+var isPhantomJS = typeof navigator !== 'undefined' && /PhantomJS/i.test(navigator.userAgent);
+
+/**
+ * When true, avoids using Blobs to encode payloads.
+ * @type boolean
+ */
+var dontSendBlobs = isAndroid || isPhantomJS;
+
+/**
+ * Current protocol version.
+ */
+
+exports.protocol = 3;
+
+/**
+ * Packet types.
+ */
+
+var packets = exports.packets = {
+  open: 0 // non-ws
+  , close: 1 // non-ws
+  , ping: 2,
+  pong: 3,
+  message: 4,
+  upgrade: 5,
+  noop: 6
+};
+
+var packetslist = keys(packets);
+
+/**
+ * Premade error packet.
+ */
+
+var err = { type: 'error', data: 'parser error' };
+
+/**
+ * Create a blob api even for blob builder when vendor prefixes exist
+ */
+
+var Blob = __webpack_require__(145);
+
+/**
+ * Encodes a packet.
+ *
+ *     <packet type id> [ <data> ]
+ *
+ * Example:
+ *
+ *     5hello world
+ *     3
+ *     4
+ *
+ * Binary is encoded in an identical principle
+ *
+ * @api private
+ */
+
+exports.encodePacket = function (packet, supportsBinary, utf8encode, callback) {
+  if (typeof supportsBinary === 'function') {
+    callback = supportsBinary;
+    supportsBinary = false;
+  }
+
+  if (typeof utf8encode === 'function') {
+    callback = utf8encode;
+    utf8encode = null;
+  }
+
+  var data = packet.data === undefined ? undefined : packet.data.buffer || packet.data;
+
+  if (global.ArrayBuffer && data instanceof ArrayBuffer) {
+    return encodeArrayBuffer(packet, supportsBinary, callback);
+  } else if (Blob && data instanceof global.Blob) {
+    return encodeBlob(packet, supportsBinary, callback);
+  }
+
+  // might be an object with { base64: true, data: dataAsBase64String }
+  if (data && data.base64) {
+    return encodeBase64Object(packet, callback);
+  }
+
+  // Sending data as a utf-8 string
+  var encoded = packets[packet.type];
+
+  // data fragment is optional
+  if (undefined !== packet.data) {
+    encoded += utf8encode ? utf8.encode(String(packet.data), { strict: false }) : String(packet.data);
+  }
+
+  return callback('' + encoded);
+};
+
+function encodeBase64Object(packet, callback) {
+  // packet data is an object { base64: true, data: dataAsBase64String }
+  var message = 'b' + exports.packets[packet.type] + packet.data.data;
+  return callback(message);
+}
+
+/**
+ * Encode packet helpers for binary types
+ */
+
+function encodeArrayBuffer(packet, supportsBinary, callback) {
+  if (!supportsBinary) {
+    return exports.encodeBase64Packet(packet, callback);
+  }
+
+  var data = packet.data;
+  var contentArray = new Uint8Array(data);
+  var resultBuffer = new Uint8Array(1 + data.byteLength);
+
+  resultBuffer[0] = packets[packet.type];
+  for (var i = 0; i < contentArray.length; i++) {
+    resultBuffer[i + 1] = contentArray[i];
+  }
+
+  return callback(resultBuffer.buffer);
+}
+
+function encodeBlobAsArrayBuffer(packet, supportsBinary, callback) {
+  if (!supportsBinary) {
+    return exports.encodeBase64Packet(packet, callback);
+  }
+
+  var fr = new FileReader();
+  fr.onload = function () {
+    packet.data = fr.result;
+    exports.encodePacket(packet, supportsBinary, true, callback);
+  };
+  return fr.readAsArrayBuffer(packet.data);
+}
+
+function encodeBlob(packet, supportsBinary, callback) {
+  if (!supportsBinary) {
+    return exports.encodeBase64Packet(packet, callback);
+  }
+
+  if (dontSendBlobs) {
+    return encodeBlobAsArrayBuffer(packet, supportsBinary, callback);
+  }
+
+  var length = new Uint8Array(1);
+  length[0] = packets[packet.type];
+  var blob = new Blob([length.buffer, packet.data]);
+
+  return callback(blob);
+}
+
+/**
+ * Encodes a packet with binary data in a base64 string
+ *
+ * @param {Object} packet, has `type` and `data`
+ * @return {String} base64 encoded message
+ */
+
+exports.encodeBase64Packet = function (packet, callback) {
+  var message = 'b' + exports.packets[packet.type];
+  if (Blob && packet.data instanceof global.Blob) {
+    var fr = new FileReader();
+    fr.onload = function () {
+      var b64 = fr.result.split(',')[1];
+      callback(message + b64);
+    };
+    return fr.readAsDataURL(packet.data);
+  }
+
+  var b64data;
+  try {
+    b64data = String.fromCharCode.apply(null, new Uint8Array(packet.data));
+  } catch (e) {
+    // iPhone Safari doesn't let you apply with typed arrays
+    var typed = new Uint8Array(packet.data);
+    var basic = new Array(typed.length);
+    for (var i = 0; i < typed.length; i++) {
+      basic[i] = typed[i];
+    }
+    b64data = String.fromCharCode.apply(null, basic);
+  }
+  message += global.btoa(b64data);
+  return callback(message);
+};
+
+/**
+ * Decodes a packet. Changes format to Blob if requested.
+ *
+ * @return {Object} with `type` and `data` (if any)
+ * @api private
+ */
+
+exports.decodePacket = function (data, binaryType, utf8decode) {
+  if (data === undefined) {
+    return err;
+  }
+  // String data
+  if (typeof data === 'string') {
+    if (data.charAt(0) === 'b') {
+      return exports.decodeBase64Packet(data.substr(1), binaryType);
+    }
+
+    if (utf8decode) {
+      data = tryDecode(data);
+      if (data === false) {
+        return err;
+      }
+    }
+    var type = data.charAt(0);
+
+    if (Number(type) != type || !packetslist[type]) {
+      return err;
+    }
+
+    if (data.length > 1) {
+      return { type: packetslist[type], data: data.substring(1) };
+    } else {
+      return { type: packetslist[type] };
+    }
+  }
+
+  var asArray = new Uint8Array(data);
+  var type = asArray[0];
+  var rest = sliceBuffer(data, 1);
+  if (Blob && binaryType === 'blob') {
+    rest = new Blob([rest]);
+  }
+  return { type: packetslist[type], data: rest };
+};
+
+function tryDecode(data) {
+  try {
+    data = utf8.decode(data, { strict: false });
+  } catch (e) {
+    return false;
+  }
+  return data;
+}
+
+/**
+ * Decodes a packet encoded in a base64 string
+ *
+ * @param {String} base64 encoded message
+ * @return {Object} with `type` and `data` (if any)
+ */
+
+exports.decodeBase64Packet = function (msg, binaryType) {
+  var type = packetslist[msg.charAt(0)];
+  if (!base64encoder) {
+    return { type: type, data: { base64: true, data: msg.substr(1) } };
+  }
+
+  var data = base64encoder.decode(msg.substr(1));
+
+  if (binaryType === 'blob' && Blob) {
+    data = new Blob([data]);
+  }
+
+  return { type: type, data: data };
+};
+
+/**
+ * Encodes multiple messages (payload).
+ *
+ *     <length>:data
+ *
+ * Example:
+ *
+ *     11:hello world2:hi
+ *
+ * If any contents are binary, they will be encoded as base64 strings. Base64
+ * encoded strings are marked with a b before the length specifier
+ *
+ * @param {Array} packets
+ * @api private
+ */
+
+exports.encodePayload = function (packets, supportsBinary, callback) {
+  if (typeof supportsBinary === 'function') {
+    callback = supportsBinary;
+    supportsBinary = null;
+  }
+
+  var isBinary = hasBinary(packets);
+
+  if (supportsBinary && isBinary) {
+    if (Blob && !dontSendBlobs) {
+      return exports.encodePayloadAsBlob(packets, callback);
+    }
+
+    return exports.encodePayloadAsArrayBuffer(packets, callback);
+  }
+
+  if (!packets.length) {
+    return callback('0:');
+  }
+
+  function setLengthHeader(message) {
+    return message.length + ':' + message;
+  }
+
+  function encodeOne(packet, doneCallback) {
+    exports.encodePacket(packet, !isBinary ? false : supportsBinary, false, function (message) {
+      doneCallback(null, setLengthHeader(message));
+    });
+  }
+
+  map(packets, encodeOne, function (err, results) {
+    return callback(results.join(''));
+  });
+};
+
+/**
+ * Async array map using after
+ */
+
+function map(ary, each, done) {
+  var result = new Array(ary.length);
+  var next = after(ary.length, done);
+
+  var eachWithIndex = function (i, el, cb) {
+    each(el, function (error, msg) {
+      result[i] = msg;
+      cb(error, result);
+    });
+  };
+
+  for (var i = 0; i < ary.length; i++) {
+    eachWithIndex(i, ary[i], next);
+  }
+}
+
+/*
+ * Decodes data when a payload is maybe expected. Possible binary contents are
+ * decoded from their base64 representation
+ *
+ * @param {String} data, callback method
+ * @api public
+ */
+
+exports.decodePayload = function (data, binaryType, callback) {
+  if (typeof data !== 'string') {
+    return exports.decodePayloadAsBinary(data, binaryType, callback);
+  }
+
+  if (typeof binaryType === 'function') {
+    callback = binaryType;
+    binaryType = null;
+  }
+
+  var packet;
+  if (data === '') {
+    // parser error - ignoring payload
+    return callback(err, 0, 1);
+  }
+
+  var length = '',
+      n,
+      msg;
+
+  for (var i = 0, l = data.length; i < l; i++) {
+    var chr = data.charAt(i);
+
+    if (chr !== ':') {
+      length += chr;
+      continue;
+    }
+
+    if (length === '' || length != (n = Number(length))) {
+      // parser error - ignoring payload
+      return callback(err, 0, 1);
+    }
+
+    msg = data.substr(i + 1, n);
+
+    if (length != msg.length) {
+      // parser error - ignoring payload
+      return callback(err, 0, 1);
+    }
+
+    if (msg.length) {
+      packet = exports.decodePacket(msg, binaryType, false);
+
+      if (err.type === packet.type && err.data === packet.data) {
+        // parser error in individual packet - ignoring payload
+        return callback(err, 0, 1);
+      }
+
+      var ret = callback(packet, i + n, l);
+      if (false === ret) return;
+    }
+
+    // advance cursor
+    i += n;
+    length = '';
+  }
+
+  if (length !== '') {
+    // parser error - ignoring payload
+    return callback(err, 0, 1);
+  }
+};
+
+/**
+ * Encodes multiple messages (payload) as binary.
+ *
+ * <1 = binary, 0 = string><number from 0-9><number from 0-9>[...]<number
+ * 255><data>
+ *
+ * Example:
+ * 1 3 255 1 2 3, if the binary contents are interpreted as 8 bit integers
+ *
+ * @param {Array} packets
+ * @return {ArrayBuffer} encoded payload
+ * @api private
+ */
+
+exports.encodePayloadAsArrayBuffer = function (packets, callback) {
+  if (!packets.length) {
+    return callback(new ArrayBuffer(0));
+  }
+
+  function encodeOne(packet, doneCallback) {
+    exports.encodePacket(packet, true, true, function (data) {
+      return doneCallback(null, data);
+    });
+  }
+
+  map(packets, encodeOne, function (err, encodedPackets) {
+    var totalLength = encodedPackets.reduce(function (acc, p) {
+      var len;
+      if (typeof p === 'string') {
+        len = p.length;
+      } else {
+        len = p.byteLength;
+      }
+      return acc + len.toString().length + len + 2; // string/binary identifier + separator = 2
+    }, 0);
+
+    var resultArray = new Uint8Array(totalLength);
+
+    var bufferIndex = 0;
+    encodedPackets.forEach(function (p) {
+      var isString = typeof p === 'string';
+      var ab = p;
+      if (isString) {
+        var view = new Uint8Array(p.length);
+        for (var i = 0; i < p.length; i++) {
+          view[i] = p.charCodeAt(i);
+        }
+        ab = view.buffer;
+      }
+
+      if (isString) {
+        // not true binary
+        resultArray[bufferIndex++] = 0;
+      } else {
+        // true binary
+        resultArray[bufferIndex++] = 1;
+      }
+
+      var lenStr = ab.byteLength.toString();
+      for (var i = 0; i < lenStr.length; i++) {
+        resultArray[bufferIndex++] = parseInt(lenStr[i]);
+      }
+      resultArray[bufferIndex++] = 255;
+
+      var view = new Uint8Array(ab);
+      for (var i = 0; i < view.length; i++) {
+        resultArray[bufferIndex++] = view[i];
+      }
+    });
+
+    return callback(resultArray.buffer);
+  });
+};
+
+/**
+ * Encode as Blob
+ */
+
+exports.encodePayloadAsBlob = function (packets, callback) {
+  function encodeOne(packet, doneCallback) {
+    exports.encodePacket(packet, true, true, function (encoded) {
+      var binaryIdentifier = new Uint8Array(1);
+      binaryIdentifier[0] = 1;
+      if (typeof encoded === 'string') {
+        var view = new Uint8Array(encoded.length);
+        for (var i = 0; i < encoded.length; i++) {
+          view[i] = encoded.charCodeAt(i);
+        }
+        encoded = view.buffer;
+        binaryIdentifier[0] = 0;
+      }
+
+      var len = encoded instanceof ArrayBuffer ? encoded.byteLength : encoded.size;
+
+      var lenStr = len.toString();
+      var lengthAry = new Uint8Array(lenStr.length + 1);
+      for (var i = 0; i < lenStr.length; i++) {
+        lengthAry[i] = parseInt(lenStr[i]);
+      }
+      lengthAry[lenStr.length] = 255;
+
+      if (Blob) {
+        var blob = new Blob([binaryIdentifier.buffer, lengthAry.buffer, encoded]);
+        doneCallback(null, blob);
+      }
+    });
+  }
+
+  map(packets, encodeOne, function (err, results) {
+    return callback(new Blob(results));
+  });
+};
+
+/*
+ * Decodes data when a payload is maybe expected. Strings are decoded by
+ * interpreting each byte as a key code for entries marked to start with 0. See
+ * description of encodePayloadAsBinary
+ *
+ * @param {ArrayBuffer} data, callback method
+ * @api public
+ */
+
+exports.decodePayloadAsBinary = function (data, binaryType, callback) {
+  if (typeof binaryType === 'function') {
+    callback = binaryType;
+    binaryType = null;
+  }
+
+  var bufferTail = data;
+  var buffers = [];
+
+  while (bufferTail.byteLength > 0) {
+    var tailArray = new Uint8Array(bufferTail);
+    var isString = tailArray[0] === 0;
+    var msgLength = '';
+
+    for (var i = 1;; i++) {
+      if (tailArray[i] === 255) break;
+
+      // 310 = char length of Number.MAX_VALUE
+      if (msgLength.length > 310) {
+        return callback(err, 0, 1);
+      }
+
+      msgLength += tailArray[i];
+    }
+
+    bufferTail = sliceBuffer(bufferTail, 2 + msgLength.length);
+    msgLength = parseInt(msgLength);
+
+    var msg = sliceBuffer(bufferTail, 0, msgLength);
+    if (isString) {
+      try {
+        msg = String.fromCharCode.apply(null, new Uint8Array(msg));
+      } catch (e) {
+        // iPhone Safari doesn't let you apply to typed arrays
+        var typed = new Uint8Array(msg);
+        msg = '';
+        for (var i = 0; i < typed.length; i++) {
+          msg += String.fromCharCode(typed[i]);
+        }
+      }
+    }
+
+    buffers.push(msg);
+    bufferTail = sliceBuffer(bufferTail, msgLength);
+  }
+
+  var total = buffers.length;
+  buffers.forEach(function (buffer, i) {
+    callback(exports.decodePacket(buffer, binaryType, true), i, total);
+  });
+};
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global, process) {
+
+function oldBrowser() {
+  throw new Error('Secure random number generation is not supported by this browser.\nUse Chrome, Firefox or Internet Explorer 11');
+}
+
+var Buffer = __webpack_require__(2).Buffer;
+var crypto = global.crypto || global.msCrypto;
+
+if (crypto && crypto.getRandomValues) {
+  module.exports = randomBytes;
+} else {
+  module.exports = oldBrowser;
+}
+
+function randomBytes(size, cb) {
+  // phantomjs needs to throw
+  if (size > 65536) throw new Error('requested too many random bytes');
+  // in case browserify  isn't using the Uint8Array version
+  var rawBytes = new global.Uint8Array(size);
+
+  // This will not work in older browsers.
+  // See https://developer.mozilla.org/en-US/docs/Web/API/window.crypto.getRandomValues
+  if (size > 0) {
+    // getRandomValues fails on IE if size == 0
+    crypto.getRandomValues(rawBytes);
+  }
+
+  // XXX: phantomjs doesn't like a buffer being passed here
+  var bytes = Buffer.from(rawBytes.buffer);
+
+  if (typeof cb === 'function') {
+    return process.nextTick(function () {
+      cb(null, bytes);
+    });
+  }
+
+  return bytes;
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(8)))
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Buffer = __webpack_require__(2).Buffer;
+
+// prototype class for hash functions
+function Hash(blockSize, finalSize) {
+  this._block = Buffer.alloc(blockSize);
+  this._finalSize = finalSize;
+  this._blockSize = blockSize;
+  this._len = 0;
+}
+
+Hash.prototype.update = function (data, enc) {
+  if (typeof data === 'string') {
+    enc = enc || 'utf8';
+    data = Buffer.from(data, enc);
+  }
+
+  var block = this._block;
+  var blockSize = this._blockSize;
+  var length = data.length;
+  var accum = this._len;
+
+  for (var offset = 0; offset < length;) {
+    var assigned = accum % blockSize;
+    var remainder = Math.min(length - offset, blockSize - assigned);
+
+    for (var i = 0; i < remainder; i++) {
+      block[assigned + i] = data[offset + i];
+    }
+
+    accum += remainder;
+    offset += remainder;
+
+    if (accum % blockSize === 0) {
+      this._update(block);
+    }
+  }
+
+  this._len += length;
+  return this;
+};
+
+Hash.prototype.digest = function (enc) {
+  var rem = this._len % this._blockSize;
+
+  this._block[rem] = 0x80;
+
+  // zero (rem + 1) trailing bits, where (rem + 1) is the smallest
+  // non-negative solution to the equation (length + 1 + (rem + 1)) === finalSize mod blockSize
+  this._block.fill(0, rem + 1);
+
+  if (rem >= this._finalSize) {
+    this._update(this._block);
+    this._block.fill(0);
+  }
+
+  var bits = this._len * 8;
+
+  // uint32
+  if (bits <= 0xffffffff) {
+    this._block.writeUInt32BE(bits, this._blockSize - 4);
+
+    // uint64
+  } else {
+    var lowBits = (bits & 0xffffffff) >>> 0;
+    var highBits = (bits - lowBits) / 0x100000000;
+
+    this._block.writeUInt32BE(highBits, this._blockSize - 8);
+    this._block.writeUInt32BE(lowBits, this._blockSize - 4);
+  }
+
+  this._update(this._block);
+  var hash = this._hash();
+
+  return enc ? hash.toString(enc) : hash;
+};
+
+Hash.prototype._update = function () {
+  throw new Error('_update must be implemented by subclass');
+};
+
+module.exports = Hash;
+
+/***/ }),
 /* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20120,9 +20120,9 @@ function localstorage() {
 /* WEBPACK VAR INJECTION */(function(Buffer) {
 
 var inherits = __webpack_require__(0);
-var md5 = __webpack_require__(50);
-var RIPEMD160 = __webpack_require__(51);
-var sha = __webpack_require__(56);
+var md5 = __webpack_require__(51);
+var RIPEMD160 = __webpack_require__(52);
+var sha = __webpack_require__(57);
 
 var Base = __webpack_require__(13);
 
@@ -20395,11 +20395,11 @@ var asn1 = exports;
 
 asn1.bignum = __webpack_require__(4);
 
-asn1.define = __webpack_require__(266).define;
+asn1.define = __webpack_require__(267).define;
 asn1.base = __webpack_require__(30);
 asn1.constants = __webpack_require__(111);
-asn1.decoders = __webpack_require__(271);
-asn1.encoders = __webpack_require__(273);
+asn1.decoders = __webpack_require__(272);
+asn1.encoders = __webpack_require__(274);
 
 /***/ }),
 /* 30 */
@@ -20407,1121 +20407,13 @@ asn1.encoders = __webpack_require__(273);
 
 var base = exports;
 
-base.Reporter = __webpack_require__(268).Reporter;
+base.Reporter = __webpack_require__(269).Reporter;
 base.DecoderBuffer = __webpack_require__(110).DecoderBuffer;
 base.EncoderBuffer = __webpack_require__(110).EncoderBuffer;
-base.Node = __webpack_require__(269);
+base.Node = __webpack_require__(270);
 
 /***/ }),
 /* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {var apply = Function.prototype.apply;
-
-// DOM APIs, for completeness
-
-exports.setTimeout = function () {
-  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
-};
-exports.setInterval = function () {
-  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
-};
-exports.clearTimeout = exports.clearInterval = function (timeout) {
-  if (timeout) {
-    timeout.close();
-  }
-};
-
-function Timeout(id, clearFn) {
-  this._id = id;
-  this._clearFn = clearFn;
-}
-Timeout.prototype.unref = Timeout.prototype.ref = function () {};
-Timeout.prototype.close = function () {
-  this._clearFn.call(window, this._id);
-};
-
-// Does not start the time, just sets up the members needed.
-exports.enroll = function (item, msecs) {
-  clearTimeout(item._idleTimeoutId);
-  item._idleTimeout = msecs;
-};
-
-exports.unenroll = function (item) {
-  clearTimeout(item._idleTimeoutId);
-  item._idleTimeout = -1;
-};
-
-exports._unrefActive = exports.active = function (item) {
-  clearTimeout(item._idleTimeoutId);
-
-  var msecs = item._idleTimeout;
-  if (msecs >= 0) {
-    item._idleTimeoutId = setTimeout(function onTimeout() {
-      if (item._onTimeout) item._onTimeout();
-    }, msecs);
-  }
-};
-
-// setimmediate attaches itself to the global object
-__webpack_require__(128);
-// On some exotic environments, it's not clear which object `setimmeidate` was
-// able to install onto.  Search each possibility in the same order as the
-// `setimmediate` library.
-exports.setImmediate = typeof self !== "undefined" && self.setImmediate || typeof global !== "undefined" && global.setImmediate || this && this.setImmediate;
-exports.clearImmediate = typeof self !== "undefined" && self.clearImmediate || typeof global !== "undefined" && global.clearImmediate || this && this.clearImmediate;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports) {
-
-/**
- * Compiles a querystring
- * Returns string representation of the object
- *
- * @param {Object}
- * @api private
- */
-
-exports.encode = function (obj) {
-  var str = '';
-
-  for (var i in obj) {
-    if (obj.hasOwnProperty(i)) {
-      if (str.length) str += '&';
-      str += encodeURIComponent(i) + '=' + encodeURIComponent(obj[i]);
-    }
-  }
-
-  return str;
-};
-
-/**
- * Parses a simple querystring into an object
- *
- * @param {String} qs
- * @api private
- */
-
-exports.decode = function (qs) {
-  var qry = {};
-  var pairs = qs.split('&');
-  for (var i = 0, l = pairs.length; i < l; i++) {
-    var pair = pairs[i].split('=');
-    qry[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
-  }
-  return qry;
-};
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports) {
-
-
-module.exports = function (a, b) {
-  var fn = function () {};
-  fn.prototype = b.prototype;
-  a.prototype = new fn();
-  a.prototype.constructor = a;
-};
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * This is the web browser implementation of `debug()`.
- *
- * Expose `debug()` as the module.
- */
-
-exports = module.exports = __webpack_require__(146);
-exports.log = log;
-exports.formatArgs = formatArgs;
-exports.save = save;
-exports.load = load;
-exports.useColors = useColors;
-exports.storage = 'undefined' != typeof chrome && 'undefined' != typeof chrome.storage ? chrome.storage.local : localstorage();
-
-/**
- * Colors.
- */
-
-exports.colors = ['#0000CC', '#0000FF', '#0033CC', '#0033FF', '#0066CC', '#0066FF', '#0099CC', '#0099FF', '#00CC00', '#00CC33', '#00CC66', '#00CC99', '#00CCCC', '#00CCFF', '#3300CC', '#3300FF', '#3333CC', '#3333FF', '#3366CC', '#3366FF', '#3399CC', '#3399FF', '#33CC00', '#33CC33', '#33CC66', '#33CC99', '#33CCCC', '#33CCFF', '#6600CC', '#6600FF', '#6633CC', '#6633FF', '#66CC00', '#66CC33', '#9900CC', '#9900FF', '#9933CC', '#9933FF', '#99CC00', '#99CC33', '#CC0000', '#CC0033', '#CC0066', '#CC0099', '#CC00CC', '#CC00FF', '#CC3300', '#CC3333', '#CC3366', '#CC3399', '#CC33CC', '#CC33FF', '#CC6600', '#CC6633', '#CC9900', '#CC9933', '#CCCC00', '#CCCC33', '#FF0000', '#FF0033', '#FF0066', '#FF0099', '#FF00CC', '#FF00FF', '#FF3300', '#FF3333', '#FF3366', '#FF3399', '#FF33CC', '#FF33FF', '#FF6600', '#FF6633', '#FF9900', '#FF9933', '#FFCC00', '#FFCC33'];
-
-/**
- * Currently only WebKit-based Web Inspectors, Firefox >= v31,
- * and the Firebug extension (any Firefox version) are known
- * to support "%c" CSS customizations.
- *
- * TODO: add a `localStorage` variable to explicitly enable/disable colors
- */
-
-function useColors() {
-  // NB: In an Electron preload script, document will be defined but not fully
-  // initialized. Since we know we're in Chrome, we'll just detect this case
-  // explicitly
-  if (typeof window !== 'undefined' && window.process && window.process.type === 'renderer') {
-    return true;
-  }
-
-  // Internet Explorer and Edge do not support colors.
-  if (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/(edge|trident)\/(\d+)/)) {
-    return false;
-  }
-
-  // is webkit? http://stackoverflow.com/a/16459606/376773
-  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
-  return typeof document !== 'undefined' && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance ||
-  // is firebug? http://stackoverflow.com/a/398120/376773
-  typeof window !== 'undefined' && window.console && (window.console.firebug || window.console.exception && window.console.table) ||
-  // is firefox >= v31?
-  // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
-  typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31 ||
-  // double check webkit in userAgent just in case we are in a worker
-  typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/);
-}
-
-/**
- * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
- */
-
-exports.formatters.j = function (v) {
-  try {
-    return JSON.stringify(v);
-  } catch (err) {
-    return '[UnexpectedJSONParseError]: ' + err.message;
-  }
-};
-
-/**
- * Colorize log arguments if enabled.
- *
- * @api public
- */
-
-function formatArgs(args) {
-  var useColors = this.useColors;
-
-  args[0] = (useColors ? '%c' : '') + this.namespace + (useColors ? ' %c' : ' ') + args[0] + (useColors ? '%c ' : ' ') + '+' + exports.humanize(this.diff);
-
-  if (!useColors) return;
-
-  var c = 'color: ' + this.color;
-  args.splice(1, 0, c, 'color: inherit');
-
-  // the final "%c" is somewhat tricky, because there could be other
-  // arguments passed either before or after the %c, so we need to
-  // figure out the correct index to insert the CSS into
-  var index = 0;
-  var lastC = 0;
-  args[0].replace(/%[a-zA-Z%]/g, function (match) {
-    if ('%%' === match) return;
-    index++;
-    if ('%c' === match) {
-      // we only are interested in the *last* %c
-      // (the user may have provided their own)
-      lastC = index;
-    }
-  });
-
-  args.splice(lastC, 0, c);
-}
-
-/**
- * Invokes `console.log()` when available.
- * No-op when `console.log` is not a "function".
- *
- * @api public
- */
-
-function log() {
-  // this hackery is required for IE8/9, where
-  // the `console.log` function doesn't have 'apply'
-  return 'object' === typeof console && console.log && Function.prototype.apply.call(console.log, console, arguments);
-}
-
-/**
- * Save `namespaces`.
- *
- * @param {String} namespaces
- * @api private
- */
-
-function save(namespaces) {
-  try {
-    if (null == namespaces) {
-      exports.storage.removeItem('debug');
-    } else {
-      exports.storage.debug = namespaces;
-    }
-  } catch (e) {}
-}
-
-/**
- * Load `namespaces`.
- *
- * @return {String} returns the previously persisted debug modes
- * @api private
- */
-
-function load() {
-  var r;
-  try {
-    r = exports.storage.debug;
-  } catch (e) {}
-
-  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
-  if (!r && typeof process !== 'undefined' && 'env' in process) {
-    r = Object({"NODE_ENV":"production"}).DEBUG;
-  }
-
-  return r;
-}
-
-/**
- * Enable namespaces listed in `localStorage.debug` initially.
- */
-
-exports.enable(load());
-
-/**
- * Localstorage attempts to return the localstorage.
- *
- * This is necessary because safari throws
- * when a user disables cookies/localstorage
- * and you attempt to access it.
- *
- * @return {LocalStorage}
- * @api private
- */
-
-function localstorage() {
-  try {
-    return window.localStorage;
-  } catch (e) {}
-}
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/*
-    This file is part of web3.js.
-
-    web3.js is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    web3.js is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public License
-    along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
-*/
-/**
- * @file index.js
- * @author Fabian Vogelsteller <fabian@ethereum.org>
- * @date 2017
- */
-
-
-
-var Subscription = __webpack_require__(186);
-
-var Subscriptions = function Subscriptions(options) {
-    this.name = options.name;
-    this.type = options.type;
-    this.subscriptions = options.subscriptions || {};
-    this.requestManager = null;
-};
-
-Subscriptions.prototype.setRequestManager = function (rm) {
-    this.requestManager = rm;
-};
-
-Subscriptions.prototype.attachToObject = function (obj) {
-    var func = this.buildCall();
-    func.call = this.call;
-    var name = this.name.split('.');
-    if (name.length > 1) {
-        obj[name[0]] = obj[name[0]] || {};
-        obj[name[0]][name[1]] = func;
-    } else {
-        obj[name[0]] = func;
-    }
-};
-
-Subscriptions.prototype.buildCall = function () {
-    var _this = this;
-
-    return function () {
-        if (!_this.subscriptions[arguments[0]]) {
-            console.warn('Subscription ' + JSON.stringify(arguments[0]) + ' doesn\'t exist. Subscribing anyway.');
-        }
-
-        var subscription = new Subscription({
-            subscription: _this.subscriptions[arguments[0]],
-            requestManager: _this.requestManager,
-            type: _this.type
-        });
-
-        return subscription.subscribe.apply(subscription, arguments);
-    };
-};
-
-module.exports = {
-    subscriptions: Subscriptions,
-    subscription: Subscription
-};
-
-/***/ }),
-/* 36 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/*
-    This file is part of web3.js.
-
-    web3.js is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    web3.js is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
-
-    You should have received a copy of the GNU Lesser General Public License
-    along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
-*/
-/**
- * @file index.js
- * @author Fabian Vogelsteller <fabian@ethereum.org>
- * @date 2017
- */
-
-
-
-var core = __webpack_require__(15);
-var Method = __webpack_require__(16);
-var utils = __webpack_require__(9);
-
-var Net = function () {
-    var _this = this;
-
-    // sets _requestmanager
-    core.packageInit(this, arguments);
-
-    [new Method({
-        name: 'getId',
-        call: 'net_version',
-        params: 0,
-        outputFormatter: utils.hexToNumber
-    }), new Method({
-        name: 'isListening',
-        call: 'net_listening',
-        params: 0
-    }), new Method({
-        name: 'getPeerCount',
-        call: 'net_peerCount',
-        params: 0,
-        outputFormatter: utils.hexToNumber
-    })].forEach(function (method) {
-        method.attachToObject(_this);
-        method.setRequestManager(_this._requestManager);
-    });
-};
-
-core.addProviders(Net);
-
-module.exports = Net;
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.randomBytes = exports.rng = exports.pseudoRandomBytes = exports.prng = __webpack_require__(21);
-exports.createHash = exports.Hash = __webpack_require__(25);
-exports.createHmac = exports.Hmac = __webpack_require__(93);
-
-var algos = __webpack_require__(217);
-var algoKeys = Object.keys(algos);
-var hashes = ['sha1', 'sha224', 'sha256', 'sha384', 'sha512', 'md5', 'rmd160'].concat(algoKeys);
-exports.getHashes = function () {
-  return hashes;
-};
-
-var p = __webpack_require__(57);
-exports.pbkdf2 = p.pbkdf2;
-exports.pbkdf2Sync = p.pbkdf2Sync;
-
-var aes = __webpack_require__(219);
-
-exports.Cipher = aes.Cipher;
-exports.createCipher = aes.createCipher;
-exports.Cipheriv = aes.Cipheriv;
-exports.createCipheriv = aes.createCipheriv;
-exports.Decipher = aes.Decipher;
-exports.createDecipher = aes.createDecipher;
-exports.Decipheriv = aes.Decipheriv;
-exports.createDecipheriv = aes.createDecipheriv;
-exports.getCiphers = aes.getCiphers;
-exports.listCiphers = aes.listCiphers;
-
-var dh = __webpack_require__(238);
-
-exports.DiffieHellmanGroup = dh.DiffieHellmanGroup;
-exports.createDiffieHellmanGroup = dh.createDiffieHellmanGroup;
-exports.getDiffieHellman = dh.getDiffieHellman;
-exports.createDiffieHellman = dh.createDiffieHellman;
-exports.DiffieHellman = dh.DiffieHellman;
-
-var sign = __webpack_require__(242);
-
-exports.createSign = sign.createSign;
-exports.Sign = sign.Sign;
-exports.createVerify = sign.createVerify;
-exports.Verify = sign.Verify;
-
-exports.createECDH = __webpack_require__(279);
-
-var publicEncrypt = __webpack_require__(280);
-
-exports.publicEncrypt = publicEncrypt.publicEncrypt;
-exports.privateEncrypt = publicEncrypt.privateEncrypt;
-exports.publicDecrypt = publicEncrypt.publicDecrypt;
-exports.privateDecrypt = publicEncrypt.privateDecrypt;
-
-// the least I can do is make error messages for the rest of the node.js/crypto api.
-// ;[
-//   'createCredentials'
-// ].forEach(function (name) {
-//   exports[name] = function () {
-//     throw new Error([
-//       'sorry, ' + name + ' is not implemented yet',
-//       'we accept pull requests',
-//       'https://github.com/crypto-browserify/crypto-browserify'
-//     ].join('\n'))
-//   }
-// })
-
-var rf = __webpack_require__(283);
-
-exports.randomFill = rf.randomFill;
-exports.randomFillSync = rf.randomFillSync;
-
-exports.createCredentials = function () {
-  throw new Error(['sorry, createCredentials is not implemented yet', 'we accept pull requests', 'https://github.com/crypto-browserify/crypto-browserify'].join('\n'));
-};
-
-exports.constants = {
-  'DH_CHECK_P_NOT_SAFE_PRIME': 2,
-  'DH_CHECK_P_NOT_PRIME': 1,
-  'DH_UNABLE_TO_CHECK_GENERATOR': 4,
-  'DH_NOT_SUITABLE_GENERATOR': 8,
-  'NPN_ENABLED': 1,
-  'ALPN_ENABLED': 1,
-  'RSA_PKCS1_PADDING': 1,
-  'RSA_SSLV23_PADDING': 2,
-  'RSA_NO_PADDING': 3,
-  'RSA_PKCS1_OAEP_PADDING': 4,
-  'RSA_X931_PADDING': 5,
-  'RSA_PKCS1_PSS_PADDING': 6,
-  'POINT_CONVERSION_COMPRESSED': 2,
-  'POINT_CONVERSION_UNCOMPRESSED': 4,
-  'POINT_CONVERSION_HYBRID': 6
-};
-
-/***/ }),
-/* 38 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-module.exports = Stream;
-
-var EE = __webpack_require__(52).EventEmitter;
-var inherits = __webpack_require__(0);
-
-inherits(Stream, EE);
-Stream.Readable = __webpack_require__(53);
-Stream.Writable = __webpack_require__(208);
-Stream.Duplex = __webpack_require__(209);
-Stream.Transform = __webpack_require__(210);
-Stream.PassThrough = __webpack_require__(211);
-
-// Backwards-compat with node 0.4.x
-Stream.Stream = Stream;
-
-// old-style streams.  Note that the pipe method (the only relevant
-// part of this class) is overridden in the Readable class.
-
-function Stream() {
-  EE.call(this);
-}
-
-Stream.prototype.pipe = function (dest, options) {
-  var source = this;
-
-  function ondata(chunk) {
-    if (dest.writable) {
-      if (false === dest.write(chunk) && source.pause) {
-        source.pause();
-      }
-    }
-  }
-
-  source.on('data', ondata);
-
-  function ondrain() {
-    if (source.readable && source.resume) {
-      source.resume();
-    }
-  }
-
-  dest.on('drain', ondrain);
-
-  // If the 'end' option is not supplied, dest.end() will be called when
-  // source gets the 'end' or 'close' events.  Only dest.end() once.
-  if (!dest._isStdio && (!options || options.end !== false)) {
-    source.on('end', onend);
-    source.on('close', onclose);
-  }
-
-  var didOnEnd = false;
-  function onend() {
-    if (didOnEnd) return;
-    didOnEnd = true;
-
-    dest.end();
-  }
-
-  function onclose() {
-    if (didOnEnd) return;
-    didOnEnd = true;
-
-    if (typeof dest.destroy === 'function') dest.destroy();
-  }
-
-  // don't leave dangling pipes when there are errors.
-  function onerror(er) {
-    cleanup();
-    if (EE.listenerCount(this, 'error') === 0) {
-      throw er; // Unhandled stream error in pipe.
-    }
-  }
-
-  source.on('error', onerror);
-  dest.on('error', onerror);
-
-  // remove all the event listeners that were added.
-  function cleanup() {
-    source.removeListener('data', ondata);
-    dest.removeListener('drain', ondrain);
-
-    source.removeListener('end', onend);
-    source.removeListener('close', onclose);
-
-    source.removeListener('error', onerror);
-    dest.removeListener('error', onerror);
-
-    source.removeListener('end', cleanup);
-    source.removeListener('close', cleanup);
-
-    dest.removeListener('close', cleanup);
-  }
-
-  source.on('end', cleanup);
-  source.on('close', cleanup);
-
-  dest.on('close', cleanup);
-
-  dest.emit('pipe', source);
-
-  // Allow for unix-like usage: A.pipe(B).pipe(C)
-  return dest;
-};
-
-/***/ }),
-/* 39 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-if (!process.version || process.version.indexOf('v0.') === 0 || process.version.indexOf('v1.') === 0 && process.version.indexOf('v1.8.') !== 0) {
-  module.exports = { nextTick: nextTick };
-} else {
-  module.exports = process;
-}
-
-function nextTick(fn, arg1, arg2, arg3) {
-  if (typeof fn !== 'function') {
-    throw new TypeError('"callback" argument must be a function');
-  }
-  var len = arguments.length;
-  var args, i;
-  switch (len) {
-    case 0:
-    case 1:
-      return process.nextTick(fn);
-    case 2:
-      return process.nextTick(function afterTickOne() {
-        fn.call(null, arg1);
-      });
-    case 3:
-      return process.nextTick(function afterTickTwo() {
-        fn.call(null, arg1, arg2);
-      });
-    case 4:
-      return process.nextTick(function afterTickThree() {
-        fn.call(null, arg1, arg2, arg3);
-      });
-    default:
-      args = new Array(len - 1);
-      i = 0;
-      while (i < args.length) {
-        args[i++] = arguments[i];
-      }
-      return process.nextTick(function afterTick() {
-        fn.apply(null, args);
-      });
-  }
-}
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Buffer = __webpack_require__(2).Buffer;
-var MD5 = __webpack_require__(220);
-
-/* eslint-disable camelcase */
-function EVP_BytesToKey(password, salt, keyBits, ivLen) {
-  if (!Buffer.isBuffer(password)) password = Buffer.from(password, 'binary');
-  if (salt) {
-    if (!Buffer.isBuffer(salt)) salt = Buffer.from(salt, 'binary');
-    if (salt.length !== 8) throw new RangeError('salt should be Buffer with 8 byte length');
-  }
-
-  var keyLen = keyBits / 8;
-  var key = Buffer.alloc(keyLen);
-  var iv = Buffer.alloc(ivLen || 0);
-  var tmp = Buffer.alloc(0);
-
-  while (keyLen > 0 || ivLen > 0) {
-    var hash = new MD5();
-    hash.update(tmp);
-    hash.update(password);
-    if (salt) hash.update(salt);
-    tmp = hash.digest();
-
-    var used = 0;
-
-    if (keyLen > 0) {
-      var keyStart = key.length - keyLen;
-      used = Math.min(keyLen, tmp.length);
-      tmp.copy(key, keyStart, 0, used);
-      keyLen -= used;
-    }
-
-    if (used < tmp.length && ivLen > 0) {
-      var ivStart = iv.length - ivLen;
-      var length = Math.min(ivLen, tmp.length - used);
-      tmp.copy(iv, ivStart, used, used + length);
-      ivLen -= length;
-    }
-  }
-
-  tmp.fill(0);
-  return { key: key, iv: iv };
-}
-
-module.exports = EVP_BytesToKey;
-
-/***/ }),
-/* 41 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// based on the aes implimentation in triple sec
-// https://github.com/keybase/triplesec
-// which is in turn based on the one from crypto-js
-// https://code.google.com/p/crypto-js/
-
-var Buffer = __webpack_require__(2).Buffer;
-
-function asUInt32Array(buf) {
-  if (!Buffer.isBuffer(buf)) buf = Buffer.from(buf);
-
-  var len = buf.length / 4 | 0;
-  var out = new Array(len);
-
-  for (var i = 0; i < len; i++) {
-    out[i] = buf.readUInt32BE(i * 4);
-  }
-
-  return out;
-}
-
-function scrubVec(v) {
-  for (var i = 0; i < v.length; v++) {
-    v[i] = 0;
-  }
-}
-
-function cryptBlock(M, keySchedule, SUB_MIX, SBOX, nRounds) {
-  var SUB_MIX0 = SUB_MIX[0];
-  var SUB_MIX1 = SUB_MIX[1];
-  var SUB_MIX2 = SUB_MIX[2];
-  var SUB_MIX3 = SUB_MIX[3];
-
-  var s0 = M[0] ^ keySchedule[0];
-  var s1 = M[1] ^ keySchedule[1];
-  var s2 = M[2] ^ keySchedule[2];
-  var s3 = M[3] ^ keySchedule[3];
-  var t0, t1, t2, t3;
-  var ksRow = 4;
-
-  for (var round = 1; round < nRounds; round++) {
-    t0 = SUB_MIX0[s0 >>> 24] ^ SUB_MIX1[s1 >>> 16 & 0xff] ^ SUB_MIX2[s2 >>> 8 & 0xff] ^ SUB_MIX3[s3 & 0xff] ^ keySchedule[ksRow++];
-    t1 = SUB_MIX0[s1 >>> 24] ^ SUB_MIX1[s2 >>> 16 & 0xff] ^ SUB_MIX2[s3 >>> 8 & 0xff] ^ SUB_MIX3[s0 & 0xff] ^ keySchedule[ksRow++];
-    t2 = SUB_MIX0[s2 >>> 24] ^ SUB_MIX1[s3 >>> 16 & 0xff] ^ SUB_MIX2[s0 >>> 8 & 0xff] ^ SUB_MIX3[s1 & 0xff] ^ keySchedule[ksRow++];
-    t3 = SUB_MIX0[s3 >>> 24] ^ SUB_MIX1[s0 >>> 16 & 0xff] ^ SUB_MIX2[s1 >>> 8 & 0xff] ^ SUB_MIX3[s2 & 0xff] ^ keySchedule[ksRow++];
-    s0 = t0;
-    s1 = t1;
-    s2 = t2;
-    s3 = t3;
-  }
-
-  t0 = (SBOX[s0 >>> 24] << 24 | SBOX[s1 >>> 16 & 0xff] << 16 | SBOX[s2 >>> 8 & 0xff] << 8 | SBOX[s3 & 0xff]) ^ keySchedule[ksRow++];
-  t1 = (SBOX[s1 >>> 24] << 24 | SBOX[s2 >>> 16 & 0xff] << 16 | SBOX[s3 >>> 8 & 0xff] << 8 | SBOX[s0 & 0xff]) ^ keySchedule[ksRow++];
-  t2 = (SBOX[s2 >>> 24] << 24 | SBOX[s3 >>> 16 & 0xff] << 16 | SBOX[s0 >>> 8 & 0xff] << 8 | SBOX[s1 & 0xff]) ^ keySchedule[ksRow++];
-  t3 = (SBOX[s3 >>> 24] << 24 | SBOX[s0 >>> 16 & 0xff] << 16 | SBOX[s1 >>> 8 & 0xff] << 8 | SBOX[s2 & 0xff]) ^ keySchedule[ksRow++];
-  t0 = t0 >>> 0;
-  t1 = t1 >>> 0;
-  t2 = t2 >>> 0;
-  t3 = t3 >>> 0;
-
-  return [t0, t1, t2, t3];
-}
-
-// AES constants
-var RCON = [0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36];
-var G = function () {
-  // Compute double table
-  var d = new Array(256);
-  for (var j = 0; j < 256; j++) {
-    if (j < 128) {
-      d[j] = j << 1;
-    } else {
-      d[j] = j << 1 ^ 0x11b;
-    }
-  }
-
-  var SBOX = [];
-  var INV_SBOX = [];
-  var SUB_MIX = [[], [], [], []];
-  var INV_SUB_MIX = [[], [], [], []];
-
-  // Walk GF(2^8)
-  var x = 0;
-  var xi = 0;
-  for (var i = 0; i < 256; ++i) {
-    // Compute sbox
-    var sx = xi ^ xi << 1 ^ xi << 2 ^ xi << 3 ^ xi << 4;
-    sx = sx >>> 8 ^ sx & 0xff ^ 0x63;
-    SBOX[x] = sx;
-    INV_SBOX[sx] = x;
-
-    // Compute multiplication
-    var x2 = d[x];
-    var x4 = d[x2];
-    var x8 = d[x4];
-
-    // Compute sub bytes, mix columns tables
-    var t = d[sx] * 0x101 ^ sx * 0x1010100;
-    SUB_MIX[0][x] = t << 24 | t >>> 8;
-    SUB_MIX[1][x] = t << 16 | t >>> 16;
-    SUB_MIX[2][x] = t << 8 | t >>> 24;
-    SUB_MIX[3][x] = t;
-
-    // Compute inv sub bytes, inv mix columns tables
-    t = x8 * 0x1010101 ^ x4 * 0x10001 ^ x2 * 0x101 ^ x * 0x1010100;
-    INV_SUB_MIX[0][sx] = t << 24 | t >>> 8;
-    INV_SUB_MIX[1][sx] = t << 16 | t >>> 16;
-    INV_SUB_MIX[2][sx] = t << 8 | t >>> 24;
-    INV_SUB_MIX[3][sx] = t;
-
-    if (x === 0) {
-      x = xi = 1;
-    } else {
-      x = x2 ^ d[d[d[x8 ^ x2]]];
-      xi ^= d[d[xi]];
-    }
-  }
-
-  return {
-    SBOX: SBOX,
-    INV_SBOX: INV_SBOX,
-    SUB_MIX: SUB_MIX,
-    INV_SUB_MIX: INV_SUB_MIX
-  };
-}();
-
-function AES(key) {
-  this._key = asUInt32Array(key);
-  this._reset();
-}
-
-AES.blockSize = 4 * 4;
-AES.keySize = 256 / 8;
-AES.prototype.blockSize = AES.blockSize;
-AES.prototype.keySize = AES.keySize;
-AES.prototype._reset = function () {
-  var keyWords = this._key;
-  var keySize = keyWords.length;
-  var nRounds = keySize + 6;
-  var ksRows = (nRounds + 1) * 4;
-
-  var keySchedule = [];
-  for (var k = 0; k < keySize; k++) {
-    keySchedule[k] = keyWords[k];
-  }
-
-  for (k = keySize; k < ksRows; k++) {
-    var t = keySchedule[k - 1];
-
-    if (k % keySize === 0) {
-      t = t << 8 | t >>> 24;
-      t = G.SBOX[t >>> 24] << 24 | G.SBOX[t >>> 16 & 0xff] << 16 | G.SBOX[t >>> 8 & 0xff] << 8 | G.SBOX[t & 0xff];
-
-      t ^= RCON[k / keySize | 0] << 24;
-    } else if (keySize > 6 && k % keySize === 4) {
-      t = G.SBOX[t >>> 24] << 24 | G.SBOX[t >>> 16 & 0xff] << 16 | G.SBOX[t >>> 8 & 0xff] << 8 | G.SBOX[t & 0xff];
-    }
-
-    keySchedule[k] = keySchedule[k - keySize] ^ t;
-  }
-
-  var invKeySchedule = [];
-  for (var ik = 0; ik < ksRows; ik++) {
-    var ksR = ksRows - ik;
-    var tt = keySchedule[ksR - (ik % 4 ? 0 : 4)];
-
-    if (ik < 4 || ksR <= 4) {
-      invKeySchedule[ik] = tt;
-    } else {
-      invKeySchedule[ik] = G.INV_SUB_MIX[0][G.SBOX[tt >>> 24]] ^ G.INV_SUB_MIX[1][G.SBOX[tt >>> 16 & 0xff]] ^ G.INV_SUB_MIX[2][G.SBOX[tt >>> 8 & 0xff]] ^ G.INV_SUB_MIX[3][G.SBOX[tt & 0xff]];
-    }
-  }
-
-  this._nRounds = nRounds;
-  this._keySchedule = keySchedule;
-  this._invKeySchedule = invKeySchedule;
-};
-
-AES.prototype.encryptBlockRaw = function (M) {
-  M = asUInt32Array(M);
-  return cryptBlock(M, this._keySchedule, G.SUB_MIX, G.SBOX, this._nRounds);
-};
-
-AES.prototype.encryptBlock = function (M) {
-  var out = this.encryptBlockRaw(M);
-  var buf = Buffer.allocUnsafe(16);
-  buf.writeUInt32BE(out[0], 0);
-  buf.writeUInt32BE(out[1], 4);
-  buf.writeUInt32BE(out[2], 8);
-  buf.writeUInt32BE(out[3], 12);
-  return buf;
-};
-
-AES.prototype.decryptBlock = function (M) {
-  M = asUInt32Array(M);
-
-  // swap
-  var m1 = M[1];
-  M[1] = M[3];
-  M[3] = m1;
-
-  var out = cryptBlock(M, this._invKeySchedule, G.INV_SUB_MIX, G.INV_SBOX, this._nRounds);
-  var buf = Buffer.allocUnsafe(16);
-  buf.writeUInt32BE(out[0], 0);
-  buf.writeUInt32BE(out[3], 4);
-  buf.writeUInt32BE(out[2], 8);
-  buf.writeUInt32BE(out[1], 12);
-  return buf;
-};
-
-AES.prototype.scrub = function () {
-  scrubVec(this._keySchedule);
-  scrubVec(this._invKeySchedule);
-  scrubVec(this._key);
-};
-
-module.exports.AES = AES;
-
-/***/ }),
-/* 42 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var curve = exports;
-
-curve.base = __webpack_require__(246);
-curve.short = __webpack_require__(247);
-curve.mont = __webpack_require__(248);
-curve.edwards = __webpack_require__(249);
-
-/***/ }),
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(Buffer) {var asn1 = __webpack_require__(265);
-var aesid = __webpack_require__(276);
-var fixProc = __webpack_require__(277);
-var ciphers = __webpack_require__(58);
-var compat = __webpack_require__(57);
-module.exports = parseKeys;
-
-function parseKeys(buffer) {
-  var password;
-  if (typeof buffer === 'object' && !Buffer.isBuffer(buffer)) {
-    password = buffer.passphrase;
-    buffer = buffer.key;
-  }
-  if (typeof buffer === 'string') {
-    buffer = new Buffer(buffer);
-  }
-
-  var stripped = fixProc(buffer, password);
-
-  var type = stripped.tag;
-  var data = stripped.data;
-  var subtype, ndata;
-  switch (type) {
-    case 'CERTIFICATE':
-      ndata = asn1.certificate.decode(data, 'der').tbsCertificate.subjectPublicKeyInfo;
-    // falls through
-    case 'PUBLIC KEY':
-      if (!ndata) {
-        ndata = asn1.PublicKey.decode(data, 'der');
-      }
-      subtype = ndata.algorithm.algorithm.join('.');
-      switch (subtype) {
-        case '1.2.840.113549.1.1.1':
-          return asn1.RSAPublicKey.decode(ndata.subjectPublicKey.data, 'der');
-        case '1.2.840.10045.2.1':
-          ndata.subjectPrivateKey = ndata.subjectPublicKey;
-          return {
-            type: 'ec',
-            data: ndata
-          };
-        case '1.2.840.10040.4.1':
-          ndata.algorithm.params.pub_key = asn1.DSAparam.decode(ndata.subjectPublicKey.data, 'der');
-          return {
-            type: 'dsa',
-            data: ndata.algorithm.params
-          };
-        default:
-          throw new Error('unknown key id ' + subtype);
-      }
-      throw new Error('unknown key type ' + type);
-    case 'ENCRYPTED PRIVATE KEY':
-      data = asn1.EncryptedPrivateKey.decode(data, 'der');
-      data = decrypt(data, password);
-    // falls through
-    case 'PRIVATE KEY':
-      ndata = asn1.PrivateKey.decode(data, 'der');
-      subtype = ndata.algorithm.algorithm.join('.');
-      switch (subtype) {
-        case '1.2.840.113549.1.1.1':
-          return asn1.RSAPrivateKey.decode(ndata.subjectPrivateKey, 'der');
-        case '1.2.840.10045.2.1':
-          return {
-            curve: ndata.algorithm.curve,
-            privateKey: asn1.ECPrivateKey.decode(ndata.subjectPrivateKey, 'der').privateKey
-          };
-        case '1.2.840.10040.4.1':
-          ndata.algorithm.params.priv_key = asn1.DSAparam.decode(ndata.subjectPrivateKey, 'der');
-          return {
-            type: 'dsa',
-            params: ndata.algorithm.params
-          };
-        default:
-          throw new Error('unknown key id ' + subtype);
-      }
-      throw new Error('unknown key type ' + type);
-    case 'RSA PUBLIC KEY':
-      return asn1.RSAPublicKey.decode(data, 'der');
-    case 'RSA PRIVATE KEY':
-      return asn1.RSAPrivateKey.decode(data, 'der');
-    case 'DSA PRIVATE KEY':
-      return {
-        type: 'dsa',
-        params: asn1.DSAPrivateKey.decode(data, 'der')
-      };
-    case 'EC PRIVATE KEY':
-      data = asn1.ECPrivateKey.decode(data, 'der');
-      return {
-        curve: data.parameters.value,
-        privateKey: data.privateKey
-      };
-    default:
-      throw new Error('unknown key type ' + type);
-  }
-}
-parseKeys.signature = asn1.signature;
-function decrypt(data, password) {
-  var salt = data.algorithm.decrypt.kde.kdeparams.salt;
-  var iters = parseInt(data.algorithm.decrypt.kde.kdeparams.iters.toString(), 10);
-  var algo = aesid[data.algorithm.decrypt.cipher.algo.join('.')];
-  var iv = data.algorithm.decrypt.cipher.iv;
-  var cipherText = data.subjectPrivateKey;
-  var keylen = parseInt(algo.split('-')[1], 10) / 8;
-  var key = compat.pbkdf2Sync(password, salt, iters, keylen);
-  var cipher = ciphers.createDecipheriv(algo, key, iv);
-  var out = [];
-  out.push(cipher.update(cipherText));
-  out.push(cipher.final());
-  return Buffer.concat(out);
-}
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
-
-/***/ }),
-/* 44 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31303,7 +30195,1115 @@ function getOuterHTML(el) {
 Vue$3.compile = compileToFunctions;
 
 /* harmony default export */ __webpack_exports__["a"] = (Vue$3);
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3), __webpack_require__(31).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3), __webpack_require__(32).setImmediate))
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {var apply = Function.prototype.apply;
+
+// DOM APIs, for completeness
+
+exports.setTimeout = function () {
+  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+};
+exports.setInterval = function () {
+  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+};
+exports.clearTimeout = exports.clearInterval = function (timeout) {
+  if (timeout) {
+    timeout.close();
+  }
+};
+
+function Timeout(id, clearFn) {
+  this._id = id;
+  this._clearFn = clearFn;
+}
+Timeout.prototype.unref = Timeout.prototype.ref = function () {};
+Timeout.prototype.close = function () {
+  this._clearFn.call(window, this._id);
+};
+
+// Does not start the time, just sets up the members needed.
+exports.enroll = function (item, msecs) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = msecs;
+};
+
+exports.unenroll = function (item) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = -1;
+};
+
+exports._unrefActive = exports.active = function (item) {
+  clearTimeout(item._idleTimeoutId);
+
+  var msecs = item._idleTimeout;
+  if (msecs >= 0) {
+    item._idleTimeoutId = setTimeout(function onTimeout() {
+      if (item._onTimeout) item._onTimeout();
+    }, msecs);
+  }
+};
+
+// setimmediate attaches itself to the global object
+__webpack_require__(128);
+// On some exotic environments, it's not clear which object `setimmeidate` was
+// able to install onto.  Search each possibility in the same order as the
+// `setimmediate` library.
+exports.setImmediate = typeof self !== "undefined" && self.setImmediate || typeof global !== "undefined" && global.setImmediate || this && this.setImmediate;
+exports.clearImmediate = typeof self !== "undefined" && self.clearImmediate || typeof global !== "undefined" && global.clearImmediate || this && this.clearImmediate;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports) {
+
+/**
+ * Compiles a querystring
+ * Returns string representation of the object
+ *
+ * @param {Object}
+ * @api private
+ */
+
+exports.encode = function (obj) {
+  var str = '';
+
+  for (var i in obj) {
+    if (obj.hasOwnProperty(i)) {
+      if (str.length) str += '&';
+      str += encodeURIComponent(i) + '=' + encodeURIComponent(obj[i]);
+    }
+  }
+
+  return str;
+};
+
+/**
+ * Parses a simple querystring into an object
+ *
+ * @param {String} qs
+ * @api private
+ */
+
+exports.decode = function (qs) {
+  var qry = {};
+  var pairs = qs.split('&');
+  for (var i = 0, l = pairs.length; i < l; i++) {
+    var pair = pairs[i].split('=');
+    qry[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+  }
+  return qry;
+};
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports) {
+
+
+module.exports = function (a, b) {
+  var fn = function () {};
+  fn.prototype = b.prototype;
+  a.prototype = new fn();
+  a.prototype.constructor = a;
+};
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * This is the web browser implementation of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
+
+exports = module.exports = __webpack_require__(146);
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+exports.storage = 'undefined' != typeof chrome && 'undefined' != typeof chrome.storage ? chrome.storage.local : localstorage();
+
+/**
+ * Colors.
+ */
+
+exports.colors = ['#0000CC', '#0000FF', '#0033CC', '#0033FF', '#0066CC', '#0066FF', '#0099CC', '#0099FF', '#00CC00', '#00CC33', '#00CC66', '#00CC99', '#00CCCC', '#00CCFF', '#3300CC', '#3300FF', '#3333CC', '#3333FF', '#3366CC', '#3366FF', '#3399CC', '#3399FF', '#33CC00', '#33CC33', '#33CC66', '#33CC99', '#33CCCC', '#33CCFF', '#6600CC', '#6600FF', '#6633CC', '#6633FF', '#66CC00', '#66CC33', '#9900CC', '#9900FF', '#9933CC', '#9933FF', '#99CC00', '#99CC33', '#CC0000', '#CC0033', '#CC0066', '#CC0099', '#CC00CC', '#CC00FF', '#CC3300', '#CC3333', '#CC3366', '#CC3399', '#CC33CC', '#CC33FF', '#CC6600', '#CC6633', '#CC9900', '#CC9933', '#CCCC00', '#CCCC33', '#FF0000', '#FF0033', '#FF0066', '#FF0099', '#FF00CC', '#FF00FF', '#FF3300', '#FF3333', '#FF3366', '#FF3399', '#FF33CC', '#FF33FF', '#FF6600', '#FF6633', '#FF9900', '#FF9933', '#FFCC00', '#FFCC33'];
+
+/**
+ * Currently only WebKit-based Web Inspectors, Firefox >= v31,
+ * and the Firebug extension (any Firefox version) are known
+ * to support "%c" CSS customizations.
+ *
+ * TODO: add a `localStorage` variable to explicitly enable/disable colors
+ */
+
+function useColors() {
+  // NB: In an Electron preload script, document will be defined but not fully
+  // initialized. Since we know we're in Chrome, we'll just detect this case
+  // explicitly
+  if (typeof window !== 'undefined' && window.process && window.process.type === 'renderer') {
+    return true;
+  }
+
+  // Internet Explorer and Edge do not support colors.
+  if (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/(edge|trident)\/(\d+)/)) {
+    return false;
+  }
+
+  // is webkit? http://stackoverflow.com/a/16459606/376773
+  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+  return typeof document !== 'undefined' && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance ||
+  // is firebug? http://stackoverflow.com/a/398120/376773
+  typeof window !== 'undefined' && window.console && (window.console.firebug || window.console.exception && window.console.table) ||
+  // is firefox >= v31?
+  // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
+  typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31 ||
+  // double check webkit in userAgent just in case we are in a worker
+  typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/);
+}
+
+/**
+ * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
+ */
+
+exports.formatters.j = function (v) {
+  try {
+    return JSON.stringify(v);
+  } catch (err) {
+    return '[UnexpectedJSONParseError]: ' + err.message;
+  }
+};
+
+/**
+ * Colorize log arguments if enabled.
+ *
+ * @api public
+ */
+
+function formatArgs(args) {
+  var useColors = this.useColors;
+
+  args[0] = (useColors ? '%c' : '') + this.namespace + (useColors ? ' %c' : ' ') + args[0] + (useColors ? '%c ' : ' ') + '+' + exports.humanize(this.diff);
+
+  if (!useColors) return;
+
+  var c = 'color: ' + this.color;
+  args.splice(1, 0, c, 'color: inherit');
+
+  // the final "%c" is somewhat tricky, because there could be other
+  // arguments passed either before or after the %c, so we need to
+  // figure out the correct index to insert the CSS into
+  var index = 0;
+  var lastC = 0;
+  args[0].replace(/%[a-zA-Z%]/g, function (match) {
+    if ('%%' === match) return;
+    index++;
+    if ('%c' === match) {
+      // we only are interested in the *last* %c
+      // (the user may have provided their own)
+      lastC = index;
+    }
+  });
+
+  args.splice(lastC, 0, c);
+}
+
+/**
+ * Invokes `console.log()` when available.
+ * No-op when `console.log` is not a "function".
+ *
+ * @api public
+ */
+
+function log() {
+  // this hackery is required for IE8/9, where
+  // the `console.log` function doesn't have 'apply'
+  return 'object' === typeof console && console.log && Function.prototype.apply.call(console.log, console, arguments);
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+
+function save(namespaces) {
+  try {
+    if (null == namespaces) {
+      exports.storage.removeItem('debug');
+    } else {
+      exports.storage.debug = namespaces;
+    }
+  } catch (e) {}
+}
+
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
+
+function load() {
+  var r;
+  try {
+    r = exports.storage.debug;
+  } catch (e) {}
+
+  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
+  if (!r && typeof process !== 'undefined' && 'env' in process) {
+    r = Object({"NODE_ENV":"production"}).DEBUG;
+  }
+
+  return r;
+}
+
+/**
+ * Enable namespaces listed in `localStorage.debug` initially.
+ */
+
+exports.enable(load());
+
+/**
+ * Localstorage attempts to return the localstorage.
+ *
+ * This is necessary because safari throws
+ * when a user disables cookies/localstorage
+ * and you attempt to access it.
+ *
+ * @return {LocalStorage}
+ * @api private
+ */
+
+function localstorage() {
+  try {
+    return window.localStorage;
+  } catch (e) {}
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/*
+    This file is part of web3.js.
+
+    web3.js is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    web3.js is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/**
+ * @file index.js
+ * @author Fabian Vogelsteller <fabian@ethereum.org>
+ * @date 2017
+ */
+
+
+
+var Subscription = __webpack_require__(187);
+
+var Subscriptions = function Subscriptions(options) {
+    this.name = options.name;
+    this.type = options.type;
+    this.subscriptions = options.subscriptions || {};
+    this.requestManager = null;
+};
+
+Subscriptions.prototype.setRequestManager = function (rm) {
+    this.requestManager = rm;
+};
+
+Subscriptions.prototype.attachToObject = function (obj) {
+    var func = this.buildCall();
+    func.call = this.call;
+    var name = this.name.split('.');
+    if (name.length > 1) {
+        obj[name[0]] = obj[name[0]] || {};
+        obj[name[0]][name[1]] = func;
+    } else {
+        obj[name[0]] = func;
+    }
+};
+
+Subscriptions.prototype.buildCall = function () {
+    var _this = this;
+
+    return function () {
+        if (!_this.subscriptions[arguments[0]]) {
+            console.warn('Subscription ' + JSON.stringify(arguments[0]) + ' doesn\'t exist. Subscribing anyway.');
+        }
+
+        var subscription = new Subscription({
+            subscription: _this.subscriptions[arguments[0]],
+            requestManager: _this.requestManager,
+            type: _this.type
+        });
+
+        return subscription.subscribe.apply(subscription, arguments);
+    };
+};
+
+module.exports = {
+    subscriptions: Subscriptions,
+    subscription: Subscription
+};
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/*
+    This file is part of web3.js.
+
+    web3.js is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    web3.js is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/**
+ * @file index.js
+ * @author Fabian Vogelsteller <fabian@ethereum.org>
+ * @date 2017
+ */
+
+
+
+var core = __webpack_require__(16);
+var Method = __webpack_require__(17);
+var utils = __webpack_require__(9);
+
+var Net = function () {
+    var _this = this;
+
+    // sets _requestmanager
+    core.packageInit(this, arguments);
+
+    [new Method({
+        name: 'getId',
+        call: 'net_version',
+        params: 0,
+        outputFormatter: utils.hexToNumber
+    }), new Method({
+        name: 'isListening',
+        call: 'net_listening',
+        params: 0
+    }), new Method({
+        name: 'getPeerCount',
+        call: 'net_peerCount',
+        params: 0,
+        outputFormatter: utils.hexToNumber
+    })].forEach(function (method) {
+        method.attachToObject(_this);
+        method.setRequestManager(_this._requestManager);
+    });
+};
+
+core.addProviders(Net);
+
+module.exports = Net;
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.randomBytes = exports.rng = exports.pseudoRandomBytes = exports.prng = __webpack_require__(22);
+exports.createHash = exports.Hash = __webpack_require__(25);
+exports.createHmac = exports.Hmac = __webpack_require__(93);
+
+var algos = __webpack_require__(218);
+var algoKeys = Object.keys(algos);
+var hashes = ['sha1', 'sha224', 'sha256', 'sha384', 'sha512', 'md5', 'rmd160'].concat(algoKeys);
+exports.getHashes = function () {
+  return hashes;
+};
+
+var p = __webpack_require__(58);
+exports.pbkdf2 = p.pbkdf2;
+exports.pbkdf2Sync = p.pbkdf2Sync;
+
+var aes = __webpack_require__(220);
+
+exports.Cipher = aes.Cipher;
+exports.createCipher = aes.createCipher;
+exports.Cipheriv = aes.Cipheriv;
+exports.createCipheriv = aes.createCipheriv;
+exports.Decipher = aes.Decipher;
+exports.createDecipher = aes.createDecipher;
+exports.Decipheriv = aes.Decipheriv;
+exports.createDecipheriv = aes.createDecipheriv;
+exports.getCiphers = aes.getCiphers;
+exports.listCiphers = aes.listCiphers;
+
+var dh = __webpack_require__(239);
+
+exports.DiffieHellmanGroup = dh.DiffieHellmanGroup;
+exports.createDiffieHellmanGroup = dh.createDiffieHellmanGroup;
+exports.getDiffieHellman = dh.getDiffieHellman;
+exports.createDiffieHellman = dh.createDiffieHellman;
+exports.DiffieHellman = dh.DiffieHellman;
+
+var sign = __webpack_require__(243);
+
+exports.createSign = sign.createSign;
+exports.Sign = sign.Sign;
+exports.createVerify = sign.createVerify;
+exports.Verify = sign.Verify;
+
+exports.createECDH = __webpack_require__(280);
+
+var publicEncrypt = __webpack_require__(281);
+
+exports.publicEncrypt = publicEncrypt.publicEncrypt;
+exports.privateEncrypt = publicEncrypt.privateEncrypt;
+exports.publicDecrypt = publicEncrypt.publicDecrypt;
+exports.privateDecrypt = publicEncrypt.privateDecrypt;
+
+// the least I can do is make error messages for the rest of the node.js/crypto api.
+// ;[
+//   'createCredentials'
+// ].forEach(function (name) {
+//   exports[name] = function () {
+//     throw new Error([
+//       'sorry, ' + name + ' is not implemented yet',
+//       'we accept pull requests',
+//       'https://github.com/crypto-browserify/crypto-browserify'
+//     ].join('\n'))
+//   }
+// })
+
+var rf = __webpack_require__(284);
+
+exports.randomFill = rf.randomFill;
+exports.randomFillSync = rf.randomFillSync;
+
+exports.createCredentials = function () {
+  throw new Error(['sorry, createCredentials is not implemented yet', 'we accept pull requests', 'https://github.com/crypto-browserify/crypto-browserify'].join('\n'));
+};
+
+exports.constants = {
+  'DH_CHECK_P_NOT_SAFE_PRIME': 2,
+  'DH_CHECK_P_NOT_PRIME': 1,
+  'DH_UNABLE_TO_CHECK_GENERATOR': 4,
+  'DH_NOT_SUITABLE_GENERATOR': 8,
+  'NPN_ENABLED': 1,
+  'ALPN_ENABLED': 1,
+  'RSA_PKCS1_PADDING': 1,
+  'RSA_SSLV23_PADDING': 2,
+  'RSA_NO_PADDING': 3,
+  'RSA_PKCS1_OAEP_PADDING': 4,
+  'RSA_X931_PADDING': 5,
+  'RSA_PKCS1_PSS_PADDING': 6,
+  'POINT_CONVERSION_COMPRESSED': 2,
+  'POINT_CONVERSION_UNCOMPRESSED': 4,
+  'POINT_CONVERSION_HYBRID': 6
+};
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+module.exports = Stream;
+
+var EE = __webpack_require__(53).EventEmitter;
+var inherits = __webpack_require__(0);
+
+inherits(Stream, EE);
+Stream.Readable = __webpack_require__(54);
+Stream.Writable = __webpack_require__(209);
+Stream.Duplex = __webpack_require__(210);
+Stream.Transform = __webpack_require__(211);
+Stream.PassThrough = __webpack_require__(212);
+
+// Backwards-compat with node 0.4.x
+Stream.Stream = Stream;
+
+// old-style streams.  Note that the pipe method (the only relevant
+// part of this class) is overridden in the Readable class.
+
+function Stream() {
+  EE.call(this);
+}
+
+Stream.prototype.pipe = function (dest, options) {
+  var source = this;
+
+  function ondata(chunk) {
+    if (dest.writable) {
+      if (false === dest.write(chunk) && source.pause) {
+        source.pause();
+      }
+    }
+  }
+
+  source.on('data', ondata);
+
+  function ondrain() {
+    if (source.readable && source.resume) {
+      source.resume();
+    }
+  }
+
+  dest.on('drain', ondrain);
+
+  // If the 'end' option is not supplied, dest.end() will be called when
+  // source gets the 'end' or 'close' events.  Only dest.end() once.
+  if (!dest._isStdio && (!options || options.end !== false)) {
+    source.on('end', onend);
+    source.on('close', onclose);
+  }
+
+  var didOnEnd = false;
+  function onend() {
+    if (didOnEnd) return;
+    didOnEnd = true;
+
+    dest.end();
+  }
+
+  function onclose() {
+    if (didOnEnd) return;
+    didOnEnd = true;
+
+    if (typeof dest.destroy === 'function') dest.destroy();
+  }
+
+  // don't leave dangling pipes when there are errors.
+  function onerror(er) {
+    cleanup();
+    if (EE.listenerCount(this, 'error') === 0) {
+      throw er; // Unhandled stream error in pipe.
+    }
+  }
+
+  source.on('error', onerror);
+  dest.on('error', onerror);
+
+  // remove all the event listeners that were added.
+  function cleanup() {
+    source.removeListener('data', ondata);
+    dest.removeListener('drain', ondrain);
+
+    source.removeListener('end', onend);
+    source.removeListener('close', onclose);
+
+    source.removeListener('error', onerror);
+    dest.removeListener('error', onerror);
+
+    source.removeListener('end', cleanup);
+    source.removeListener('close', cleanup);
+
+    dest.removeListener('close', cleanup);
+  }
+
+  source.on('end', cleanup);
+  source.on('close', cleanup);
+
+  dest.on('close', cleanup);
+
+  dest.emit('pipe', source);
+
+  // Allow for unix-like usage: A.pipe(B).pipe(C)
+  return dest;
+};
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+if (!process.version || process.version.indexOf('v0.') === 0 || process.version.indexOf('v1.') === 0 && process.version.indexOf('v1.8.') !== 0) {
+  module.exports = { nextTick: nextTick };
+} else {
+  module.exports = process;
+}
+
+function nextTick(fn, arg1, arg2, arg3) {
+  if (typeof fn !== 'function') {
+    throw new TypeError('"callback" argument must be a function');
+  }
+  var len = arguments.length;
+  var args, i;
+  switch (len) {
+    case 0:
+    case 1:
+      return process.nextTick(fn);
+    case 2:
+      return process.nextTick(function afterTickOne() {
+        fn.call(null, arg1);
+      });
+    case 3:
+      return process.nextTick(function afterTickTwo() {
+        fn.call(null, arg1, arg2);
+      });
+    case 4:
+      return process.nextTick(function afterTickThree() {
+        fn.call(null, arg1, arg2, arg3);
+      });
+    default:
+      args = new Array(len - 1);
+      i = 0;
+      while (i < args.length) {
+        args[i++] = arguments[i];
+      }
+      return process.nextTick(function afterTick() {
+        fn.apply(null, args);
+      });
+  }
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Buffer = __webpack_require__(2).Buffer;
+var MD5 = __webpack_require__(221);
+
+/* eslint-disable camelcase */
+function EVP_BytesToKey(password, salt, keyBits, ivLen) {
+  if (!Buffer.isBuffer(password)) password = Buffer.from(password, 'binary');
+  if (salt) {
+    if (!Buffer.isBuffer(salt)) salt = Buffer.from(salt, 'binary');
+    if (salt.length !== 8) throw new RangeError('salt should be Buffer with 8 byte length');
+  }
+
+  var keyLen = keyBits / 8;
+  var key = Buffer.alloc(keyLen);
+  var iv = Buffer.alloc(ivLen || 0);
+  var tmp = Buffer.alloc(0);
+
+  while (keyLen > 0 || ivLen > 0) {
+    var hash = new MD5();
+    hash.update(tmp);
+    hash.update(password);
+    if (salt) hash.update(salt);
+    tmp = hash.digest();
+
+    var used = 0;
+
+    if (keyLen > 0) {
+      var keyStart = key.length - keyLen;
+      used = Math.min(keyLen, tmp.length);
+      tmp.copy(key, keyStart, 0, used);
+      keyLen -= used;
+    }
+
+    if (used < tmp.length && ivLen > 0) {
+      var ivStart = iv.length - ivLen;
+      var length = Math.min(ivLen, tmp.length - used);
+      tmp.copy(iv, ivStart, used, used + length);
+      ivLen -= length;
+    }
+  }
+
+  tmp.fill(0);
+  return { key: key, iv: iv };
+}
+
+module.exports = EVP_BytesToKey;
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// based on the aes implimentation in triple sec
+// https://github.com/keybase/triplesec
+// which is in turn based on the one from crypto-js
+// https://code.google.com/p/crypto-js/
+
+var Buffer = __webpack_require__(2).Buffer;
+
+function asUInt32Array(buf) {
+  if (!Buffer.isBuffer(buf)) buf = Buffer.from(buf);
+
+  var len = buf.length / 4 | 0;
+  var out = new Array(len);
+
+  for (var i = 0; i < len; i++) {
+    out[i] = buf.readUInt32BE(i * 4);
+  }
+
+  return out;
+}
+
+function scrubVec(v) {
+  for (var i = 0; i < v.length; v++) {
+    v[i] = 0;
+  }
+}
+
+function cryptBlock(M, keySchedule, SUB_MIX, SBOX, nRounds) {
+  var SUB_MIX0 = SUB_MIX[0];
+  var SUB_MIX1 = SUB_MIX[1];
+  var SUB_MIX2 = SUB_MIX[2];
+  var SUB_MIX3 = SUB_MIX[3];
+
+  var s0 = M[0] ^ keySchedule[0];
+  var s1 = M[1] ^ keySchedule[1];
+  var s2 = M[2] ^ keySchedule[2];
+  var s3 = M[3] ^ keySchedule[3];
+  var t0, t1, t2, t3;
+  var ksRow = 4;
+
+  for (var round = 1; round < nRounds; round++) {
+    t0 = SUB_MIX0[s0 >>> 24] ^ SUB_MIX1[s1 >>> 16 & 0xff] ^ SUB_MIX2[s2 >>> 8 & 0xff] ^ SUB_MIX3[s3 & 0xff] ^ keySchedule[ksRow++];
+    t1 = SUB_MIX0[s1 >>> 24] ^ SUB_MIX1[s2 >>> 16 & 0xff] ^ SUB_MIX2[s3 >>> 8 & 0xff] ^ SUB_MIX3[s0 & 0xff] ^ keySchedule[ksRow++];
+    t2 = SUB_MIX0[s2 >>> 24] ^ SUB_MIX1[s3 >>> 16 & 0xff] ^ SUB_MIX2[s0 >>> 8 & 0xff] ^ SUB_MIX3[s1 & 0xff] ^ keySchedule[ksRow++];
+    t3 = SUB_MIX0[s3 >>> 24] ^ SUB_MIX1[s0 >>> 16 & 0xff] ^ SUB_MIX2[s1 >>> 8 & 0xff] ^ SUB_MIX3[s2 & 0xff] ^ keySchedule[ksRow++];
+    s0 = t0;
+    s1 = t1;
+    s2 = t2;
+    s3 = t3;
+  }
+
+  t0 = (SBOX[s0 >>> 24] << 24 | SBOX[s1 >>> 16 & 0xff] << 16 | SBOX[s2 >>> 8 & 0xff] << 8 | SBOX[s3 & 0xff]) ^ keySchedule[ksRow++];
+  t1 = (SBOX[s1 >>> 24] << 24 | SBOX[s2 >>> 16 & 0xff] << 16 | SBOX[s3 >>> 8 & 0xff] << 8 | SBOX[s0 & 0xff]) ^ keySchedule[ksRow++];
+  t2 = (SBOX[s2 >>> 24] << 24 | SBOX[s3 >>> 16 & 0xff] << 16 | SBOX[s0 >>> 8 & 0xff] << 8 | SBOX[s1 & 0xff]) ^ keySchedule[ksRow++];
+  t3 = (SBOX[s3 >>> 24] << 24 | SBOX[s0 >>> 16 & 0xff] << 16 | SBOX[s1 >>> 8 & 0xff] << 8 | SBOX[s2 & 0xff]) ^ keySchedule[ksRow++];
+  t0 = t0 >>> 0;
+  t1 = t1 >>> 0;
+  t2 = t2 >>> 0;
+  t3 = t3 >>> 0;
+
+  return [t0, t1, t2, t3];
+}
+
+// AES constants
+var RCON = [0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36];
+var G = function () {
+  // Compute double table
+  var d = new Array(256);
+  for (var j = 0; j < 256; j++) {
+    if (j < 128) {
+      d[j] = j << 1;
+    } else {
+      d[j] = j << 1 ^ 0x11b;
+    }
+  }
+
+  var SBOX = [];
+  var INV_SBOX = [];
+  var SUB_MIX = [[], [], [], []];
+  var INV_SUB_MIX = [[], [], [], []];
+
+  // Walk GF(2^8)
+  var x = 0;
+  var xi = 0;
+  for (var i = 0; i < 256; ++i) {
+    // Compute sbox
+    var sx = xi ^ xi << 1 ^ xi << 2 ^ xi << 3 ^ xi << 4;
+    sx = sx >>> 8 ^ sx & 0xff ^ 0x63;
+    SBOX[x] = sx;
+    INV_SBOX[sx] = x;
+
+    // Compute multiplication
+    var x2 = d[x];
+    var x4 = d[x2];
+    var x8 = d[x4];
+
+    // Compute sub bytes, mix columns tables
+    var t = d[sx] * 0x101 ^ sx * 0x1010100;
+    SUB_MIX[0][x] = t << 24 | t >>> 8;
+    SUB_MIX[1][x] = t << 16 | t >>> 16;
+    SUB_MIX[2][x] = t << 8 | t >>> 24;
+    SUB_MIX[3][x] = t;
+
+    // Compute inv sub bytes, inv mix columns tables
+    t = x8 * 0x1010101 ^ x4 * 0x10001 ^ x2 * 0x101 ^ x * 0x1010100;
+    INV_SUB_MIX[0][sx] = t << 24 | t >>> 8;
+    INV_SUB_MIX[1][sx] = t << 16 | t >>> 16;
+    INV_SUB_MIX[2][sx] = t << 8 | t >>> 24;
+    INV_SUB_MIX[3][sx] = t;
+
+    if (x === 0) {
+      x = xi = 1;
+    } else {
+      x = x2 ^ d[d[d[x8 ^ x2]]];
+      xi ^= d[d[xi]];
+    }
+  }
+
+  return {
+    SBOX: SBOX,
+    INV_SBOX: INV_SBOX,
+    SUB_MIX: SUB_MIX,
+    INV_SUB_MIX: INV_SUB_MIX
+  };
+}();
+
+function AES(key) {
+  this._key = asUInt32Array(key);
+  this._reset();
+}
+
+AES.blockSize = 4 * 4;
+AES.keySize = 256 / 8;
+AES.prototype.blockSize = AES.blockSize;
+AES.prototype.keySize = AES.keySize;
+AES.prototype._reset = function () {
+  var keyWords = this._key;
+  var keySize = keyWords.length;
+  var nRounds = keySize + 6;
+  var ksRows = (nRounds + 1) * 4;
+
+  var keySchedule = [];
+  for (var k = 0; k < keySize; k++) {
+    keySchedule[k] = keyWords[k];
+  }
+
+  for (k = keySize; k < ksRows; k++) {
+    var t = keySchedule[k - 1];
+
+    if (k % keySize === 0) {
+      t = t << 8 | t >>> 24;
+      t = G.SBOX[t >>> 24] << 24 | G.SBOX[t >>> 16 & 0xff] << 16 | G.SBOX[t >>> 8 & 0xff] << 8 | G.SBOX[t & 0xff];
+
+      t ^= RCON[k / keySize | 0] << 24;
+    } else if (keySize > 6 && k % keySize === 4) {
+      t = G.SBOX[t >>> 24] << 24 | G.SBOX[t >>> 16 & 0xff] << 16 | G.SBOX[t >>> 8 & 0xff] << 8 | G.SBOX[t & 0xff];
+    }
+
+    keySchedule[k] = keySchedule[k - keySize] ^ t;
+  }
+
+  var invKeySchedule = [];
+  for (var ik = 0; ik < ksRows; ik++) {
+    var ksR = ksRows - ik;
+    var tt = keySchedule[ksR - (ik % 4 ? 0 : 4)];
+
+    if (ik < 4 || ksR <= 4) {
+      invKeySchedule[ik] = tt;
+    } else {
+      invKeySchedule[ik] = G.INV_SUB_MIX[0][G.SBOX[tt >>> 24]] ^ G.INV_SUB_MIX[1][G.SBOX[tt >>> 16 & 0xff]] ^ G.INV_SUB_MIX[2][G.SBOX[tt >>> 8 & 0xff]] ^ G.INV_SUB_MIX[3][G.SBOX[tt & 0xff]];
+    }
+  }
+
+  this._nRounds = nRounds;
+  this._keySchedule = keySchedule;
+  this._invKeySchedule = invKeySchedule;
+};
+
+AES.prototype.encryptBlockRaw = function (M) {
+  M = asUInt32Array(M);
+  return cryptBlock(M, this._keySchedule, G.SUB_MIX, G.SBOX, this._nRounds);
+};
+
+AES.prototype.encryptBlock = function (M) {
+  var out = this.encryptBlockRaw(M);
+  var buf = Buffer.allocUnsafe(16);
+  buf.writeUInt32BE(out[0], 0);
+  buf.writeUInt32BE(out[1], 4);
+  buf.writeUInt32BE(out[2], 8);
+  buf.writeUInt32BE(out[3], 12);
+  return buf;
+};
+
+AES.prototype.decryptBlock = function (M) {
+  M = asUInt32Array(M);
+
+  // swap
+  var m1 = M[1];
+  M[1] = M[3];
+  M[3] = m1;
+
+  var out = cryptBlock(M, this._invKeySchedule, G.INV_SUB_MIX, G.INV_SBOX, this._nRounds);
+  var buf = Buffer.allocUnsafe(16);
+  buf.writeUInt32BE(out[0], 0);
+  buf.writeUInt32BE(out[3], 4);
+  buf.writeUInt32BE(out[2], 8);
+  buf.writeUInt32BE(out[1], 12);
+  return buf;
+};
+
+AES.prototype.scrub = function () {
+  scrubVec(this._keySchedule);
+  scrubVec(this._invKeySchedule);
+  scrubVec(this._key);
+};
+
+module.exports.AES = AES;
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var curve = exports;
+
+curve.base = __webpack_require__(247);
+curve.short = __webpack_require__(248);
+curve.mont = __webpack_require__(249);
+curve.edwards = __webpack_require__(250);
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(Buffer) {var asn1 = __webpack_require__(266);
+var aesid = __webpack_require__(277);
+var fixProc = __webpack_require__(278);
+var ciphers = __webpack_require__(59);
+var compat = __webpack_require__(58);
+module.exports = parseKeys;
+
+function parseKeys(buffer) {
+  var password;
+  if (typeof buffer === 'object' && !Buffer.isBuffer(buffer)) {
+    password = buffer.passphrase;
+    buffer = buffer.key;
+  }
+  if (typeof buffer === 'string') {
+    buffer = new Buffer(buffer);
+  }
+
+  var stripped = fixProc(buffer, password);
+
+  var type = stripped.tag;
+  var data = stripped.data;
+  var subtype, ndata;
+  switch (type) {
+    case 'CERTIFICATE':
+      ndata = asn1.certificate.decode(data, 'der').tbsCertificate.subjectPublicKeyInfo;
+    // falls through
+    case 'PUBLIC KEY':
+      if (!ndata) {
+        ndata = asn1.PublicKey.decode(data, 'der');
+      }
+      subtype = ndata.algorithm.algorithm.join('.');
+      switch (subtype) {
+        case '1.2.840.113549.1.1.1':
+          return asn1.RSAPublicKey.decode(ndata.subjectPublicKey.data, 'der');
+        case '1.2.840.10045.2.1':
+          ndata.subjectPrivateKey = ndata.subjectPublicKey;
+          return {
+            type: 'ec',
+            data: ndata
+          };
+        case '1.2.840.10040.4.1':
+          ndata.algorithm.params.pub_key = asn1.DSAparam.decode(ndata.subjectPublicKey.data, 'der');
+          return {
+            type: 'dsa',
+            data: ndata.algorithm.params
+          };
+        default:
+          throw new Error('unknown key id ' + subtype);
+      }
+      throw new Error('unknown key type ' + type);
+    case 'ENCRYPTED PRIVATE KEY':
+      data = asn1.EncryptedPrivateKey.decode(data, 'der');
+      data = decrypt(data, password);
+    // falls through
+    case 'PRIVATE KEY':
+      ndata = asn1.PrivateKey.decode(data, 'der');
+      subtype = ndata.algorithm.algorithm.join('.');
+      switch (subtype) {
+        case '1.2.840.113549.1.1.1':
+          return asn1.RSAPrivateKey.decode(ndata.subjectPrivateKey, 'der');
+        case '1.2.840.10045.2.1':
+          return {
+            curve: ndata.algorithm.curve,
+            privateKey: asn1.ECPrivateKey.decode(ndata.subjectPrivateKey, 'der').privateKey
+          };
+        case '1.2.840.10040.4.1':
+          ndata.algorithm.params.priv_key = asn1.DSAparam.decode(ndata.subjectPrivateKey, 'der');
+          return {
+            type: 'dsa',
+            params: ndata.algorithm.params
+          };
+        default:
+          throw new Error('unknown key id ' + subtype);
+      }
+      throw new Error('unknown key type ' + type);
+    case 'RSA PUBLIC KEY':
+      return asn1.RSAPublicKey.decode(data, 'der');
+    case 'RSA PRIVATE KEY':
+      return asn1.RSAPrivateKey.decode(data, 'der');
+    case 'DSA PRIVATE KEY':
+      return {
+        type: 'dsa',
+        params: asn1.DSAPrivateKey.decode(data, 'der')
+      };
+    case 'EC PRIVATE KEY':
+      data = asn1.ECPrivateKey.decode(data, 'der');
+      return {
+        curve: data.parameters.value,
+        privateKey: data.privateKey
+      };
+    default:
+      throw new Error('unknown key type ' + type);
+  }
+}
+parseKeys.signature = asn1.signature;
+function decrypt(data, password) {
+  var salt = data.algorithm.decrypt.kde.kdeparams.salt;
+  var iters = parseInt(data.algorithm.decrypt.kde.kdeparams.iters.toString(), 10);
+  var algo = aesid[data.algorithm.decrypt.cipher.algo.join('.')];
+  var iv = data.algorithm.decrypt.cipher.iv;
+  var cipherText = data.subjectPrivateKey;
+  var keylen = parseInt(algo.split('-')[1], 10) / 8;
+  var key = compat.pbkdf2Sync(password, salt, iters, keylen);
+  var cipher = ciphers.createDecipheriv(algo, key, iv);
+  var out = [];
+  out.push(cipher.update(cipherText));
+  out.push(cipher.final());
+  return Buffer.concat(out);
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
 /* 45 */
@@ -31314,8 +31314,106 @@ Vue$3.compile = compileToFunctions;
  * Module dependencies.
  */
 
+var url = __webpack_require__(131);
+var parser = __webpack_require__(46);
+var Manager = __webpack_require__(68);
+var debug = __webpack_require__(24)('socket.io-client');
+
+/**
+ * Module exports.
+ */
+
+module.exports = exports = lookup;
+
+/**
+ * Managers cache.
+ */
+
+var cache = exports.managers = {};
+
+/**
+ * Looks up an existing `Manager` for multiplexing.
+ * If the user summons:
+ *
+ *   `io('http://localhost/a');`
+ *   `io('http://localhost/b');`
+ *
+ * We reuse the existing instance based on same scheme/port/host,
+ * and we initialize sockets for each namespace.
+ *
+ * @api public
+ */
+
+function lookup(uri, opts) {
+  if (typeof uri === 'object') {
+    opts = uri;
+    uri = undefined;
+  }
+
+  opts = opts || {};
+
+  var parsed = url(uri);
+  var source = parsed.source;
+  var id = parsed.id;
+  var path = parsed.path;
+  var sameNamespace = cache[id] && path in cache[id].nsps;
+  var newConnection = opts.forceNew || opts['force new connection'] || false === opts.multiplex || sameNamespace;
+
+  var io;
+
+  if (newConnection) {
+    debug('ignoring socket cache for %s', source);
+    io = Manager(source, opts);
+  } else {
+    if (!cache[id]) {
+      debug('new io instance for %s', source);
+      cache[id] = Manager(source, opts);
+    }
+    io = cache[id];
+  }
+  if (parsed.query && !opts.query) {
+    opts.query = parsed.query;
+  }
+  return io.socket(parsed.path, opts);
+}
+
+/**
+ * Protocol version.
+ *
+ * @api public
+ */
+
+exports.protocol = parser.protocol;
+
+/**
+ * `connect`.
+ *
+ * @param {String} uri
+ * @api public
+ */
+
+exports.connect = lookup;
+
+/**
+ * Expose constructors for standalone build.
+ *
+ * @api public
+ */
+
+exports.Manager = __webpack_require__(68);
+exports.Socket = __webpack_require__(72);
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/**
+ * Module dependencies.
+ */
+
 var debug = __webpack_require__(24)('socket.io-parser');
-var Emitter = __webpack_require__(19);
+var Emitter = __webpack_require__(20);
 var hasBin = __webpack_require__(66);
 var binary = __webpack_require__(134);
 var isBuf = __webpack_require__(67);
@@ -31705,7 +31803,7 @@ function error() {
 }
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {// browser shim for xmlhttprequest module
@@ -31748,15 +31846,15 @@ module.exports = function (opts) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var parser = __webpack_require__(20);
-var Emitter = __webpack_require__(19);
+var parser = __webpack_require__(21);
+var Emitter = __webpack_require__(20);
 
 /**
  * Module exports.
@@ -31910,7 +32008,7 @@ Transport.prototype.onClose = function () {
 };
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports) {
 
 
@@ -31925,10 +32023,10 @@ module.exports = function (arr, obj) {
 };
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var A = __webpack_require__(200);
+var A = __webpack_require__(201);
 
 var at = function at(bytes, index) {
   return parseInt(bytes.slice(index * 2 + 2, index * 2 + 4), 16);
@@ -31936,7 +32034,7 @@ var at = function at(bytes, index) {
 
 var random = function random(bytes) {
   var rnd = void 0;
-  if (typeof window !== "undefined" && window.crypto && window.crypto.getRandomValues) rnd = window.crypto.getRandomValues(new Uint8Array(bytes));else if (true) rnd = __webpack_require__(37).randomBytes(bytes);else throw "Safe random numbers not available.";
+  if (typeof window !== "undefined" && window.crypto && window.crypto.getRandomValues) rnd = window.crypto.getRandomValues(new Uint8Array(bytes));else if (true) rnd = __webpack_require__(38).randomBytes(bytes);else throw "Safe random numbers not available.";
   var hex = "0x";
   for (var i = 0; i < bytes; ++i) {
     hex += ("00" + rnd[i].toString(16)).slice(-2);
@@ -32118,7 +32216,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32132,7 +32230,7 @@ module.exports = {
  * See http://pajhome.org.uk/crypt/md5 for more info.
  */
 
-var makeHash = __webpack_require__(201);
+var makeHash = __webpack_require__(202);
 
 /*
  * Calculate the MD5 of an array of little-endian words, and a bit length
@@ -32275,14 +32373,14 @@ module.exports = function md5(buf) {
 };
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Buffer) {
 
 var inherits = __webpack_require__(0);
-var HashBase = __webpack_require__(202);
+var HashBase = __webpack_require__(203);
 
 function RIPEMD160() {
   HashBase.call(this, 64);
@@ -32574,7 +32672,7 @@ module.exports = RIPEMD160;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -32844,19 +32942,19 @@ function isUndefined(arg) {
 }
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(87);
 exports.Stream = exports;
 exports.Readable = exports;
-exports.Writable = __webpack_require__(54);
-exports.Duplex = __webpack_require__(18);
+exports.Writable = __webpack_require__(55);
+exports.Duplex = __webpack_require__(19);
 exports.Transform = __webpack_require__(90);
-exports.PassThrough = __webpack_require__(207);
+exports.PassThrough = __webpack_require__(208);
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32889,7 +32987,7 @@ exports.PassThrough = __webpack_require__(207);
 
 /*<replacement>*/
 
-var processNextTick = __webpack_require__(39).nextTick;
+var processNextTick = __webpack_require__(40).nextTick;
 /*</replacement>*/
 
 module.exports = Writable;
@@ -32932,7 +33030,7 @@ util.inherits = __webpack_require__(0);
 
 /*<replacement>*/
 var internalUtil = {
-  deprecate: __webpack_require__(206)
+  deprecate: __webpack_require__(207)
 };
 /*</replacement>*/
 
@@ -32960,7 +33058,7 @@ util.inherits(Writable, Stream);
 function nop() {}
 
 function WritableState(options, stream) {
-  Duplex = Duplex || __webpack_require__(18);
+  Duplex = Duplex || __webpack_require__(19);
 
   options = options || {};
 
@@ -33110,7 +33208,7 @@ if (typeof Symbol === 'function' && Symbol.hasInstance && typeof Function.protot
 }
 
 function Writable(options) {
-  Duplex = Duplex || __webpack_require__(18);
+  Duplex = Duplex || __webpack_require__(19);
 
   // Writable ctor is applied to Duplexes, too.
   // `realHasInstance` is necessary because using plain `instanceof`
@@ -33537,10 +33635,10 @@ Writable.prototype._destroy = function (err, cb) {
   this.end();
   cb(err);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(31).setImmediate, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(32).setImmediate, __webpack_require__(3)))
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33818,7 +33916,7 @@ function simpleEnd(buf) {
 }
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var exports = module.exports = function SHA(algorithm) {
@@ -33830,28 +33928,28 @@ var exports = module.exports = function SHA(algorithm) {
   return new Algorithm();
 };
 
-exports.sha = __webpack_require__(212);
-exports.sha1 = __webpack_require__(213);
-exports.sha224 = __webpack_require__(214);
+exports.sha = __webpack_require__(213);
+exports.sha1 = __webpack_require__(214);
+exports.sha224 = __webpack_require__(215);
 exports.sha256 = __webpack_require__(91);
-exports.sha384 = __webpack_require__(215);
+exports.sha384 = __webpack_require__(216);
 exports.sha512 = __webpack_require__(92);
-
-/***/ }),
-/* 57 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-exports.pbkdf2 = __webpack_require__(218);
-
-exports.pbkdf2Sync = __webpack_require__(97);
 
 /***/ }),
 /* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ciphers = __webpack_require__(222);
-var deciphers = __webpack_require__(230);
+
+exports.pbkdf2 = __webpack_require__(219);
+
+exports.pbkdf2Sync = __webpack_require__(97);
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var ciphers = __webpack_require__(223);
+var deciphers = __webpack_require__(231);
 var modes = __webpack_require__(100);
 
 function getCiphers() {
@@ -33865,16 +33963,16 @@ exports.createDecipheriv = exports.Decipheriv = deciphers.createDecipheriv;
 exports.listCiphers = exports.getCiphers = getCiphers;
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var modeModules = {
-  ECB: __webpack_require__(223),
-  CBC: __webpack_require__(224),
-  CFB: __webpack_require__(225),
-  CFB8: __webpack_require__(226),
-  CFB1: __webpack_require__(227),
-  OFB: __webpack_require__(228),
+  ECB: __webpack_require__(224),
+  CBC: __webpack_require__(225),
+  CFB: __webpack_require__(226),
+  CFB8: __webpack_require__(227),
+  CFB1: __webpack_require__(228),
+  OFB: __webpack_require__(229),
   CTR: __webpack_require__(98),
   GCM: __webpack_require__(98)
 };
@@ -33888,24 +33986,24 @@ for (var key in modes) {
 module.exports = modes;
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.utils = __webpack_require__(232);
-exports.Cipher = __webpack_require__(233);
-exports.DES = __webpack_require__(234);
-exports.CBC = __webpack_require__(235);
-exports.EDE = __webpack_require__(236);
+exports.utils = __webpack_require__(233);
+exports.Cipher = __webpack_require__(234);
+exports.DES = __webpack_require__(235);
+exports.CBC = __webpack_require__(236);
+exports.EDE = __webpack_require__(237);
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var bn = __webpack_require__(4);
-var randomBytes = __webpack_require__(21);
+var randomBytes = __webpack_require__(22);
 module.exports = crt;
 function blind(priv) {
   var r = getr(priv);
@@ -33946,16 +34044,16 @@ function getr(priv) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var hash = exports;
 
 hash.utils = __webpack_require__(12);
 hash.common = __webpack_require__(28);
-hash.sha = __webpack_require__(251);
-hash.ripemd = __webpack_require__(255);
-hash.hmac = __webpack_require__(256);
+hash.sha = __webpack_require__(252);
+hash.ripemd = __webpack_require__(256);
+hash.hmac = __webpack_require__(257);
 
 // Proxy hash functions to the main object
 hash.sha1 = hash.sha.sha1;
@@ -33964,104 +34062,6 @@ hash.sha224 = hash.sha.sha224;
 hash.sha384 = hash.sha.sha384;
 hash.sha512 = hash.sha.sha512;
 hash.ripemd160 = hash.ripemd.ripemd160;
-
-/***/ }),
-/* 63 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/**
- * Module dependencies.
- */
-
-var url = __webpack_require__(131);
-var parser = __webpack_require__(45);
-var Manager = __webpack_require__(68);
-var debug = __webpack_require__(24)('socket.io-client');
-
-/**
- * Module exports.
- */
-
-module.exports = exports = lookup;
-
-/**
- * Managers cache.
- */
-
-var cache = exports.managers = {};
-
-/**
- * Looks up an existing `Manager` for multiplexing.
- * If the user summons:
- *
- *   `io('http://localhost/a');`
- *   `io('http://localhost/b');`
- *
- * We reuse the existing instance based on same scheme/port/host,
- * and we initialize sockets for each namespace.
- *
- * @api public
- */
-
-function lookup(uri, opts) {
-  if (typeof uri === 'object') {
-    opts = uri;
-    uri = undefined;
-  }
-
-  opts = opts || {};
-
-  var parsed = url(uri);
-  var source = parsed.source;
-  var id = parsed.id;
-  var path = parsed.path;
-  var sameNamespace = cache[id] && path in cache[id].nsps;
-  var newConnection = opts.forceNew || opts['force new connection'] || false === opts.multiplex || sameNamespace;
-
-  var io;
-
-  if (newConnection) {
-    debug('ignoring socket cache for %s', source);
-    io = Manager(source, opts);
-  } else {
-    if (!cache[id]) {
-      debug('new io instance for %s', source);
-      cache[id] = Manager(source, opts);
-    }
-    io = cache[id];
-  }
-  if (parsed.query && !opts.query) {
-    opts.query = parsed.query;
-  }
-  return io.socket(parsed.path, opts);
-}
-
-/**
- * Protocol version.
- *
- * @api public
- */
-
-exports.protocol = parser.protocol;
-
-/**
- * `connect`.
- *
- * @param {String} uri
- * @api public
- */
-
-exports.connect = lookup;
-
-/**
- * Expose constructors for standalone build.
- *
- * @api public
- */
-
-exports.Manager = __webpack_require__(68);
-exports.Socket = __webpack_require__(72);
 
 /***/ }),
 /* 64 */
@@ -34346,12 +34346,12 @@ function isBuf(obj) {
 
 var eio = __webpack_require__(136);
 var Socket = __webpack_require__(72);
-var Emitter = __webpack_require__(19);
-var parser = __webpack_require__(45);
+var Emitter = __webpack_require__(20);
+var parser = __webpack_require__(46);
 var on = __webpack_require__(73);
 var bind = __webpack_require__(74);
 var debug = __webpack_require__(24)('socket.io-client:manager');
-var indexOf = __webpack_require__(48);
+var indexOf = __webpack_require__(49);
 var Backoff = __webpack_require__(151);
 
 /**
@@ -34920,7 +34920,7 @@ Manager.prototype.onreconnect = function () {
  * Module dependencies
  */
 
-var XMLHttpRequest = __webpack_require__(46);
+var XMLHttpRequest = __webpack_require__(47);
 var XHR = __webpack_require__(139);
 var JSONP = __webpack_require__(147);
 var websocket = __webpack_require__(148);
@@ -34979,12 +34979,12 @@ function polling(opts) {
  * Module dependencies.
  */
 
-var Transport = __webpack_require__(47);
-var parseqs = __webpack_require__(32);
-var parser = __webpack_require__(20);
-var inherit = __webpack_require__(33);
+var Transport = __webpack_require__(48);
+var parseqs = __webpack_require__(33);
+var parser = __webpack_require__(21);
+var inherit = __webpack_require__(34);
 var yeast = __webpack_require__(71);
-var debug = __webpack_require__(34)('engine.io-client:polling');
+var debug = __webpack_require__(35)('engine.io-client:polling');
 
 /**
  * Module exports.
@@ -34997,7 +34997,7 @@ module.exports = Polling;
  */
 
 var hasXHR2 = function () {
-  var XMLHttpRequest = __webpack_require__(46);
+  var XMLHttpRequest = __webpack_require__(47);
   var xhr = new XMLHttpRequest({ xdomain: false });
   return null != xhr.responseType;
 }();
@@ -35303,13 +35303,13 @@ module.exports = yeast;
  * Module dependencies.
  */
 
-var parser = __webpack_require__(45);
-var Emitter = __webpack_require__(19);
+var parser = __webpack_require__(46);
+var Emitter = __webpack_require__(20);
 var toArray = __webpack_require__(150);
 var on = __webpack_require__(73);
 var bind = __webpack_require__(74);
 var debug = __webpack_require__(24)('socket.io-client:socket');
-var parseqs = __webpack_require__(32);
+var parseqs = __webpack_require__(33);
 
 /**
  * Module exports.
@@ -35782,8 +35782,8 @@ module.exports = Array.isArray || function (arr) {
 /* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var BN = __webpack_require__(165);
-var stripHexPrefix = __webpack_require__(166);
+var BN = __webpack_require__(166);
+var stripHexPrefix = __webpack_require__(167);
 
 /**
  * Returns a BN object, converts a number value to a BN
@@ -35848,7 +35848,7 @@ module.exports = function numberToBN(arg) {
 var _ = __webpack_require__(5);
 var BN = __webpack_require__(78);
 var numberToBN = __webpack_require__(76);
-var utf8 = __webpack_require__(168);
+var utf8 = __webpack_require__(169);
 var Hash = __webpack_require__(79);
 
 /**
@@ -39638,7 +39638,7 @@ module.exports = {
     return res._forceRed(this);
   };
 })(typeof module === 'undefined' || module, this);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)(module)))
 
 /***/ }),
 /* 79 */
@@ -40377,7 +40377,7 @@ module.exports = Jsonrpc;
 
 
 var EventEmitter = __webpack_require__(83);
-var Promise = __webpack_require__(185);
+var Promise = __webpack_require__(186);
 
 /**
  * This function generates a defer promise and adds eventEmitter functionality to it
@@ -40719,10 +40719,10 @@ if (true) {
 
 
 
-var core = __webpack_require__(15);
-var Method = __webpack_require__(16);
+var core = __webpack_require__(16);
+var Method = __webpack_require__(17);
 var utils = __webpack_require__(9);
-var Net = __webpack_require__(36);
+var Net = __webpack_require__(37);
 
 var formatters = __webpack_require__(6).formatters;
 
@@ -40857,13 +40857,13 @@ var utils = __webpack_require__(9);
 
 var f = __webpack_require__(11);
 
-var SolidityTypeAddress = __webpack_require__(190);
-var SolidityTypeBool = __webpack_require__(191);
-var SolidityTypeInt = __webpack_require__(192);
-var SolidityTypeUInt = __webpack_require__(193);
-var SolidityTypeDynamicBytes = __webpack_require__(194);
-var SolidityTypeString = __webpack_require__(195);
-var SolidityTypeBytes = __webpack_require__(196);
+var SolidityTypeAddress = __webpack_require__(191);
+var SolidityTypeBool = __webpack_require__(192);
+var SolidityTypeInt = __webpack_require__(193);
+var SolidityTypeUInt = __webpack_require__(194);
+var SolidityTypeDynamicBytes = __webpack_require__(195);
+var SolidityTypeString = __webpack_require__(196);
+var SolidityTypeBytes = __webpack_require__(197);
 
 var isDynamic = function (solidityType, type) {
     return solidityType.isDynamicType(type) || solidityType.isDynamicArray(type);
@@ -41400,7 +41400,7 @@ module.exports = SolidityParam;
 
 /*<replacement>*/
 
-var processNextTick = __webpack_require__(39).nextTick;
+var processNextTick = __webpack_require__(40).nextTick;
 /*</replacement>*/
 
 module.exports = Readable;
@@ -41416,7 +41416,7 @@ var Duplex;
 Readable.ReadableState = ReadableState;
 
 /*<replacement>*/
-var EE = __webpack_require__(52).EventEmitter;
+var EE = __webpack_require__(53).EventEmitter;
 
 var EElistenerCount = function (emitter, type) {
   return emitter.listeners(type).length;
@@ -41446,7 +41446,7 @@ util.inherits = __webpack_require__(0);
 /*</replacement>*/
 
 /*<replacement>*/
-var debugUtil = __webpack_require__(203);
+var debugUtil = __webpack_require__(204);
 var debug = void 0;
 if (debugUtil && debugUtil.debuglog) {
   debug = debugUtil.debuglog('stream');
@@ -41455,7 +41455,7 @@ if (debugUtil && debugUtil.debuglog) {
 }
 /*</replacement>*/
 
-var BufferList = __webpack_require__(204);
+var BufferList = __webpack_require__(205);
 var destroyImpl = __webpack_require__(89);
 var StringDecoder;
 
@@ -41476,7 +41476,7 @@ function prependListener(emitter, event, fn) {
 }
 
 function ReadableState(options, stream) {
-  Duplex = Duplex || __webpack_require__(18);
+  Duplex = Duplex || __webpack_require__(19);
 
   options = options || {};
 
@@ -41546,14 +41546,14 @@ function ReadableState(options, stream) {
   this.decoder = null;
   this.encoding = null;
   if (options.encoding) {
-    if (!StringDecoder) StringDecoder = __webpack_require__(55).StringDecoder;
+    if (!StringDecoder) StringDecoder = __webpack_require__(56).StringDecoder;
     this.decoder = new StringDecoder(options.encoding);
     this.encoding = options.encoding;
   }
 }
 
 function Readable(options) {
-  Duplex = Duplex || __webpack_require__(18);
+  Duplex = Duplex || __webpack_require__(19);
 
   if (!(this instanceof Readable)) return new Readable(options);
 
@@ -41702,7 +41702,7 @@ Readable.prototype.isPaused = function () {
 
 // backwards compatibility.
 Readable.prototype.setEncoding = function (enc) {
-  if (!StringDecoder) StringDecoder = __webpack_require__(55).StringDecoder;
+  if (!StringDecoder) StringDecoder = __webpack_require__(56).StringDecoder;
   this._readableState.decoder = new StringDecoder(enc);
   this._readableState.encoding = enc;
   return this;
@@ -42396,7 +42396,7 @@ function indexOf(xs, x) {
 /* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(52).EventEmitter;
+module.exports = __webpack_require__(53).EventEmitter;
 
 /***/ }),
 /* 89 */
@@ -42407,7 +42407,7 @@ module.exports = __webpack_require__(52).EventEmitter;
 
 /*<replacement>*/
 
-var processNextTick = __webpack_require__(39).nextTick;
+var processNextTick = __webpack_require__(40).nextTick;
 /*</replacement>*/
 
 // undocumented cb() API, needed for core, not for public API
@@ -42550,7 +42550,7 @@ module.exports = {
 
 module.exports = Transform;
 
-var Duplex = __webpack_require__(18);
+var Duplex = __webpack_require__(19);
 
 /*<replacement>*/
 var util = __webpack_require__(26);
@@ -42711,7 +42711,7 @@ function done(stream, er, data) {
  */
 
 var inherits = __webpack_require__(0);
-var Hash = __webpack_require__(22);
+var Hash = __webpack_require__(23);
 var Buffer = __webpack_require__(2).Buffer;
 
 var K = [0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5, 0x3956C25B, 0x59F111F1, 0x923F82A4, 0xAB1C5ED5, 0xD807AA98, 0x12835B01, 0x243185BE, 0x550C7DC3, 0x72BE5D74, 0x80DEB1FE, 0x9BDC06A7, 0xC19BF174, 0xE49B69C1, 0xEFBE4786, 0x0FC19DC6, 0x240CA1CC, 0x2DE92C6F, 0x4A7484AA, 0x5CB0A9DC, 0x76F988DA, 0x983E5152, 0xA831C66D, 0xB00327C8, 0xBF597FC7, 0xC6E00BF3, 0xD5A79147, 0x06CA6351, 0x14292967, 0x27B70A85, 0x2E1B2138, 0x4D2C6DFC, 0x53380D13, 0x650A7354, 0x766A0ABB, 0x81C2C92E, 0x92722C85, 0xA2BFE8A1, 0xA81A664B, 0xC24B8B70, 0xC76C51A3, 0xD192E819, 0xD6990624, 0xF40E3585, 0x106AA070, 0x19A4C116, 0x1E376C08, 0x2748774C, 0x34B0BCB5, 0x391C0CB3, 0x4ED8AA4A, 0x5B9CCA4F, 0x682E6FF3, 0x748F82EE, 0x78A5636F, 0x84C87814, 0x8CC70208, 0x90BEFFFA, 0xA4506CEB, 0xBEF9A3F7, 0xC67178F2];
@@ -42826,7 +42826,7 @@ module.exports = Sha256;
 /***/ (function(module, exports, __webpack_require__) {
 
 var inherits = __webpack_require__(0);
-var Hash = __webpack_require__(22);
+var Hash = __webpack_require__(23);
 var Buffer = __webpack_require__(2).Buffer;
 
 var K = [0x428a2f98, 0xd728ae22, 0x71374491, 0x23ef65cd, 0xb5c0fbcf, 0xec4d3b2f, 0xe9b5dba5, 0x8189dbbc, 0x3956c25b, 0xf348b538, 0x59f111f1, 0xb605d019, 0x923f82a4, 0xaf194f9b, 0xab1c5ed5, 0xda6d8118, 0xd807aa98, 0xa3030242, 0x12835b01, 0x45706fbe, 0x243185be, 0x4ee4b28c, 0x550c7dc3, 0xd5ffb4e2, 0x72be5d74, 0xf27b896f, 0x80deb1fe, 0x3b1696b1, 0x9bdc06a7, 0x25c71235, 0xc19bf174, 0xcf692694, 0xe49b69c1, 0x9ef14ad2, 0xefbe4786, 0x384f25e3, 0x0fc19dc6, 0x8b8cd5b5, 0x240ca1cc, 0x77ac9c65, 0x2de92c6f, 0x592b0275, 0x4a7484aa, 0x6ea6e483, 0x5cb0a9dc, 0xbd41fbd4, 0x76f988da, 0x831153b5, 0x983e5152, 0xee66dfab, 0xa831c66d, 0x2db43210, 0xb00327c8, 0x98fb213f, 0xbf597fc7, 0xbeef0ee4, 0xc6e00bf3, 0x3da88fc2, 0xd5a79147, 0x930aa725, 0x06ca6351, 0xe003826f, 0x14292967, 0x0a0e6e70, 0x27b70a85, 0x46d22ffc, 0x2e1b2138, 0x5c26c926, 0x4d2c6dfc, 0x5ac42aed, 0x53380d13, 0x9d95b3df, 0x650a7354, 0x8baf63de, 0x766a0abb, 0x3c77b2a8, 0x81c2c92e, 0x47edaee6, 0x92722c85, 0x1482353b, 0xa2bfe8a1, 0x4cf10364, 0xa81a664b, 0xbc423001, 0xc24b8b70, 0xd0f89791, 0xc76c51a3, 0x0654be30, 0xd192e819, 0xd6ef5218, 0xd6990624, 0x5565a910, 0xf40e3585, 0x5771202a, 0x106aa070, 0x32bbd1b8, 0x19a4c116, 0xb8d2d0c8, 0x1e376c08, 0x5141ab53, 0x2748774c, 0xdf8eeb99, 0x34b0bcb5, 0xe19b48a8, 0x391c0cb3, 0xc5c95a63, 0x4ed8aa4a, 0xe3418acb, 0x5b9cca4f, 0x7763e373, 0x682e6ff3, 0xd6b2b8a3, 0x748f82ee, 0x5defb2fc, 0x78a5636f, 0x43172f60, 0x84c87814, 0xa1f0ab72, 0x8cc70208, 0x1a6439ec, 0x90befffa, 0x23631e28, 0xa4506ceb, 0xde82bde9, 0xbef9a3f7, 0xb2c67915, 0xc67178f2, 0xe372532b, 0xca273ece, 0xea26619c, 0xd186b8c7, 0x21c0c207, 0xeada7dd6, 0xcde0eb1e, 0xf57d4f7f, 0xee6ed178, 0x06f067aa, 0x72176fba, 0x0a637dc5, 0xa2c898a6, 0x113f9804, 0xbef90dae, 0x1b710b35, 0x131c471b, 0x28db77f5, 0x23047d84, 0x32caab7b, 0x40c72493, 0x3c9ebe0a, 0x15c9bebc, 0x431d67c4, 0x9c100d4c, 0x4cc5d4be, 0xcb3e42b6, 0x597f299c, 0xfc657e2a, 0x5fcb6fab, 0x3ad6faec, 0x6c44198c, 0x4a475817];
@@ -43053,13 +43053,13 @@ module.exports = Sha512;
 
 
 var inherits = __webpack_require__(0);
-var Legacy = __webpack_require__(216);
+var Legacy = __webpack_require__(217);
 var Base = __webpack_require__(13);
 var Buffer = __webpack_require__(2).Buffer;
-var md5 = __webpack_require__(50);
-var RIPEMD160 = __webpack_require__(51);
+var md5 = __webpack_require__(51);
+var RIPEMD160 = __webpack_require__(52);
 
-var sha = __webpack_require__(56);
+var sha = __webpack_require__(57);
 
 var ZEROS = Buffer.alloc(128);
 
@@ -43164,9 +43164,9 @@ module.exports = defaultEncoding;
 /* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var md5 = __webpack_require__(50);
-var rmd160 = __webpack_require__(51);
-var sha = __webpack_require__(56);
+var md5 = __webpack_require__(51);
+var rmd160 = __webpack_require__(52);
+var sha = __webpack_require__(57);
 
 var checkParameters = __webpack_require__(95);
 var defaultEncoding = __webpack_require__(96);
@@ -43328,11 +43328,11 @@ module.exports = {"aes-128-ecb":{"cipher":"AES","key":128,"iv":0,"mode":"ECB","t
 /* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var aes = __webpack_require__(41);
+var aes = __webpack_require__(42);
 var Buffer = __webpack_require__(2).Buffer;
 var Transform = __webpack_require__(13);
 var inherits = __webpack_require__(0);
-var GHASH = __webpack_require__(229);
+var GHASH = __webpack_require__(230);
 var xor = __webpack_require__(27);
 var incr32 = __webpack_require__(99);
 
@@ -43450,7 +43450,7 @@ module.exports = StreamCipher;
 /* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var aes = __webpack_require__(41);
+var aes = __webpack_require__(42);
 var Buffer = __webpack_require__(2).Buffer;
 var Transform = __webpack_require__(13);
 var inherits = __webpack_require__(0);
@@ -43482,7 +43482,7 @@ module.exports = StreamCipher;
 /* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var randomBytes = __webpack_require__(21);
+var randomBytes = __webpack_require__(22);
 module.exports = findPrime;
 findPrime.simpleSieve = simpleSieve;
 findPrime.fermatTest = fermatTest;
@@ -43743,7 +43743,7 @@ if (typeof self === 'object') {
 } else {
   // Node.js or Web worker with no crypto support
   try {
-    var crypto = __webpack_require__(239);
+    var crypto = __webpack_require__(240);
     if (typeof crypto.randomBytes !== 'function') throw new Error('Not supported');
 
     Rand.prototype._rand = function _rand(n) {
@@ -44318,7 +44318,7 @@ constants._reverse = function reverse(map) {
   return res;
 };
 
-constants.der = __webpack_require__(270);
+constants.der = __webpack_require__(271);
 
 /***/ }),
 /* 112 */
@@ -44896,7 +44896,7 @@ module.exports = withPublic;
 /***/ (function(module, exports, __webpack_require__) {
 
 var BN = __webpack_require__(4);
-var Bytes = __webpack_require__(49);
+var Bytes = __webpack_require__(50);
 
 var fromBN = function fromBN(bn) {
   return "0x" + bn.toString("hex");
@@ -45497,7 +45497,7 @@ function isFunction(fn) {
 /* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var A = __webpack_require__(307);
+var A = __webpack_require__(308);
 
 var at = function at(bytes, index) {
   return parseInt(bytes.slice(index * 2 + 2, index * 2 + 4), 16);
@@ -45505,7 +45505,7 @@ var at = function at(bytes, index) {
 
 var random = function random(bytes) {
   var rnd = void 0;
-  if (typeof window !== "undefined" && window.crypto && window.crypto.getRandomValues) rnd = window.crypto.getRandomValues(new Uint8Array(bytes));else if (true) rnd = __webpack_require__(37).randomBytes(bytes);else throw "Safe random numbers not available.";
+  if (typeof window !== "undefined" && window.crypto && window.crypto.getRandomValues) rnd = window.crypto.getRandomValues(new Uint8Array(bytes));else if (true) rnd = __webpack_require__(38).randomBytes(bytes);else throw "Safe random numbers not available.";
   var hex = "0x";
   for (var i = 0; i < bytes; ++i) {
     hex += ("00" + rnd[i].toString(16)).slice(-2);
@@ -45691,7 +45691,7 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(125);
-module.exports = __webpack_require__(313);
+module.exports = __webpack_require__(315);
 
 
 /***/ }),
@@ -45704,15 +45704,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__images_0xbitcoin_png___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__images_0xbitcoin_png__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__images_GitHub_Mark_64px_png__ = __webpack_require__(127);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__images_GitHub_Mark_64px_png___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__images_GitHub_Mark_64px_png__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__alert_renderer__ = __webpack_require__(129);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__dashboard_renderer__ = __webpack_require__(130);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__account_renderer__ = __webpack_require__(152);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ethhelper__ = __webpack_require__(153);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__home_dashboard__ = __webpack_require__(311);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__account_dashboard__ = __webpack_require__(312);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__overview_renderer__ = __webpack_require__(130);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__home_renderer__ = __webpack_require__(152);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__account_renderer__ = __webpack_require__(153);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ethhelper__ = __webpack_require__(154);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__home_dashboard__ = __webpack_require__(312);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__account_dashboard__ = __webpack_require__(313);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__overview_dashboard__ = __webpack_require__(314);
 
-const $ = __webpack_require__(23);
+const $ = __webpack_require__(14);
+
+
 
 
 
@@ -45731,12 +45735,14 @@ const $ = __webpack_require__(23);
 
 //var web3 = this.connectWeb3();
 
-var dashboardRenderer = new __WEBPACK_IMPORTED_MODULE_4__dashboard_renderer__["a" /* default */]();
-var accountRenderer = new __WEBPACK_IMPORTED_MODULE_5__account_renderer__["a" /* default */]();
+var overviewRenderer = new __WEBPACK_IMPORTED_MODULE_4__overview_renderer__["a" /* default */]();
+var homeRenderer = new __WEBPACK_IMPORTED_MODULE_5__home_renderer__["a" /* default */]();
+var accountRenderer = new __WEBPACK_IMPORTED_MODULE_6__account_renderer__["a" /* default */]();
 var alertRenderer = new __WEBPACK_IMPORTED_MODULE_3__alert_renderer__["a" /* default */]();
 //var ethHelper = new EthHelper();
-var home = new __WEBPACK_IMPORTED_MODULE_7__home_dashboard__["a" /* default */]();
-var account = new __WEBPACK_IMPORTED_MODULE_8__account_dashboard__["a" /* default */]();
+var home = new __WEBPACK_IMPORTED_MODULE_8__home_dashboard__["a" /* default */]();
+var account = new __WEBPACK_IMPORTED_MODULE_9__account_dashboard__["a" /* default */]();
+var overview = new __WEBPACK_IMPORTED_MODULE_10__overview_dashboard__["a" /* default */]();
 
 var navbar = new __WEBPACK_IMPORTED_MODULE_2_vue__["a" /* default */]({
   el: '#navbar',
@@ -45751,13 +45757,19 @@ $(document).ready(function () {
   if ($("#home").length > 0) {
     //  var web3 = ethHelper.init( alertRenderer);
 
-    home.init(dashboardRenderer);
+    home.init(homeRenderer);
   }
 
   if ($("#account").length > 0) {
     //var web3 = ethHelper.init( alertRenderer);
 
     account.init(accountRenderer);
+  }
+
+  if ($("#overview").length > 0) {
+    //  var web3 = ethHelper.init( alertRenderer);
+
+    overview.init(overviewRenderer);
   }
 });
 
@@ -45991,28 +46003,28 @@ class AlertRenderer {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(31);
 
-const $ = __webpack_require__(23);
+const $ = __webpack_require__(14);
 
 
-var io = __webpack_require__(63);
+var io = __webpack_require__(45);
 
 var app;
 var dashboardData;
 
-var txlist;
-var jumbotron;
+var queuedTransactionsList;;
+var activeTransactionsList;
+var poolConfig;
+var poolStats;
+var submittedShares;
+var submittedSolutions;
 
-class DashboardRenderer {
+class OverviewRenderer {
 
   init() {
 
     var self = this;
-
-    this.transactionListData = {
-      txData: []
-    };
 
     var current_hostname = window.location.hostname;
 
@@ -46030,52 +46042,114 @@ class DashboardRenderer {
       console.log('disconnected from socket.io server');
     });
 
-    this.socket.on('transactionData', function (data) {
-      //  console.log('got transactionData', JSON.stringify(data));
-
-      //  data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  ))
-      //  data.map(item => item.formattedStatus =  self.getFormattedStatus(item.receiptData) )
+    this.socket.on('activeTransactionData', function (data) {
 
       for (var i in data) {
         data[i].formattedStatus = self.getFormattedStatus(data[i].receiptData);
       }
 
-      console.log('got transactionData', JSON.stringify(data));
+      console.log('got activeTransactionData', JSON.stringify(data));
 
-      __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].set(txlist.transactions, 'tx_list', data.slice(0, 25));
+      __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].set(activeTransactionsList, 'transactions', { tx_list: data.slice(0, 50) });
     });
 
-    this.socket.on('poolData', function (data) {
-      console.log('got poolData ', JSON.stringify(data));
+    this.socket.on('queuedTransactionData', function (data) {
 
-      //  self.accountListData.minerAccountData = data;
+      console.log('got queuedTransactionData', JSON.stringify(data));
 
-      __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].set(jumbotron.pool, 'poolData', data);
+      __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].set(queuedTransactionsList, 'transactions', { tx_list: data.slice(0, 50) });
     });
 
-    txlist = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
-      el: '#txlist',
+    this.socket.on('poolConfig', function (data) {
+      console.log('got poolConfig ', JSON.stringify(data));
+
+      __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].set(poolConfig.pool, 'poolConfig', data.poolConfig);
+    });
+
+    this.socket.on('poolStats', function (data) {
+      console.log('got poolStats ', JSON.stringify(data));
+
+      __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].set(poolStats.pool, 'poolStats', data);
+    });
+
+    this.socket.on('submittedShares', function (data) {
+      console.log('got submittedShares ', JSON.stringify(data));
+
+      __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].set(submittedShares.shares, 'submittedShares', data.slice(0, 50));
+    });
+
+    //working ?
+    this.socket.on('submittedSolutions', function (data) {
+
+      console.log('got submittedSolutions ', JSON.stringify(data));
+
+      __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].set(submittedSolutions.solutions, 'submittedSolutions', data.slice(0, 50));
+    });
+
+    queuedTransactionsList = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
+      el: '#queuedTransactionsList',
       data: {
         //parentMessage: 'Parent',
         transactions: {
-          tx_list: this.transactionListData.txData
+          tx_list: []
         }
       }
     });
 
-    jumbotron = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
-      el: '#jumbotron',
+    activeTransactionsList = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
+      el: '#activeTransactionsList',
+      data: {
+
+        transactions: {
+          tx_list: []
+        }
+      }
+    });
+
+    poolConfig = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
+      el: '#poolconfig',
       data: {
         pool: {
-          poolData: { address: '' }
+          poolConfig: {}
+        }
+      }
+    });
+
+    poolStats = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
+      el: '#poolstats',
+      data: {
+        pool: {
+          poolStats: {}
+        }
+      }
+    });
+
+    submittedShares = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
+      el: '#submittedShares',
+      data: {
+        shares: {
+          submittedShares: []
+        }
+      }
+    });
+
+    submittedSolutions = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
+      el: '#submittedSolutions',
+      data: {
+        solutions: {
+          submittedSolutions: []
         }
       }
     });
 
     this.show();
 
-    this.socket.emit('getPoolData');
-    this.socket.emit('getAllTransactionData');
+    console.log('socket emit ');
+    this.socket.emit('getPoolConfig');
+    this.socket.emit('getPoolStats');
+    this.socket.emit('getActiveTransactionData');
+    this.socket.emit('getQueuedTransactionData');
+    this.socket.emit('getSubmittedShares');
   }
 
   getFormattedStatus(receiptData) {
@@ -46087,9 +46161,11 @@ class DashboardRenderer {
   }
 
   update(renderData) {
-
-    this.socket.emit('getPoolData');
-    this.socket.emit('getAllTransactionData');
+    this.socket.emit('getPoolConfig');
+    this.socket.emit('getPoolStats');
+    this.socket.emit('getActiveTransactionData');
+    this.socket.emit('getQueuedTransactionData');
+    this.socket.emit('getSubmittedShares');
 
     this.show();
   }
@@ -46103,7 +46179,7 @@ class DashboardRenderer {
   }
 
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = DashboardRenderer;
+/* harmony export (immutable) */ __webpack_exports__["a"] = OverviewRenderer;
 
 
 /***/ }),
@@ -46576,7 +46652,7 @@ module.exports = __webpack_require__(137);
  * @api public
  *
  */
-module.exports.parser = __webpack_require__(20);
+module.exports.parser = __webpack_require__(21);
 
 /***/ }),
 /* 137 */
@@ -46587,12 +46663,12 @@ module.exports.parser = __webpack_require__(20);
  */
 
 var transports = __webpack_require__(69);
-var Emitter = __webpack_require__(19);
-var debug = __webpack_require__(34)('engine.io-client:socket');
-var index = __webpack_require__(48);
-var parser = __webpack_require__(20);
+var Emitter = __webpack_require__(20);
+var debug = __webpack_require__(35)('engine.io-client:socket');
+var index = __webpack_require__(49);
+var parser = __webpack_require__(21);
 var parseuri = __webpack_require__(64);
-var parseqs = __webpack_require__(32);
+var parseqs = __webpack_require__(33);
 
 /**
  * Module exports.
@@ -46721,9 +46797,9 @@ Socket.protocol = parser.protocol; // this is an int
  */
 
 Socket.Socket = Socket;
-Socket.Transport = __webpack_require__(47);
+Socket.Transport = __webpack_require__(48);
 Socket.transports = __webpack_require__(69);
-Socket.parser = __webpack_require__(20);
+Socket.parser = __webpack_require__(21);
 
 /**
  * Creates transport of the given type.
@@ -47345,11 +47421,11 @@ try {
  * Module requirements.
  */
 
-var XMLHttpRequest = __webpack_require__(46);
+var XMLHttpRequest = __webpack_require__(47);
 var Polling = __webpack_require__(70);
-var Emitter = __webpack_require__(19);
-var inherit = __webpack_require__(33);
-var debug = __webpack_require__(34)('engine.io-client:polling-xhr');
+var Emitter = __webpack_require__(20);
+var inherit = __webpack_require__(34);
+var debug = __webpack_require__(35)('engine.io-client:polling-xhr');
 
 /**
  * Module exports.
@@ -48117,7 +48193,7 @@ function noop() {}
 		root.utf8 = utf8;
 	}
 })(this);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)(module), __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)(module), __webpack_require__(3)))
 
 /***/ }),
 /* 144 */
@@ -48536,7 +48612,7 @@ function coerce(val) {
  */
 
 var Polling = __webpack_require__(70);
-var inherit = __webpack_require__(33);
+var inherit = __webpack_require__(34);
 
 /**
  * Module exports.
@@ -48771,12 +48847,12 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
  * Module dependencies.
  */
 
-var Transport = __webpack_require__(47);
-var parser = __webpack_require__(20);
-var parseqs = __webpack_require__(32);
-var inherit = __webpack_require__(33);
+var Transport = __webpack_require__(48);
+var parser = __webpack_require__(21);
+var parseqs = __webpack_require__(33);
+var inherit = __webpack_require__(34);
 var yeast = __webpack_require__(71);
-var debug = __webpack_require__(34)('engine.io-client:websocket');
+var debug = __webpack_require__(35)('engine.io-client:websocket');
 var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;
 if (typeof window === 'undefined') {
@@ -49172,12 +49248,132 @@ Backoff.prototype.setJitter = function (jitter) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(31);
 
-const $ = __webpack_require__(23);
+const $ = __webpack_require__(14);
 
 
-var io = __webpack_require__(63);
+var io = __webpack_require__(45);
+
+var app;
+var dashboardData;
+
+var txlist;
+var jumbotron;
+
+class DashboardRenderer {
+
+  init() {
+
+    var self = this;
+
+    this.transactionListData = {
+      txData: []
+    };
+
+    var current_hostname = window.location.hostname;
+
+    const socketServer = 'http://' + current_hostname + ':4000';
+
+    const options = { transports: ['websocket'], forceNew: true };
+    this.socket = io(socketServer, options);
+
+    // Socket events
+    this.socket.on('connect', () => {
+      console.log('connected to socket.io server');
+    });
+
+    this.socket.on('disconnect', () => {
+      console.log('disconnected from socket.io server');
+    });
+
+    this.socket.on('transactionData', function (data) {
+      //  console.log('got transactionData', JSON.stringify(data));
+
+      //  data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  ))
+      //  data.map(item => item.formattedStatus =  self.getFormattedStatus(item.receiptData) )
+
+      for (var i in data) {
+        data[i].formattedStatus = self.getFormattedStatus(data[i].receiptData);
+      }
+
+      console.log('got transactionData', JSON.stringify(data));
+
+      __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].set(txlist.transactions, 'tx_list', data.slice(0, 25));
+    });
+
+    this.socket.on('poolData', function (data) {
+      console.log('got poolData ', JSON.stringify(data));
+
+      //  self.accountListData.minerAccountData = data;
+
+      __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].set(jumbotron.pool, 'poolData', data);
+    });
+
+    txlist = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
+      el: '#txlist',
+      data: {
+        //parentMessage: 'Parent',
+        transactions: {
+          tx_list: this.transactionListData.txData
+        }
+      }
+    });
+
+    jumbotron = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
+      el: '#jumbotron',
+      data: {
+        pool: {
+          poolData: { address: '' }
+        }
+      }
+    });
+
+    this.show();
+
+    this.socket.emit('getPoolData');
+    this.socket.emit('getAllTransactionData');
+  }
+
+  getFormattedStatus(receiptData) {
+    if (receiptData.success) return 'success';
+    if (receiptData.mined) return 'mined';
+    if (receiptData.pending) return 'pending';
+    if (receiptData.queued) return 'queued';
+    return '?';
+  }
+
+  update(renderData) {
+
+    this.socket.emit('getPoolData');
+    this.socket.emit('getAllTransactionData');
+
+    this.show();
+  }
+
+  hide() {
+    $('#dashboard').hide();
+  }
+
+  show() {
+    $('#dashboard').show();
+  }
+
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = DashboardRenderer;
+
+
+/***/ }),
+/* 153 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(31);
+
+const $ = __webpack_require__(14);
+
+
+var io = __webpack_require__(45);
 
 var app;
 var dashboardData;
@@ -49216,10 +49412,14 @@ class AccountRenderer {
       data.map(item => item.minerData.tokenBalanceFormatted = item.minerData.tokenBalance / parseFloat(1e8));
       data.map(item => item.minerData.tokenRewardsFormatted = item.minerData.tokensAwarded / parseFloat(1e8));
 
+      data.sort(function (a, b) {
+        return b.minerData.shareCredits - a.minerData.shareCredits;
+      });
+
       for (var i in data) {
         var shares = parseInt(data[i].minerData.shareCredits);
         console.log(shares);
-        if (isNaN(shares) || shares > 0) {
+        if (isNaN(shares) || shares <= 0) {
           data.splice(i, 1);
         }
 
@@ -49266,17 +49466,17 @@ class AccountRenderer {
 
 
 /***/ }),
-/* 153 */
+/* 154 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 var INFURA_ROPSTEN_URL = 'https://ropsten.infura.io/gmXEVo5luMPUGPqg6mhy';
 var INFURA_MAINNET_URL = 'https://mainnet.infura.io/gmXEVo5luMPUGPqg6mhy';
 
-var deployedContractInfo = __webpack_require__(154);
-var _0xBitcoinContract = __webpack_require__(155);
+var deployedContractInfo = __webpack_require__(155);
+var _0xBitcoinContract = __webpack_require__(156);
 
-var embeddedWeb3 = __webpack_require__(156);
+var embeddedWeb3 = __webpack_require__(157);
 
 class EthHelper {
 
@@ -49358,19 +49558,19 @@ class EthHelper {
 
 
 /***/ }),
-/* 154 */
+/* 155 */
 /***/ (function(module, exports) {
 
 module.exports = {"networks":{"mainnet":{"contracts":{"_0xbitcointoken":{"name":"0xBitcoinToken","blockchain_address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31"}}},"testnet":{"contracts":{"_0xbitcointoken":{"name":"0xBitcoinToken","blockchain_address":"0x9d2cc383e677292ed87f63586086cff62a009010"}}}}}
 
 /***/ }),
-/* 155 */
+/* 156 */
 /***/ (function(module, exports) {
 
 module.exports = {"contractName":"_0xBitcoinToken","abi":[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"spender","type":"address"},{"name":"tokens","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"lastRewardEthBlockNumber","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getMiningDifficulty","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"nonce","type":"uint256"},{"name":"challenge_digest","type":"bytes32"}],"name":"mint","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"from","type":"address"},{"name":"to","type":"address"},{"name":"tokens","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"rewardEra","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getMiningTarget","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"_totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getMiningReward","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getChallengeNumber","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"maxSupplyForEra","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"tokensMinted","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"lastRewardTo","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"tokenOwner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"acceptOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"nonce","type":"uint256"},{"name":"challenge_digest","type":"bytes32"},{"name":"challenge_number","type":"bytes32"},{"name":"testDifficulty","type":"uint256"}],"name":"checkMintSolution","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"epochCount","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"_MAXIMUM_TARGET","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"miningTarget","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"challengeNumber","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"nonce","type":"uint256"},{"name":"challenge_digest","type":"bytes32"},{"name":"challenge_number","type":"bytes32"}],"name":"getMintDigest","outputs":[{"name":"digesttest","type":"bytes32"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"tokens","type":"uint256"}],"name":"transfer","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"_BLOCKS_PER_READJUSTMENT","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"lastRewardAmount","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"spender","type":"address"},{"name":"tokens","type":"uint256"},{"name":"data","type":"bytes"}],"name":"approveAndCall","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"latestDifficultyPeriodStarted","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"newOwner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"tokenAddress","type":"address"},{"name":"tokens","type":"uint256"}],"name":"transferAnyERC20Token","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"_MINIMUM_TARGET","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"tokenOwner","type":"address"},{"name":"spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":false,"name":"reward_amount","type":"uint256"},{"indexed":false,"name":"epochCount","type":"uint256"},{"indexed":false,"name":"newChallengeNumber","type":"bytes32"}],"name":"Mint","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"tokens","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"tokenOwner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"tokens","type":"uint256"}],"name":"Approval","type":"event"}],"bytecode":"0x60606040526101006008556101006009557f0400000000000000000000000000000000000000000000000000000000000000600a5534156200004057600080fd5b336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515620000dc57600080fd5b6040805190810160405280600581526020017f307842544300000000000000000000000000000000000000000000000000000081525060029080519060200190620001299291906200045e565b506040805190810160405280600f81526020017f3078426974636f696e20546f6b656e000000000000000000000000000000000081525060039080519060200190620001779291906200045e565b506008600460006101000a81548160ff021916908360ff160217905550600460009054906101000a900460ff1660ff16600a0a6301406f400260058190555060006013819055506000600d81905550620001ec6002600554620002266401000000000262001d60179091906401000000009004565b600e81905550600a54600b8190555043600681905550620002206200024c6401000000000262001da0176401000000009004565b6200050d565b600080821115156200023757600080fd5b81838115156200024357fe5b04905092915050565b600e54601354101580156200026357506020600d54105b1562000276576001600d5401600d819055505b620002a36001600d540160020a600554620002266401000000000262001d60179091906401000000009004565b60055403600e819055506001430340600c8160001916905550620002e26001600754620003236401000000000262001d84179091906401000000009004565b6007819055506000600854600754811515620002fa57fe5b061415620003215762000320620003406401000000000262001e59176401000000009004565b5b565b600081830190508281101515156200033a57600080fd5b92915050565b6000806000600654430392506008549150603c8202905080831015620003b657620003aa6200038a6014600b54620002266401000000000262001d60179091906401000000009004565b600b54620004416401000000000262001e3d179091906401000000009004565b600b8190555062000407565b62000400620003e06014600b54620002266401000000000262001d60179091906401000000009004565b600b54620003236401000000000262001d84179091906401000000009004565b600b819055505b43600681905550600954600b5410156200042557600954600b819055505b600a54600b5411156200043c57600a54600b819055505b505050565b60008282111515156200045357600080fd5b818303905092915050565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10620004a157805160ff1916838001178555620004d2565b82800160010185558215620004d2579182015b82811115620004d1578251825591602001919060010190620004b4565b5b509050620004e19190620004e5565b5090565b6200050a91905b8082111562000506576000816000905550600101620004ec565b5090565b90565b611f42806200051d6000396000f3006060604052600436106101c2576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306fdde03146101c7578063095ea7b314610255578063163aa00d146102af57806317da485f146102d85780631801fbe51461030157806318160ddd1461034957806323b872dd146103725780632d38bf7a146103eb578063313ce5671461041457806332e99708146104435780633eaaf86b1461046c578063490203a7146104955780634ef37628146104be5780634fa972e1146104ef5780636de9f32b146105185780636fd396d61461054157806370a082311461059657806379ba5097146105e357806381269a56146105f8578063829965cc1461065657806387a2a9d61461067f5780638a769d35146106a85780638ae0368b146106d15780638da5cb5b1461070257806395d89b411461075757806397566aa0146107e5578063a9059cbb1461083e578063b5ade81b14610898578063bafedcaa146108c1578063cae9ca51146108ea578063cb9ae70714610987578063d4ee1d90146109b0578063dc39d06d14610a05578063dc6e9cf914610a5f578063dd62ed3e14610a88578063f2fde38b14610af4575b600080fd5b34156101d257600080fd5b6101da610b2d565b6040518080602001828103825283818151815260200191508051906020019080838360005b8381101561021a5780820151818401526020810190506101ff565b50505050905090810190601f1680156102475780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561026057600080fd5b610295600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091905050610bcb565b604051808215151515815260200191505060405180910390f35b34156102ba57600080fd5b6102c2610cbd565b6040518082815260200191505060405180910390f35b34156102e357600080fd5b6102eb610cc3565b6040518082815260200191505060405180910390f35b341561030c57600080fd5b61032f600480803590602001909190803560001916906020019091905050610ce1565b604051808215151515815260200191505060405180910390f35b341561035457600080fd5b61035c610f54565b6040518082815260200191505060405180910390f35b341561037d57600080fd5b6103d1600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091905050610f9f565b604051808215151515815260200191505060405180910390f35b34156103f657600080fd5b6103fe61124a565b6040518082815260200191505060405180910390f35b341561041f57600080fd5b610427611250565b604051808260ff1660ff16815260200191505060405180910390f35b341561044e57600080fd5b610456611263565b6040518082815260200191505060405180910390f35b341561047757600080fd5b61047f61126d565b6040518082815260200191505060405180910390f35b34156104a057600080fd5b6104a8611273565b6040518082815260200191505060405180910390f35b34156104c957600080fd5b6104d16112aa565b60405180826000191660001916815260200191505060405180910390f35b34156104fa57600080fd5b6105026112b4565b6040518082815260200191505060405180910390f35b341561052357600080fd5b61052b6112ba565b6040518082815260200191505060405180910390f35b341561054c57600080fd5b6105546112c0565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156105a157600080fd5b6105cd600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919050506112e6565b6040518082815260200191505060405180910390f35b34156105ee57600080fd5b6105f661132f565b005b341561060357600080fd5b61063c600480803590602001909190803560001916906020019091908035600019169060200190919080359060200190919050506114ce565b604051808215151515815260200191505060405180910390f35b341561066157600080fd5b610669611577565b6040518082815260200191505060405180910390f35b341561068a57600080fd5b61069261157d565b6040518082815260200191505060405180910390f35b34156106b357600080fd5b6106bb611583565b6040518082815260200191505060405180910390f35b34156106dc57600080fd5b6106e4611589565b60405180826000191660001916815260200191505060405180910390f35b341561070d57600080fd5b61071561158f565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b341561076257600080fd5b61076a6115b4565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156107aa57808201518184015260208101905061078f565b50505050905090810190601f1680156107d75780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b34156107f057600080fd5b61082060048080359060200190919080356000191690602001909190803560001916906020019091905050611652565b60405180826000191660001916815260200191505060405180910390f35b341561084957600080fd5b61087e600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919080359060200190919050506116cb565b604051808215151515815260200191505060405180910390f35b34156108a357600080fd5b6108ab611866565b6040518082815260200191505060405180910390f35b34156108cc57600080fd5b6108d461186c565b6040518082815260200191505060405180910390f35b34156108f557600080fd5b61096d600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091905050611872565b604051808215151515815260200191505060405180910390f35b341561099257600080fd5b61099a611abc565b6040518082815260200191505060405180910390f35b34156109bb57600080fd5b6109c3611ac2565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b3415610a1057600080fd5b610a45600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091905050611ae8565b604051808215151515815260200191505060405180910390f35b3415610a6a57600080fd5b610a72611c34565b6040518082815260200191505060405180910390f35b3415610a9357600080fd5b610ade600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050611c3a565b6040518082815260200191505060405180910390f35b3415610aff57600080fd5b610b2b600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050611cc1565b005b60038054600181600116156101000203166002900480601f016020809104026020016040519081016040528092919081815260200182805460018160011615610100020316600290048015610bc35780601f10610b9857610100808354040283529160200191610bc3565b820191906000526020600020905b815481529060010190602001808311610ba657829003601f168201915b505050505081565b600081601560003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055508273ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925846040518082815260200191505060405180910390a36001905092915050565b60115481565b6000610cdc600b54600a54611d6090919063ffffffff16565b905090565b600080600080610cef611273565b9250600c5433876040518084600019166000191681526020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166c0100000000000000000000000002815260140182815260200193505050506040518091039020915084600019168260001916141515610d7457600080fd5b600b5482600190041115610d8757600080fd5b60126000836000191660001916815260200190815260200160002054905060075460126000846000191660001916815260200190815260200160002081905550600081141515610dd657600080fd5b610e2883601460003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054611d8490919063ffffffff16565b601460003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002081905550610e8083601354611d8490919063ffffffff16565b60138190555033600f60006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055508260108190555043601181905550610edd611da0565b3373ffffffffffffffffffffffffffffffffffffffff167fcf6fbb9dcea7d07263ab4f5c3a92f53af33dffc421d9d121e1c74b307e68189d84600754600c54604051808481526020018381526020018260001916600019168152602001935050505060405180910390a26001935050505092915050565b6000601460008073ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205460055403905090565b6000610ff382601460008773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054611e3d90919063ffffffff16565b601460008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055506110c582601560008773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054611e3d90919063ffffffff16565b601560008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000208190555061119782601460008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054611d8490919063ffffffff16565b601460008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055508273ffffffffffffffffffffffffffffffffffffffff168473ffffffffffffffffffffffffffffffffffffffff167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef846040518082815260200191505060405180910390a3600190509392505050565b600d5481565b600460009054906101000a900460ff1681565b6000600b54905090565b60055481565b60006112a5600d5460020a600460009054906101000a900460ff1660ff16600a0a603202611d6090919063ffffffff16565b905090565b6000600c54905090565b600e5481565b60135481565b600f60009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000601460008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561138b57600080fd5b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e060405160405180910390a3600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff166000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506000600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550565b6000806000808492506114df611273565b91508533896040518084600019166000191681526020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166c01000000000000000000000000028152601401828152602001935050505060405180910390209050600b548160019004111561155f57600080fd5b86600019168160001916149350505050949350505050565b60075481565b600a5481565b600b5481565b600c5481565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60028054600181600116156101000203166002900480601f01602080910402602001604051908101604052809291908181526020018280546001816001161561010002031660029004801561164a5780601f1061161f5761010080835404028352916020019161164a565b820191906000526020600020905b81548152906001019060200180831161162d57829003601f168201915b505050505081565b6000808233866040518084600019166000191681526020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166c01000000000000000000000000028152601401828152602001935050505060405180910390209050809150509392505050565b600061171f82601460003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054611e3d90919063ffffffff16565b601460003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055506117b482601460008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054611d8490919063ffffffff16565b601460008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055508273ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef846040518082815260200191505060405180910390a36001905092915050565b60085481565b60105481565b600082601560003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055508373ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925856040518082815260200191505060405180910390a38373ffffffffffffffffffffffffffffffffffffffff16638f4ffcb1338530866040518563ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018481526020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200180602001828103825283818151815260200191508051906020019080838360005b83811015611a4f578082015181840152602081019050611a34565b50505050905090810190601f168015611a7c5780820380516001836020036101000a031916815260200191505b5095505050505050600060405180830381600087803b1515611a9d57600080fd5b6102c65a03f11515611aae57600080fd5b505050600190509392505050565b60065481565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515611b4557600080fd5b8273ffffffffffffffffffffffffffffffffffffffff1663a9059cbb6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff16846000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182815260200192505050602060405180830381600087803b1515611c1157600080fd5b6102c65a03f11515611c2257600080fd5b50505060405180519050905092915050565b60095481565b6000601560008473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054905092915050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515611d1c57600080fd5b80600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b60008082111515611d7057600080fd5b8183811515611d7b57fe5b04905092915050565b60008183019050828110151515611d9a57600080fd5b92915050565b600e5460135410158015611db657506020600d54105b15611dc8576001600d5401600d819055505b611de56001600d540160020a600554611d6090919063ffffffff16565b60055403600e819055506001430340600c8160001916905550611e146001600754611d8490919063ffffffff16565b6007819055506000600854600754811515611e2b57fe5b061415611e3b57611e3a611e59565b5b565b6000828211151515611e4e57600080fd5b818303905092915050565b6000806000600654430392506008549150603c8202905080831015611ead57611ea2611e916014600b54611d6090919063ffffffff16565b600b54611e3d90919063ffffffff16565b600b81905550611ede565b611ed7611ec66014600b54611d6090919063ffffffff16565b600b54611d8490919063ffffffff16565b600b819055505b43600681905550600954600b541015611efb57600954600b819055505b600a54600b541115611f1157600a54600b819055505b5050505600a165627a7a72305820d59f3473ee8072d3b732daa114aa23e8db3e168007f7eca216306713144505270029","deployedBytecode":"0x6060604052600436106101c2576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306fdde03146101c7578063095ea7b314610255578063163aa00d146102af57806317da485f146102d85780631801fbe51461030157806318160ddd1461034957806323b872dd146103725780632d38bf7a146103eb578063313ce5671461041457806332e99708146104435780633eaaf86b1461046c578063490203a7146104955780634ef37628146104be5780634fa972e1146104ef5780636de9f32b146105185780636fd396d61461054157806370a082311461059657806379ba5097146105e357806381269a56146105f8578063829965cc1461065657806387a2a9d61461067f5780638a769d35146106a85780638ae0368b146106d15780638da5cb5b1461070257806395d89b411461075757806397566aa0146107e5578063a9059cbb1461083e578063b5ade81b14610898578063bafedcaa146108c1578063cae9ca51146108ea578063cb9ae70714610987578063d4ee1d90146109b0578063dc39d06d14610a05578063dc6e9cf914610a5f578063dd62ed3e14610a88578063f2fde38b14610af4575b600080fd5b34156101d257600080fd5b6101da610b2d565b6040518080602001828103825283818151815260200191508051906020019080838360005b8381101561021a5780820151818401526020810190506101ff565b50505050905090810190601f1680156102475780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561026057600080fd5b610295600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091905050610bcb565b604051808215151515815260200191505060405180910390f35b34156102ba57600080fd5b6102c2610cbd565b6040518082815260200191505060405180910390f35b34156102e357600080fd5b6102eb610cc3565b6040518082815260200191505060405180910390f35b341561030c57600080fd5b61032f600480803590602001909190803560001916906020019091905050610ce1565b604051808215151515815260200191505060405180910390f35b341561035457600080fd5b61035c610f54565b6040518082815260200191505060405180910390f35b341561037d57600080fd5b6103d1600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091905050610f9f565b604051808215151515815260200191505060405180910390f35b34156103f657600080fd5b6103fe61124a565b6040518082815260200191505060405180910390f35b341561041f57600080fd5b610427611250565b604051808260ff1660ff16815260200191505060405180910390f35b341561044e57600080fd5b610456611263565b6040518082815260200191505060405180910390f35b341561047757600080fd5b61047f61126d565b6040518082815260200191505060405180910390f35b34156104a057600080fd5b6104a8611273565b6040518082815260200191505060405180910390f35b34156104c957600080fd5b6104d16112aa565b60405180826000191660001916815260200191505060405180910390f35b34156104fa57600080fd5b6105026112b4565b6040518082815260200191505060405180910390f35b341561052357600080fd5b61052b6112ba565b6040518082815260200191505060405180910390f35b341561054c57600080fd5b6105546112c0565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156105a157600080fd5b6105cd600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919050506112e6565b6040518082815260200191505060405180910390f35b34156105ee57600080fd5b6105f661132f565b005b341561060357600080fd5b61063c600480803590602001909190803560001916906020019091908035600019169060200190919080359060200190919050506114ce565b604051808215151515815260200191505060405180910390f35b341561066157600080fd5b610669611577565b6040518082815260200191505060405180910390f35b341561068a57600080fd5b61069261157d565b6040518082815260200191505060405180910390f35b34156106b357600080fd5b6106bb611583565b6040518082815260200191505060405180910390f35b34156106dc57600080fd5b6106e4611589565b60405180826000191660001916815260200191505060405180910390f35b341561070d57600080fd5b61071561158f565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b341561076257600080fd5b61076a6115b4565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156107aa57808201518184015260208101905061078f565b50505050905090810190601f1680156107d75780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b34156107f057600080fd5b61082060048080359060200190919080356000191690602001909190803560001916906020019091905050611652565b60405180826000191660001916815260200191505060405180910390f35b341561084957600080fd5b61087e600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919080359060200190919050506116cb565b604051808215151515815260200191505060405180910390f35b34156108a357600080fd5b6108ab611866565b6040518082815260200191505060405180910390f35b34156108cc57600080fd5b6108d461186c565b6040518082815260200191505060405180910390f35b34156108f557600080fd5b61096d600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091905050611872565b604051808215151515815260200191505060405180910390f35b341561099257600080fd5b61099a611abc565b6040518082815260200191505060405180910390f35b34156109bb57600080fd5b6109c3611ac2565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b3415610a1057600080fd5b610a45600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091905050611ae8565b604051808215151515815260200191505060405180910390f35b3415610a6a57600080fd5b610a72611c34565b6040518082815260200191505060405180910390f35b3415610a9357600080fd5b610ade600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050611c3a565b6040518082815260200191505060405180910390f35b3415610aff57600080fd5b610b2b600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050611cc1565b005b60038054600181600116156101000203166002900480601f016020809104026020016040519081016040528092919081815260200182805460018160011615610100020316600290048015610bc35780601f10610b9857610100808354040283529160200191610bc3565b820191906000526020600020905b815481529060010190602001808311610ba657829003601f168201915b505050505081565b600081601560003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055508273ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925846040518082815260200191505060405180910390a36001905092915050565b60115481565b6000610cdc600b54600a54611d6090919063ffffffff16565b905090565b600080600080610cef611273565b9250600c5433876040518084600019166000191681526020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166c0100000000000000000000000002815260140182815260200193505050506040518091039020915084600019168260001916141515610d7457600080fd5b600b5482600190041115610d8757600080fd5b60126000836000191660001916815260200190815260200160002054905060075460126000846000191660001916815260200190815260200160002081905550600081141515610dd657600080fd5b610e2883601460003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054611d8490919063ffffffff16565b601460003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002081905550610e8083601354611d8490919063ffffffff16565b60138190555033600f60006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055508260108190555043601181905550610edd611da0565b3373ffffffffffffffffffffffffffffffffffffffff167fcf6fbb9dcea7d07263ab4f5c3a92f53af33dffc421d9d121e1c74b307e68189d84600754600c54604051808481526020018381526020018260001916600019168152602001935050505060405180910390a26001935050505092915050565b6000601460008073ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205460055403905090565b6000610ff382601460008773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054611e3d90919063ffffffff16565b601460008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055506110c582601560008773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054611e3d90919063ffffffff16565b601560008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000208190555061119782601460008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054611d8490919063ffffffff16565b601460008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055508273ffffffffffffffffffffffffffffffffffffffff168473ffffffffffffffffffffffffffffffffffffffff167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef846040518082815260200191505060405180910390a3600190509392505050565b600d5481565b600460009054906101000a900460ff1681565b6000600b54905090565b60055481565b60006112a5600d5460020a600460009054906101000a900460ff1660ff16600a0a603202611d6090919063ffffffff16565b905090565b6000600c54905090565b600e5481565b60135481565b600f60009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000601460008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561138b57600080fd5b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e060405160405180910390a3600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff166000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506000600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550565b6000806000808492506114df611273565b91508533896040518084600019166000191681526020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166c01000000000000000000000000028152601401828152602001935050505060405180910390209050600b548160019004111561155f57600080fd5b86600019168160001916149350505050949350505050565b60075481565b600a5481565b600b5481565b600c5481565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60028054600181600116156101000203166002900480601f01602080910402602001604051908101604052809291908181526020018280546001816001161561010002031660029004801561164a5780601f1061161f5761010080835404028352916020019161164a565b820191906000526020600020905b81548152906001019060200180831161162d57829003601f168201915b505050505081565b6000808233866040518084600019166000191681526020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166c01000000000000000000000000028152601401828152602001935050505060405180910390209050809150509392505050565b600061171f82601460003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054611e3d90919063ffffffff16565b601460003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055506117b482601460008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054611d8490919063ffffffff16565b601460008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055508273ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef846040518082815260200191505060405180910390a36001905092915050565b60085481565b60105481565b600082601560003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055508373ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925856040518082815260200191505060405180910390a38373ffffffffffffffffffffffffffffffffffffffff16638f4ffcb1338530866040518563ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018481526020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200180602001828103825283818151815260200191508051906020019080838360005b83811015611a4f578082015181840152602081019050611a34565b50505050905090810190601f168015611a7c5780820380516001836020036101000a031916815260200191505b5095505050505050600060405180830381600087803b1515611a9d57600080fd5b6102c65a03f11515611aae57600080fd5b505050600190509392505050565b60065481565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515611b4557600080fd5b8273ffffffffffffffffffffffffffffffffffffffff1663a9059cbb6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff16846000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182815260200192505050602060405180830381600087803b1515611c1157600080fd5b6102c65a03f11515611c2257600080fd5b50505060405180519050905092915050565b60095481565b6000601560008473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054905092915050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515611d1c57600080fd5b80600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b60008082111515611d7057600080fd5b8183811515611d7b57fe5b04905092915050565b60008183019050828110151515611d9a57600080fd5b92915050565b600e5460135410158015611db657506020600d54105b15611dc8576001600d5401600d819055505b611de56001600d540160020a600554611d6090919063ffffffff16565b60055403600e819055506001430340600c8160001916905550611e146001600754611d8490919063ffffffff16565b6007819055506000600854600754811515611e2b57fe5b061415611e3b57611e3a611e59565b5b565b6000828211151515611e4e57600080fd5b818303905092915050565b6000806000600654430392506008549150603c8202905080831015611ead57611ea2611e916014600b54611d6090919063ffffffff16565b600b54611e3d90919063ffffffff16565b600b81905550611ede565b611ed7611ec66014600b54611d6090919063ffffffff16565b600b54611d8490919063ffffffff16565b600b819055505b43600681905550600954600b541015611efb57600954600b819055505b600a54600b541115611f1157600a54600b819055505b5050505600a165627a7a72305820d59f3473ee8072d3b732daa114aa23e8db3e168007f7eca216306713144505270029","sourceMap":"3478:11796:0:-;;;3927:3;3888:42;;4037:4;4006:35;;4101:6;4070:37;;4982:514;;;;;;;;2804:10;2796:5;;:18;;;;;;;;;;;;;;;;;;2881:5;;;;;;;;;;;2867:19;;:10;:19;;;2859:28;;;;;;;;5036:16;;;;;;;;;;;;;;;;;;:6;:16;;;;;;;;;;;;:::i;:::-;;5063:24;;;;;;;;;;;;;;;;;;:4;:24;;;;;;;;;;;;:::i;:::-;;5109:1;5098:8;;:12;;;;;;;;;;;;;;;;;;5156:8;;;;;;;;;;;5151:14;;5147:2;:18;5136:8;:29;5121:12;:44;;;;5190:1;5175:12;:16;;;;5214:1;5202:9;:13;;;;5243:19;5260:1;5243:12;;:16;;;;;;:19;;;;;:::i;:::-;5225:15;:37;;;;5288:15;;5273:12;:30;;;;5346:12;5314:29;:44;;;;5369:22;:20;;;;;:22;;;:::i;:::-;3478:11796;;916:113;968:6;999:1;995;:5;987:14;;;;;;;;1020:1;1016;:5;;;;;;;;1012:9;;916:113;;;;:::o;5502:821::-;5646:15;;5630:12;;:31;;:49;;;;;5677:2;5665:9;;:14;5630:49;5627:152;;;5769:1;5757:9;;:13;5745:9;:25;;;;5627:152;5884:37;5918:1;5906:9;;:13;5902:1;:18;5884:12;;:16;;;;;;:37;;;;;:::i;:::-;5869:12;;:52;5851:15;:70;;;;6096:1;6081:12;:16;6065:33;6047:15;:51;;;;;;;6121:17;6136:1;6121:10;;:14;;;;;;:17;;;;;:::i;:::-;6108:10;:30;;;;6265:1;6237:24;;6224:10;;:37;;;;;;;;:42;6221:93;;;6284:21;:19;;;;;:21;;;:::i;:::-;6221:93;5502:821::o;542:114::-;594:6;621:1;617;:5;613:9;;646:1;641;:6;;633:15;;;;;;;;542:114;;;;:::o;6547:1108::-;6599:39;6857:16;6917:28;6656:29;;6641:12;:44;6599:86;;6876:24;;6857:43;;6962:2;6948:11;:16;6917:47;;7127:23;7090:34;:60;7086:285;;;7215:38;7232:20;7249:2;7232:12;;:16;;;;;;:20;;;;;:::i;:::-;7215:12;;:16;;;;;;:38;;;;;:::i;:::-;7200:12;:53;;;;7086:285;;;7322:38;7339:20;7356:2;7339:12;;:16;;;;;;:20;;;;;:::i;:::-;7322:12;;:16;;;;;;:38;;;;;:::i;:::-;7307:12;:53;;;;7086:285;7415:12;7383:29;:44;;;;7456:15;;7441:12;;:30;7438:100;;;7512:15;;7497:12;:30;;;;7438:100;7566:15;;7551:12;;:30;7548:101;;;7623:15;;7608:12;:30;;;;7548:101;6547:1108;;;:::o;662:114::-;714:6;746:1;741;:6;;733:15;;;;;;;;767:1;763;:5;759:9;;662:114;;;;:::o;3478:11796::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;","deployedSourceMap":"3478:11796:0:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;14835:8;;;3593:19;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;12405:203:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4441:36;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;10036:119;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8393:1361;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;10815:116;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;13149:338;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4312:21;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3619;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;10161:92;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3647:24;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;10367:257;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;9844:103;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4339:27;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4559:24;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4374:27;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;11156:124;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3022:191;;;;;;;;;;;;;;7902:484;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3832:22;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4070:37;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4115:24;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4222:30;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2625:20;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3566;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;7662:232:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;11629:262;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3888:42;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4407:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;14290:312;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3782:41;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2652:23;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;15087:184;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4006:35;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;13773:151;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2914:102;;;;;;;;;;;;;;;;;;;;;;;;;;;;3593:19;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;12405:203::-;12468:12;12524:6;12493:7;:19;12501:10;12493:19;;;;;;;;;;;;;;;:28;12513:7;12493:28;;;;;;;;;;;;;;;:37;;;;12562:7;12541:37;;12550:10;12541:37;;;12571:6;12541:37;;;;;;;;;;;;;;;;;;12596:4;12589:11;;12405:203;;;;:::o;4441:36::-;;;;:::o;10036:119::-;10092:4;10115:33;10135:12;;10115:15;;:19;;:33;;;;:::i;:::-;10108:40;;10036:119;:::o;8393:1361::-;8464:12;8540:18;8739:14;9139;8561:17;:15;:17::i;:::-;8540:38;;8767:15;;8784:10;8796:5;8757:46;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8739:64;;8883:16;8873:26;;;:6;:26;;;;;8869:40;;;8901:8;;;8869:40;8994:12;;8984:6;8976:15;;;:30;8973:43;;;9008:8;;;8973:43;9156:17;:25;9174:6;9156:25;;;;;;;;;;;;;;;;;;9139:42;;9220:10;;9192:17;:25;9210:6;9192:25;;;;;;;;;;;;;;;;;:38;;;;9257:1;9244:9;:14;;9241:27;;;9260:8;;;9241:27;9351:39;9376:13;9351:8;:20;9360:10;9351:20;;;;;;;;;;;;;;;;:24;;:39;;;;:::i;:::-;9328:8;:20;9337:10;9328:20;;;;;;;;;;;;;;;:62;;;;9417:31;9434:13;9417:12;;:16;;:31;;;;:::i;:::-;9402:12;:46;;;;9515:10;9500:12;;:25;;;;;;;;;;;;;;;;;;9554:13;9535:16;:32;;;;9604:12;9577:24;:39;;;;9629:22;:20;:22::i;:::-;9669:10;9664:61;;;9681:13;9696:10;;9708:15;;9664:61;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;9742:4;9735:11;;8393:1361;;;;;;;:::o;10815:116::-;10863:4;10903:8;:20;10920:1;10903:20;;;;;;;;;;;;;;;;10887:12;;:36;10880:43;;10815:116;:::o;13149:338::-;13226:12;13268:26;13287:6;13268:8;:14;13277:4;13268:14;;;;;;;;;;;;;;;;:18;;:26;;;;:::i;:::-;13251:8;:14;13260:4;13251:14;;;;;;;;;;;;;;;:43;;;;13333:37;13363:6;13333:7;:13;13341:4;13333:13;;;;;;;;;;;;;;;:25;13347:10;13333:25;;;;;;;;;;;;;;;;:29;;:37;;;;:::i;:::-;13305:7;:13;13313:4;13305:13;;;;;;;;;;;;;;;:25;13319:10;13305:25;;;;;;;;;;;;;;;:65;;;;13396:24;13413:6;13396:8;:12;13405:2;13396:12;;;;;;;;;;;;;;;;:16;;:24;;;;:::i;:::-;13381:8;:12;13390:2;13381:12;;;;;;;;;;;;;;;:39;;;;13446:2;13431:26;;13440:4;13431:26;;;13450:6;13431:26;;;;;;;;;;;;;;;;;;13475:4;13468:11;;13149:338;;;;;:::o;4312:21::-;;;;:::o;3619:::-;;;;;;;;;;;;;:::o;10161:92::-;10213:4;10235:12;;10228:19;;10161:92;:::o;3647:24::-;;;;:::o;10367:257::-;10419:4;10569:46;10604:9;;10601:1;:12;10584:8;;;;;;;;;;;10579:14;;10575:2;:18;10570:2;:23;10569:30;;:46;;;;:::i;:::-;10562:53;;10367:257;:::o;9844:103::-;9899:7;9925:15;;9918:22;;9844:103;:::o;4339:27::-;;;;:::o;4559:24::-;;;;:::o;4374:27::-;;;;;;;;;;;;;:::o;11156:124::-;11220:12;11252:8;:20;11261:10;11252:20;;;;;;;;;;;;;;;;11245:27;;11156:124;;;:::o;3022:191::-;3089:8;;;;;;;;;;;3075:22;;:10;:22;;;3067:31;;;;;;;;3137:8;;;;;;;;;;;3109:37;;3130:5;;;;;;;;;;;3109:37;;;;;;;;;;;;3165:8;;;;;;;;;;;3157:5;;:16;;;;;;;;;;;;;;;;;;3203:1;3184:8;;:21;;;;;;;;;;;;;;;;;;3022:191::o;7902:484::-;8033:12;8060:15;8104:18;8155:14;8078;8060:32;;8125:17;:15;:17::i;:::-;8104:38;;8182:16;8199:10;8210:5;8172:44;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8155:61;;8304:12;;8294:6;8286:15;;;:30;8283:43;;;8318:8;;;8283:43;8357:16;8347:26;;;:6;:26;;;;8339:35;;7902:484;;;;;;;;;:::o;3832:22::-;;;;:::o;4070:37::-;;;;:::o;4115:24::-;;;;:::o;4222:30::-;;;;:::o;2625:20::-;;;;;;;;;;;;;:::o;3566:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;7662:232::-;7768:18;7799:14;7826:16;7843:10;7854:5;7816:44;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;7799:61;;7878:6;7871:13;;7662:232;;;;;;:::o;11629:262::-;11688:12;11736:32;11761:6;11736:8;:20;11745:10;11736:20;;;;;;;;;;;;;;;;:24;;:32;;;;:::i;:::-;11713:8;:20;11722:10;11713:20;;;;;;;;;;;;;;;:55;;;;11794:24;11811:6;11794:8;:12;11803:2;11794:12;;;;;;;;;;;;;;;;:16;;:24;;;;:::i;:::-;11779:8;:12;11788:2;11779:12;;;;;;;;;;;;;;;:39;;;;11850:2;11829:32;;11838:10;11829:32;;;11854:6;11829:32;;;;;;;;;;;;;;;;;;11879:4;11872:11;;11629:262;;;;:::o;3888:42::-;;;;:::o;4407:28::-;;;;:::o;14290:312::-;14372:12;14428:6;14397:7;:19;14405:10;14397:19;;;;;;;;;;;;;;;:28;14417:7;14397:28;;;;;;;;;;;;;;;:37;;;;14466:7;14445:37;;14454:10;14445:37;;;14475:6;14445:37;;;;;;;;;;;;;;;;;;14516:7;14493:47;;;14541:10;14553:6;14561:4;14567;14493:79;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;14590:4:0;14583:11;;14290:312;;;;;:::o;3782:41::-;;;;:::o;2652:23::-;;;;;;;;;;;;;:::o;15087:184::-;15179:12;2881:5;;;;;;;;;;;2867:19;;:10;:19;;;2859:28;;;;;;;;15226:12;15211:37;;;15249:5;;;;;;;;;;;15256:6;15211:52;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;15204:59;;15087:184;;;;:::o;4006:35::-;;;;:::o;13773:151::-;13854:14;13888:7;:19;13896:10;13888:19;;;;;;;;;;;;;;;:28;13908:7;13888:28;;;;;;;;;;;;;;;;13881:35;;13773:151;;;;:::o;2914:102::-;2881:5;;;;;;;;;;;2867:19;;:10;:19;;;2859:28;;;;;;;;2999:9;2988:8;;:20;;;;;;;;;;;;;;;;;;2914:102;:::o;916:113::-;968:6;999:1;995;:5;987:14;;;;;;;;1020:1;1016;:5;;;;;;;;1012:9;;916:113;;;;:::o;542:114::-;594:6;621:1;617;:5;613:9;;646:1;641;:6;;633:15;;;;;;;;542:114;;;;:::o;5502:821::-;5646:15;;5630:12;;:31;;:49;;;;;5677:2;5665:9;;:14;5630:49;5627:152;;;5769:1;5757:9;;:13;5745:9;:25;;;;5627:152;5884:37;5918:1;5906:9;;:13;5902:1;:18;5884:12;;:16;;:37;;;;:::i;:::-;5869:12;;:52;5851:15;:70;;;;6096:1;6081:12;:16;6065:33;6047:15;:51;;;;;;;6121:17;6136:1;6121:10;;:14;;:17;;;;:::i;:::-;6108:10;:30;;;;6265:1;6237:24;;6224:10;;:37;;;;;;;;:42;6221:93;;;6284:21;:19;:21::i;:::-;6221:93;5502:821::o;662:114::-;714:6;746:1;741;:6;;733:15;;;;;;;;767:1;763;:5;759:9;;662:114;;;;:::o;6547:1108::-;6599:39;6857:16;6917:28;6656:29;;6641:12;:44;6599:86;;6876:24;;6857:43;;6962:2;6948:11;:16;6917:47;;7127:23;7090:34;:60;7086:285;;;7215:38;7232:20;7249:2;7232:12;;:16;;:20;;;;:::i;:::-;7215:12;;:16;;:38;;;;:::i;:::-;7200:12;:53;;;;7086:285;;;7322:38;7339:20;7356:2;7339:12;;:16;;:20;;;;:::i;:::-;7322:12;;:16;;:38;;;;:::i;:::-;7307:12;:53;;;;7086:285;7415:12;7383:29;:44;;;;7456:15;;7441:12;;:30;7438:100;;;7512:15;;7497:12;:30;;;;7438:100;7566:15;;7551:12;;:30;7548:101;;;7623:15;;7608:12;:30;;;;7548:101;6547:1108;;;:::o","source":"pragma solidity ^0.4.18;\n\n\n// ----------------------------------------------------------------------------\n\n// '0xBitcoin Token' contract\n\n//\n\n// Symbol      : 0xBTC\n\n// Name        : 0xBitcoin Token\n\n// Total supply: 21,000,000.00\n\n// Decimals    : 8\n\n//\n\n\n// ----------------------------------------------------------------------------\n\n\n\n// ----------------------------------------------------------------------------\n\n// Safe maths\n\n// ----------------------------------------------------------------------------\n\nlibrary SafeMath {\n\n    function add(uint a, uint b) internal pure returns (uint c) {\n\n        c = a + b;\n\n        require(c >= a);\n\n    }\n\n    function sub(uint a, uint b) internal pure returns (uint c) {\n\n        require(b <= a);\n\n        c = a - b;\n\n    }\n\n    function mul(uint a, uint b) internal pure returns (uint c) {\n\n        c = a * b;\n\n        require(a == 0 || c / a == b);\n\n    }\n\n    function div(uint a, uint b) internal pure returns (uint c) {\n\n        require(b > 0);\n\n        c = a / b;\n\n    }\n\n}\n\n\n\n// ----------------------------------------------------------------------------\n\n// ERC Token Standard #20 Interface\n\n// https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20-token-standard.md\n\n// ----------------------------------------------------------------------------\n\ncontract ERC20Interface {\n\n    function totalSupply() public constant returns (uint);\n\n    function balanceOf(address tokenOwner) public constant returns (uint balance);\n\n    function allowance(address tokenOwner, address spender) public constant returns (uint remaining);\n\n    function transfer(address to, uint tokens) public returns (bool success);\n\n    function approve(address spender, uint tokens) public returns (bool success);\n\n    function transferFrom(address from, address to, uint tokens) public returns (bool success);\n\n\n    event Transfer(address indexed from, address indexed to, uint tokens);\n\n    event Approval(address indexed tokenOwner, address indexed spender, uint tokens);\n\n}\n\n\n\n// ----------------------------------------------------------------------------\n\n// Contract function to receive approval and execute function in one call\n\n//\n\n// Borrowed from MiniMeToken\n\n// ----------------------------------------------------------------------------\n\ncontract ApproveAndCallFallBack {\n\n    function receiveApproval(address from, uint256 tokens, address token, bytes data) public;\n\n}\n\n\n\n// ----------------------------------------------------------------------------\n\n// Owned contract\n\n// ----------------------------------------------------------------------------\n\ncontract Owned {\n\n    address public owner;\n\n    address public newOwner;\n\n\n    event OwnershipTransferred(address indexed _from, address indexed _to);\n\n\n    function Owned() public {\n\n        owner = msg.sender;\n\n    }\n\n\n    modifier onlyOwner {\n\n        require(msg.sender == owner);\n\n        _;\n\n    }\n\n\n    function transferOwnership(address _newOwner) public onlyOwner {\n\n        newOwner = _newOwner;\n\n    }\n\n    function acceptOwnership() public {\n\n        require(msg.sender == newOwner);\n\n        OwnershipTransferred(owner, newOwner);\n\n        owner = newOwner;\n\n        newOwner = address(0);\n\n    }\n\n}\n\n\n\n// ----------------------------------------------------------------------------\n\n// ERC20 Token, with the addition of symbol, name and decimals and an\n\n// initial fixed supply\n\n// ----------------------------------------------------------------------------\n\ncontract _0xBitcoinToken is ERC20Interface, Owned {\n\n    using SafeMath for uint;\n\n\n    string public symbol;\n\n    string public  name;\n\n    uint8 public decimals;\n\n    uint public _totalSupply;\n\n\n\n      //ethereum block number when last 0xbtc was minted\n  //  uint public latestMiningEpochStarted;\n\n    uint public latestDifficultyPeriodStarted;\n\n\n\n    uint public epochCount;//number of 'blocks' mined\n\n\n    uint public _BLOCKS_PER_READJUSTMENT = 256;\n\n\n    //a big number is easier ; just find a solution that is smaller\n    uint public  _MINIMUM_TARGET = 2**8;\n\n    //a little number\n    uint public  _MAXIMUM_TARGET = 2**250;\n\n\n    uint public miningTarget;\n  //  uint public miningDifficulty; //adjusts every 2016 epochs (or blocks)\n\n    bytes32 public challengeNumber;   //generate a new one when a new reward is minted\n\n\n\n    uint public rewardEra;\n    uint public maxSupplyForEra;\n\n\n    address public lastRewardTo;\n    uint public lastRewardAmount;\n    uint public lastRewardEthBlockNumber;\n\n\n    mapping(bytes32 => uint) rewardHashesFound; //the hash and the nonce\n\n    uint public tokensMinted;\n\n    mapping(address => uint) balances;\n\n\n\n\n\n    mapping(address => mapping(address => uint)) allowed;\n\n\n\n\n    event Mint(address indexed from, uint reward_amount, uint epochCount, bytes32 newChallengeNumber);\n\n    // ------------------------------------------------------------------------\n\n    // Constructor\n\n    // ------------------------------------------------------------------------\n\n    function _0xBitcoinToken() public onlyOwner{\n\n        symbol = \"0xBTC\";\n\n        name = \"0xBitcoin Token\";\n\n        decimals = 8;\n\n        _totalSupply = 21000000 * 10**uint(decimals);\n        tokensMinted = 0;\n\n        rewardEra = 0;\n        maxSupplyForEra = _totalSupply.div(2);\n\n        miningTarget = _MAXIMUM_TARGET;\n\n        latestDifficultyPeriodStarted = block.number;\n\n        _startNewMiningEpoch();\n\n        //balances[owner] = _totalSupply;\n\n        //Transfer(address(0), owner, _totalSupply);\n\n    }\n\n    function _startNewMiningEpoch() internal {//a new block to be mined\n\n      //latestMiningEpochStarted = block.number;\n\n      if(tokensMinted >= maxSupplyForEra && rewardEra < 32) //32 is the final era, almost all tokens minted\n      {\n        rewardEra = rewardEra + 1;\n      }\n\n      //set the next minted supply at which the era will change\n      maxSupplyForEra = _totalSupply - _totalSupply.div( 2**(rewardEra + 1));\n\n      //make the latest ethereum block hash a part of the next challenge for PoW to prevent pre-mining future blocks\n      challengeNumber = block.blockhash(block.number - 1);\n\n\n      epochCount = epochCount.add(1);\n\n      //every so often, readjust difficulty, dont readjust when deploying\n      if(epochCount % _BLOCKS_PER_READJUSTMENT == 0)\n      {\n        _reAdjustDifficulty();\n      }\n\n\n\n    }\n\n\n\n\n    //https://en.bitcoin.it/wiki/Difficulty#What_is_the_formula_for_difficulty.3F\n    //as of 2017 the bitcoin difficulty was up to 17 zeroes, it was only 8 in the early days\n\n    //readjust the target by 5 percent\n    function _reAdjustDifficulty() internal {\n\n\n        uint ethBlocksSinceLastDifficultyPeriod = block.number - latestDifficultyPeriodStarted;\n\n        //assume 360 ethereum blocks per hour\n\n        //we want miners to spend 10 minutes to mine each 'block', about 60 ethereum blocks = one 0xbitcoin epoch\n        uint epochsMined = _BLOCKS_PER_READJUSTMENT; //256\n\n        uint targetEthBlocksPerEpoch = epochsMined * 60; //should be 60 times slower than ethereum\n\n        //if there were less eth blocks passed in time than expected\n        if( ethBlocksSinceLastDifficultyPeriod < targetEthBlocksPerEpoch )\n        {\n          //make it harder\n          miningTarget = miningTarget.sub(miningTarget.div(20));\n        }else{\n          //make it easier\n          miningTarget = miningTarget.add(miningTarget.div(20));\n        }\n\n\n\n        latestDifficultyPeriodStarted = block.number;\n\n        if(miningTarget < _MINIMUM_TARGET) //6\n        {\n          miningTarget = _MINIMUM_TARGET;\n        }\n\n        if(miningTarget > _MAXIMUM_TARGET) //54\n        {\n          miningTarget = _MAXIMUM_TARGET;\n        }\n    }\n\n\n    function getMintDigest(uint256 nonce, bytes32 challenge_digest, bytes32 challenge_number) public returns (bytes32 digesttest) {\n\n        bytes32 digest = keccak256(challenge_number,msg.sender,nonce);\n\n        return digest;\n\n      }\n\n      function checkMintSolution(uint256 nonce, bytes32 challenge_digest, bytes32 challenge_number, uint testDifficulty) public returns (bool success) {\n\n          uint difficulty = testDifficulty;\n          uint reward_amount = getMiningReward();\n\n          bytes32 digest = keccak256(challenge_number,msg.sender,nonce);\n\n          //bytes memory characters = bytes(digest);\n\n          if(uint256(digest) > miningTarget) revert();\n\n          return (digest == challenge_digest);\n\n        }\n\n\n    function mint(uint256 nonce, bytes32 challenge_digest) public returns (bool success) {\n\n      //  uint difficulty = getMiningDifficulty();\n        uint reward_amount = getMiningReward();\n\n        //the PoW must contain work that includes a recent etherum block hash (challenge number) and the msg.sender's address to prevent MITM attacks\n        bytes32 digest =  keccak256(challengeNumber, msg.sender, nonce );\n\n        //the challenge digest must match the expected\n        if (digest != challenge_digest) revert();\n\n        //the digest must be smaller than the target\n        if(uint256(digest) > miningTarget) revert();\n      //  for(uint i = 0; i < difficulty    ; i++) {\n      //     if (digest[i] != 0x0 ) revert();\n      //  }\n\n         uint hashFound = rewardHashesFound[digest];\n         rewardHashesFound[digest] = epochCount;\n         if(hashFound != 0) revert();  //prevent the same answer from awarding twice\n\n\n\n        balances[msg.sender] = balances[msg.sender].add(reward_amount);\n\n\n        tokensMinted = tokensMinted.add(reward_amount);\n\n\n        //set readonly diagnostics data\n        lastRewardTo = msg.sender;\n        lastRewardAmount = reward_amount;\n        lastRewardEthBlockNumber = block.number;\n\n\n         _startNewMiningEpoch();\n\n          Mint(msg.sender, reward_amount, epochCount, challengeNumber );\n\n       return true;\n\n    }\n\n    //this is a recent ethreum block hash, used to prevent pre-mining future blocks\n    function getChallengeNumber() public constant returns (bytes32) {\n        return challengeNumber;\n    }\n\n    //the number of zeroes the digest of the PoW solution requires.  Auto adjusts\n     function getMiningDifficulty() public constant returns (uint) {\n        return _MAXIMUM_TARGET.div(miningTarget);\n    }\n\n    function getMiningTarget() public constant returns (uint) {\n       return miningTarget;\n   }\n\n\n\n    //21m coins total\n    //reward begins at 50 and is cut in half every reward era (as tokens are mined)\n    function getMiningReward() public constant returns (uint) {\n        //once we get half way thru the coins, only get 25 per block\n\n         //every reward era, the reward amount halves.\n\n         return (50 * 10**uint(decimals) ).div( 2**rewardEra ) ;\n\n    }\n\n\n\n    // ------------------------------------------------------------------------\n\n    // Total supply\n\n    // ------------------------------------------------------------------------\n\n    function totalSupply() public constant returns (uint) {\n\n        return _totalSupply  - balances[address(0)];\n\n    }\n\n\n\n    // ------------------------------------------------------------------------\n\n    // Get the token balance for account `tokenOwner`\n\n    // ------------------------------------------------------------------------\n\n    function balanceOf(address tokenOwner) public constant returns (uint balance) {\n\n        return balances[tokenOwner];\n\n    }\n\n\n\n    // ------------------------------------------------------------------------\n\n    // Transfer the balance from token owner's account to `to` account\n\n    // - Owner's account must have sufficient balance to transfer\n\n    // - 0 value transfers are allowed\n\n    // ------------------------------------------------------------------------\n\n    function transfer(address to, uint tokens) public returns (bool success) {\n\n        balances[msg.sender] = balances[msg.sender].sub(tokens);\n\n        balances[to] = balances[to].add(tokens);\n\n        Transfer(msg.sender, to, tokens);\n\n        return true;\n\n    }\n\n\n\n    // ------------------------------------------------------------------------\n\n    // Token owner can approve for `spender` to transferFrom(...) `tokens`\n\n    // from the token owner's account\n\n    //\n\n    // https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20-token-standard.md\n\n    // recommends that there are no checks for the approval double-spend attack\n\n    // as this should be implemented in user interfaces\n\n    // ------------------------------------------------------------------------\n\n    function approve(address spender, uint tokens) public returns (bool success) {\n\n        allowed[msg.sender][spender] = tokens;\n\n        Approval(msg.sender, spender, tokens);\n\n        return true;\n\n    }\n\n\n\n    // ------------------------------------------------------------------------\n\n    // Transfer `tokens` from the `from` account to the `to` account\n\n    //\n\n    // The calling account must already have sufficient tokens approve(...)-d\n\n    // for spending from the `from` account and\n\n    // - From account must have sufficient balance to transfer\n\n    // - Spender must have sufficient allowance to transfer\n\n    // - 0 value transfers are allowed\n\n    // ------------------------------------------------------------------------\n\n    function transferFrom(address from, address to, uint tokens) public returns (bool success) {\n\n        balances[from] = balances[from].sub(tokens);\n\n        allowed[from][msg.sender] = allowed[from][msg.sender].sub(tokens);\n\n        balances[to] = balances[to].add(tokens);\n\n        Transfer(from, to, tokens);\n\n        return true;\n\n    }\n\n\n\n    // ------------------------------------------------------------------------\n\n    // Returns the amount of tokens approved by the owner that can be\n\n    // transferred to the spender's account\n\n    // ------------------------------------------------------------------------\n\n    function allowance(address tokenOwner, address spender) public constant returns (uint remaining) {\n\n        return allowed[tokenOwner][spender];\n\n    }\n\n\n\n    // ------------------------------------------------------------------------\n\n    // Token owner can approve for `spender` to transferFrom(...) `tokens`\n\n    // from the token owner's account. The `spender` contract function\n\n    // `receiveApproval(...)` is then executed\n\n    // ------------------------------------------------------------------------\n\n    function approveAndCall(address spender, uint tokens, bytes data) public returns (bool success) {\n\n        allowed[msg.sender][spender] = tokens;\n\n        Approval(msg.sender, spender, tokens);\n\n        ApproveAndCallFallBack(spender).receiveApproval(msg.sender, tokens, this, data);\n\n        return true;\n\n    }\n\n\n\n    // ------------------------------------------------------------------------\n\n    // Don't accept ETH\n\n    // ------------------------------------------------------------------------\n\n    function () public payable {\n\n        revert();\n\n    }\n\n\n\n    // ------------------------------------------------------------------------\n\n    // Owner can transfer out any accidentally sent ERC20 tokens\n\n    // ------------------------------------------------------------------------\n\n    function transferAnyERC20Token(address tokenAddress, uint tokens) public onlyOwner returns (bool success) {\n\n        return ERC20Interface(tokenAddress).transfer(owner, tokens);\n\n    }\n\n}\n","sourcePath":"/home/andy/dev/0xbitcoin-token/contracts/_0xBitcoinToken.sol","ast":{"attributes":{"absolutePath":"/home/andy/dev/0xbitcoin-token/contracts/_0xBitcoinToken.sol","exportedSymbols":{"ApproveAndCallFallBack":[175],"ERC20Interface":[163],"Owned":[244],"SafeMath":[96],"_0xBitcoinToken":[964]}},"children":[{"attributes":{"literals":["solidity","^","0.4",".18"]},"id":1,"name":"PragmaDirective","src":"0:24:0"},{"attributes":{"baseContracts":[null],"contractDependencies":[null],"contractKind":"library","documentation":null,"fullyImplemented":true,"linearizedBaseContracts":[96],"name":"SafeMath","scope":965},"children":[{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"add","payable":false,"scope":96,"stateMutability":"pure","superFunction":null,"visibility":"internal"},"children":[{"children":[{"attributes":{"constant":false,"name":"a","scope":23,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":2,"name":"ElementaryTypeName","src":"555:4:0"}],"id":3,"name":"VariableDeclaration","src":"555:6:0"},{"attributes":{"constant":false,"name":"b","scope":23,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":4,"name":"ElementaryTypeName","src":"563:4:0"}],"id":5,"name":"VariableDeclaration","src":"563:6:0"}],"id":6,"name":"ParameterList","src":"554:16:0"},{"children":[{"attributes":{"constant":false,"name":"c","scope":23,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":7,"name":"ElementaryTypeName","src":"594:4:0"}],"id":8,"name":"VariableDeclaration","src":"594:6:0"}],"id":9,"name":"ParameterList","src":"593:8:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":8,"type":"uint256","value":"c"},"id":10,"name":"Identifier","src":"613:1:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"+","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":3,"type":"uint256","value":"a"},"id":11,"name":"Identifier","src":"617:1:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":5,"type":"uint256","value":"b"},"id":12,"name":"Identifier","src":"621:1:0"}],"id":13,"name":"BinaryOperation","src":"617:5:0"}],"id":14,"name":"Assignment","src":"613:9:0"}],"id":15,"name":"ExpressionStatement","src":"613:9:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":979,"type":"function (bool) pure","value":"require"},"id":16,"name":"Identifier","src":"633:7:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":8,"type":"uint256","value":"c"},"id":17,"name":"Identifier","src":"641:1:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":3,"type":"uint256","value":"a"},"id":18,"name":"Identifier","src":"646:1:0"}],"id":19,"name":"BinaryOperation","src":"641:6:0"}],"id":20,"name":"FunctionCall","src":"633:15:0"}],"id":21,"name":"ExpressionStatement","src":"633:15:0"}],"id":22,"name":"Block","src":"602:54:0"}],"id":23,"name":"FunctionDefinition","src":"542:114:0"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"sub","payable":false,"scope":96,"stateMutability":"pure","superFunction":null,"visibility":"internal"},"children":[{"children":[{"attributes":{"constant":false,"name":"a","scope":45,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":24,"name":"ElementaryTypeName","src":"675:4:0"}],"id":25,"name":"VariableDeclaration","src":"675:6:0"},{"attributes":{"constant":false,"name":"b","scope":45,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":26,"name":"ElementaryTypeName","src":"683:4:0"}],"id":27,"name":"VariableDeclaration","src":"683:6:0"}],"id":28,"name":"ParameterList","src":"674:16:0"},{"children":[{"attributes":{"constant":false,"name":"c","scope":45,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":29,"name":"ElementaryTypeName","src":"714:4:0"}],"id":30,"name":"VariableDeclaration","src":"714:6:0"}],"id":31,"name":"ParameterList","src":"713:8:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":979,"type":"function (bool) pure","value":"require"},"id":32,"name":"Identifier","src":"733:7:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"<=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":27,"type":"uint256","value":"b"},"id":33,"name":"Identifier","src":"741:1:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":25,"type":"uint256","value":"a"},"id":34,"name":"Identifier","src":"746:1:0"}],"id":35,"name":"BinaryOperation","src":"741:6:0"}],"id":36,"name":"FunctionCall","src":"733:15:0"}],"id":37,"name":"ExpressionStatement","src":"733:15:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":30,"type":"uint256","value":"c"},"id":38,"name":"Identifier","src":"759:1:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"-","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":25,"type":"uint256","value":"a"},"id":39,"name":"Identifier","src":"763:1:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":27,"type":"uint256","value":"b"},"id":40,"name":"Identifier","src":"767:1:0"}],"id":41,"name":"BinaryOperation","src":"763:5:0"}],"id":42,"name":"Assignment","src":"759:9:0"}],"id":43,"name":"ExpressionStatement","src":"759:9:0"}],"id":44,"name":"Block","src":"722:54:0"}],"id":45,"name":"FunctionDefinition","src":"662:114:0"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"mul","payable":false,"scope":96,"stateMutability":"pure","superFunction":null,"visibility":"internal"},"children":[{"children":[{"attributes":{"constant":false,"name":"a","scope":73,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":46,"name":"ElementaryTypeName","src":"795:4:0"}],"id":47,"name":"VariableDeclaration","src":"795:6:0"},{"attributes":{"constant":false,"name":"b","scope":73,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":48,"name":"ElementaryTypeName","src":"803:4:0"}],"id":49,"name":"VariableDeclaration","src":"803:6:0"}],"id":50,"name":"ParameterList","src":"794:16:0"},{"children":[{"attributes":{"constant":false,"name":"c","scope":73,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":51,"name":"ElementaryTypeName","src":"834:4:0"}],"id":52,"name":"VariableDeclaration","src":"834:6:0"}],"id":53,"name":"ParameterList","src":"833:8:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":52,"type":"uint256","value":"c"},"id":54,"name":"Identifier","src":"853:1:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"*","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":47,"type":"uint256","value":"a"},"id":55,"name":"Identifier","src":"857:1:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":49,"type":"uint256","value":"b"},"id":56,"name":"Identifier","src":"861:1:0"}],"id":57,"name":"BinaryOperation","src":"857:5:0"}],"id":58,"name":"Assignment","src":"853:9:0"}],"id":59,"name":"ExpressionStatement","src":"853:9:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":979,"type":"function (bool) pure","value":"require"},"id":60,"name":"Identifier","src":"873:7:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bool","typeString":"bool"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"||","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":47,"type":"uint256","value":"a"},"id":61,"name":"Identifier","src":"881:1:0"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":62,"name":"Literal","src":"886:1:0"}],"id":63,"name":"BinaryOperation","src":"881:6:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"/","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":52,"type":"uint256","value":"c"},"id":64,"name":"Identifier","src":"891:1:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":47,"type":"uint256","value":"a"},"id":65,"name":"Identifier","src":"895:1:0"}],"id":66,"name":"BinaryOperation","src":"891:5:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":49,"type":"uint256","value":"b"},"id":67,"name":"Identifier","src":"900:1:0"}],"id":68,"name":"BinaryOperation","src":"891:10:0"}],"id":69,"name":"BinaryOperation","src":"881:20:0"}],"id":70,"name":"FunctionCall","src":"873:29:0"}],"id":71,"name":"ExpressionStatement","src":"873:29:0"}],"id":72,"name":"Block","src":"842:68:0"}],"id":73,"name":"FunctionDefinition","src":"782:128:0"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"div","payable":false,"scope":96,"stateMutability":"pure","superFunction":null,"visibility":"internal"},"children":[{"children":[{"attributes":{"constant":false,"name":"a","scope":95,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":74,"name":"ElementaryTypeName","src":"929:4:0"}],"id":75,"name":"VariableDeclaration","src":"929:6:0"},{"attributes":{"constant":false,"name":"b","scope":95,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":76,"name":"ElementaryTypeName","src":"937:4:0"}],"id":77,"name":"VariableDeclaration","src":"937:6:0"}],"id":78,"name":"ParameterList","src":"928:16:0"},{"children":[{"attributes":{"constant":false,"name":"c","scope":95,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":79,"name":"ElementaryTypeName","src":"968:4:0"}],"id":80,"name":"VariableDeclaration","src":"968:6:0"}],"id":81,"name":"ParameterList","src":"967:8:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":979,"type":"function (bool) pure","value":"require"},"id":82,"name":"Identifier","src":"987:7:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":77,"type":"uint256","value":"b"},"id":83,"name":"Identifier","src":"995:1:0"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":84,"name":"Literal","src":"999:1:0"}],"id":85,"name":"BinaryOperation","src":"995:5:0"}],"id":86,"name":"FunctionCall","src":"987:14:0"}],"id":87,"name":"ExpressionStatement","src":"987:14:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":80,"type":"uint256","value":"c"},"id":88,"name":"Identifier","src":"1012:1:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"/","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":75,"type":"uint256","value":"a"},"id":89,"name":"Identifier","src":"1016:1:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":77,"type":"uint256","value":"b"},"id":90,"name":"Identifier","src":"1020:1:0"}],"id":91,"name":"BinaryOperation","src":"1016:5:0"}],"id":92,"name":"Assignment","src":"1012:9:0"}],"id":93,"name":"ExpressionStatement","src":"1012:9:0"}],"id":94,"name":"Block","src":"976:53:0"}],"id":95,"name":"FunctionDefinition","src":"916:113:0"}],"id":96,"name":"ContractDefinition","src":"518:514:0"},{"attributes":{"baseContracts":[null],"contractDependencies":[null],"contractKind":"contract","documentation":null,"fullyImplemented":false,"linearizedBaseContracts":[163],"name":"ERC20Interface","scope":965},"children":[{"attributes":{"body":null,"constant":true,"implemented":false,"isConstructor":false,"modifiers":[null],"name":"totalSupply","payable":false,"scope":163,"stateMutability":"view","superFunction":null,"visibility":"public"},"children":[{"attributes":{"parameters":[null]},"children":[],"id":97,"name":"ParameterList","src":"1365:2:0"},{"children":[{"attributes":{"constant":false,"name":"","scope":101,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":98,"name":"ElementaryTypeName","src":"1393:4:0"}],"id":99,"name":"VariableDeclaration","src":"1393:4:0"}],"id":100,"name":"ParameterList","src":"1392:6:0"}],"id":101,"name":"FunctionDefinition","src":"1345:54:0"},{"attributes":{"body":null,"constant":true,"implemented":false,"isConstructor":false,"modifiers":[null],"name":"balanceOf","payable":false,"scope":163,"stateMutability":"view","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"tokenOwner","scope":108,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":102,"name":"ElementaryTypeName","src":"1424:7:0"}],"id":103,"name":"VariableDeclaration","src":"1424:18:0"}],"id":104,"name":"ParameterList","src":"1423:20:0"},{"children":[{"attributes":{"constant":false,"name":"balance","scope":108,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":105,"name":"ElementaryTypeName","src":"1469:4:0"}],"id":106,"name":"VariableDeclaration","src":"1469:12:0"}],"id":107,"name":"ParameterList","src":"1468:14:0"}],"id":108,"name":"FunctionDefinition","src":"1405:78:0"},{"attributes":{"body":null,"constant":true,"implemented":false,"isConstructor":false,"modifiers":[null],"name":"allowance","payable":false,"scope":163,"stateMutability":"view","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"tokenOwner","scope":117,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":109,"name":"ElementaryTypeName","src":"1508:7:0"}],"id":110,"name":"VariableDeclaration","src":"1508:18:0"},{"attributes":{"constant":false,"name":"spender","scope":117,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":111,"name":"ElementaryTypeName","src":"1528:7:0"}],"id":112,"name":"VariableDeclaration","src":"1528:15:0"}],"id":113,"name":"ParameterList","src":"1507:37:0"},{"children":[{"attributes":{"constant":false,"name":"remaining","scope":117,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":114,"name":"ElementaryTypeName","src":"1570:4:0"}],"id":115,"name":"VariableDeclaration","src":"1570:14:0"}],"id":116,"name":"ParameterList","src":"1569:16:0"}],"id":117,"name":"FunctionDefinition","src":"1489:97:0"},{"attributes":{"body":null,"constant":false,"implemented":false,"isConstructor":false,"modifiers":[null],"name":"transfer","payable":false,"scope":163,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"to","scope":126,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":118,"name":"ElementaryTypeName","src":"1610:7:0"}],"id":119,"name":"VariableDeclaration","src":"1610:10:0"},{"attributes":{"constant":false,"name":"tokens","scope":126,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":120,"name":"ElementaryTypeName","src":"1622:4:0"}],"id":121,"name":"VariableDeclaration","src":"1622:11:0"}],"id":122,"name":"ParameterList","src":"1609:25:0"},{"children":[{"attributes":{"constant":false,"name":"success","scope":126,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":123,"name":"ElementaryTypeName","src":"1651:4:0"}],"id":124,"name":"VariableDeclaration","src":"1651:12:0"}],"id":125,"name":"ParameterList","src":"1650:14:0"}],"id":126,"name":"FunctionDefinition","src":"1592:73:0"},{"attributes":{"body":null,"constant":false,"implemented":false,"isConstructor":false,"modifiers":[null],"name":"approve","payable":false,"scope":163,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"spender","scope":135,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":127,"name":"ElementaryTypeName","src":"1688:7:0"}],"id":128,"name":"VariableDeclaration","src":"1688:15:0"},{"attributes":{"constant":false,"name":"tokens","scope":135,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":129,"name":"ElementaryTypeName","src":"1705:4:0"}],"id":130,"name":"VariableDeclaration","src":"1705:11:0"}],"id":131,"name":"ParameterList","src":"1687:30:0"},{"children":[{"attributes":{"constant":false,"name":"success","scope":135,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":132,"name":"ElementaryTypeName","src":"1734:4:0"}],"id":133,"name":"VariableDeclaration","src":"1734:12:0"}],"id":134,"name":"ParameterList","src":"1733:14:0"}],"id":135,"name":"FunctionDefinition","src":"1671:77:0"},{"attributes":{"body":null,"constant":false,"implemented":false,"isConstructor":false,"modifiers":[null],"name":"transferFrom","payable":false,"scope":163,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"from","scope":146,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":136,"name":"ElementaryTypeName","src":"1776:7:0"}],"id":137,"name":"VariableDeclaration","src":"1776:12:0"},{"attributes":{"constant":false,"name":"to","scope":146,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":138,"name":"ElementaryTypeName","src":"1790:7:0"}],"id":139,"name":"VariableDeclaration","src":"1790:10:0"},{"attributes":{"constant":false,"name":"tokens","scope":146,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":140,"name":"ElementaryTypeName","src":"1802:4:0"}],"id":141,"name":"VariableDeclaration","src":"1802:11:0"}],"id":142,"name":"ParameterList","src":"1775:39:0"},{"children":[{"attributes":{"constant":false,"name":"success","scope":146,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":143,"name":"ElementaryTypeName","src":"1831:4:0"}],"id":144,"name":"VariableDeclaration","src":"1831:12:0"}],"id":145,"name":"ParameterList","src":"1830:14:0"}],"id":146,"name":"FunctionDefinition","src":"1754:91:0"},{"attributes":{"anonymous":false,"name":"Transfer"},"children":[{"children":[{"attributes":{"constant":false,"indexed":true,"name":"from","scope":154,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":147,"name":"ElementaryTypeName","src":"1867:7:0"}],"id":148,"name":"VariableDeclaration","src":"1867:20:0"},{"attributes":{"constant":false,"indexed":true,"name":"to","scope":154,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":149,"name":"ElementaryTypeName","src":"1889:7:0"}],"id":150,"name":"VariableDeclaration","src":"1889:18:0"},{"attributes":{"constant":false,"indexed":false,"name":"tokens","scope":154,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":151,"name":"ElementaryTypeName","src":"1909:4:0"}],"id":152,"name":"VariableDeclaration","src":"1909:11:0"}],"id":153,"name":"ParameterList","src":"1866:55:0"}],"id":154,"name":"EventDefinition","src":"1852:70:0"},{"attributes":{"anonymous":false,"name":"Approval"},"children":[{"children":[{"attributes":{"constant":false,"indexed":true,"name":"tokenOwner","scope":162,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":155,"name":"ElementaryTypeName","src":"1943:7:0"}],"id":156,"name":"VariableDeclaration","src":"1943:26:0"},{"attributes":{"constant":false,"indexed":true,"name":"spender","scope":162,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":157,"name":"ElementaryTypeName","src":"1971:7:0"}],"id":158,"name":"VariableDeclaration","src":"1971:23:0"},{"attributes":{"constant":false,"indexed":false,"name":"tokens","scope":162,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":159,"name":"ElementaryTypeName","src":"1996:4:0"}],"id":160,"name":"VariableDeclaration","src":"1996:11:0"}],"id":161,"name":"ParameterList","src":"1942:66:0"}],"id":162,"name":"EventDefinition","src":"1928:81:0"}],"id":163,"name":"ContractDefinition","src":"1314:698:0"},{"attributes":{"baseContracts":[null],"contractDependencies":[null],"contractKind":"contract","documentation":null,"fullyImplemented":false,"linearizedBaseContracts":[175],"name":"ApproveAndCallFallBack","scope":965},"children":[{"attributes":{"body":null,"constant":false,"implemented":false,"isConstructor":false,"modifiers":[null],"name":"receiveApproval","payable":false,"scope":175,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"from","scope":174,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":164,"name":"ElementaryTypeName","src":"2351:7:0"}],"id":165,"name":"VariableDeclaration","src":"2351:12:0"},{"attributes":{"constant":false,"name":"tokens","scope":174,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":166,"name":"ElementaryTypeName","src":"2365:7:0"}],"id":167,"name":"VariableDeclaration","src":"2365:14:0"},{"attributes":{"constant":false,"name":"token","scope":174,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":168,"name":"ElementaryTypeName","src":"2381:7:0"}],"id":169,"name":"VariableDeclaration","src":"2381:13:0"},{"attributes":{"constant":false,"name":"data","scope":174,"stateVariable":false,"storageLocation":"default","type":"bytes memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bytes","type":"bytes storage pointer"},"id":170,"name":"ElementaryTypeName","src":"2396:5:0"}],"id":171,"name":"VariableDeclaration","src":"2396:10:0"}],"id":172,"name":"ParameterList","src":"2350:57:0"},{"attributes":{"parameters":[null]},"children":[],"id":173,"name":"ParameterList","src":"2414:0:0"}],"id":174,"name":"FunctionDefinition","src":"2326:89:0"}],"id":175,"name":"ContractDefinition","src":"2287:131:0"},{"attributes":{"baseContracts":[null],"contractDependencies":[null],"contractKind":"contract","documentation":null,"fullyImplemented":true,"linearizedBaseContracts":[244],"name":"Owned","scope":965},"children":[{"attributes":{"constant":false,"name":"owner","scope":244,"stateVariable":true,"storageLocation":"default","type":"address","value":null,"visibility":"public"},"children":[{"attributes":{"name":"address","type":"address"},"id":176,"name":"ElementaryTypeName","src":"2625:7:0"}],"id":177,"name":"VariableDeclaration","src":"2625:20:0"},{"attributes":{"constant":false,"name":"newOwner","scope":244,"stateVariable":true,"storageLocation":"default","type":"address","value":null,"visibility":"public"},"children":[{"attributes":{"name":"address","type":"address"},"id":178,"name":"ElementaryTypeName","src":"2652:7:0"}],"id":179,"name":"VariableDeclaration","src":"2652:23:0"},{"attributes":{"anonymous":false,"name":"OwnershipTransferred"},"children":[{"children":[{"attributes":{"constant":false,"indexed":true,"name":"_from","scope":185,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":180,"name":"ElementaryTypeName","src":"2710:7:0"}],"id":181,"name":"VariableDeclaration","src":"2710:21:0"},{"attributes":{"constant":false,"indexed":true,"name":"_to","scope":185,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":182,"name":"ElementaryTypeName","src":"2733:7:0"}],"id":183,"name":"VariableDeclaration","src":"2733:19:0"}],"id":184,"name":"ParameterList","src":"2709:44:0"}],"id":185,"name":"EventDefinition","src":"2683:71:0"},{"attributes":{"constant":false,"implemented":true,"isConstructor":true,"modifiers":[null],"name":"Owned","payable":false,"scope":244,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"attributes":{"parameters":[null]},"children":[],"id":186,"name":"ParameterList","src":"2775:2:0"},{"attributes":{"parameters":[null]},"children":[],"id":187,"name":"ParameterList","src":"2785:0:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":177,"type":"address","value":"owner"},"id":188,"name":"Identifier","src":"2796:5:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":189,"name":"Identifier","src":"2804:3:0"}],"id":190,"name":"MemberAccess","src":"2804:10:0"}],"id":191,"name":"Assignment","src":"2796:18:0"}],"id":192,"name":"ExpressionStatement","src":"2796:18:0"}],"id":193,"name":"Block","src":"2785:37:0"}],"id":194,"name":"FunctionDefinition","src":"2761:61:0"},{"attributes":{"name":"onlyOwner","visibility":"internal"},"children":[{"attributes":{"parameters":[null]},"children":[],"id":195,"name":"ParameterList","src":"2848:0:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":979,"type":"function (bool) pure","value":"require"},"id":196,"name":"Identifier","src":"2859:7:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":197,"name":"Identifier","src":"2867:3:0"}],"id":198,"name":"MemberAccess","src":"2867:10:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":177,"type":"address","value":"owner"},"id":199,"name":"Identifier","src":"2881:5:0"}],"id":200,"name":"BinaryOperation","src":"2867:19:0"}],"id":201,"name":"FunctionCall","src":"2859:28:0"}],"id":202,"name":"ExpressionStatement","src":"2859:28:0"},{"id":203,"name":"PlaceholderStatement","src":"2898:1:0"}],"id":204,"name":"Block","src":"2848:59:0"}],"id":205,"name":"ModifierDefinition","src":"2829:78:0"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"name":"transferOwnership","payable":false,"scope":244,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_newOwner","scope":217,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":206,"name":"ElementaryTypeName","src":"2941:7:0"}],"id":207,"name":"VariableDeclaration","src":"2941:17:0"}],"id":208,"name":"ParameterList","src":"2940:19:0"},{"attributes":{"parameters":[null]},"children":[],"id":211,"name":"ParameterList","src":"2977:0:0"},{"attributes":{"arguments":[null]},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":205,"type":"modifier ()","value":"onlyOwner"},"id":209,"name":"Identifier","src":"2967:9:0"}],"id":210,"name":"ModifierInvocation","src":"2967:9:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":179,"type":"address","value":"newOwner"},"id":212,"name":"Identifier","src":"2988:8:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":207,"type":"address","value":"_newOwner"},"id":213,"name":"Identifier","src":"2999:9:0"}],"id":214,"name":"Assignment","src":"2988:20:0"}],"id":215,"name":"ExpressionStatement","src":"2988:20:0"}],"id":216,"name":"Block","src":"2977:39:0"}],"id":217,"name":"FunctionDefinition","src":"2914:102:0"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"acceptOwnership","payable":false,"scope":244,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"attributes":{"parameters":[null]},"children":[],"id":218,"name":"ParameterList","src":"3046:2:0"},{"attributes":{"parameters":[null]},"children":[],"id":219,"name":"ParameterList","src":"3056:0:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":979,"type":"function (bool) pure","value":"require"},"id":220,"name":"Identifier","src":"3067:7:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":221,"name":"Identifier","src":"3075:3:0"}],"id":222,"name":"MemberAccess","src":"3075:10:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":179,"type":"address","value":"newOwner"},"id":223,"name":"Identifier","src":"3089:8:0"}],"id":224,"name":"BinaryOperation","src":"3075:22:0"}],"id":225,"name":"FunctionCall","src":"3067:31:0"}],"id":226,"name":"ExpressionStatement","src":"3067:31:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_address","typeString":"address"}],"overloadedDeclarations":[null],"referencedDeclaration":185,"type":"function (address,address)","value":"OwnershipTransferred"},"id":227,"name":"Identifier","src":"3109:20:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":177,"type":"address","value":"owner"},"id":228,"name":"Identifier","src":"3130:5:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":179,"type":"address","value":"newOwner"},"id":229,"name":"Identifier","src":"3137:8:0"}],"id":230,"name":"FunctionCall","src":"3109:37:0"}],"id":231,"name":"ExpressionStatement","src":"3109:37:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":177,"type":"address","value":"owner"},"id":232,"name":"Identifier","src":"3157:5:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":179,"type":"address","value":"newOwner"},"id":233,"name":"Identifier","src":"3165:8:0"}],"id":234,"name":"Assignment","src":"3157:16:0"}],"id":235,"name":"ExpressionStatement","src":"3157:16:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":179,"type":"address","value":"newOwner"},"id":236,"name":"Identifier","src":"3184:8:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":true,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"address","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_rational_0_by_1","typeString":"int_const 0"}],"isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"type":"type(address)","value":"address"},"id":237,"name":"ElementaryTypeNameExpression","src":"3195:7:0"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":238,"name":"Literal","src":"3203:1:0"}],"id":239,"name":"FunctionCall","src":"3195:10:0"}],"id":240,"name":"Assignment","src":"3184:21:0"}],"id":241,"name":"ExpressionStatement","src":"3184:21:0"}],"id":242,"name":"Block","src":"3056:157:0"}],"id":243,"name":"FunctionDefinition","src":"3022:191:0"}],"id":244,"name":"ContractDefinition","src":"2603:613:0"},{"attributes":{"contractDependencies":[163,244],"contractKind":"contract","documentation":null,"fullyImplemented":true,"linearizedBaseContracts":[964,244,163],"name":"_0xBitcoinToken","scope":965},"children":[{"attributes":{"arguments":[null]},"children":[{"attributes":{"contractScope":null,"name":"ERC20Interface","referencedDeclaration":163,"type":"contract ERC20Interface"},"id":245,"name":"UserDefinedTypeName","src":"3506:14:0"}],"id":246,"name":"InheritanceSpecifier","src":"3506:14:0"},{"attributes":{"arguments":[null]},"children":[{"attributes":{"contractScope":null,"name":"Owned","referencedDeclaration":244,"type":"contract Owned"},"id":247,"name":"UserDefinedTypeName","src":"3522:5:0"}],"id":248,"name":"InheritanceSpecifier","src":"3522:5:0"},{"children":[{"attributes":{"contractScope":null,"name":"SafeMath","referencedDeclaration":96,"type":"library SafeMath"},"id":249,"name":"UserDefinedTypeName","src":"3541:8:0"},{"attributes":{"name":"uint","type":"uint256"},"id":250,"name":"ElementaryTypeName","src":"3554:4:0"}],"id":251,"name":"UsingForDirective","src":"3535:24:0"},{"attributes":{"constant":false,"name":"symbol","scope":964,"stateVariable":true,"storageLocation":"default","type":"string storage ref","value":null,"visibility":"public"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":252,"name":"ElementaryTypeName","src":"3566:6:0"}],"id":253,"name":"VariableDeclaration","src":"3566:20:0"},{"attributes":{"constant":false,"name":"name","scope":964,"stateVariable":true,"storageLocation":"default","type":"string storage ref","value":null,"visibility":"public"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":254,"name":"ElementaryTypeName","src":"3593:6:0"}],"id":255,"name":"VariableDeclaration","src":"3593:19:0"},{"attributes":{"constant":false,"name":"decimals","scope":964,"stateVariable":true,"storageLocation":"default","type":"uint8","value":null,"visibility":"public"},"children":[{"attributes":{"name":"uint8","type":"uint8"},"id":256,"name":"ElementaryTypeName","src":"3619:5:0"}],"id":257,"name":"VariableDeclaration","src":"3619:21:0"},{"attributes":{"constant":false,"name":"_totalSupply","scope":964,"stateVariable":true,"storageLocation":"default","type":"uint256","value":null,"visibility":"public"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":258,"name":"ElementaryTypeName","src":"3647:4:0"}],"id":259,"name":"VariableDeclaration","src":"3647:24:0"},{"attributes":{"constant":false,"name":"latestDifficultyPeriodStarted","scope":964,"stateVariable":true,"storageLocation":"default","type":"uint256","value":null,"visibility":"public"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":260,"name":"ElementaryTypeName","src":"3782:4:0"}],"id":261,"name":"VariableDeclaration","src":"3782:41:0"},{"attributes":{"constant":false,"name":"epochCount","scope":964,"stateVariable":true,"storageLocation":"default","type":"uint256","value":null,"visibility":"public"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":262,"name":"ElementaryTypeName","src":"3832:4:0"}],"id":263,"name":"VariableDeclaration","src":"3832:22:0"},{"attributes":{"constant":false,"name":"_BLOCKS_PER_READJUSTMENT","scope":964,"stateVariable":true,"storageLocation":"default","type":"uint256","visibility":"public"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":264,"name":"ElementaryTypeName","src":"3888:4:0"},{"attributes":{"argumentTypes":null,"hexvalue":"323536","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 256","value":"256"},"id":265,"name":"Literal","src":"3927:3:0"}],"id":266,"name":"VariableDeclaration","src":"3888:42:0"},{"attributes":{"constant":false,"name":"_MINIMUM_TARGET","scope":964,"stateVariable":true,"storageLocation":"default","type":"uint256","visibility":"public"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":267,"name":"ElementaryTypeName","src":"4006:4:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_rational_256_by_1","typeString":"int_const 256"},"isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"operator":"**","type":"int_const 256"},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"32","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 2","value":"2"},"id":268,"name":"Literal","src":"4037:1:0"},{"attributes":{"argumentTypes":null,"hexvalue":"38","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 8","value":"8"},"id":269,"name":"Literal","src":"4040:1:0"}],"id":270,"name":"BinaryOperation","src":"4037:4:0"}],"id":271,"name":"VariableDeclaration","src":"4006:35:0"},{"attributes":{"constant":false,"name":"_MAXIMUM_TARGET","scope":964,"stateVariable":true,"storageLocation":"default","type":"uint256","visibility":"public"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":272,"name":"ElementaryTypeName","src":"4070:4:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_rational_1809251394333065553493296640760748560207343510400633813116524750123642650624_by_1","typeString":"int_const 1809251394333065553493296640760748560207343510400633813116524750123642650624"},"isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"operator":"**","type":"int_const 1809251394333065553493296640760748560207343510400633813116524750123642650624"},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"32","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 2","value":"2"},"id":273,"name":"Literal","src":"4101:1:0"},{"attributes":{"argumentTypes":null,"hexvalue":"323530","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 250","value":"250"},"id":274,"name":"Literal","src":"4104:3:0"}],"id":275,"name":"BinaryOperation","src":"4101:6:0"}],"id":276,"name":"VariableDeclaration","src":"4070:37:0"},{"attributes":{"constant":false,"name":"miningTarget","scope":964,"stateVariable":true,"storageLocation":"default","type":"uint256","value":null,"visibility":"public"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":277,"name":"ElementaryTypeName","src":"4115:4:0"}],"id":278,"name":"VariableDeclaration","src":"4115:24:0"},{"attributes":{"constant":false,"name":"challengeNumber","scope":964,"stateVariable":true,"storageLocation":"default","type":"bytes32","value":null,"visibility":"public"},"children":[{"attributes":{"name":"bytes32","type":"bytes32"},"id":279,"name":"ElementaryTypeName","src":"4222:7:0"}],"id":280,"name":"VariableDeclaration","src":"4222:30:0"},{"attributes":{"constant":false,"name":"rewardEra","scope":964,"stateVariable":true,"storageLocation":"default","type":"uint256","value":null,"visibility":"public"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":281,"name":"ElementaryTypeName","src":"4312:4:0"}],"id":282,"name":"VariableDeclaration","src":"4312:21:0"},{"attributes":{"constant":false,"name":"maxSupplyForEra","scope":964,"stateVariable":true,"storageLocation":"default","type":"uint256","value":null,"visibility":"public"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":283,"name":"ElementaryTypeName","src":"4339:4:0"}],"id":284,"name":"VariableDeclaration","src":"4339:27:0"},{"attributes":{"constant":false,"name":"lastRewardTo","scope":964,"stateVariable":true,"storageLocation":"default","type":"address","value":null,"visibility":"public"},"children":[{"attributes":{"name":"address","type":"address"},"id":285,"name":"ElementaryTypeName","src":"4374:7:0"}],"id":286,"name":"VariableDeclaration","src":"4374:27:0"},{"attributes":{"constant":false,"name":"lastRewardAmount","scope":964,"stateVariable":true,"storageLocation":"default","type":"uint256","value":null,"visibility":"public"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":287,"name":"ElementaryTypeName","src":"4407:4:0"}],"id":288,"name":"VariableDeclaration","src":"4407:28:0"},{"attributes":{"constant":false,"name":"lastRewardEthBlockNumber","scope":964,"stateVariable":true,"storageLocation":"default","type":"uint256","value":null,"visibility":"public"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":289,"name":"ElementaryTypeName","src":"4441:4:0"}],"id":290,"name":"VariableDeclaration","src":"4441:36:0"},{"attributes":{"constant":false,"name":"rewardHashesFound","scope":964,"stateVariable":true,"storageLocation":"default","type":"mapping(bytes32 => uint256)","value":null,"visibility":"internal"},"children":[{"attributes":{"type":"mapping(bytes32 => uint256)"},"children":[{"attributes":{"name":"bytes32","type":"bytes32"},"id":291,"name":"ElementaryTypeName","src":"4493:7:0"},{"attributes":{"name":"uint","type":"uint256"},"id":292,"name":"ElementaryTypeName","src":"4504:4:0"}],"id":293,"name":"Mapping","src":"4485:24:0"}],"id":294,"name":"VariableDeclaration","src":"4485:42:0"},{"attributes":{"constant":false,"name":"tokensMinted","scope":964,"stateVariable":true,"storageLocation":"default","type":"uint256","value":null,"visibility":"public"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":295,"name":"ElementaryTypeName","src":"4559:4:0"}],"id":296,"name":"VariableDeclaration","src":"4559:24:0"},{"attributes":{"constant":false,"name":"balances","scope":964,"stateVariable":true,"storageLocation":"default","type":"mapping(address => uint256)","value":null,"visibility":"internal"},"children":[{"attributes":{"type":"mapping(address => uint256)"},"children":[{"attributes":{"name":"address","type":"address"},"id":297,"name":"ElementaryTypeName","src":"4598:7:0"},{"attributes":{"name":"uint","type":"uint256"},"id":298,"name":"ElementaryTypeName","src":"4609:4:0"}],"id":299,"name":"Mapping","src":"4590:24:0"}],"id":300,"name":"VariableDeclaration","src":"4590:33:0"},{"attributes":{"constant":false,"name":"allowed","scope":964,"stateVariable":true,"storageLocation":"default","type":"mapping(address => mapping(address => uint256))","value":null,"visibility":"internal"},"children":[{"attributes":{"type":"mapping(address => mapping(address => uint256))"},"children":[{"attributes":{"name":"address","type":"address"},"id":301,"name":"ElementaryTypeName","src":"4642:7:0"},{"attributes":{"type":"mapping(address => uint256)"},"children":[{"attributes":{"name":"address","type":"address"},"id":302,"name":"ElementaryTypeName","src":"4661:7:0"},{"attributes":{"name":"uint","type":"uint256"},"id":303,"name":"ElementaryTypeName","src":"4672:4:0"}],"id":304,"name":"Mapping","src":"4653:24:0"}],"id":305,"name":"Mapping","src":"4634:44:0"}],"id":306,"name":"VariableDeclaration","src":"4634:52:0"},{"attributes":{"anonymous":false,"name":"Mint"},"children":[{"children":[{"attributes":{"constant":false,"indexed":true,"name":"from","scope":316,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":307,"name":"ElementaryTypeName","src":"4707:7:0"}],"id":308,"name":"VariableDeclaration","src":"4707:20:0"},{"attributes":{"constant":false,"indexed":false,"name":"reward_amount","scope":316,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":309,"name":"ElementaryTypeName","src":"4729:4:0"}],"id":310,"name":"VariableDeclaration","src":"4729:18:0"},{"attributes":{"constant":false,"indexed":false,"name":"epochCount","scope":316,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":311,"name":"ElementaryTypeName","src":"4749:4:0"}],"id":312,"name":"VariableDeclaration","src":"4749:15:0"},{"attributes":{"constant":false,"indexed":false,"name":"newChallengeNumber","scope":316,"stateVariable":false,"storageLocation":"default","type":"bytes32","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bytes32","type":"bytes32"},"id":313,"name":"ElementaryTypeName","src":"4766:7:0"}],"id":314,"name":"VariableDeclaration","src":"4766:26:0"}],"id":315,"name":"ParameterList","src":"4706:87:0"}],"id":316,"name":"EventDefinition","src":"4696:98:0"},{"attributes":{"constant":false,"implemented":true,"isConstructor":true,"name":"_0xBitcoinToken","payable":false,"scope":964,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"attributes":{"parameters":[null]},"children":[],"id":317,"name":"ParameterList","src":"5006:2:0"},{"attributes":{"parameters":[null]},"children":[],"id":320,"name":"ParameterList","src":"5025:0:0"},{"attributes":{"arguments":[null]},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":205,"type":"modifier ()","value":"onlyOwner"},"id":318,"name":"Identifier","src":"5016:9:0"}],"id":319,"name":"ModifierInvocation","src":"5016:9:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"string storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":253,"type":"string storage ref","value":"symbol"},"id":321,"name":"Identifier","src":"5036:6:0"},{"attributes":{"argumentTypes":null,"hexvalue":"3078425443","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"string","type":"literal_string \"0xBTC\"","value":"0xBTC"},"id":322,"name":"Literal","src":"5045:7:0"}],"id":323,"name":"Assignment","src":"5036:16:0"}],"id":324,"name":"ExpressionStatement","src":"5036:16:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"string storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":255,"type":"string storage ref","value":"name"},"id":325,"name":"Identifier","src":"5063:4:0"},{"attributes":{"argumentTypes":null,"hexvalue":"3078426974636f696e20546f6b656e","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"string","type":"literal_string \"0xBitcoin Token\"","value":"0xBitcoin Token"},"id":326,"name":"Literal","src":"5070:17:0"}],"id":327,"name":"Assignment","src":"5063:24:0"}],"id":328,"name":"ExpressionStatement","src":"5063:24:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint8"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":257,"type":"uint8","value":"decimals"},"id":329,"name":"Identifier","src":"5098:8:0"},{"attributes":{"argumentTypes":null,"hexvalue":"38","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 8","value":"8"},"id":330,"name":"Literal","src":"5109:1:0"}],"id":331,"name":"Assignment","src":"5098:12:0"}],"id":332,"name":"ExpressionStatement","src":"5098:12:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":259,"type":"uint256","value":"_totalSupply"},"id":333,"name":"Identifier","src":"5121:12:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"*","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"3231303030303030","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 21000000","value":"21000000"},"id":334,"name":"Literal","src":"5136:8:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"**","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"3130","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 10","value":"10"},"id":335,"name":"Literal","src":"5147:2:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint8","typeString":"uint8"}],"isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"type":"type(uint256)","value":"uint"},"id":336,"name":"ElementaryTypeNameExpression","src":"5151:4:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":257,"type":"uint8","value":"decimals"},"id":337,"name":"Identifier","src":"5156:8:0"}],"id":338,"name":"FunctionCall","src":"5151:14:0"}],"id":339,"name":"BinaryOperation","src":"5147:18:0"}],"id":340,"name":"BinaryOperation","src":"5136:29:0"}],"id":341,"name":"Assignment","src":"5121:44:0"}],"id":342,"name":"ExpressionStatement","src":"5121:44:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":296,"type":"uint256","value":"tokensMinted"},"id":343,"name":"Identifier","src":"5175:12:0"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":344,"name":"Literal","src":"5190:1:0"}],"id":345,"name":"Assignment","src":"5175:16:0"}],"id":346,"name":"ExpressionStatement","src":"5175:16:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":282,"type":"uint256","value":"rewardEra"},"id":347,"name":"Identifier","src":"5202:9:0"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":348,"name":"Literal","src":"5214:1:0"}],"id":349,"name":"Assignment","src":"5202:13:0"}],"id":350,"name":"ExpressionStatement","src":"5202:13:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":284,"type":"uint256","value":"maxSupplyForEra"},"id":351,"name":"Identifier","src":"5225:15:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_rational_2_by_1","typeString":"int_const 2"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"div","referencedDeclaration":95,"type":"function (uint256,uint256) pure returns (uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":259,"type":"uint256","value":"_totalSupply"},"id":352,"name":"Identifier","src":"5243:12:0"}],"id":353,"name":"MemberAccess","src":"5243:16:0"},{"attributes":{"argumentTypes":null,"hexvalue":"32","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 2","value":"2"},"id":354,"name":"Literal","src":"5260:1:0"}],"id":355,"name":"FunctionCall","src":"5243:19:0"}],"id":356,"name":"Assignment","src":"5225:37:0"}],"id":357,"name":"ExpressionStatement","src":"5225:37:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":278,"type":"uint256","value":"miningTarget"},"id":358,"name":"Identifier","src":"5273:12:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":276,"type":"uint256","value":"_MAXIMUM_TARGET"},"id":359,"name":"Identifier","src":"5288:15:0"}],"id":360,"name":"Assignment","src":"5273:30:0"}],"id":361,"name":"ExpressionStatement","src":"5273:30:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":261,"type":"uint256","value":"latestDifficultyPeriodStarted"},"id":362,"name":"Identifier","src":"5314:29:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"number","referencedDeclaration":null,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":968,"type":"block","value":"block"},"id":363,"name":"Identifier","src":"5346:5:0"}],"id":364,"name":"MemberAccess","src":"5346:12:0"}],"id":365,"name":"Assignment","src":"5314:44:0"}],"id":366,"name":"ExpressionStatement","src":"5314:44:0"},{"children":[{"attributes":{"argumentTypes":null,"arguments":[null],"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[null],"overloadedDeclarations":[null],"referencedDeclaration":431,"type":"function ()","value":"_startNewMiningEpoch"},"id":367,"name":"Identifier","src":"5369:20:0"}],"id":368,"name":"FunctionCall","src":"5369:22:0"}],"id":369,"name":"ExpressionStatement","src":"5369:22:0"}],"id":370,"name":"Block","src":"5025:471:0"}],"id":371,"name":"FunctionDefinition","src":"4982:514:0"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"_startNewMiningEpoch","payable":false,"scope":964,"stateMutability":"nonpayable","superFunction":null,"visibility":"internal"},"children":[{"attributes":{"parameters":[null]},"children":[],"id":372,"name":"ParameterList","src":"5531:2:0"},{"attributes":{"parameters":[null]},"children":[],"id":373,"name":"ParameterList","src":"5543:0:0"},{"children":[{"attributes":{"falseBody":null},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bool","typeString":"bool"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"&&","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":296,"type":"uint256","value":"tokensMinted"},"id":374,"name":"Identifier","src":"5630:12:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":284,"type":"uint256","value":"maxSupplyForEra"},"id":375,"name":"Identifier","src":"5646:15:0"}],"id":376,"name":"BinaryOperation","src":"5630:31:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"<","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":282,"type":"uint256","value":"rewardEra"},"id":377,"name":"Identifier","src":"5665:9:0"},{"attributes":{"argumentTypes":null,"hexvalue":"3332","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 32","value":"32"},"id":378,"name":"Literal","src":"5677:2:0"}],"id":379,"name":"BinaryOperation","src":"5665:14:0"}],"id":380,"name":"BinaryOperation","src":"5630:49:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":282,"type":"uint256","value":"rewardEra"},"id":381,"name":"Identifier","src":"5745:9:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"+","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":282,"type":"uint256","value":"rewardEra"},"id":382,"name":"Identifier","src":"5757:9:0"},{"attributes":{"argumentTypes":null,"hexvalue":"31","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 1","value":"1"},"id":383,"name":"Literal","src":"5769:1:0"}],"id":384,"name":"BinaryOperation","src":"5757:13:0"}],"id":385,"name":"Assignment","src":"5745:25:0"}],"id":386,"name":"ExpressionStatement","src":"5745:25:0"}],"id":387,"name":"Block","src":"5735:44:0"}],"id":388,"name":"IfStatement","src":"5627:152:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":284,"type":"uint256","value":"maxSupplyForEra"},"id":389,"name":"Identifier","src":"5851:15:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"-","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":259,"type":"uint256","value":"_totalSupply"},"id":390,"name":"Identifier","src":"5869:12:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"div","referencedDeclaration":95,"type":"function (uint256,uint256) pure returns (uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":259,"type":"uint256","value":"_totalSupply"},"id":391,"name":"Identifier","src":"5884:12:0"}],"id":392,"name":"MemberAccess","src":"5884:16:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"**","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"32","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 2","value":"2"},"id":393,"name":"Literal","src":"5902:1:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isInlineArray":false,"isLValue":false,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"+","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":282,"type":"uint256","value":"rewardEra"},"id":394,"name":"Identifier","src":"5906:9:0"},{"attributes":{"argumentTypes":null,"hexvalue":"31","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 1","value":"1"},"id":395,"name":"Literal","src":"5918:1:0"}],"id":396,"name":"BinaryOperation","src":"5906:13:0"}],"id":397,"name":"TupleExpression","src":"5905:15:0"}],"id":398,"name":"BinaryOperation","src":"5902:18:0"}],"id":399,"name":"FunctionCall","src":"5884:37:0"}],"id":400,"name":"BinaryOperation","src":"5869:52:0"}],"id":401,"name":"Assignment","src":"5851:70:0"}],"id":402,"name":"ExpressionStatement","src":"5851:70:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"bytes32"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":280,"type":"bytes32","value":"challengeNumber"},"id":403,"name":"Identifier","src":"6047:15:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"blockhash","referencedDeclaration":null,"type":"function (uint256) view returns (bytes32)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":968,"type":"block","value":"block"},"id":404,"name":"Identifier","src":"6065:5:0"}],"id":405,"name":"MemberAccess","src":"6065:15:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"-","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"number","referencedDeclaration":null,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":968,"type":"block","value":"block"},"id":406,"name":"Identifier","src":"6081:5:0"}],"id":407,"name":"MemberAccess","src":"6081:12:0"},{"attributes":{"argumentTypes":null,"hexvalue":"31","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 1","value":"1"},"id":408,"name":"Literal","src":"6096:1:0"}],"id":409,"name":"BinaryOperation","src":"6081:16:0"}],"id":410,"name":"FunctionCall","src":"6065:33:0"}],"id":411,"name":"Assignment","src":"6047:51:0"}],"id":412,"name":"ExpressionStatement","src":"6047:51:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":263,"type":"uint256","value":"epochCount"},"id":413,"name":"Identifier","src":"6108:10:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_rational_1_by_1","typeString":"int_const 1"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"add","referencedDeclaration":23,"type":"function (uint256,uint256) pure returns (uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":263,"type":"uint256","value":"epochCount"},"id":414,"name":"Identifier","src":"6121:10:0"}],"id":415,"name":"MemberAccess","src":"6121:14:0"},{"attributes":{"argumentTypes":null,"hexvalue":"31","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 1","value":"1"},"id":416,"name":"Literal","src":"6136:1:0"}],"id":417,"name":"FunctionCall","src":"6121:17:0"}],"id":418,"name":"Assignment","src":"6108:30:0"}],"id":419,"name":"ExpressionStatement","src":"6108:30:0"},{"attributes":{"falseBody":null},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"%","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":263,"type":"uint256","value":"epochCount"},"id":420,"name":"Identifier","src":"6224:10:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":266,"type":"uint256","value":"_BLOCKS_PER_READJUSTMENT"},"id":421,"name":"Identifier","src":"6237:24:0"}],"id":422,"name":"BinaryOperation","src":"6224:37:0"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":423,"name":"Literal","src":"6265:1:0"}],"id":424,"name":"BinaryOperation","src":"6224:42:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"arguments":[null],"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[null],"overloadedDeclarations":[null],"referencedDeclaration":501,"type":"function ()","value":"_reAdjustDifficulty"},"id":425,"name":"Identifier","src":"6284:19:0"}],"id":426,"name":"FunctionCall","src":"6284:21:0"}],"id":427,"name":"ExpressionStatement","src":"6284:21:0"}],"id":428,"name":"Block","src":"6274:40:0"}],"id":429,"name":"IfStatement","src":"6221:93:0"}],"id":430,"name":"Block","src":"5543:780:0"}],"id":431,"name":"FunctionDefinition","src":"5502:821:0"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"_reAdjustDifficulty","payable":false,"scope":964,"stateMutability":"nonpayable","superFunction":null,"visibility":"internal"},"children":[{"attributes":{"parameters":[null]},"children":[],"id":432,"name":"ParameterList","src":"6575:2:0"},{"attributes":{"parameters":[null]},"children":[],"id":433,"name":"ParameterList","src":"6587:0:0"},{"children":[{"attributes":{"assignments":[435]},"children":[{"attributes":{"constant":false,"name":"ethBlocksSinceLastDifficultyPeriod","scope":501,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":434,"name":"ElementaryTypeName","src":"6599:4:0"}],"id":435,"name":"VariableDeclaration","src":"6599:39:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"-","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"number","referencedDeclaration":null,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":968,"type":"block","value":"block"},"id":436,"name":"Identifier","src":"6641:5:0"}],"id":437,"name":"MemberAccess","src":"6641:12:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":261,"type":"uint256","value":"latestDifficultyPeriodStarted"},"id":438,"name":"Identifier","src":"6656:29:0"}],"id":439,"name":"BinaryOperation","src":"6641:44:0"}],"id":440,"name":"VariableDeclarationStatement","src":"6599:86:0"},{"attributes":{"assignments":[442]},"children":[{"attributes":{"constant":false,"name":"epochsMined","scope":501,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":441,"name":"ElementaryTypeName","src":"6857:4:0"}],"id":442,"name":"VariableDeclaration","src":"6857:16:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":266,"type":"uint256","value":"_BLOCKS_PER_READJUSTMENT"},"id":443,"name":"Identifier","src":"6876:24:0"}],"id":444,"name":"VariableDeclarationStatement","src":"6857:43:0"},{"attributes":{"assignments":[446]},"children":[{"attributes":{"constant":false,"name":"targetEthBlocksPerEpoch","scope":501,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":445,"name":"ElementaryTypeName","src":"6917:4:0"}],"id":446,"name":"VariableDeclaration","src":"6917:28:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"*","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":442,"type":"uint256","value":"epochsMined"},"id":447,"name":"Identifier","src":"6948:11:0"},{"attributes":{"argumentTypes":null,"hexvalue":"3630","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 60","value":"60"},"id":448,"name":"Literal","src":"6962:2:0"}],"id":449,"name":"BinaryOperation","src":"6948:16:0"}],"id":450,"name":"VariableDeclarationStatement","src":"6917:47:0"},{"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"<","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":435,"type":"uint256","value":"ethBlocksSinceLastDifficultyPeriod"},"id":451,"name":"Identifier","src":"7090:34:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":446,"type":"uint256","value":"targetEthBlocksPerEpoch"},"id":452,"name":"Identifier","src":"7127:23:0"}],"id":453,"name":"BinaryOperation","src":"7090:60:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":278,"type":"uint256","value":"miningTarget"},"id":454,"name":"Identifier","src":"7200:12:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sub","referencedDeclaration":45,"type":"function (uint256,uint256) pure returns (uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":278,"type":"uint256","value":"miningTarget"},"id":455,"name":"Identifier","src":"7215:12:0"}],"id":456,"name":"MemberAccess","src":"7215:16:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_rational_20_by_1","typeString":"int_const 20"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"div","referencedDeclaration":95,"type":"function (uint256,uint256) pure returns (uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":278,"type":"uint256","value":"miningTarget"},"id":457,"name":"Identifier","src":"7232:12:0"}],"id":458,"name":"MemberAccess","src":"7232:16:0"},{"attributes":{"argumentTypes":null,"hexvalue":"3230","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 20","value":"20"},"id":459,"name":"Literal","src":"7249:2:0"}],"id":460,"name":"FunctionCall","src":"7232:20:0"}],"id":461,"name":"FunctionCall","src":"7215:38:0"}],"id":462,"name":"Assignment","src":"7200:53:0"}],"id":463,"name":"ExpressionStatement","src":"7200:53:0"}],"id":464,"name":"Block","src":"7161:103:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":278,"type":"uint256","value":"miningTarget"},"id":465,"name":"Identifier","src":"7307:12:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"add","referencedDeclaration":23,"type":"function (uint256,uint256) pure returns (uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":278,"type":"uint256","value":"miningTarget"},"id":466,"name":"Identifier","src":"7322:12:0"}],"id":467,"name":"MemberAccess","src":"7322:16:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_rational_20_by_1","typeString":"int_const 20"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"div","referencedDeclaration":95,"type":"function (uint256,uint256) pure returns (uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":278,"type":"uint256","value":"miningTarget"},"id":468,"name":"Identifier","src":"7339:12:0"}],"id":469,"name":"MemberAccess","src":"7339:16:0"},{"attributes":{"argumentTypes":null,"hexvalue":"3230","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 20","value":"20"},"id":470,"name":"Literal","src":"7356:2:0"}],"id":471,"name":"FunctionCall","src":"7339:20:0"}],"id":472,"name":"FunctionCall","src":"7322:38:0"}],"id":473,"name":"Assignment","src":"7307:53:0"}],"id":474,"name":"ExpressionStatement","src":"7307:53:0"}],"id":475,"name":"Block","src":"7268:103:0"}],"id":476,"name":"IfStatement","src":"7086:285:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":261,"type":"uint256","value":"latestDifficultyPeriodStarted"},"id":477,"name":"Identifier","src":"7383:29:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"number","referencedDeclaration":null,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":968,"type":"block","value":"block"},"id":478,"name":"Identifier","src":"7415:5:0"}],"id":479,"name":"MemberAccess","src":"7415:12:0"}],"id":480,"name":"Assignment","src":"7383:44:0"}],"id":481,"name":"ExpressionStatement","src":"7383:44:0"},{"attributes":{"falseBody":null},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"<","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":278,"type":"uint256","value":"miningTarget"},"id":482,"name":"Identifier","src":"7441:12:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":271,"type":"uint256","value":"_MINIMUM_TARGET"},"id":483,"name":"Identifier","src":"7456:15:0"}],"id":484,"name":"BinaryOperation","src":"7441:30:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":278,"type":"uint256","value":"miningTarget"},"id":485,"name":"Identifier","src":"7497:12:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":271,"type":"uint256","value":"_MINIMUM_TARGET"},"id":486,"name":"Identifier","src":"7512:15:0"}],"id":487,"name":"Assignment","src":"7497:30:0"}],"id":488,"name":"ExpressionStatement","src":"7497:30:0"}],"id":489,"name":"Block","src":"7485:53:0"}],"id":490,"name":"IfStatement","src":"7438:100:0"},{"attributes":{"falseBody":null},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":278,"type":"uint256","value":"miningTarget"},"id":491,"name":"Identifier","src":"7551:12:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":276,"type":"uint256","value":"_MAXIMUM_TARGET"},"id":492,"name":"Identifier","src":"7566:15:0"}],"id":493,"name":"BinaryOperation","src":"7551:30:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":278,"type":"uint256","value":"miningTarget"},"id":494,"name":"Identifier","src":"7608:12:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":276,"type":"uint256","value":"_MAXIMUM_TARGET"},"id":495,"name":"Identifier","src":"7623:15:0"}],"id":496,"name":"Assignment","src":"7608:30:0"}],"id":497,"name":"ExpressionStatement","src":"7608:30:0"}],"id":498,"name":"Block","src":"7596:53:0"}],"id":499,"name":"IfStatement","src":"7548:101:0"}],"id":500,"name":"Block","src":"6587:1068:0"}],"id":501,"name":"FunctionDefinition","src":"6547:1108:0"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"getMintDigest","payable":false,"scope":964,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"nonce","scope":524,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":502,"name":"ElementaryTypeName","src":"7685:7:0"}],"id":503,"name":"VariableDeclaration","src":"7685:13:0"},{"attributes":{"constant":false,"name":"challenge_digest","scope":524,"stateVariable":false,"storageLocation":"default","type":"bytes32","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bytes32","type":"bytes32"},"id":504,"name":"ElementaryTypeName","src":"7700:7:0"}],"id":505,"name":"VariableDeclaration","src":"7700:24:0"},{"attributes":{"constant":false,"name":"challenge_number","scope":524,"stateVariable":false,"storageLocation":"default","type":"bytes32","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bytes32","type":"bytes32"},"id":506,"name":"ElementaryTypeName","src":"7726:7:0"}],"id":507,"name":"VariableDeclaration","src":"7726:24:0"}],"id":508,"name":"ParameterList","src":"7684:67:0"},{"children":[{"attributes":{"constant":false,"name":"digesttest","scope":524,"stateVariable":false,"storageLocation":"default","type":"bytes32","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bytes32","type":"bytes32"},"id":509,"name":"ElementaryTypeName","src":"7768:7:0"}],"id":510,"name":"VariableDeclaration","src":"7768:18:0"}],"id":511,"name":"ParameterList","src":"7767:20:0"},{"children":[{"attributes":{"assignments":[513]},"children":[{"attributes":{"constant":false,"name":"digest","scope":524,"stateVariable":false,"storageLocation":"default","type":"bytes32","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bytes32","type":"bytes32"},"id":512,"name":"ElementaryTypeName","src":"7799:7:0"}],"id":513,"name":"VariableDeclaration","src":"7799:14:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bytes32","typeString":"bytes32"},{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":970,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":514,"name":"Identifier","src":"7816:9:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":507,"type":"bytes32","value":"challenge_number"},"id":515,"name":"Identifier","src":"7826:16:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":516,"name":"Identifier","src":"7843:3:0"}],"id":517,"name":"MemberAccess","src":"7843:10:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":503,"type":"uint256","value":"nonce"},"id":518,"name":"Identifier","src":"7854:5:0"}],"id":519,"name":"FunctionCall","src":"7816:44:0"}],"id":520,"name":"VariableDeclarationStatement","src":"7799:61:0"},{"attributes":{"functionReturnParameters":511},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":513,"type":"bytes32","value":"digest"},"id":521,"name":"Identifier","src":"7878:6:0"}],"id":522,"name":"Return","src":"7871:13:0"}],"id":523,"name":"Block","src":"7788:106:0"}],"id":524,"name":"FunctionDefinition","src":"7662:232:0"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"checkMintSolution","payable":false,"scope":964,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"nonce","scope":570,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":525,"name":"ElementaryTypeName","src":"7929:7:0"}],"id":526,"name":"VariableDeclaration","src":"7929:13:0"},{"attributes":{"constant":false,"name":"challenge_digest","scope":570,"stateVariable":false,"storageLocation":"default","type":"bytes32","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bytes32","type":"bytes32"},"id":527,"name":"ElementaryTypeName","src":"7944:7:0"}],"id":528,"name":"VariableDeclaration","src":"7944:24:0"},{"attributes":{"constant":false,"name":"challenge_number","scope":570,"stateVariable":false,"storageLocation":"default","type":"bytes32","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bytes32","type":"bytes32"},"id":529,"name":"ElementaryTypeName","src":"7970:7:0"}],"id":530,"name":"VariableDeclaration","src":"7970:24:0"},{"attributes":{"constant":false,"name":"testDifficulty","scope":570,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":531,"name":"ElementaryTypeName","src":"7996:4:0"}],"id":532,"name":"VariableDeclaration","src":"7996:19:0"}],"id":533,"name":"ParameterList","src":"7928:88:0"},{"children":[{"attributes":{"constant":false,"name":"success","scope":570,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":534,"name":"ElementaryTypeName","src":"8033:4:0"}],"id":535,"name":"VariableDeclaration","src":"8033:12:0"}],"id":536,"name":"ParameterList","src":"8032:14:0"},{"children":[{"attributes":{"assignments":[538]},"children":[{"attributes":{"constant":false,"name":"difficulty","scope":570,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":537,"name":"ElementaryTypeName","src":"8060:4:0"}],"id":538,"name":"VariableDeclaration","src":"8060:15:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":532,"type":"uint256","value":"testDifficulty"},"id":539,"name":"Identifier","src":"8078:14:0"}],"id":540,"name":"VariableDeclarationStatement","src":"8060:32:0"},{"attributes":{"assignments":[542]},"children":[{"attributes":{"constant":false,"name":"reward_amount","scope":570,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":541,"name":"ElementaryTypeName","src":"8104:4:0"}],"id":542,"name":"VariableDeclaration","src":"8104:18:0"},{"attributes":{"argumentTypes":null,"arguments":[null],"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[null],"overloadedDeclarations":[null],"referencedDeclaration":723,"type":"function () view returns (uint256)","value":"getMiningReward"},"id":543,"name":"Identifier","src":"8125:15:0"}],"id":544,"name":"FunctionCall","src":"8125:17:0"}],"id":545,"name":"VariableDeclarationStatement","src":"8104:38:0"},{"attributes":{"assignments":[547]},"children":[{"attributes":{"constant":false,"name":"digest","scope":570,"stateVariable":false,"storageLocation":"default","type":"bytes32","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bytes32","type":"bytes32"},"id":546,"name":"ElementaryTypeName","src":"8155:7:0"}],"id":547,"name":"VariableDeclaration","src":"8155:14:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bytes32","typeString":"bytes32"},{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":970,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":548,"name":"Identifier","src":"8172:9:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":530,"type":"bytes32","value":"challenge_number"},"id":549,"name":"Identifier","src":"8182:16:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":550,"name":"Identifier","src":"8199:3:0"}],"id":551,"name":"MemberAccess","src":"8199:10:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":526,"type":"uint256","value":"nonce"},"id":552,"name":"Identifier","src":"8210:5:0"}],"id":553,"name":"FunctionCall","src":"8172:44:0"}],"id":554,"name":"VariableDeclarationStatement","src":"8155:61:0"},{"attributes":{"falseBody":null},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bytes32","typeString":"bytes32"}],"isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"type":"type(uint256)","value":"uint256"},"id":555,"name":"ElementaryTypeNameExpression","src":"8286:7:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":547,"type":"bytes32","value":"digest"},"id":556,"name":"Identifier","src":"8294:6:0"}],"id":557,"name":"FunctionCall","src":"8286:15:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":278,"type":"uint256","value":"miningTarget"},"id":558,"name":"Identifier","src":"8304:12:0"}],"id":559,"name":"BinaryOperation","src":"8286:30:0"},{"children":[{"attributes":{"argumentTypes":null,"arguments":[null],"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[null],"overloadedDeclarations":[null],"referencedDeclaration":980,"type":"function () pure","value":"revert"},"id":560,"name":"Identifier","src":"8318:6:0"}],"id":561,"name":"FunctionCall","src":"8318:8:0"}],"id":562,"name":"ExpressionStatement","src":"8318:8:0"}],"id":563,"name":"IfStatement","src":"8283:43:0"},{"attributes":{"functionReturnParameters":536},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isInlineArray":false,"isLValue":false,"isPure":false,"lValueRequested":false,"type":"bool"},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bytes32","typeString":"bytes32"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":547,"type":"bytes32","value":"digest"},"id":564,"name":"Identifier","src":"8347:6:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":528,"type":"bytes32","value":"challenge_digest"},"id":565,"name":"Identifier","src":"8357:16:0"}],"id":566,"name":"BinaryOperation","src":"8347:26:0"}],"id":567,"name":"TupleExpression","src":"8346:28:0"}],"id":568,"name":"Return","src":"8339:35:0"}],"id":569,"name":"Block","src":"8047:339:0"}],"id":570,"name":"FunctionDefinition","src":"7902:484:0"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"mint","payable":false,"scope":964,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"nonce","scope":676,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":571,"name":"ElementaryTypeName","src":"8407:7:0"}],"id":572,"name":"VariableDeclaration","src":"8407:13:0"},{"attributes":{"constant":false,"name":"challenge_digest","scope":676,"stateVariable":false,"storageLocation":"default","type":"bytes32","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bytes32","type":"bytes32"},"id":573,"name":"ElementaryTypeName","src":"8422:7:0"}],"id":574,"name":"VariableDeclaration","src":"8422:24:0"}],"id":575,"name":"ParameterList","src":"8406:41:0"},{"children":[{"attributes":{"constant":false,"name":"success","scope":676,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":576,"name":"ElementaryTypeName","src":"8464:4:0"}],"id":577,"name":"VariableDeclaration","src":"8464:12:0"}],"id":578,"name":"ParameterList","src":"8463:14:0"},{"children":[{"attributes":{"assignments":[580]},"children":[{"attributes":{"constant":false,"name":"reward_amount","scope":676,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":579,"name":"ElementaryTypeName","src":"8540:4:0"}],"id":580,"name":"VariableDeclaration","src":"8540:18:0"},{"attributes":{"argumentTypes":null,"arguments":[null],"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[null],"overloadedDeclarations":[null],"referencedDeclaration":723,"type":"function () view returns (uint256)","value":"getMiningReward"},"id":581,"name":"Identifier","src":"8561:15:0"}],"id":582,"name":"FunctionCall","src":"8561:17:0"}],"id":583,"name":"VariableDeclarationStatement","src":"8540:38:0"},{"attributes":{"assignments":[585]},"children":[{"attributes":{"constant":false,"name":"digest","scope":676,"stateVariable":false,"storageLocation":"default","type":"bytes32","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bytes32","type":"bytes32"},"id":584,"name":"ElementaryTypeName","src":"8739:7:0"}],"id":585,"name":"VariableDeclaration","src":"8739:14:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bytes32","typeString":"bytes32"},{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":970,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":586,"name":"Identifier","src":"8757:9:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":280,"type":"bytes32","value":"challengeNumber"},"id":587,"name":"Identifier","src":"8767:15:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":588,"name":"Identifier","src":"8784:3:0"}],"id":589,"name":"MemberAccess","src":"8784:10:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":572,"type":"uint256","value":"nonce"},"id":590,"name":"Identifier","src":"8796:5:0"}],"id":591,"name":"FunctionCall","src":"8757:46:0"}],"id":592,"name":"VariableDeclarationStatement","src":"8739:64:0"},{"attributes":{"falseBody":null},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bytes32","typeString":"bytes32"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"!=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":585,"type":"bytes32","value":"digest"},"id":593,"name":"Identifier","src":"8873:6:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":574,"type":"bytes32","value":"challenge_digest"},"id":594,"name":"Identifier","src":"8883:16:0"}],"id":595,"name":"BinaryOperation","src":"8873:26:0"},{"children":[{"attributes":{"argumentTypes":null,"arguments":[null],"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[null],"overloadedDeclarations":[null],"referencedDeclaration":980,"type":"function () pure","value":"revert"},"id":596,"name":"Identifier","src":"8901:6:0"}],"id":597,"name":"FunctionCall","src":"8901:8:0"}],"id":598,"name":"ExpressionStatement","src":"8901:8:0"}],"id":599,"name":"IfStatement","src":"8869:40:0"},{"attributes":{"falseBody":null},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bytes32","typeString":"bytes32"}],"isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"type":"type(uint256)","value":"uint256"},"id":600,"name":"ElementaryTypeNameExpression","src":"8976:7:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":585,"type":"bytes32","value":"digest"},"id":601,"name":"Identifier","src":"8984:6:0"}],"id":602,"name":"FunctionCall","src":"8976:15:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":278,"type":"uint256","value":"miningTarget"},"id":603,"name":"Identifier","src":"8994:12:0"}],"id":604,"name":"BinaryOperation","src":"8976:30:0"},{"children":[{"attributes":{"argumentTypes":null,"arguments":[null],"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[null],"overloadedDeclarations":[null],"referencedDeclaration":980,"type":"function () pure","value":"revert"},"id":605,"name":"Identifier","src":"9008:6:0"}],"id":606,"name":"FunctionCall","src":"9008:8:0"}],"id":607,"name":"ExpressionStatement","src":"9008:8:0"}],"id":608,"name":"IfStatement","src":"8973:43:0"},{"attributes":{"assignments":[610]},"children":[{"attributes":{"constant":false,"name":"hashFound","scope":676,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":609,"name":"ElementaryTypeName","src":"9139:4:0"}],"id":610,"name":"VariableDeclaration","src":"9139:14:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(bytes32 => uint256)","value":"rewardHashesFound"},"id":611,"name":"Identifier","src":"9156:17:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":585,"type":"bytes32","value":"digest"},"id":612,"name":"Identifier","src":"9174:6:0"}],"id":613,"name":"IndexAccess","src":"9156:25:0"}],"id":614,"name":"VariableDeclarationStatement","src":"9139:42:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(bytes32 => uint256)","value":"rewardHashesFound"},"id":615,"name":"Identifier","src":"9192:17:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":585,"type":"bytes32","value":"digest"},"id":616,"name":"Identifier","src":"9210:6:0"}],"id":617,"name":"IndexAccess","src":"9192:25:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":263,"type":"uint256","value":"epochCount"},"id":618,"name":"Identifier","src":"9220:10:0"}],"id":619,"name":"Assignment","src":"9192:38:0"}],"id":620,"name":"ExpressionStatement","src":"9192:38:0"},{"attributes":{"falseBody":null},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"!=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":610,"type":"uint256","value":"hashFound"},"id":621,"name":"Identifier","src":"9244:9:0"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":622,"name":"Literal","src":"9257:1:0"}],"id":623,"name":"BinaryOperation","src":"9244:14:0"},{"children":[{"attributes":{"argumentTypes":null,"arguments":[null],"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[null],"overloadedDeclarations":[null],"referencedDeclaration":980,"type":"function () pure","value":"revert"},"id":624,"name":"Identifier","src":"9260:6:0"}],"id":625,"name":"FunctionCall","src":"9260:8:0"}],"id":626,"name":"ExpressionStatement","src":"9260:8:0"}],"id":627,"name":"IfStatement","src":"9241:27:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":300,"type":"mapping(address => uint256)","value":"balances"},"id":628,"name":"Identifier","src":"9328:8:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":629,"name":"Identifier","src":"9337:3:0"}],"id":630,"name":"MemberAccess","src":"9337:10:0"}],"id":631,"name":"IndexAccess","src":"9328:20:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"add","referencedDeclaration":23,"type":"function (uint256,uint256) pure returns (uint256)"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":300,"type":"mapping(address => uint256)","value":"balances"},"id":632,"name":"Identifier","src":"9351:8:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":633,"name":"Identifier","src":"9360:3:0"}],"id":634,"name":"MemberAccess","src":"9360:10:0"}],"id":635,"name":"IndexAccess","src":"9351:20:0"}],"id":636,"name":"MemberAccess","src":"9351:24:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":580,"type":"uint256","value":"reward_amount"},"id":637,"name":"Identifier","src":"9376:13:0"}],"id":638,"name":"FunctionCall","src":"9351:39:0"}],"id":639,"name":"Assignment","src":"9328:62:0"}],"id":640,"name":"ExpressionStatement","src":"9328:62:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":296,"type":"uint256","value":"tokensMinted"},"id":641,"name":"Identifier","src":"9402:12:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"add","referencedDeclaration":23,"type":"function (uint256,uint256) pure returns (uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":296,"type":"uint256","value":"tokensMinted"},"id":642,"name":"Identifier","src":"9417:12:0"}],"id":643,"name":"MemberAccess","src":"9417:16:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":580,"type":"uint256","value":"reward_amount"},"id":644,"name":"Identifier","src":"9434:13:0"}],"id":645,"name":"FunctionCall","src":"9417:31:0"}],"id":646,"name":"Assignment","src":"9402:46:0"}],"id":647,"name":"ExpressionStatement","src":"9402:46:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":286,"type":"address","value":"lastRewardTo"},"id":648,"name":"Identifier","src":"9500:12:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":649,"name":"Identifier","src":"9515:3:0"}],"id":650,"name":"MemberAccess","src":"9515:10:0"}],"id":651,"name":"Assignment","src":"9500:25:0"}],"id":652,"name":"ExpressionStatement","src":"9500:25:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":288,"type":"uint256","value":"lastRewardAmount"},"id":653,"name":"Identifier","src":"9535:16:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":580,"type":"uint256","value":"reward_amount"},"id":654,"name":"Identifier","src":"9554:13:0"}],"id":655,"name":"Assignment","src":"9535:32:0"}],"id":656,"name":"ExpressionStatement","src":"9535:32:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"uint256","value":"lastRewardEthBlockNumber"},"id":657,"name":"Identifier","src":"9577:24:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"number","referencedDeclaration":null,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":968,"type":"block","value":"block"},"id":658,"name":"Identifier","src":"9604:5:0"}],"id":659,"name":"MemberAccess","src":"9604:12:0"}],"id":660,"name":"Assignment","src":"9577:39:0"}],"id":661,"name":"ExpressionStatement","src":"9577:39:0"},{"children":[{"attributes":{"argumentTypes":null,"arguments":[null],"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[null],"overloadedDeclarations":[null],"referencedDeclaration":431,"type":"function ()","value":"_startNewMiningEpoch"},"id":662,"name":"Identifier","src":"9629:20:0"}],"id":663,"name":"FunctionCall","src":"9629:22:0"}],"id":664,"name":"ExpressionStatement","src":"9629:22:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"},{"typeIdentifier":"t_uint256","typeString":"uint256"},{"typeIdentifier":"t_bytes32","typeString":"bytes32"}],"overloadedDeclarations":[null],"referencedDeclaration":316,"type":"function (address,uint256,uint256,bytes32)","value":"Mint"},"id":665,"name":"Identifier","src":"9664:4:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":666,"name":"Identifier","src":"9669:3:0"}],"id":667,"name":"MemberAccess","src":"9669:10:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":580,"type":"uint256","value":"reward_amount"},"id":668,"name":"Identifier","src":"9681:13:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":263,"type":"uint256","value":"epochCount"},"id":669,"name":"Identifier","src":"9696:10:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":280,"type":"bytes32","value":"challengeNumber"},"id":670,"name":"Identifier","src":"9708:15:0"}],"id":671,"name":"FunctionCall","src":"9664:61:0"}],"id":672,"name":"ExpressionStatement","src":"9664:61:0"},{"attributes":{"functionReturnParameters":578},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":673,"name":"Literal","src":"9742:4:0"}],"id":674,"name":"Return","src":"9735:11:0"}],"id":675,"name":"Block","src":"8478:1276:0"}],"id":676,"name":"FunctionDefinition","src":"8393:1361:0"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"getChallengeNumber","payable":false,"scope":964,"stateMutability":"view","superFunction":null,"visibility":"public"},"children":[{"attributes":{"parameters":[null]},"children":[],"id":677,"name":"ParameterList","src":"9871:2:0"},{"children":[{"attributes":{"constant":false,"name":"","scope":684,"stateVariable":false,"storageLocation":"default","type":"bytes32","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bytes32","type":"bytes32"},"id":678,"name":"ElementaryTypeName","src":"9899:7:0"}],"id":679,"name":"VariableDeclaration","src":"9899:7:0"}],"id":680,"name":"ParameterList","src":"9898:9:0"},{"children":[{"attributes":{"functionReturnParameters":680},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":280,"type":"bytes32","value":"challengeNumber"},"id":681,"name":"Identifier","src":"9925:15:0"}],"id":682,"name":"Return","src":"9918:22:0"}],"id":683,"name":"Block","src":"9908:39:0"}],"id":684,"name":"FunctionDefinition","src":"9844:103:0"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"getMiningDifficulty","payable":false,"scope":964,"stateMutability":"view","superFunction":null,"visibility":"public"},"children":[{"attributes":{"parameters":[null]},"children":[],"id":685,"name":"ParameterList","src":"10064:2:0"},{"children":[{"attributes":{"constant":false,"name":"","scope":695,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":686,"name":"ElementaryTypeName","src":"10092:4:0"}],"id":687,"name":"VariableDeclaration","src":"10092:4:0"}],"id":688,"name":"ParameterList","src":"10091:6:0"},{"children":[{"attributes":{"functionReturnParameters":688},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"div","referencedDeclaration":95,"type":"function (uint256,uint256) pure returns (uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":276,"type":"uint256","value":"_MAXIMUM_TARGET"},"id":689,"name":"Identifier","src":"10115:15:0"}],"id":690,"name":"MemberAccess","src":"10115:19:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":278,"type":"uint256","value":"miningTarget"},"id":691,"name":"Identifier","src":"10135:12:0"}],"id":692,"name":"FunctionCall","src":"10115:33:0"}],"id":693,"name":"Return","src":"10108:40:0"}],"id":694,"name":"Block","src":"10098:57:0"}],"id":695,"name":"FunctionDefinition","src":"10036:119:0"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"getMiningTarget","payable":false,"scope":964,"stateMutability":"view","superFunction":null,"visibility":"public"},"children":[{"attributes":{"parameters":[null]},"children":[],"id":696,"name":"ParameterList","src":"10185:2:0"},{"children":[{"attributes":{"constant":false,"name":"","scope":703,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":697,"name":"ElementaryTypeName","src":"10213:4:0"}],"id":698,"name":"VariableDeclaration","src":"10213:4:0"}],"id":699,"name":"ParameterList","src":"10212:6:0"},{"children":[{"attributes":{"functionReturnParameters":699},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":278,"type":"uint256","value":"miningTarget"},"id":700,"name":"Identifier","src":"10235:12:0"}],"id":701,"name":"Return","src":"10228:19:0"}],"id":702,"name":"Block","src":"10219:34:0"}],"id":703,"name":"FunctionDefinition","src":"10161:92:0"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"getMiningReward","payable":false,"scope":964,"stateMutability":"view","superFunction":null,"visibility":"public"},"children":[{"attributes":{"parameters":[null]},"children":[],"id":704,"name":"ParameterList","src":"10391:2:0"},{"children":[{"attributes":{"constant":false,"name":"","scope":723,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":705,"name":"ElementaryTypeName","src":"10419:4:0"}],"id":706,"name":"VariableDeclaration","src":"10419:4:0"}],"id":707,"name":"ParameterList","src":"10418:6:0"},{"children":[{"attributes":{"functionReturnParameters":707},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"div","referencedDeclaration":95,"type":"function (uint256,uint256) pure returns (uint256)"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isInlineArray":false,"isLValue":false,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"*","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"3530","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 50","value":"50"},"id":708,"name":"Literal","src":"10570:2:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"**","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"3130","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 10","value":"10"},"id":709,"name":"Literal","src":"10575:2:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint8","typeString":"uint8"}],"isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"type":"type(uint256)","value":"uint"},"id":710,"name":"ElementaryTypeNameExpression","src":"10579:4:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":257,"type":"uint8","value":"decimals"},"id":711,"name":"Identifier","src":"10584:8:0"}],"id":712,"name":"FunctionCall","src":"10579:14:0"}],"id":713,"name":"BinaryOperation","src":"10575:18:0"}],"id":714,"name":"BinaryOperation","src":"10570:23:0"}],"id":715,"name":"TupleExpression","src":"10569:26:0"}],"id":716,"name":"MemberAccess","src":"10569:30:0"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"**","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"32","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 2","value":"2"},"id":717,"name":"Literal","src":"10601:1:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":282,"type":"uint256","value":"rewardEra"},"id":718,"name":"Identifier","src":"10604:9:0"}],"id":719,"name":"BinaryOperation","src":"10601:12:0"}],"id":720,"name":"FunctionCall","src":"10569:46:0"}],"id":721,"name":"Return","src":"10562:53:0"}],"id":722,"name":"Block","src":"10425:199:0"}],"id":723,"name":"FunctionDefinition","src":"10367:257:0"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"totalSupply","payable":false,"scope":964,"stateMutability":"view","superFunction":101,"visibility":"public"},"children":[{"attributes":{"parameters":[null]},"children":[],"id":724,"name":"ParameterList","src":"10835:2:0"},{"children":[{"attributes":{"constant":false,"name":"","scope":737,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":725,"name":"ElementaryTypeName","src":"10863:4:0"}],"id":726,"name":"VariableDeclaration","src":"10863:4:0"}],"id":727,"name":"ParameterList","src":"10862:6:0"},{"children":[{"attributes":{"functionReturnParameters":727},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"-","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":259,"type":"uint256","value":"_totalSupply"},"id":728,"name":"Identifier","src":"10887:12:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":300,"type":"mapping(address => uint256)","value":"balances"},"id":729,"name":"Identifier","src":"10903:8:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":true,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"address","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_rational_0_by_1","typeString":"int_const 0"}],"isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"type":"type(address)","value":"address"},"id":730,"name":"ElementaryTypeNameExpression","src":"10912:7:0"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":731,"name":"Literal","src":"10920:1:0"}],"id":732,"name":"FunctionCall","src":"10912:10:0"}],"id":733,"name":"IndexAccess","src":"10903:20:0"}],"id":734,"name":"BinaryOperation","src":"10887:36:0"}],"id":735,"name":"Return","src":"10880:43:0"}],"id":736,"name":"Block","src":"10869:62:0"}],"id":737,"name":"FunctionDefinition","src":"10815:116:0"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"balanceOf","payable":false,"scope":964,"stateMutability":"view","superFunction":108,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"tokenOwner","scope":749,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":738,"name":"ElementaryTypeName","src":"11175:7:0"}],"id":739,"name":"VariableDeclaration","src":"11175:18:0"}],"id":740,"name":"ParameterList","src":"11174:20:0"},{"children":[{"attributes":{"constant":false,"name":"balance","scope":749,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":741,"name":"ElementaryTypeName","src":"11220:4:0"}],"id":742,"name":"VariableDeclaration","src":"11220:12:0"}],"id":743,"name":"ParameterList","src":"11219:14:0"},{"children":[{"attributes":{"functionReturnParameters":743},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":300,"type":"mapping(address => uint256)","value":"balances"},"id":744,"name":"Identifier","src":"11252:8:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":739,"type":"address","value":"tokenOwner"},"id":745,"name":"Identifier","src":"11261:10:0"}],"id":746,"name":"IndexAccess","src":"11252:20:0"}],"id":747,"name":"Return","src":"11245:27:0"}],"id":748,"name":"Block","src":"11234:46:0"}],"id":749,"name":"FunctionDefinition","src":"11156:124:0"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"transfer","payable":false,"scope":964,"stateMutability":"nonpayable","superFunction":126,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"to","scope":792,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":750,"name":"ElementaryTypeName","src":"11647:7:0"}],"id":751,"name":"VariableDeclaration","src":"11647:10:0"},{"attributes":{"constant":false,"name":"tokens","scope":792,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":752,"name":"ElementaryTypeName","src":"11659:4:0"}],"id":753,"name":"VariableDeclaration","src":"11659:11:0"}],"id":754,"name":"ParameterList","src":"11646:25:0"},{"children":[{"attributes":{"constant":false,"name":"success","scope":792,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":755,"name":"ElementaryTypeName","src":"11688:4:0"}],"id":756,"name":"VariableDeclaration","src":"11688:12:0"}],"id":757,"name":"ParameterList","src":"11687:14:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":300,"type":"mapping(address => uint256)","value":"balances"},"id":758,"name":"Identifier","src":"11713:8:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":759,"name":"Identifier","src":"11722:3:0"}],"id":760,"name":"MemberAccess","src":"11722:10:0"}],"id":761,"name":"IndexAccess","src":"11713:20:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sub","referencedDeclaration":45,"type":"function (uint256,uint256) pure returns (uint256)"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":300,"type":"mapping(address => uint256)","value":"balances"},"id":762,"name":"Identifier","src":"11736:8:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":763,"name":"Identifier","src":"11745:3:0"}],"id":764,"name":"MemberAccess","src":"11745:10:0"}],"id":765,"name":"IndexAccess","src":"11736:20:0"}],"id":766,"name":"MemberAccess","src":"11736:24:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":753,"type":"uint256","value":"tokens"},"id":767,"name":"Identifier","src":"11761:6:0"}],"id":768,"name":"FunctionCall","src":"11736:32:0"}],"id":769,"name":"Assignment","src":"11713:55:0"}],"id":770,"name":"ExpressionStatement","src":"11713:55:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":300,"type":"mapping(address => uint256)","value":"balances"},"id":771,"name":"Identifier","src":"11779:8:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":751,"type":"address","value":"to"},"id":772,"name":"Identifier","src":"11788:2:0"}],"id":773,"name":"IndexAccess","src":"11779:12:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"add","referencedDeclaration":23,"type":"function (uint256,uint256) pure returns (uint256)"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":300,"type":"mapping(address => uint256)","value":"balances"},"id":774,"name":"Identifier","src":"11794:8:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":751,"type":"address","value":"to"},"id":775,"name":"Identifier","src":"11803:2:0"}],"id":776,"name":"IndexAccess","src":"11794:12:0"}],"id":777,"name":"MemberAccess","src":"11794:16:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":753,"type":"uint256","value":"tokens"},"id":778,"name":"Identifier","src":"11811:6:0"}],"id":779,"name":"FunctionCall","src":"11794:24:0"}],"id":780,"name":"Assignment","src":"11779:39:0"}],"id":781,"name":"ExpressionStatement","src":"11779:39:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":154,"type":"function (address,address,uint256)","value":"Transfer"},"id":782,"name":"Identifier","src":"11829:8:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":783,"name":"Identifier","src":"11838:3:0"}],"id":784,"name":"MemberAccess","src":"11838:10:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":751,"type":"address","value":"to"},"id":785,"name":"Identifier","src":"11850:2:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":753,"type":"uint256","value":"tokens"},"id":786,"name":"Identifier","src":"11854:6:0"}],"id":787,"name":"FunctionCall","src":"11829:32:0"}],"id":788,"name":"ExpressionStatement","src":"11829:32:0"},{"attributes":{"functionReturnParameters":757},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":789,"name":"Literal","src":"11879:4:0"}],"id":790,"name":"Return","src":"11872:11:0"}],"id":791,"name":"Block","src":"11702:189:0"}],"id":792,"name":"FunctionDefinition","src":"11629:262:0"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"approve","payable":false,"scope":964,"stateMutability":"nonpayable","superFunction":135,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"spender","scope":820,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":793,"name":"ElementaryTypeName","src":"12422:7:0"}],"id":794,"name":"VariableDeclaration","src":"12422:15:0"},{"attributes":{"constant":false,"name":"tokens","scope":820,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":795,"name":"ElementaryTypeName","src":"12439:4:0"}],"id":796,"name":"VariableDeclaration","src":"12439:11:0"}],"id":797,"name":"ParameterList","src":"12421:30:0"},{"children":[{"attributes":{"constant":false,"name":"success","scope":820,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":798,"name":"ElementaryTypeName","src":"12468:4:0"}],"id":799,"name":"VariableDeclaration","src":"12468:12:0"}],"id":800,"name":"ParameterList","src":"12467:14:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"mapping(address => uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":306,"type":"mapping(address => mapping(address => uint256))","value":"allowed"},"id":801,"name":"Identifier","src":"12493:7:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":802,"name":"Identifier","src":"12501:3:0"}],"id":803,"name":"MemberAccess","src":"12501:10:0"}],"id":805,"name":"IndexAccess","src":"12493:19:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":794,"type":"address","value":"spender"},"id":804,"name":"Identifier","src":"12513:7:0"}],"id":806,"name":"IndexAccess","src":"12493:28:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":796,"type":"uint256","value":"tokens"},"id":807,"name":"Identifier","src":"12524:6:0"}],"id":808,"name":"Assignment","src":"12493:37:0"}],"id":809,"name":"ExpressionStatement","src":"12493:37:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":162,"type":"function (address,address,uint256)","value":"Approval"},"id":810,"name":"Identifier","src":"12541:8:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":811,"name":"Identifier","src":"12550:3:0"}],"id":812,"name":"MemberAccess","src":"12550:10:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":794,"type":"address","value":"spender"},"id":813,"name":"Identifier","src":"12562:7:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":796,"type":"uint256","value":"tokens"},"id":814,"name":"Identifier","src":"12571:6:0"}],"id":815,"name":"FunctionCall","src":"12541:37:0"}],"id":816,"name":"ExpressionStatement","src":"12541:37:0"},{"attributes":{"functionReturnParameters":800},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":817,"name":"Literal","src":"12596:4:0"}],"id":818,"name":"Return","src":"12589:11:0"}],"id":819,"name":"Block","src":"12482:126:0"}],"id":820,"name":"FunctionDefinition","src":"12405:203:0"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"transferFrom","payable":false,"scope":964,"stateMutability":"nonpayable","superFunction":146,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"from","scope":879,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":821,"name":"ElementaryTypeName","src":"13171:7:0"}],"id":822,"name":"VariableDeclaration","src":"13171:12:0"},{"attributes":{"constant":false,"name":"to","scope":879,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":823,"name":"ElementaryTypeName","src":"13185:7:0"}],"id":824,"name":"VariableDeclaration","src":"13185:10:0"},{"attributes":{"constant":false,"name":"tokens","scope":879,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":825,"name":"ElementaryTypeName","src":"13197:4:0"}],"id":826,"name":"VariableDeclaration","src":"13197:11:0"}],"id":827,"name":"ParameterList","src":"13170:39:0"},{"children":[{"attributes":{"constant":false,"name":"success","scope":879,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":828,"name":"ElementaryTypeName","src":"13226:4:0"}],"id":829,"name":"VariableDeclaration","src":"13226:12:0"}],"id":830,"name":"ParameterList","src":"13225:14:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":300,"type":"mapping(address => uint256)","value":"balances"},"id":831,"name":"Identifier","src":"13251:8:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":822,"type":"address","value":"from"},"id":832,"name":"Identifier","src":"13260:4:0"}],"id":833,"name":"IndexAccess","src":"13251:14:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sub","referencedDeclaration":45,"type":"function (uint256,uint256) pure returns (uint256)"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":300,"type":"mapping(address => uint256)","value":"balances"},"id":834,"name":"Identifier","src":"13268:8:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":822,"type":"address","value":"from"},"id":835,"name":"Identifier","src":"13277:4:0"}],"id":836,"name":"IndexAccess","src":"13268:14:0"}],"id":837,"name":"MemberAccess","src":"13268:18:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":826,"type":"uint256","value":"tokens"},"id":838,"name":"Identifier","src":"13287:6:0"}],"id":839,"name":"FunctionCall","src":"13268:26:0"}],"id":840,"name":"Assignment","src":"13251:43:0"}],"id":841,"name":"ExpressionStatement","src":"13251:43:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"mapping(address => uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":306,"type":"mapping(address => mapping(address => uint256))","value":"allowed"},"id":842,"name":"Identifier","src":"13305:7:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":822,"type":"address","value":"from"},"id":843,"name":"Identifier","src":"13313:4:0"}],"id":846,"name":"IndexAccess","src":"13305:13:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":844,"name":"Identifier","src":"13319:3:0"}],"id":845,"name":"MemberAccess","src":"13319:10:0"}],"id":847,"name":"IndexAccess","src":"13305:25:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sub","referencedDeclaration":45,"type":"function (uint256,uint256) pure returns (uint256)"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"mapping(address => uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":306,"type":"mapping(address => mapping(address => uint256))","value":"allowed"},"id":848,"name":"Identifier","src":"13333:7:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":822,"type":"address","value":"from"},"id":849,"name":"Identifier","src":"13341:4:0"}],"id":850,"name":"IndexAccess","src":"13333:13:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":851,"name":"Identifier","src":"13347:3:0"}],"id":852,"name":"MemberAccess","src":"13347:10:0"}],"id":853,"name":"IndexAccess","src":"13333:25:0"}],"id":854,"name":"MemberAccess","src":"13333:29:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":826,"type":"uint256","value":"tokens"},"id":855,"name":"Identifier","src":"13363:6:0"}],"id":856,"name":"FunctionCall","src":"13333:37:0"}],"id":857,"name":"Assignment","src":"13305:65:0"}],"id":858,"name":"ExpressionStatement","src":"13305:65:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":300,"type":"mapping(address => uint256)","value":"balances"},"id":859,"name":"Identifier","src":"13381:8:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":824,"type":"address","value":"to"},"id":860,"name":"Identifier","src":"13390:2:0"}],"id":861,"name":"IndexAccess","src":"13381:12:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"add","referencedDeclaration":23,"type":"function (uint256,uint256) pure returns (uint256)"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":300,"type":"mapping(address => uint256)","value":"balances"},"id":862,"name":"Identifier","src":"13396:8:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":824,"type":"address","value":"to"},"id":863,"name":"Identifier","src":"13405:2:0"}],"id":864,"name":"IndexAccess","src":"13396:12:0"}],"id":865,"name":"MemberAccess","src":"13396:16:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":826,"type":"uint256","value":"tokens"},"id":866,"name":"Identifier","src":"13413:6:0"}],"id":867,"name":"FunctionCall","src":"13396:24:0"}],"id":868,"name":"Assignment","src":"13381:39:0"}],"id":869,"name":"ExpressionStatement","src":"13381:39:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":154,"type":"function (address,address,uint256)","value":"Transfer"},"id":870,"name":"Identifier","src":"13431:8:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":822,"type":"address","value":"from"},"id":871,"name":"Identifier","src":"13440:4:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":824,"type":"address","value":"to"},"id":872,"name":"Identifier","src":"13446:2:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":826,"type":"uint256","value":"tokens"},"id":873,"name":"Identifier","src":"13450:6:0"}],"id":874,"name":"FunctionCall","src":"13431:26:0"}],"id":875,"name":"ExpressionStatement","src":"13431:26:0"},{"attributes":{"functionReturnParameters":830},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":876,"name":"Literal","src":"13475:4:0"}],"id":877,"name":"Return","src":"13468:11:0"}],"id":878,"name":"Block","src":"13240:247:0"}],"id":879,"name":"FunctionDefinition","src":"13149:338:0"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"allowance","payable":false,"scope":964,"stateMutability":"view","superFunction":117,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"tokenOwner","scope":895,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":880,"name":"ElementaryTypeName","src":"13792:7:0"}],"id":881,"name":"VariableDeclaration","src":"13792:18:0"},{"attributes":{"constant":false,"name":"spender","scope":895,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":882,"name":"ElementaryTypeName","src":"13812:7:0"}],"id":883,"name":"VariableDeclaration","src":"13812:15:0"}],"id":884,"name":"ParameterList","src":"13791:37:0"},{"children":[{"attributes":{"constant":false,"name":"remaining","scope":895,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":885,"name":"ElementaryTypeName","src":"13854:4:0"}],"id":886,"name":"VariableDeclaration","src":"13854:14:0"}],"id":887,"name":"ParameterList","src":"13853:16:0"},{"children":[{"attributes":{"functionReturnParameters":887},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"mapping(address => uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":306,"type":"mapping(address => mapping(address => uint256))","value":"allowed"},"id":888,"name":"Identifier","src":"13888:7:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":881,"type":"address","value":"tokenOwner"},"id":889,"name":"Identifier","src":"13896:10:0"}],"id":890,"name":"IndexAccess","src":"13888:19:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":883,"type":"address","value":"spender"},"id":891,"name":"Identifier","src":"13908:7:0"}],"id":892,"name":"IndexAccess","src":"13888:28:0"}],"id":893,"name":"Return","src":"13881:35:0"}],"id":894,"name":"Block","src":"13870:54:0"}],"id":895,"name":"FunctionDefinition","src":"13773:151:0"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"approveAndCall","payable":false,"scope":964,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"spender","scope":936,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":896,"name":"ElementaryTypeName","src":"14314:7:0"}],"id":897,"name":"VariableDeclaration","src":"14314:15:0"},{"attributes":{"constant":false,"name":"tokens","scope":936,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":898,"name":"ElementaryTypeName","src":"14331:4:0"}],"id":899,"name":"VariableDeclaration","src":"14331:11:0"},{"attributes":{"constant":false,"name":"data","scope":936,"stateVariable":false,"storageLocation":"default","type":"bytes memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bytes","type":"bytes storage pointer"},"id":900,"name":"ElementaryTypeName","src":"14344:5:0"}],"id":901,"name":"VariableDeclaration","src":"14344:10:0"}],"id":902,"name":"ParameterList","src":"14313:42:0"},{"children":[{"attributes":{"constant":false,"name":"success","scope":936,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":903,"name":"ElementaryTypeName","src":"14372:4:0"}],"id":904,"name":"VariableDeclaration","src":"14372:12:0"}],"id":905,"name":"ParameterList","src":"14371:14:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"mapping(address => uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":306,"type":"mapping(address => mapping(address => uint256))","value":"allowed"},"id":906,"name":"Identifier","src":"14397:7:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":907,"name":"Identifier","src":"14405:3:0"}],"id":908,"name":"MemberAccess","src":"14405:10:0"}],"id":910,"name":"IndexAccess","src":"14397:19:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":897,"type":"address","value":"spender"},"id":909,"name":"Identifier","src":"14417:7:0"}],"id":911,"name":"IndexAccess","src":"14397:28:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":899,"type":"uint256","value":"tokens"},"id":912,"name":"Identifier","src":"14428:6:0"}],"id":913,"name":"Assignment","src":"14397:37:0"}],"id":914,"name":"ExpressionStatement","src":"14397:37:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":162,"type":"function (address,address,uint256)","value":"Approval"},"id":915,"name":"Identifier","src":"14445:8:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":916,"name":"Identifier","src":"14454:3:0"}],"id":917,"name":"MemberAccess","src":"14454:10:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":897,"type":"address","value":"spender"},"id":918,"name":"Identifier","src":"14466:7:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":899,"type":"uint256","value":"tokens"},"id":919,"name":"Identifier","src":"14475:6:0"}],"id":920,"name":"FunctionCall","src":"14445:37:0"}],"id":921,"name":"ExpressionStatement","src":"14445:37:0"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"},{"typeIdentifier":"t_contract$__0xBitcoinToken_$964","typeString":"contract _0xBitcoinToken"},{"typeIdentifier":"t_bytes_memory_ptr","typeString":"bytes memory"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"receiveApproval","referencedDeclaration":174,"type":"function (address,uint256,address,bytes memory) external"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"contract ApproveAndCallFallBack","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"}],"overloadedDeclarations":[null],"referencedDeclaration":175,"type":"type(contract ApproveAndCallFallBack)","value":"ApproveAndCallFallBack"},"id":922,"name":"Identifier","src":"14493:22:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":897,"type":"address","value":"spender"},"id":923,"name":"Identifier","src":"14516:7:0"}],"id":924,"name":"FunctionCall","src":"14493:31:0"}],"id":925,"name":"MemberAccess","src":"14493:47:0"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":976,"type":"msg","value":"msg"},"id":926,"name":"Identifier","src":"14541:3:0"}],"id":927,"name":"MemberAccess","src":"14541:10:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":899,"type":"uint256","value":"tokens"},"id":928,"name":"Identifier","src":"14553:6:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":995,"type":"contract _0xBitcoinToken","value":"this"},"id":929,"name":"Identifier","src":"14561:4:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":901,"type":"bytes memory","value":"data"},"id":930,"name":"Identifier","src":"14567:4:0"}],"id":931,"name":"FunctionCall","src":"14493:79:0"}],"id":932,"name":"ExpressionStatement","src":"14493:79:0"},{"attributes":{"functionReturnParameters":905},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":933,"name":"Literal","src":"14590:4:0"}],"id":934,"name":"Return","src":"14583:11:0"}],"id":935,"name":"Block","src":"14386:216:0"}],"id":936,"name":"FunctionDefinition","src":"14290:312:0"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"","payable":true,"scope":964,"stateMutability":"payable","superFunction":null,"visibility":"public"},"children":[{"attributes":{"parameters":[null]},"children":[],"id":937,"name":"ParameterList","src":"14806:2:0"},{"attributes":{"parameters":[null]},"children":[],"id":938,"name":"ParameterList","src":"14824:0:0"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"arguments":[null],"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[null],"overloadedDeclarations":[null],"referencedDeclaration":980,"type":"function () pure","value":"revert"},"id":939,"name":"Identifier","src":"14835:6:0"}],"id":940,"name":"FunctionCall","src":"14835:8:0"}],"id":941,"name":"ExpressionStatement","src":"14835:8:0"}],"id":942,"name":"Block","src":"14824:27:0"}],"id":943,"name":"FunctionDefinition","src":"14797:54:0"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"name":"transferAnyERC20Token","payable":false,"scope":964,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"tokenAddress","scope":963,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":944,"name":"ElementaryTypeName","src":"15118:7:0"}],"id":945,"name":"VariableDeclaration","src":"15118:20:0"},{"attributes":{"constant":false,"name":"tokens","scope":963,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint","type":"uint256"},"id":946,"name":"ElementaryTypeName","src":"15140:4:0"}],"id":947,"name":"VariableDeclaration","src":"15140:11:0"}],"id":948,"name":"ParameterList","src":"15117:35:0"},{"children":[{"attributes":{"constant":false,"name":"success","scope":963,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":951,"name":"ElementaryTypeName","src":"15179:4:0"}],"id":952,"name":"VariableDeclaration","src":"15179:12:0"}],"id":953,"name":"ParameterList","src":"15178:14:0"},{"attributes":{"arguments":[null]},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":205,"type":"modifier ()","value":"onlyOwner"},"id":949,"name":"Identifier","src":"15160:9:0"}],"id":950,"name":"ModifierInvocation","src":"15160:9:0"},{"children":[{"attributes":{"functionReturnParameters":953},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bool","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"transfer","referencedDeclaration":126,"type":"function (address,uint256) external returns (bool)"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"contract ERC20Interface","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"}],"overloadedDeclarations":[null],"referencedDeclaration":163,"type":"type(contract ERC20Interface)","value":"ERC20Interface"},"id":954,"name":"Identifier","src":"15211:14:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":945,"type":"address","value":"tokenAddress"},"id":955,"name":"Identifier","src":"15226:12:0"}],"id":956,"name":"FunctionCall","src":"15211:28:0"}],"id":957,"name":"MemberAccess","src":"15211:37:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":177,"type":"address","value":"owner"},"id":958,"name":"Identifier","src":"15249:5:0"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":947,"type":"uint256","value":"tokens"},"id":959,"name":"Identifier","src":"15256:6:0"}],"id":960,"name":"FunctionCall","src":"15211:52:0"}],"id":961,"name":"Return","src":"15204:59:0"}],"id":962,"name":"Block","src":"15193:78:0"}],"id":963,"name":"FunctionDefinition","src":"15087:184:0"}],"id":964,"name":"ContractDefinition","src":"3478:11796:0"}],"id":965,"name":"SourceUnit","src":"0:15275:0"},"compiler":{"name":"solc","version":"0.4.18+commit.9cf6e910.Emscripten.clang"},"networks":{},"schemaVersion":"1.0.1","updatedAt":"2018-02-03T22:55:50.574Z"}
 
 /***/ }),
-/* 156 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49403,13 +49603,13 @@ module.exports = {"contractName":"_0xBitcoinToken","abi":[{"constant":true,"inpu
 
 
 
-var version = __webpack_require__(157).version;
-var core = __webpack_require__(15);
-var Eth = __webpack_require__(187);
-var Net = __webpack_require__(36);
+var version = __webpack_require__(158).version;
+var core = __webpack_require__(16);
+var Eth = __webpack_require__(188);
+var Net = __webpack_require__(37);
 var Personal = __webpack_require__(84);
-var Shh = __webpack_require__(289);
-var Bzz = __webpack_require__(290);
+var Shh = __webpack_require__(290);
+var Bzz = __webpack_require__(291);
 var utils = __webpack_require__(9);
 
 var Web3 = function Web3() {
@@ -49453,13 +49653,13 @@ core.addProviders(Web3);
 module.exports = Web3;
 
 /***/ }),
-/* 157 */
+/* 158 */
 /***/ (function(module, exports) {
 
 module.exports = {"_args":[["web3@1.0.0-beta.30","/home/andy/dev/tokenpool"]],"_from":"web3@1.0.0-beta.30","_id":"web3@1.0.0-beta.30","_inBundle":false,"_integrity":"sha1-rT52GEWusvQKd2DN51eTdzpDHs0=","_location":"/web3","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"web3@1.0.0-beta.30","name":"web3","escapedName":"web3","rawSpec":"1.0.0-beta.30","saveSpec":null,"fetchSpec":"1.0.0-beta.30"},"_requiredBy":["/"],"_resolved":"https://registry.npmjs.org/web3/-/web3-1.0.0-beta.30.tgz","_spec":"1.0.0-beta.30","_where":"/home/andy/dev/tokenpool","author":{"name":"ethereum.org"},"authors":[{"name":"Fabian Vogelsteller","email":"fabian@ethereum.org","homepage":"http://frozeman.de"},{"name":"Marek Kotewicz","email":"marek@parity.io","url":"https://github.com/debris"},{"name":"Marian Oancea","url":"https://github.com/cubedro"},{"name":"Gav Wood","email":"g@parity.io","homepage":"http://gavwood.com"},{"name":"Jeffery Wilcke","email":"jeffrey.wilcke@ethereum.org","url":"https://github.com/obscuren"}],"bugs":{"url":"https://github.com/ethereum/web3.js/issues"},"dependencies":{"web3-bzz":"1.0.0-beta.30","web3-core":"1.0.0-beta.30","web3-eth":"1.0.0-beta.30","web3-eth-personal":"1.0.0-beta.30","web3-net":"1.0.0-beta.30","web3-shh":"1.0.0-beta.30","web3-utils":"1.0.0-beta.30"},"description":"Ethereum JavaScript API","keywords":["Ethereum","JavaScript","API"],"license":"LGPL-3.0","main":"src/index.js","name":"web3","namespace":"ethereum","repository":{"type":"git","url":"https://github.com/ethereum/web3.js/tree/master/packages/web3"},"types":"index.d.ts","version":"1.0.0-beta.30"}
 
 /***/ }),
-/* 158 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49490,8 +49690,8 @@ module.exports = {"_args":[["web3@1.0.0-beta.30","/home/andy/dev/tokenpool"]],"_
 var _ = __webpack_require__(5);
 var errors = __webpack_require__(6).errors;
 var Jsonrpc = __webpack_require__(81);
-var BatchManager = __webpack_require__(174);
-var givenProvider = __webpack_require__(175);
+var BatchManager = __webpack_require__(175);
+var givenProvider = __webpack_require__(176);
 
 /**
 * It's responsible for passing messages to providers
@@ -49510,9 +49710,9 @@ var RequestManager = function RequestManager(provider) {
 RequestManager.givenProvider = givenProvider;
 
 RequestManager.providers = {
-    WebsocketProvider: __webpack_require__(176),
-    HttpProvider: __webpack_require__(180),
-    IpcProvider: __webpack_require__(182)
+    WebsocketProvider: __webpack_require__(177),
+    HttpProvider: __webpack_require__(181),
+    IpcProvider: __webpack_require__(183)
 };
 
 /**
@@ -49689,7 +49889,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 159 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49742,7 +49942,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 160 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50157,13 +50357,13 @@ module.exports = {
 };
 
 /***/ }),
-/* 161 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var BN = __webpack_require__(162);
+var BN = __webpack_require__(163);
 var numberToBN = __webpack_require__(76);
 
 var zero = new BN(0);
@@ -50331,7 +50531,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 162 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {(function (module, exports) {
@@ -53693,10 +53893,10 @@ module.exports = {
     return res._forceRed(this);
   };
 })(typeof module === 'undefined' || module, this);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)(module)))
 
 /***/ }),
-/* 163 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -53818,7 +54018,7 @@ function fromByteArray(uint8) {
 }
 
 /***/ }),
-/* 164 */
+/* 165 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -53907,7 +54107,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 };
 
 /***/ }),
-/* 165 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {(function (module, exports) {
@@ -57269,13 +57469,13 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
     return res._forceRed(this);
   };
 })(typeof module === 'undefined' || module, this);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)(module)))
 
 /***/ }),
-/* 166 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isHexPrefixed = __webpack_require__(167);
+var isHexPrefixed = __webpack_require__(168);
 
 /**
  * Removes '0x' from a given `String` is present
@@ -57291,7 +57491,7 @@ module.exports = function stripHexPrefix(str) {
 };
 
 /***/ }),
-/* 167 */
+/* 168 */
 /***/ (function(module, exports) {
 
 /**
@@ -57309,7 +57509,7 @@ module.exports = function isHexPrefixed(str) {
 };
 
 /***/ }),
-/* 168 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/utf8js v2.0.0 by @mathias */
@@ -57553,10 +57753,10 @@ module.exports = function isHexPrefixed(str) {
 		root.utf8 = utf8;
 	}
 })(this);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)(module), __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)(module), __webpack_require__(3)))
 
 /***/ }),
-/* 169 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -57800,11 +58000,11 @@ var soliditySha3 = function () {
 module.exports = soliditySha3;
 
 /***/ }),
-/* 170 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var randomHex = function (size, callback) {
-    var crypto = __webpack_require__(171);
+    var crypto = __webpack_require__(172);
     var isCallback = typeof callback === 'function';
 
     if (size > 65536) {
@@ -57868,25 +58068,25 @@ var randomHex = function (size, callback) {
 module.exports = randomHex;
 
 /***/ }),
-/* 171 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(172);
-
-/***/ }),
-/* 172 */
-/***/ (function(module, exports) {
-
-module.exports = window.crypto;
+module.exports = __webpack_require__(173);
 
 /***/ }),
 /* 173 */
 /***/ (function(module, exports) {
 
-/* (ignored) */
+module.exports = window.crypto;
 
 /***/ }),
 /* 174 */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57963,7 +58163,7 @@ Batch.prototype.execute = function () {
 module.exports = Batch;
 
 /***/ }),
-/* 175 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -58050,7 +58250,7 @@ if (typeof global.ethereumProvider !== 'undefined') {
 module.exports = givenProvider;
 
 /***/ }),
-/* 176 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -58085,7 +58285,7 @@ var Ws = null;
 if (typeof window !== 'undefined') {
     Ws = window.WebSocket;
 } else {
-    Ws = __webpack_require__(177).w3cwebsocket;
+    Ws = __webpack_require__(178).w3cwebsocket;
 }
 // Default connection ws://localhost:8546
 
@@ -58380,14 +58580,14 @@ WebsocketProvider.prototype.reset = function () {
 module.exports = WebsocketProvider;
 
 /***/ }),
-/* 177 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _global = function () {
 	return this || {};
 }();
 var NativeWebSocket = _global.WebSocket || _global.MozWebSocket;
-var websocket_version = __webpack_require__(178);
+var websocket_version = __webpack_require__(179);
 
 /**
  * Expose a W3C WebSocket class with just one or two arguments.
@@ -58420,19 +58620,19 @@ module.exports = {
 };
 
 /***/ }),
-/* 178 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(179).version;
+module.exports = __webpack_require__(180).version;
 
 /***/ }),
-/* 179 */
+/* 180 */
 /***/ (function(module, exports) {
 
 module.exports = {"_from":"websocket@git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","_id":"websocket@1.0.24","_inBundle":false,"_integrity":"sha1-Sqbof9foWKJ06k4o3V7m5V92+x4=","_location":"/websocket","_phantomChildren":{},"_requested":{"type":"git","raw":"websocket@git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","name":"websocket","escapedName":"websocket","rawSpec":"git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","saveSpec":"git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","fetchSpec":"git://github.com/frozeman/WebSocket-Node.git","gitCommittish":"7004c39c42ac98875ab61126e5b4a925430f592c"},"_requiredBy":["/web3-providers-ws"],"_resolved":"git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","_spec":"websocket@git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","_where":"/home/andy/dev/tokenpool","author":{"name":"Brian McKelvey","email":"brian@worlize.com","url":"https://www.worlize.com/"},"browser":"lib/browser.js","bugs":{"url":"https://github.com/theturtle32/WebSocket-Node/issues"},"bundleDependencies":false,"config":{"verbose":false},"contributors":[{"name":"Iñaki Baz Castillo","email":"ibc@aliax.net","url":"http://dev.sipdoc.net"}],"dependencies":{"debug":"^2.2.0","nan":"^2.3.3","typedarray-to-buffer":"^3.1.2","yaeti":"^0.0.6"},"deprecated":false,"description":"Websocket Client & Server Library implementing the WebSocket protocol as specified in RFC 6455.","devDependencies":{"buffer-equal":"^1.0.0","faucet":"^0.0.1","gulp":"git+https://github.com/gulpjs/gulp.git#4.0","gulp-jshint":"^2.0.4","jshint":"^2.0.0","jshint-stylish":"^2.2.1","tape":"^4.0.1"},"directories":{"lib":"./lib"},"engines":{"node":">=0.8.0"},"homepage":"https://github.com/theturtle32/WebSocket-Node","keywords":["websocket","websockets","socket","networking","comet","push","RFC-6455","realtime","server","client"],"license":"Apache-2.0","main":"index","name":"websocket","repository":{"type":"git","url":"git+https://github.com/theturtle32/WebSocket-Node.git"},"scripts":{"gulp":"gulp","install":"(node-gyp rebuild 2> builderror.log) || (exit 0)","test":"faucet test/unit"},"version":"1.0.24"}
 
 /***/ }),
-/* 180 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -58460,7 +58660,7 @@ module.exports = {"_from":"websocket@git://github.com/frozeman/WebSocket-Node.gi
  */
 
 var errors = __webpack_require__(6).errors;
-var XHR2 = __webpack_require__(181); // jshint ignore: line
+var XHR2 = __webpack_require__(182); // jshint ignore: line
 
 /**
  * HttpProvider should be used to send rpc calls over http
@@ -58530,13 +58730,13 @@ HttpProvider.prototype.send = function (payload, callback) {
 module.exports = HttpProvider;
 
 /***/ }),
-/* 181 */
+/* 182 */
 /***/ (function(module, exports) {
 
 module.exports = XMLHttpRequest;
 
 /***/ }),
-/* 182 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -58566,7 +58766,7 @@ module.exports = XMLHttpRequest;
 
 var _ = __webpack_require__(5);
 var errors = __webpack_require__(6).errors;
-var oboe = __webpack_require__(183);
+var oboe = __webpack_require__(184);
 
 var IpcProvider = function IpcProvider(path, net) {
     var _this = this;
@@ -58837,7 +59037,7 @@ IpcProvider.prototype.reset = function () {
 module.exports = IpcProvider;
 
 /***/ }),
-/* 183 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// This file is the concatenation of many js files.
@@ -61304,7 +61504,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// This file is 
 }(), Object, Array, Error, JSON);
 
 /***/ }),
-/* 184 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -61333,7 +61533,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// This file is 
 
 
 var formatters = __webpack_require__(6).formatters;
-var Method = __webpack_require__(16);
+var Method = __webpack_require__(17);
 var utils = __webpack_require__(9);
 
 var extend = function (pckg) {
@@ -61374,7 +61574,7 @@ var extend = function (pckg) {
 module.exports = extend;
 
 /***/ }),
-/* 185 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process, global, setImmediate) {/* @preserve
@@ -66511,10 +66711,10 @@ module.exports = extend;
 } else if (typeof self !== 'undefined' && self !== null) {
     self.P = self.Promise;
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(3), __webpack_require__(31).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(3), __webpack_require__(32).setImmediate))
 
 /***/ }),
-/* 186 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -66818,7 +67018,7 @@ Subscription.prototype.subscribe = function () {
 module.exports = Subscription;
 
 /***/ }),
-/* 187 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -66847,20 +67047,20 @@ module.exports = Subscription;
 
 
 var _ = __webpack_require__(5);
-var core = __webpack_require__(15);
+var core = __webpack_require__(16);
 var helpers = __webpack_require__(6);
-var Subscriptions = __webpack_require__(35).subscriptions;
-var Method = __webpack_require__(16);
+var Subscriptions = __webpack_require__(36).subscriptions;
+var Method = __webpack_require__(17);
 var utils = __webpack_require__(9);
-var Net = __webpack_require__(36);
+var Net = __webpack_require__(37);
 
 var Personal = __webpack_require__(84);
-var BaseContract = __webpack_require__(188);
+var BaseContract = __webpack_require__(189);
 var Iban = __webpack_require__(80);
-var Accounts = __webpack_require__(197);
+var Accounts = __webpack_require__(198);
 var abi = __webpack_require__(85);
 
-var getNetworkType = __webpack_require__(288);
+var getNetworkType = __webpack_require__(289);
 var formatter = helpers.formatters;
 
 var blockCall = function (args) {
@@ -67252,7 +67452,7 @@ core.addProviders(Eth);
 module.exports = Eth;
 
 /***/ }),
-/* 188 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -67288,10 +67488,10 @@ module.exports = Eth;
 
 
 var _ = __webpack_require__(5);
-var core = __webpack_require__(15);
-var Method = __webpack_require__(16);
+var core = __webpack_require__(16);
+var Method = __webpack_require__(17);
 var utils = __webpack_require__(9);
-var Subscription = __webpack_require__(35).subscription;
+var Subscription = __webpack_require__(36).subscription;
 var formatters = __webpack_require__(6).formatters;
 var errors = __webpack_require__(6).errors;
 var promiEvent = __webpack_require__(82);
@@ -68117,7 +68317,7 @@ Contract.prototype._executeMethod = function _executeMethod() {
 module.exports = Contract;
 
 /***/ }),
-/* 189 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {(function (module, exports) {
@@ -71479,15 +71679,15 @@ module.exports = Contract;
     return res._forceRed(this);
   };
 })(typeof module === 'undefined' || module, this);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)(module)))
 
 /***/ }),
-/* 190 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var f = __webpack_require__(11);
 var formatters = __webpack_require__(6).formatters;
-var SolidityType = __webpack_require__(17);
+var SolidityType = __webpack_require__(18);
 
 /**
  * SolidityTypeAddress is a protoype that represents address type
@@ -71518,11 +71718,11 @@ SolidityTypeAddress.prototype.isType = function (name) {
 module.exports = SolidityTypeAddress;
 
 /***/ }),
-/* 191 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var f = __webpack_require__(11);
-var SolidityType = __webpack_require__(17);
+var SolidityType = __webpack_require__(18);
 
 /**
  * SolidityTypeBool is a protoype that represents bool type
@@ -71549,11 +71749,11 @@ SolidityTypeBool.prototype.isType = function (name) {
 module.exports = SolidityTypeBool;
 
 /***/ }),
-/* 192 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var f = __webpack_require__(11);
-var SolidityType = __webpack_require__(17);
+var SolidityType = __webpack_require__(18);
 
 /**
  * SolidityTypeInt is a protoype that represents int type
@@ -71586,11 +71786,11 @@ SolidityTypeInt.prototype.isType = function (name) {
 module.exports = SolidityTypeInt;
 
 /***/ }),
-/* 193 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var f = __webpack_require__(11);
-var SolidityType = __webpack_require__(17);
+var SolidityType = __webpack_require__(18);
 
 /**
  * SolidityTypeUInt is a protoype that represents uint type
@@ -71623,11 +71823,11 @@ SolidityTypeUInt.prototype.isType = function (name) {
 module.exports = SolidityTypeUInt;
 
 /***/ }),
-/* 194 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var f = __webpack_require__(11);
-var SolidityType = __webpack_require__(17);
+var SolidityType = __webpack_require__(18);
 
 var SolidityTypeDynamicBytes = function () {
     this._inputFormatter = f.formatInputDynamicBytes;
@@ -71648,11 +71848,11 @@ SolidityTypeDynamicBytes.prototype.isDynamicType = function () {
 module.exports = SolidityTypeDynamicBytes;
 
 /***/ }),
-/* 195 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var f = __webpack_require__(11);
-var SolidityType = __webpack_require__(17);
+var SolidityType = __webpack_require__(18);
 
 var SolidityTypeString = function () {
     this._inputFormatter = f.formatInputString;
@@ -71673,11 +71873,11 @@ SolidityTypeString.prototype.isDynamicType = function () {
 module.exports = SolidityTypeString;
 
 /***/ }),
-/* 196 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var f = __webpack_require__(11);
-var SolidityType = __webpack_require__(17);
+var SolidityType = __webpack_require__(18);
 
 /**
  * SolidityTypeBytes is a prototype that represents the bytes type.
@@ -71707,7 +71907,7 @@ SolidityTypeBytes.prototype.isType = function (name) {
 module.exports = SolidityTypeBytes;
 
 /***/ }),
-/* 197 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71736,17 +71936,17 @@ module.exports = SolidityTypeBytes;
 
 
 var _ = __webpack_require__(5);
-var core = __webpack_require__(15);
-var Method = __webpack_require__(16);
-var Promise = __webpack_require__(198);
-var Account = __webpack_require__(199);
+var core = __webpack_require__(16);
+var Method = __webpack_require__(17);
+var Promise = __webpack_require__(199);
+var Account = __webpack_require__(200);
 var Hash = __webpack_require__(120);
 var RLP = __webpack_require__(119);
 var Nat = __webpack_require__(118);
-var Bytes = __webpack_require__(49);
-var cryp = typeof global === 'undefined' ? __webpack_require__(37) : __webpack_require__(37);
-var scryptsy = __webpack_require__(284);
-var uuid = __webpack_require__(286);
+var Bytes = __webpack_require__(50);
+var cryp = typeof global === 'undefined' ? __webpack_require__(38) : __webpack_require__(38);
+var scryptsy = __webpack_require__(285);
+var uuid = __webpack_require__(287);
 var utils = __webpack_require__(9);
 var helpers = __webpack_require__(6);
 
@@ -72214,7 +72414,7 @@ module.exports = Accounts;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 198 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process, global, setImmediate) {/* @preserve
@@ -77351,10 +77551,10 @@ module.exports = Accounts;
 } else if (typeof self !== 'undefined' && self !== null) {
     self.P = self.Promise;
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(3), __webpack_require__(31).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(3), __webpack_require__(32).setImmediate))
 
 /***/ }),
-/* 199 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var _slicedToArray = function () {
@@ -77383,7 +77583,7 @@ module.exports = Accounts;
   };
 }();
 
-var Bytes = __webpack_require__(49);
+var Bytes = __webpack_require__(50);
 var Nat = __webpack_require__(118);
 var elliptic = __webpack_require__(7);
 var rlp = __webpack_require__(119);
@@ -77465,7 +77665,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 200 */
+/* 201 */
 /***/ (function(module, exports) {
 
 var generate = function generate(num, fn) {
@@ -77510,7 +77710,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 201 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -77548,13 +77748,13 @@ module.exports = function hash(buf, fn) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 202 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Buffer) {
 
-var Transform = __webpack_require__(38).Transform;
+var Transform = __webpack_require__(39).Transform;
 var inherits = __webpack_require__(0);
 
 function HashBase(blockSize) {
@@ -77639,13 +77839,13 @@ module.exports = HashBase;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 203 */
+/* 204 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 204 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -77658,7 +77858,7 @@ function _classCallCheck(instance, Constructor) {
 }
 
 var Buffer = __webpack_require__(2).Buffer;
-var util = __webpack_require__(205);
+var util = __webpack_require__(206);
 
 function copyBuffer(src, target, offset) {
   src.copy(target, offset);
@@ -77734,13 +77934,13 @@ if (util && util.inspect && util.inspect.custom) {
 }
 
 /***/ }),
-/* 205 */
+/* 206 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 206 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -77813,7 +78013,7 @@ function config(name) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 207 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -77866,31 +78066,31 @@ PassThrough.prototype._transform = function (chunk, encoding, cb) {
 };
 
 /***/ }),
-/* 208 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(54);
-
-/***/ }),
 /* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(18);
+module.exports = __webpack_require__(55);
 
 /***/ }),
 /* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(53).Transform;
+module.exports = __webpack_require__(19);
 
 /***/ }),
 /* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(53).PassThrough;
+module.exports = __webpack_require__(54).Transform;
 
 /***/ }),
 /* 212 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(54).PassThrough;
+
+/***/ }),
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -77902,7 +78102,7 @@ module.exports = __webpack_require__(53).PassThrough;
  */
 
 var inherits = __webpack_require__(0);
-var Hash = __webpack_require__(22);
+var Hash = __webpack_require__(23);
 var Buffer = __webpack_require__(2).Buffer;
 
 var K = [0x5a827999, 0x6ed9eba1, 0x8f1bbcdc | 0, 0xca62c1d6 | 0];
@@ -77987,7 +78187,7 @@ Sha.prototype._hash = function () {
 module.exports = Sha;
 
 /***/ }),
-/* 213 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -78000,7 +78200,7 @@ module.exports = Sha;
  */
 
 var inherits = __webpack_require__(0);
-var Hash = __webpack_require__(22);
+var Hash = __webpack_require__(23);
 var Buffer = __webpack_require__(2).Buffer;
 
 var K = [0x5a827999, 0x6ed9eba1, 0x8f1bbcdc | 0, 0xca62c1d6 | 0];
@@ -78089,7 +78289,7 @@ Sha1.prototype._hash = function () {
 module.exports = Sha1;
 
 /***/ }),
-/* 214 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -78102,7 +78302,7 @@ module.exports = Sha1;
 
 var inherits = __webpack_require__(0);
 var Sha256 = __webpack_require__(91);
-var Hash = __webpack_require__(22);
+var Hash = __webpack_require__(23);
 var Buffer = __webpack_require__(2).Buffer;
 
 var W = new Array(64);
@@ -78147,12 +78347,12 @@ Sha224.prototype._hash = function () {
 module.exports = Sha224;
 
 /***/ }),
-/* 215 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var inherits = __webpack_require__(0);
 var SHA512 = __webpack_require__(92);
-var Hash = __webpack_require__(22);
+var Hash = __webpack_require__(23);
 var Buffer = __webpack_require__(2).Buffer;
 
 var W = new Array(160);
@@ -78209,7 +78409,7 @@ Sha384.prototype._hash = function () {
 module.exports = Sha384;
 
 /***/ }),
-/* 216 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -78262,13 +78462,13 @@ Hmac.prototype._final = function () {
 module.exports = Hmac;
 
 /***/ }),
-/* 217 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(94);
 
 /***/ }),
-/* 218 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {var checkParameters = __webpack_require__(95);
@@ -78369,14 +78569,14 @@ module.exports = function (password, salt, iterations, keylen, digest, callback)
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(8)))
 
 /***/ }),
-/* 219 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ebtk = __webpack_require__(40);
-var aes = __webpack_require__(58);
-var DES = __webpack_require__(231);
-var desModes = __webpack_require__(237);
-var aesModes = __webpack_require__(59);
+var ebtk = __webpack_require__(41);
+var aes = __webpack_require__(59);
+var DES = __webpack_require__(232);
+var desModes = __webpack_require__(238);
+var aesModes = __webpack_require__(60);
 function createCipher(suite, password) {
   var keyLen, ivLen;
   suite = suite.toLowerCase();
@@ -78447,14 +78647,14 @@ function getCiphers() {
 exports.listCiphers = exports.getCiphers = getCiphers;
 
 /***/ }),
-/* 220 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Buffer) {
 
 var inherits = __webpack_require__(0);
-var HashBase = __webpack_require__(221);
+var HashBase = __webpack_require__(222);
 
 var ARRAY16 = new Array(16);
 
@@ -78600,14 +78800,14 @@ module.exports = MD5;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 221 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var Buffer = __webpack_require__(2).Buffer;
-var Transform = __webpack_require__(38).Transform;
+var Transform = __webpack_require__(39).Transform;
 var inherits = __webpack_require__(0);
 
 function throwIfNotStringOrBuffer(val, prefix) {
@@ -78702,16 +78902,16 @@ HashBase.prototype._digest = function () {
 module.exports = HashBase;
 
 /***/ }),
-/* 222 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var MODES = __webpack_require__(59);
+var MODES = __webpack_require__(60);
 var AuthCipher = __webpack_require__(101);
 var Buffer = __webpack_require__(2).Buffer;
 var StreamCipher = __webpack_require__(102);
 var Transform = __webpack_require__(13);
-var aes = __webpack_require__(41);
-var ebtk = __webpack_require__(40);
+var aes = __webpack_require__(42);
+var ebtk = __webpack_require__(41);
 var inherits = __webpack_require__(0);
 
 function Cipher(mode, key, iv) {
@@ -78821,7 +79021,7 @@ exports.createCipheriv = createCipheriv;
 exports.createCipher = createCipher;
 
 /***/ }),
-/* 223 */
+/* 224 */
 /***/ (function(module, exports) {
 
 exports.encrypt = function (self, block) {
@@ -78833,7 +79033,7 @@ exports.decrypt = function (self, block) {
 };
 
 /***/ }),
-/* 224 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var xor = __webpack_require__(27);
@@ -78855,7 +79055,7 @@ exports.decrypt = function (self, block) {
 };
 
 /***/ }),
-/* 225 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Buffer = __webpack_require__(2).Buffer;
@@ -78893,7 +79093,7 @@ exports.encrypt = function (self, data, decrypt) {
 };
 
 /***/ }),
-/* 226 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Buffer = __webpack_require__(2).Buffer;
@@ -78920,7 +79120,7 @@ exports.encrypt = function (self, chunk, decrypt) {
 };
 
 /***/ }),
-/* 227 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Buffer = __webpack_require__(2).Buffer;
@@ -78967,7 +79167,7 @@ exports.encrypt = function (self, chunk, decrypt) {
 };
 
 /***/ }),
-/* 228 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var xor = __webpack_require__(27);
@@ -78989,7 +79189,7 @@ exports.encrypt = function (self, chunk) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 229 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Buffer = __webpack_require__(2).Buffer;
@@ -79078,16 +79278,16 @@ GHASH.prototype.final = function (abl, bl) {
 module.exports = GHASH;
 
 /***/ }),
-/* 230 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var AuthCipher = __webpack_require__(101);
 var Buffer = __webpack_require__(2).Buffer;
-var MODES = __webpack_require__(59);
+var MODES = __webpack_require__(60);
 var StreamCipher = __webpack_require__(102);
 var Transform = __webpack_require__(13);
-var aes = __webpack_require__(41);
-var ebtk = __webpack_require__(40);
+var aes = __webpack_require__(42);
+var ebtk = __webpack_require__(41);
 var inherits = __webpack_require__(0);
 
 function Decipher(mode, key, iv) {
@@ -79204,11 +79404,11 @@ exports.createDecipher = createDecipher;
 exports.createDecipheriv = createDecipheriv;
 
 /***/ }),
-/* 231 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var CipherBase = __webpack_require__(13);
-var des = __webpack_require__(60);
+var des = __webpack_require__(61);
 var inherits = __webpack_require__(0);
 
 var modes = {
@@ -79253,7 +79453,7 @@ DES.prototype._final = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 232 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79462,7 +79662,7 @@ exports.padSplit = function padSplit(num, size, group) {
 };
 
 /***/ }),
-/* 233 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79592,7 +79792,7 @@ Cipher.prototype._finalDecrypt = function _finalDecrypt() {
 };
 
 /***/ }),
-/* 234 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79601,7 +79801,7 @@ Cipher.prototype._finalDecrypt = function _finalDecrypt() {
 var assert = __webpack_require__(10);
 var inherits = __webpack_require__(0);
 
-var des = __webpack_require__(60);
+var des = __webpack_require__(61);
 var utils = des.utils;
 var Cipher = des.Cipher;
 
@@ -79733,7 +79933,7 @@ DES.prototype._decrypt = function _decrypt(state, lStart, rStart, out, off) {
 };
 
 /***/ }),
-/* 235 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79799,7 +79999,7 @@ proto._update = function _update(inp, inOff, out, outOff) {
 };
 
 /***/ }),
-/* 236 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -79808,7 +80008,7 @@ proto._update = function _update(inp, inOff, out, outOff) {
 var assert = __webpack_require__(10);
 var inherits = __webpack_require__(0);
 
-var des = __webpack_require__(60);
+var des = __webpack_require__(61);
 var Cipher = des.Cipher;
 var DES = des.DES;
 
@@ -79852,7 +80052,7 @@ EDE.prototype._pad = DES.prototype._pad;
 EDE.prototype._unpad = DES.prototype._unpad;
 
 /***/ }),
-/* 237 */
+/* 238 */
 /***/ (function(module, exports) {
 
 exports['des-ecb'] = {
@@ -79881,13 +80081,13 @@ exports['des-ede'] = {
 };
 
 /***/ }),
-/* 238 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var generatePrime = __webpack_require__(103);
-var primes = __webpack_require__(240);
+var primes = __webpack_require__(241);
 
-var DH = __webpack_require__(241);
+var DH = __webpack_require__(242);
 
 function getDiffieHellman(mod) {
   var prime = new Buffer(primes[mod].prime, 'hex');
@@ -79929,19 +80129,19 @@ exports.createDiffieHellman = exports.DiffieHellman = createDiffieHellman;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 239 */
+/* 240 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 240 */
+/* 241 */
 /***/ (function(module, exports) {
 
 module.exports = {"modp1":{"gen":"02","prime":"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a63a3620ffffffffffffffff"},"modp2":{"gen":"02","prime":"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece65381ffffffffffffffff"},"modp5":{"gen":"02","prime":"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca237327ffffffffffffffff"},"modp14":{"gen":"02","prime":"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aacaa68ffffffffffffffff"},"modp15":{"gen":"02","prime":"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aaac42dad33170d04507a33a85521abdf1cba64ecfb850458dbef0a8aea71575d060c7db3970f85a6e1e4c7abf5ae8cdb0933d71e8c94e04a25619dcee3d2261ad2ee6bf12ffa06d98a0864d87602733ec86a64521f2b18177b200cbbe117577a615d6c770988c0bad946e208e24fa074e5ab3143db5bfce0fd108e4b82d120a93ad2caffffffffffffffff"},"modp16":{"gen":"02","prime":"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aaac42dad33170d04507a33a85521abdf1cba64ecfb850458dbef0a8aea71575d060c7db3970f85a6e1e4c7abf5ae8cdb0933d71e8c94e04a25619dcee3d2261ad2ee6bf12ffa06d98a0864d87602733ec86a64521f2b18177b200cbbe117577a615d6c770988c0bad946e208e24fa074e5ab3143db5bfce0fd108e4b82d120a92108011a723c12a787e6d788719a10bdba5b2699c327186af4e23c1a946834b6150bda2583e9ca2ad44ce8dbbbc2db04de8ef92e8efc141fbecaa6287c59474e6bc05d99b2964fa090c3a2233ba186515be7ed1f612970cee2d7afb81bdd762170481cd0069127d5b05aa993b4ea988d8fddc186ffb7dc90a6c08f4df435c934063199ffffffffffffffff"},"modp17":{"gen":"02","prime":"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aaac42dad33170d04507a33a85521abdf1cba64ecfb850458dbef0a8aea71575d060c7db3970f85a6e1e4c7abf5ae8cdb0933d71e8c94e04a25619dcee3d2261ad2ee6bf12ffa06d98a0864d87602733ec86a64521f2b18177b200cbbe117577a615d6c770988c0bad946e208e24fa074e5ab3143db5bfce0fd108e4b82d120a92108011a723c12a787e6d788719a10bdba5b2699c327186af4e23c1a946834b6150bda2583e9ca2ad44ce8dbbbc2db04de8ef92e8efc141fbecaa6287c59474e6bc05d99b2964fa090c3a2233ba186515be7ed1f612970cee2d7afb81bdd762170481cd0069127d5b05aa993b4ea988d8fddc186ffb7dc90a6c08f4df435c93402849236c3fab4d27c7026c1d4dcb2602646dec9751e763dba37bdf8ff9406ad9e530ee5db382f413001aeb06a53ed9027d831179727b0865a8918da3edbebcf9b14ed44ce6cbaced4bb1bdb7f1447e6cc254b332051512bd7af426fb8f401378cd2bf5983ca01c64b92ecf032ea15d1721d03f482d7ce6e74fef6d55e702f46980c82b5a84031900b1c9e59e7c97fbec7e8f323a97a7e36cc88be0f1d45b7ff585ac54bd407b22b4154aacc8f6d7ebf48e1d814cc5ed20f8037e0a79715eef29be32806a1d58bb7c5da76f550aa3d8a1fbff0eb19ccb1a313d55cda56c9ec2ef29632387fe8d76e3c0468043e8f663f4860ee12bf2d5b0b7474d6e694f91e6dcc4024ffffffffffffffff"},"modp18":{"gen":"02","prime":"ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aaac42dad33170d04507a33a85521abdf1cba64ecfb850458dbef0a8aea71575d060c7db3970f85a6e1e4c7abf5ae8cdb0933d71e8c94e04a25619dcee3d2261ad2ee6bf12ffa06d98a0864d87602733ec86a64521f2b18177b200cbbe117577a615d6c770988c0bad946e208e24fa074e5ab3143db5bfce0fd108e4b82d120a92108011a723c12a787e6d788719a10bdba5b2699c327186af4e23c1a946834b6150bda2583e9ca2ad44ce8dbbbc2db04de8ef92e8efc141fbecaa6287c59474e6bc05d99b2964fa090c3a2233ba186515be7ed1f612970cee2d7afb81bdd762170481cd0069127d5b05aa993b4ea988d8fddc186ffb7dc90a6c08f4df435c93402849236c3fab4d27c7026c1d4dcb2602646dec9751e763dba37bdf8ff9406ad9e530ee5db382f413001aeb06a53ed9027d831179727b0865a8918da3edbebcf9b14ed44ce6cbaced4bb1bdb7f1447e6cc254b332051512bd7af426fb8f401378cd2bf5983ca01c64b92ecf032ea15d1721d03f482d7ce6e74fef6d55e702f46980c82b5a84031900b1c9e59e7c97fbec7e8f323a97a7e36cc88be0f1d45b7ff585ac54bd407b22b4154aacc8f6d7ebf48e1d814cc5ed20f8037e0a79715eef29be32806a1d58bb7c5da76f550aa3d8a1fbff0eb19ccb1a313d55cda56c9ec2ef29632387fe8d76e3c0468043e8f663f4860ee12bf2d5b0b7474d6e694f91e6dbe115974a3926f12fee5e438777cb6a932df8cd8bec4d073b931ba3bc832b68d9dd300741fa7bf8afc47ed2576f6936ba424663aab639c5ae4f5683423b4742bf1c978238f16cbe39d652de3fdb8befc848ad922222e04a4037c0713eb57a81a23f0c73473fc646cea306b4bcbc8862f8385ddfa9d4b7fa2c087e879683303ed5bdd3a062b3cf5b3a278a66d2a13f83f44f82ddf310ee074ab6a364597e899a0255dc164f31cc50846851df9ab48195ded7ea1b1d510bd7ee74d73faf36bc31ecfa268359046f4eb879f924009438b481c6cd7889a002ed5ee382bc9190da6fc026e479558e4475677e9aa9e3050e2765694dfc81f56e880b96e7160c980dd98edd3dfffffffffffffffff"}}
 
 /***/ }),
-/* 241 */
+/* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var BN = __webpack_require__(4);
@@ -79953,7 +80153,7 @@ var TEN = new BN(10);
 var THREE = new BN(3);
 var SEVEN = new BN(7);
 var primes = __webpack_require__(103);
-var randomBytes = __webpack_require__(21);
+var randomBytes = __webpack_require__(22);
 module.exports = DH;
 
 function setPublicKey(pub, enc) {
@@ -80108,14 +80308,14 @@ function formatReturnValue(bn, enc) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 242 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(25);
-var stream = __webpack_require__(38);
+var stream = __webpack_require__(39);
 var inherits = __webpack_require__(0);
-var sign = __webpack_require__(243);
-var verify = __webpack_require__(278);
+var sign = __webpack_require__(244);
+var verify = __webpack_require__(279);
 
 var algorithms = __webpack_require__(94);
 Object.keys(algorithms).forEach(function (key) {
@@ -80205,15 +80405,15 @@ module.exports = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 243 */
+/* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {// much of this based on https://github.com/indutny/self-signed/blob/gh-pages/lib/rsa.js
 var createHmac = __webpack_require__(93);
-var crt = __webpack_require__(61);
+var crt = __webpack_require__(62);
 var EC = __webpack_require__(7).ec;
 var BN = __webpack_require__(4);
-var parseKeys = __webpack_require__(43);
+var parseKeys = __webpack_require__(44);
 var curves = __webpack_require__(114);
 
 function sign(hash, key, hashType, signType, tag) {
@@ -80356,13 +80556,13 @@ module.exports.makeKey = makeKey;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 244 */
+/* 245 */
 /***/ (function(module, exports) {
 
 module.exports = {"_args":[["elliptic@6.4.0","/home/andy/dev/tokenpool"]],"_from":"elliptic@6.4.0","_id":"elliptic@6.4.0","_inBundle":false,"_integrity":"sha1-ysmvh2LIWDYYcAPI3+GT5eLq5d8=","_location":"/elliptic","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"elliptic@6.4.0","name":"elliptic","escapedName":"elliptic","rawSpec":"6.4.0","saveSpec":null,"fetchSpec":"6.4.0"},"_requiredBy":["/browserify-sign","/create-ecdh","/eth-lib","/secp256k1","/web3-eth-accounts/eth-lib"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.0.tgz","_spec":"6.4.0","_where":"/home/andy/dev/tokenpool","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.0"}
 
 /***/ }),
-/* 245 */
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80468,7 +80668,7 @@ function intFromLE(bytes) {
 utils.intFromLE = intFromLE;
 
 /***/ }),
-/* 246 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -80799,13 +80999,13 @@ BasePoint.prototype.dblp = function dblp(k) {
 };
 
 /***/ }),
-/* 247 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var curve = __webpack_require__(42);
+var curve = __webpack_require__(43);
 var elliptic = __webpack_require__(7);
 var BN = __webpack_require__(4);
 var inherits = __webpack_require__(0);
@@ -81667,13 +81867,13 @@ JPoint.prototype.isInfinity = function isInfinity() {
 };
 
 /***/ }),
-/* 248 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var curve = __webpack_require__(42);
+var curve = __webpack_require__(43);
 var BN = __webpack_require__(4);
 var inherits = __webpack_require__(0);
 var Base = curve.base;
@@ -81848,13 +82048,13 @@ Point.prototype.getX = function getX() {
 };
 
 /***/ }),
-/* 249 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var curve = __webpack_require__(42);
+var curve = __webpack_require__(43);
 var elliptic = __webpack_require__(7);
 var BN = __webpack_require__(4);
 var inherits = __webpack_require__(0);
@@ -82240,7 +82440,7 @@ Point.prototype.toP = Point.prototype.normalize;
 Point.prototype.mixedAdd = Point.prototype.add;
 
 /***/ }),
-/* 250 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -82248,7 +82448,7 @@ Point.prototype.mixedAdd = Point.prototype.add;
 
 var curves = exports;
 
-var hash = __webpack_require__(62);
+var hash = __webpack_require__(63);
 var elliptic = __webpack_require__(7);
 
 var assert = elliptic.utils.assert;
@@ -82371,7 +82571,7 @@ defineCurve('ed25519', {
 
 var pre;
 try {
-  pre = __webpack_require__(257);
+  pre = __webpack_require__(258);
 } catch (e) {
   pre = undefined;
 }
@@ -82402,20 +82602,20 @@ defineCurve('secp256k1', {
 });
 
 /***/ }),
-/* 251 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.sha1 = __webpack_require__(252);
-exports.sha224 = __webpack_require__(253);
+exports.sha1 = __webpack_require__(253);
+exports.sha224 = __webpack_require__(254);
 exports.sha256 = __webpack_require__(108);
-exports.sha384 = __webpack_require__(254);
+exports.sha384 = __webpack_require__(255);
 exports.sha512 = __webpack_require__(109);
 
 /***/ }),
-/* 252 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -82484,7 +82684,7 @@ SHA1.prototype._digest = function digest(enc) {
 };
 
 /***/ }),
-/* 253 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -82513,7 +82713,7 @@ SHA224.prototype._digest = function digest(enc) {
 };
 
 /***/ }),
-/* 254 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -82542,7 +82742,7 @@ SHA384.prototype._digest = function digest(enc) {
 };
 
 /***/ }),
-/* 255 */
+/* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -82631,7 +82831,7 @@ var s = [11, 14, 15, 12, 5, 8, 7, 9, 11, 13, 14, 15, 6, 7, 9, 8, 7, 6, 8, 13, 11
 var sh = [8, 9, 9, 11, 13, 15, 15, 5, 7, 7, 8, 11, 14, 14, 12, 6, 9, 13, 15, 7, 12, 8, 9, 11, 7, 7, 12, 7, 6, 15, 13, 11, 9, 7, 15, 11, 8, 6, 6, 14, 12, 13, 5, 14, 13, 13, 7, 5, 15, 5, 8, 11, 14, 14, 6, 14, 6, 9, 12, 9, 12, 5, 15, 8, 8, 5, 12, 9, 12, 5, 14, 6, 8, 13, 6, 5, 15, 13, 11, 11];
 
 /***/ }),
-/* 256 */
+/* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -82679,7 +82879,7 @@ Hmac.prototype.digest = function digest(enc) {
 };
 
 /***/ }),
-/* 257 */
+/* 258 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -82694,20 +82894,20 @@ module.exports = {
 };
 
 /***/ }),
-/* 258 */
+/* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var BN = __webpack_require__(4);
-var HmacDRBG = __webpack_require__(259);
+var HmacDRBG = __webpack_require__(260);
 var elliptic = __webpack_require__(7);
 var utils = elliptic.utils;
 var assert = utils.assert;
 
-var KeyPair = __webpack_require__(260);
-var Signature = __webpack_require__(261);
+var KeyPair = __webpack_require__(261);
+var Signature = __webpack_require__(262);
 
 function EC(options) {
   if (!(this instanceof EC)) return new EC(options);
@@ -82914,13 +83114,13 @@ EC.prototype.getKeyRecoveryParam = function (e, signature, Q, enc) {
 };
 
 /***/ }),
-/* 259 */
+/* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var hash = __webpack_require__(62);
+var hash = __webpack_require__(63);
 var utils = __webpack_require__(106);
 var assert = __webpack_require__(10);
 
@@ -83021,7 +83221,7 @@ HmacDRBG.prototype.generate = function generate(len, enc, add, addEnc) {
 };
 
 /***/ }),
-/* 260 */
+/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83132,7 +83332,7 @@ KeyPair.prototype.inspect = function inspect() {
 };
 
 /***/ }),
-/* 261 */
+/* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83266,19 +83466,19 @@ Signature.prototype.toDER = function toDER(enc) {
 };
 
 /***/ }),
-/* 262 */
+/* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var hash = __webpack_require__(62);
+var hash = __webpack_require__(63);
 var elliptic = __webpack_require__(7);
 var utils = elliptic.utils;
 var assert = utils.assert;
 var parseBytes = utils.parseBytes;
-var KeyPair = __webpack_require__(263);
-var Signature = __webpack_require__(264);
+var KeyPair = __webpack_require__(264);
+var Signature = __webpack_require__(265);
 
 function EDDSA(curve) {
   assert(curve === 'ed25519', 'only tested with ed25519 so far');
@@ -83386,7 +83586,7 @@ EDDSA.prototype.isPoint = function isPoint(val) {
 };
 
 /***/ }),
-/* 263 */
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83482,7 +83682,7 @@ KeyPair.prototype.getPublic = function getPublic(enc) {
 module.exports = KeyPair;
 
 /***/ }),
-/* 264 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83551,7 +83751,7 @@ Signature.prototype.toHex = function toHex() {
 module.exports = Signature;
 
 /***/ }),
-/* 265 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -83561,7 +83761,7 @@ module.exports = Signature;
 
 var asn1 = __webpack_require__(29);
 
-exports.certificate = __webpack_require__(275);
+exports.certificate = __webpack_require__(276);
 
 var RSAPrivateKey = asn1.define('RSAPrivateKey', function () {
   this.seq().obj(this.key('version').int(), this.key('modulus').int(), this.key('publicExponent').int(), this.key('privateExponent').int(), this.key('prime1').int(), this.key('prime2').int(), this.key('exponent1').int(), this.key('exponent2').int(), this.key('coefficient').int());
@@ -83617,7 +83817,7 @@ exports.signature = asn1.define('signature', function () {
 });
 
 /***/ }),
-/* 266 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var asn1 = __webpack_require__(29);
@@ -83640,7 +83840,7 @@ function Entity(name, body) {
 Entity.prototype._createNamed = function createNamed(base) {
   var named;
   try {
-    named = __webpack_require__(267).runInThisContext('(function ' + this.name + '(entity) {\n' + '  this._initNamed(entity);\n' + '})');
+    named = __webpack_require__(268).runInThisContext('(function ' + this.name + '(entity) {\n' + '  this._initNamed(entity);\n' + '})');
   } catch (e) {
     named = function (entity) {
       this._initNamed(entity);
@@ -83677,10 +83877,10 @@ Entity.prototype.encode = function encode(data, enc, /* internal */reporter) {
 };
 
 /***/ }),
-/* 267 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var indexOf = __webpack_require__(48);
+var indexOf = __webpack_require__(49);
 
 var Object_keys = function (obj) {
     if (Object.keys) return Object.keys(obj);else {
@@ -83815,7 +84015,7 @@ exports.createContext = Script.createContext = function (context) {
 };
 
 /***/ }),
-/* 268 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var inherits = __webpack_require__(0);
@@ -83936,7 +84136,7 @@ ReporterError.prototype.rethrow = function rethrow(msg) {
 };
 
 /***/ }),
-/* 269 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Reporter = __webpack_require__(30).Reporter;
@@ -84464,7 +84664,7 @@ Node.prototype._isPrintstr = function isPrintstr(str) {
 };
 
 /***/ }),
-/* 270 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var constants = __webpack_require__(111);
@@ -84511,16 +84711,16 @@ exports.tag = {
 exports.tagByName = constants._reverse(exports.tag);
 
 /***/ }),
-/* 271 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var decoders = exports;
 
 decoders.der = __webpack_require__(112);
-decoders.pem = __webpack_require__(272);
+decoders.pem = __webpack_require__(273);
 
 /***/ }),
-/* 272 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var inherits = __webpack_require__(0);
@@ -84569,16 +84769,16 @@ PEMDecoder.prototype.decode = function decode(data, options) {
 };
 
 /***/ }),
-/* 273 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var encoders = exports;
 
 encoders.der = __webpack_require__(113);
-encoders.pem = __webpack_require__(274);
+encoders.pem = __webpack_require__(275);
 
 /***/ }),
-/* 274 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var inherits = __webpack_require__(0);
@@ -84603,7 +84803,7 @@ PEMEncoder.prototype.encode = function encode(data, options) {
 };
 
 /***/ }),
-/* 275 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -84666,21 +84866,21 @@ var X509Certificate = asn.define('X509Certificate', function () {
 module.exports = X509Certificate;
 
 /***/ }),
-/* 276 */
+/* 277 */
 /***/ (function(module, exports) {
 
 module.exports = {"2.16.840.1.101.3.4.1.1":"aes-128-ecb","2.16.840.1.101.3.4.1.2":"aes-128-cbc","2.16.840.1.101.3.4.1.3":"aes-128-ofb","2.16.840.1.101.3.4.1.4":"aes-128-cfb","2.16.840.1.101.3.4.1.21":"aes-192-ecb","2.16.840.1.101.3.4.1.22":"aes-192-cbc","2.16.840.1.101.3.4.1.23":"aes-192-ofb","2.16.840.1.101.3.4.1.24":"aes-192-cfb","2.16.840.1.101.3.4.1.41":"aes-256-ecb","2.16.840.1.101.3.4.1.42":"aes-256-cbc","2.16.840.1.101.3.4.1.43":"aes-256-ofb","2.16.840.1.101.3.4.1.44":"aes-256-cfb"}
 
 /***/ }),
-/* 277 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {// adapted from https://github.com/apatil/pemstrip
 var findProc = /Proc-Type: 4,ENCRYPTED\n\r?DEK-Info: AES-((?:128)|(?:192)|(?:256))-CBC,([0-9A-H]+)\n\r?\n\r?([0-9A-z\n\r\+\/\=]+)\n\r?/m;
 var startRegex = /^-----BEGIN ((?:.* KEY)|CERTIFICATE)-----\n/m;
 var fullRegex = /^-----BEGIN ((?:.* KEY)|CERTIFICATE)-----\n\r?([0-9A-z\n\r\+\/\=]+)\n\r?-----END \1-----$/m;
-var evp = __webpack_require__(40);
-var ciphers = __webpack_require__(58);
+var evp = __webpack_require__(41);
+var ciphers = __webpack_require__(59);
 module.exports = function (okey, password) {
   var key = okey.toString();
   var match = key.match(findProc);
@@ -84708,13 +84908,13 @@ module.exports = function (okey, password) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 278 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {// much of this based on https://github.com/indutny/self-signed/blob/gh-pages/lib/rsa.js
 var BN = __webpack_require__(4);
 var EC = __webpack_require__(7).ec;
-var parseKeys = __webpack_require__(43);
+var parseKeys = __webpack_require__(44);
 var curves = __webpack_require__(114);
 
 function verify(sig, hash, key, signType, tag) {
@@ -84792,7 +84992,7 @@ module.exports = verify;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 279 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var elliptic = __webpack_require__(7);
@@ -84920,11 +85120,11 @@ function formatReturnValue(bn, enc, len) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 280 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports.publicEncrypt = __webpack_require__(281);
-exports.privateDecrypt = __webpack_require__(282);
+exports.publicEncrypt = __webpack_require__(282);
+exports.privateDecrypt = __webpack_require__(283);
 
 exports.privateEncrypt = function privateEncrypt(key, buf) {
   return exports.publicEncrypt(key, buf, true);
@@ -84935,17 +85135,17 @@ exports.publicDecrypt = function publicDecrypt(key, buf) {
 };
 
 /***/ }),
-/* 281 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(Buffer) {var parseKeys = __webpack_require__(43);
-var randomBytes = __webpack_require__(21);
+/* WEBPACK VAR INJECTION */(function(Buffer) {var parseKeys = __webpack_require__(44);
+var randomBytes = __webpack_require__(22);
 var createHash = __webpack_require__(25);
 var mgf = __webpack_require__(115);
 var xor = __webpack_require__(116);
 var bn = __webpack_require__(4);
 var withPublic = __webpack_require__(117);
-var crt = __webpack_require__(61);
+var crt = __webpack_require__(62);
 
 var constants = {
   RSA_PKCS1_OAEP_PADDING: 4,
@@ -85036,14 +85236,14 @@ function nonZero(len, crypto) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 282 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(Buffer) {var parseKeys = __webpack_require__(43);
+/* WEBPACK VAR INJECTION */(function(Buffer) {var parseKeys = __webpack_require__(44);
 var mgf = __webpack_require__(115);
 var xor = __webpack_require__(116);
 var bn = __webpack_require__(4);
-var crt = __webpack_require__(61);
+var crt = __webpack_require__(62);
 var createHash = __webpack_require__(25);
 var withPublic = __webpack_require__(117);
 module.exports = function privateDecrypt(private_key, enc, reverse) {
@@ -85150,7 +85350,7 @@ function compare(a, b) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 283 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85160,7 +85360,7 @@ function oldBrowser() {
   throw new Error('secure random number generation not supported by this browser\nuse chrome, FireFox or Internet Explorer 11');
 }
 var safeBuffer = __webpack_require__(2);
-var randombytes = __webpack_require__(21);
+var randombytes = __webpack_require__(22);
 var Buffer = safeBuffer.Buffer;
 var kBufferMaxLength = safeBuffer.kMaxLength;
 var crypto = global.crypto || global.msCrypto;
@@ -85267,16 +85467,16 @@ function randomFillSync(buf, offset, size) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(8)))
 
 /***/ }),
-/* 284 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(285);
-
-/***/ }),
 /* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(Buffer) {var pbkdf2Sync = __webpack_require__(57).pbkdf2Sync;
+module.exports = __webpack_require__(286);
+
+/***/ }),
+/* 286 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(Buffer) {var pbkdf2Sync = __webpack_require__(58).pbkdf2Sync;
 
 var MAX_VALUE = 0x7fffffff;
 
@@ -85458,7 +85658,7 @@ module.exports = scrypt;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 286 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //     uuid.js
@@ -85469,7 +85669,7 @@ module.exports = scrypt;
 // Unique ID creation requires a high quality random # generator.  We feature
 // detect to determine the best RNG source, normalizing to a function that
 // returns 128-bits of randomness, since that's what's usually required
-var _rng = __webpack_require__(287);
+var _rng = __webpack_require__(288);
 
 // Maps for number <-> hex string conversion
 var _byteToHex = [];
@@ -85640,7 +85840,7 @@ uuid.unparse = unparse;
 module.exports = uuid;
 
 /***/ }),
-/* 287 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -85676,7 +85876,7 @@ module.exports = rng;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 288 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85751,7 +85951,7 @@ var getNetworkType = function (callback) {
 module.exports = getNetworkType;
 
 /***/ }),
-/* 289 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85779,11 +85979,11 @@ module.exports = getNetworkType;
 
 
 
-var core = __webpack_require__(15);
-var Subscriptions = __webpack_require__(35).subscriptions;
-var Method = __webpack_require__(16);
+var core = __webpack_require__(16);
+var Subscriptions = __webpack_require__(36).subscriptions;
+var Method = __webpack_require__(17);
 // var formatters = require('web3-core-helpers').formatters;
-var Net = __webpack_require__(36);
+var Net = __webpack_require__(37);
 
 var Shh = function Shh() {
     var _this = this;
@@ -85908,7 +86108,7 @@ core.addProviders(Shh);
 module.exports = Shh;
 
 /***/ }),
-/* 290 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85937,7 +86137,7 @@ module.exports = Shh;
 
 
 var _ = __webpack_require__(5);
-var swarm = __webpack_require__(291);
+var swarm = __webpack_require__(292);
 
 var Bzz = function Bzz(provider) {
 
@@ -85999,7 +86199,7 @@ Bzz.prototype.setProvider = function (provider) {
 module.exports = Bzz;
 
 /***/ }),
-/* 291 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var unavailable = function unavailable() {
@@ -86014,11 +86214,11 @@ var child_process = { spawn: unavailable };
 var mimetype = { lookup: unavailable };
 var defaultArchives = {};
 var downloadUrl = null;
-var request = __webpack_require__(292);
+var request = __webpack_require__(293);
 var bytes = __webpack_require__(123);
-var hash = __webpack_require__(308);
-var pick = __webpack_require__(309);
-var swarm = __webpack_require__(310);
+var hash = __webpack_require__(309);
+var pick = __webpack_require__(310);
+var swarm = __webpack_require__(311);
 
 module.exports = swarm({
   fsp: fsp,
@@ -86036,10 +86236,10 @@ module.exports = swarm({
 });
 
 /***/ }),
-/* 292 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var request = __webpack_require__(293);
+var request = __webpack_require__(294);
 
 module.exports = function (url, options) {
   return new Promise(function (resolve, reject) {
@@ -86050,16 +86250,16 @@ module.exports = function (url, options) {
 };
 
 /***/ }),
-/* 293 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var queryString = __webpack_require__(294);
-var setQuery = __webpack_require__(297);
+var queryString = __webpack_require__(295);
+var setQuery = __webpack_require__(298);
 var assign = __webpack_require__(121);
-var ensureHeader = __webpack_require__(298);
+var ensureHeader = __webpack_require__(299);
 
 // this is replaced in the browser
-var request = __webpack_require__(299);
+var request = __webpack_require__(300);
 
 var mimeTypeJson = 'application/json';
 var noop = function () {};
@@ -86114,15 +86314,15 @@ function xhrRequest(url, opt, cb) {
 }
 
 /***/ }),
-/* 294 */
+/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var strictUriEncode = __webpack_require__(295);
+var strictUriEncode = __webpack_require__(296);
 var objectAssign = __webpack_require__(121);
-var decodeComponent = __webpack_require__(296);
+var decodeComponent = __webpack_require__(297);
 
 function encoderForArrayFormat(opts) {
 	switch (opts.arrayFormat) {
@@ -86323,7 +86523,7 @@ exports.parseUrl = function (str, opts) {
 };
 
 /***/ }),
-/* 295 */
+/* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86336,7 +86536,7 @@ module.exports = function (str) {
 };
 
 /***/ }),
-/* 296 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86437,7 +86637,7 @@ module.exports = function (encodedURI) {
 };
 
 /***/ }),
-/* 297 */
+/* 298 */
 /***/ (function(module, exports) {
 
 module.exports = urlSetQuery;
@@ -86466,7 +86666,7 @@ function urlSetQuery(url, query) {
 }
 
 /***/ }),
-/* 298 */
+/* 299 */
 /***/ (function(module, exports) {
 
 module.exports = ensureHeader;
@@ -86478,11 +86678,11 @@ function ensureHeader(headers, key, value) {
 }
 
 /***/ }),
-/* 299 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var xhr = __webpack_require__(300);
-var normalize = __webpack_require__(306);
+var xhr = __webpack_require__(301);
+var normalize = __webpack_require__(307);
 var noop = function () {};
 
 module.exports = xhrRequest;
@@ -86524,16 +86724,16 @@ function xhrRequest(opt, cb) {
 }
 
 /***/ }),
-/* 300 */
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var window = __webpack_require__(301);
+var window = __webpack_require__(302);
 var isFunction = __webpack_require__(122);
-var parseHeaders = __webpack_require__(302);
-var xtend = __webpack_require__(305);
+var parseHeaders = __webpack_require__(303);
+var xtend = __webpack_require__(306);
 
 module.exports = createXHR;
 createXHR.XMLHttpRequest = window.XMLHttpRequest || noop;
@@ -86773,7 +86973,7 @@ function getXml(xhr) {
 function noop() {}
 
 /***/ }),
-/* 301 */
+/* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var win;
@@ -86792,11 +86992,11 @@ module.exports = win;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 302 */
+/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var trim = __webpack_require__(303),
-    forEach = __webpack_require__(304),
+var trim = __webpack_require__(304),
+    forEach = __webpack_require__(305),
     isArray = function (arg) {
   return Object.prototype.toString.call(arg) === '[object Array]';
 };
@@ -86824,7 +87024,7 @@ module.exports = function (headers) {
 };
 
 /***/ }),
-/* 303 */
+/* 304 */
 /***/ (function(module, exports) {
 
 
@@ -86843,7 +87043,7 @@ exports.right = function (str) {
 };
 
 /***/ }),
-/* 304 */
+/* 305 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isFunction = __webpack_require__(122);
@@ -86889,7 +87089,7 @@ function forEachObject(object, iterator, context) {
 }
 
 /***/ }),
-/* 305 */
+/* 306 */
 /***/ (function(module, exports) {
 
 module.exports = extend;
@@ -86913,7 +87113,7 @@ function extend() {
 }
 
 /***/ }),
-/* 306 */
+/* 307 */
 /***/ (function(module, exports) {
 
 module.exports = getResponse;
@@ -86930,7 +87130,7 @@ function getResponse(opt, resp) {
 }
 
 /***/ }),
-/* 307 */
+/* 308 */
 /***/ (function(module, exports) {
 
 var generate = function generate(num, fn) {
@@ -86975,7 +87175,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 308 */
+/* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Thanks https://github.com/axic/swarmhash
@@ -87020,7 +87220,7 @@ var swarmHash = function swarmHash(data) {
 module.exports = swarmHash;
 
 /***/ }),
-/* 309 */
+/* 310 */
 /***/ (function(module, exports) {
 
 var picker = function picker(type) {
@@ -87082,7 +87282,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 310 */
+/* 311 */
 /***/ (function(module, exports) {
 
 // TODO: this is a temporary fix to hide those libraries from the browser. A
@@ -87709,12 +87909,12 @@ module.exports = function (_ref) {
 };
 
 /***/ }),
-/* 311 */
+/* 312 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 
-const $ = __webpack_require__(23);
+const $ = __webpack_require__(14);
 
 class HomeDashboard {
 
@@ -87732,12 +87932,12 @@ class HomeDashboard {
 
 
 /***/ }),
-/* 312 */
+/* 313 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 
-const $ = __webpack_require__(23);
+const $ = __webpack_require__(14);
 
 class AccountDashboard {
 
@@ -87756,7 +87956,30 @@ class AccountDashboard {
 
 
 /***/ }),
-/* 313 */
+/* 314 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+const $ = __webpack_require__(14);
+
+class OverviewDashboard {
+
+  init(overviewRenderer) {
+    setInterval(function () {
+
+      overviewRenderer.update();
+    }, 30 * 1000);
+
+    overviewRenderer.init();
+  }
+
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = OverviewDashboard;
+
+
+/***/ }),
+/* 315 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

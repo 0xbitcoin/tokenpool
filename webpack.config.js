@@ -33,8 +33,8 @@ var webpackPlugins = [
 const routesData = {
   routes: [
     {url: '/', title: 'Token Mining Pool', template: 'app/index.html', filename: 'index.html'},
-    {url: '/account', title: 'Account Overview', template: 'app/account.html', filename: 'account/index.html'},
-    {url: '/dashboard', title: 'Dashbaord Overview', template: 'app/dashboard.html', filename: 'dashboard/index.html'},
+    {url: '/account', title: 'Mining Accounts', template: 'app/account.html', filename: 'account/index.html'},
+    {url: '/overview', title: 'Overview', template: 'app/overview.html', filename: 'overview/index.html'},
   ]
 }
 
