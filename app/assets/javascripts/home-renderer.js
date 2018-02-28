@@ -13,7 +13,7 @@ var dashboardData;
 var txlist;
 var jumbotron;
 
-export default class DashboardRenderer {
+export default class HomeRenderer {
 
     init( )
     {

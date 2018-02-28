@@ -6,19 +6,19 @@ const $ = require('jquery');
 export default class HomeDashboard {
 
 
-  init(dashboardRenderer)
+  init(homeRenderer)
   {
     setInterval( function(){
 
 
-         dashboardRenderer.update();
+         homeRenderer.update();
 
 
 
     },30*1000);
 
 
-        dashboardRenderer.init();
+        homeRenderer.init();
 
 
   }
