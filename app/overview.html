@@ -144,8 +144,9 @@
             <tr >
               <td> EthBlock </td>
               <td> TxType  </td>
-              <td> Data </td>
                 <td> Status </td>
+              <td> Data </td>
+
             </tr>
           </thead>
 
@@ -154,9 +155,10 @@
             <tr v-for="(item, index) in transactions.tx_list">
 
               <td>    {{ item.block }} </td>
-              <td>    {{ item.TxType }} </td>
+              <td>    {{ item.txType }} </td>
+                <td>    {{ item.formattedStatus }} </td>
               <td>    {{ item.txData }} </td>
-              <td>    {{ item.formattedStatus }} </td>
+
             </tr>
 
           </tbody>
@@ -164,7 +166,6 @@
         </table>
 
       </div>
-
 
 
         <div id="activeTransactionsList" class="box  " style="overflow-x:auto; min-height:480px;">
@@ -175,8 +176,9 @@
               <tr >
                 <td> EthBlock </td>
                 <td> TxType  </td>
+                  <td> Status </td>
                 <td> Data </td>
-                <td> Status </td>
+
               </tr>
             </thead>
 
@@ -185,9 +187,10 @@
               <tr v-for="(item, index) in transactions.tx_list">
 
                 <td>    {{ item.block }} </td>
-                <td>    {{ item.TxType }} </td>
+                <td>    {{ item.txType }} </td>
+                  <td>    {{ item.formattedStatus }} </td>
                 <td>    {{ item.txData }} </td>
-                <td>    {{ item.formattedStatus }} </td>
+
 
 
 
