@@ -61,6 +61,11 @@ export default class OverviewRenderer {
 
       this.socket.on('queuedTransactionData', function (data) {
 
+        for(var i in data )
+        {
+          data[i].formattedStatus =  self.getFormattedStatus(data[i].receiptData)
+        }
+
          console.log('got queuedTransactionData', JSON.stringify(data));
 
            Vue.set(queuedTransactionsList, 'transactions', {tx_list: data.slice(0,50) } )

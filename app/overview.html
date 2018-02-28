@@ -145,6 +145,7 @@
               <td> EthBlock </td>
               <td> TxType  </td>
               <td> Data </td>
+                <td> Status </td>
             </tr>
           </thead>
 
@@ -155,6 +156,7 @@
               <td>    {{ item.block }} </td>
               <td>    {{ item.TxType }} </td>
               <td>    {{ item.txData }} </td>
+              <td>    {{ item.formattedStatus }} </td>
             </tr>
 
           </tbody>
@@ -174,6 +176,7 @@
                 <td> EthBlock </td>
                 <td> TxType  </td>
                 <td> Data </td>
+                <td> Status </td>
               </tr>
             </thead>
 
@@ -184,6 +187,10 @@
                 <td>    {{ item.block }} </td>
                 <td>    {{ item.TxType }} </td>
                 <td>    {{ item.txData }} </td>
+                <td>    {{ item.formattedStatus }} </td>
+
+
+
               </tr>
 
             </tbody>
