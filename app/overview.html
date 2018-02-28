@@ -75,10 +75,12 @@
             <thead>
               <tr >
                 <td> EthBlock </td>
-                <td> Nonce  </td>
-                <td> Miner </td>
                 <td> Difficulty </td>
                 <td> isSolution </td>
+                <td> Miner </td>
+                <td> Nonce  </td>
+
+
               </tr>
             </thead>
 
@@ -86,10 +88,11 @@
 
               <tr v-for="(item, index) in shares.submittedShares">
                 <td>    {{ item.block }} </td>
-                <td>    {{ item.nonce }} </td>
-                <td>    {{ item.miner }} </td>
                 <td>   {{ item.difficulty }} </td>
                 <td>  {{ item.isSolution  }} </td>
+                <td>    {{ item.miner }} </td>
+                <td>    {{ item.nonce }} </td>
+
 
               </tr>
 
