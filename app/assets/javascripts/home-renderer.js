@@ -70,6 +70,11 @@ export default class HomeRenderer {
 
         Vue.set(jumbotron.pool, 'poolData',  data )
 
+        var address = data.address;
+        var etherscanContractURL = "https://etherscan.io/address/"+address.toString();
+
+        Vue.set(jumbotron.pool, 'etherscanContractURL',  etherscanContractURL )
+
       });
 
 
@@ -89,7 +94,8 @@ export default class HomeRenderer {
         el: '#jumbotron',
         data:{
           pool:{
-            poolData: { address:'' }
+            poolData: { address:'' },
+            etherscanContractURL: {}
            }
          }
       });

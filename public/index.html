@@ -45,8 +45,9 @@
               Mine 0xBitcoin with us
             </h2>
 
-
-              <p> {{pool.poolData.address}}</p>
+              <a v-bind:href='pool.etherscanContractURL' >
+                <p> {{pool.poolData.address}}</p>
+              </a>
 
               <div class="whitespace-sm"></div>
 

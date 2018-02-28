@@ -49312,6 +49312,11 @@ class HomeRenderer {
       //  self.accountListData.minerAccountData = data;
 
       __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].set(jumbotron.pool, 'poolData', data);
+
+      var address = data.address;
+      var etherscanContractURL = "https://etherscan.io/address/" + address.toString();
+
+      __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].set(jumbotron.pool, 'etherscanContractURL', etherscanContractURL);
     });
 
     txlist = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
@@ -49328,7 +49333,8 @@ class HomeRenderer {
       el: '#jumbotron',
       data: {
         pool: {
-          poolData: { address: '' }
+          poolData: { address: '' },
+          etherscanContractURL: {}
         }
       }
     });
