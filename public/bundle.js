@@ -49335,6 +49335,7 @@ class HomeRenderer {
 
     this.show();
 
+    console.log('Emit to websocket');
     this.socket.emit('getPoolData');
     this.socket.emit('getActiveTransactionData');
   }
