@@ -32,15 +32,15 @@
 
               <div class="whitespace-sm"></div>
 
-
-            <div class= "box" style="max-width:60%;margin: 0 auto;">
-              <p>Download the mining software - version 1.5 or higher</p>
-              <hr>
-              <p>Connect to this pool with 'pool select http://tokenminingpool.com:8586'</p>
-              <hr>
-              <p>Start mining with 'pool mine'</p>
+              <div class="columns">
+              <div class= "column box is-half-desktop " style=" margin: 0 auto;">
+                <p>Download the mining software - version 1.5 or higher</p>
+                <hr>
+                <p>Connect to this pool with 'pool select http://tokenminingpool.com:8586'</p>
+                <hr>
+                <p>Start mining with 'pool mine'</p>
+               </div>
              </div>
-
 
              <div class="whitespace-sm"></div>
 
@@ -76,6 +76,7 @@
 
           <thead>
             <tr >
+                <td> Block </td>
               <td> TxHash </td>
               <td> Type </td>
               <td> Status </td>
@@ -85,6 +86,7 @@
           <tbody>
 
             <tr v-for="(item, index) in transactions.tx_list">
+                <td>  {{ item.block  }} </td>
               <td>  {{ item.txHash  }} </td>
               <td> {{  item.txType }} </td>
 

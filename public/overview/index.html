@@ -78,10 +78,7 @@
         <tr> <td> Tx Pending:  {{ pool.poolStats.TxPending }}</td></tr>
         <tr> <td> Tx Mined:  {{ pool.poolStats.TxMined }}</td></tr>
         <tr> <td> Tx Succeeded:  {{ pool.poolStats.TxSuccess }}</td></tr>
-
-        <tr> <td> Last Reward Amount:  {{ pool.poolStats.lastRewardAmount }}</td></tr>
-        <tr> <td> Last Reward EthBlock#:  {{ pool.poolStats.lastRewardEthBlockNumber }}</td></tr>
-     </tbody>
+      </tbody>
       </table>
       </div>
 
@@ -93,10 +90,12 @@
             <thead>
               <tr >
                 <td> EthBlock </td>
-                <td> Nonce  </td>
-                <td> Miner </td>
                 <td> Difficulty </td>
                 <td> isSolution </td>
+                <td> Miner </td>
+                <td> Nonce  </td>
+
+
               </tr>
             </thead>
 
@@ -104,10 +103,11 @@
 
               <tr v-for="(item, index) in shares.submittedShares">
                 <td>    {{ item.block }} </td>
-                <td>    {{ item.nonce }} </td>
-                <td>    {{ item.miner }} </td>
                 <td>   {{ item.difficulty }} </td>
                 <td>  {{ item.isSolution  }} </td>
+                <td>    {{ item.miner }} </td>
+                <td>    {{ item.nonce }} </td>
+
 
               </tr>
 
@@ -159,7 +159,9 @@
             <tr >
               <td> EthBlock </td>
               <td> TxType  </td>
+                <td> Status </td>
               <td> Data </td>
+
             </tr>
           </thead>
 
@@ -168,8 +170,10 @@
             <tr v-for="(item, index) in transactions.tx_list">
 
               <td>    {{ item.block }} </td>
-              <td>    {{ item.TxType }} </td>
+              <td>    {{ item.txType }} </td>
+                <td>    {{ item.formattedStatus }} </td>
               <td>    {{ item.txData }} </td>
+
             </tr>
 
           </tbody>
@@ -177,7 +181,6 @@
         </table>
 
       </div>
-
 
 
         <div id="activeTransactionsList" class="box  " style="overflow-x:auto; min-height:480px;">
@@ -188,7 +191,9 @@
               <tr >
                 <td> EthBlock </td>
                 <td> TxType  </td>
+                  <td> Status </td>
                 <td> Data </td>
+
               </tr>
             </thead>
 
@@ -197,8 +202,13 @@
               <tr v-for="(item, index) in transactions.tx_list">
 
                 <td>    {{ item.block }} </td>
-                <td>    {{ item.TxType }} </td>
+                <td>    {{ item.txType }} </td>
+                  <td>    {{ item.formattedStatus }} </td>
                 <td>    {{ item.txData }} </td>
+
+
+
+
               </tr>
 
             </tbody>

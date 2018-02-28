@@ -44,7 +44,7 @@ export default class HomeRenderer {
       });
 
 
-      this.socket.on('transactionData', function (data) {
+      this.socket.on('activeTransactionData', function (data) {
       //  console.log('got transactionData', JSON.stringify(data));
 
       //  data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  ))
@@ -96,8 +96,9 @@ export default class HomeRenderer {
 
       this.show();
 
+
        this.socket.emit('getPoolData');
-       this.socket.emit('getAllTransactionData');
+       this.socket.emit('getActiveTransactionData');
 
     }
 
@@ -116,7 +117,7 @@ export default class HomeRenderer {
     {
 
       this.socket.emit('getPoolData');
-      this.socket.emit('getAllTransactionData');
+      this.socket.emit('getActiveTransactionData');
 
 
         this.show();

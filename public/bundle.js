@@ -46055,6 +46055,10 @@ class OverviewRenderer {
 
     this.socket.on('queuedTransactionData', function (data) {
 
+      for (var i in data) {
+        data[i].formattedStatus = self.getFormattedStatus(data[i].receiptData);
+      }
+
       console.log('got queuedTransactionData', JSON.stringify(data));
 
       __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].set(queuedTransactionsList, 'transactions', { tx_list: data.slice(0, 50) });
@@ -49261,7 +49265,7 @@ var dashboardData;
 var txlist;
 var jumbotron;
 
-class DashboardRenderer {
+class HomeRenderer {
 
   init() {
 
@@ -49287,7 +49291,7 @@ class DashboardRenderer {
       console.log('disconnected from socket.io server');
     });
 
-    this.socket.on('transactionData', function (data) {
+    this.socket.on('activeTransactionData', function (data) {
       //  console.log('got transactionData', JSON.stringify(data));
 
       //  data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  ))
@@ -49332,7 +49336,7 @@ class DashboardRenderer {
     this.show();
 
     this.socket.emit('getPoolData');
-    this.socket.emit('getAllTransactionData');
+    this.socket.emit('getActiveTransactionData');
   }
 
   getFormattedStatus(receiptData) {
@@ -49346,7 +49350,7 @@ class DashboardRenderer {
   update(renderData) {
 
     this.socket.emit('getPoolData');
-    this.socket.emit('getAllTransactionData');
+    this.socket.emit('getActiveTransactionData');
 
     this.show();
   }
@@ -49360,7 +49364,7 @@ class DashboardRenderer {
   }
 
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = DashboardRenderer;
+/* harmony export (immutable) */ __webpack_exports__["a"] = HomeRenderer;
 
 
 /***/ }),
@@ -87918,13 +87922,13 @@ const $ = __webpack_require__(14);
 
 class HomeDashboard {
 
-  init(dashboardRenderer) {
+  init(homeRenderer) {
     setInterval(function () {
 
-      dashboardRenderer.update();
+      homeRenderer.update();
     }, 30 * 1000);
 
-    dashboardRenderer.init();
+    homeRenderer.init();
   }
 
 }
