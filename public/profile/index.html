@@ -56,10 +56,6 @@
       </section>
 
 
-      -- show balance payouts
-
-      -- show balance transfers
-
       <div id="minerBalancePaymentsList" class="box  " style="overflow-x:auto; min-height:480px;">
         <div class='subtitle'>Balance Payments</div>
         <table class='table'>
@@ -111,7 +107,15 @@
 
               <td>    {{ item.block }} </td>
               <td>    {{ item.status }} </td>
-              <td>    {{ item.txHash }} </td>
+
+              <td>
+                    <a v-bind:href='item.etherscanTxURL' >
+                      <p>  {{ item.txHash }}  </p>
+                    </a>
+              </td>
+
+
+
               <td>    {{ item.balancePaymentId }} </td>
               <td>    {{ item.tokenAmount }} </td>
 

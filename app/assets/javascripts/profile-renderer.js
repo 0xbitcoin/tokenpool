@@ -69,6 +69,8 @@ export default class ProfileRenderer {
 
     this.socket.on('minerBalanceTransfers', function (data) {
 
+      data.map(item => item.etherscanTxURL = ('https://etherscan.io/tx/' + item.txHash.toString())  )
+
 
      console.log('got minerBalanceTransfers', JSON.stringify(data));
 

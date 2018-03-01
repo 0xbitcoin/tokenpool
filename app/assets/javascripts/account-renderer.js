@@ -48,9 +48,13 @@ export default class AccountRenderer {
 
          data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  ))
          data.map(item => item.minerData.tokenRewardsFormatted = (item.minerData.tokensAwarded / parseFloat(1e8)  ))
+         data.map(item => item.profileURL = ('/profile/?address=' + item.minerAddress.toString())  )
+
+
+
 
          data.sort(function(a, b){return b.minerData.shareCredits - a.minerData.shareCredits});
- 
+
 
         for(var i in data)
         {
