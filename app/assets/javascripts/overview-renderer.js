@@ -10,7 +10,7 @@ var app;
 var dashboardData;
 
 
-var queuedTransactionsList;;
+var queuedTransactionsList;
 var activeTransactionsList;
 var poolConfig;
 var poolStats;

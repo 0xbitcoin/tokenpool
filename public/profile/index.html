@@ -58,55 +58,70 @@
 
       -- show balance payouts
 
-      -- show balance transfers 
+      -- show balance transfers
 
-      <div id="accountlist" class="box  " style="overflow-x:auto; min-height:480px;">
-        <div class='subtitle'>Miners</div>
+      <div id="minerBalancePaymentsList" class="box  " style="overflow-x:auto; min-height:480px;">
+        <div class='subtitle'>Balance Payments</div>
         <table class='table'>
 
           <thead>
             <tr >
-              <td> Miner # </td>
-              <td> Eth Address </td>
-              <td> Hash Rate </td>
-              <td> Share Credits </td>
-              <td> Token Balance </td>
-              <td> Tokens Earned </td>
+              <td> EthBlock </td>
+              <td> Id  </td>
+              <td> Balance Paid </td>
+
             </tr>
           </thead>
 
           <tbody>
 
-            <tr v-for="(item, index) in accounts.account_list">
-              <td> Miner {{ index }} </td>
-              <td> {{ item.minerAddress }} </td>
-              <td> {{ item.minerData.hashRate }} </td>
+            <tr v-for="(item, index) in transactions.tx_list">
 
-              <td>  {{ item.minerData.shareCredits}} </td>
-              <td>  {{ item.minerData.tokenBalanceFormatted }} </td>
-              <td>  {{ item.minerData.tokenRewardsFormatted }} </td>
+              <td>    {{ item.block }} </td>
+              <td>    {{ item.id }} </td>
+              <td>    {{ item.previousTokenBalance }} </td>
+
+
             </tr>
 
-
           </tbody>
+
         </table>
 
       </div>
 
-          <!--
-      <div id="poolstats" class="box  " style="overflow-x:auto; min-height:480px;">
-        <div class='subtitle'>Pool Stats</div>
+      <div id="minerBalanceTransfersList" class="box  " style="overflow-x:auto; min-height:480px;">
+        <div class='subtitle'>Balance Transfers</div>
         <table class='table'>
 
+          <thead>
+            <tr >
+              <td> EthBlock </td>
+              <td> Status </td>
+              <td> Tx Hash </td>
+              <td> Payment Id  </td>
+              <td> Amount Sent </td>
+
+            </tr>
+          </thead>
+
           <tbody>
-            <tr> <td> Network: MAINNET </td> </tr>
+
+            <tr v-for="(item, index) in transactions.tx_list">
+
+              <td>    {{ item.block }} </td>
+              <td>    {{ item.status }} </td>
+              <td>    {{ item.txHash }} </td>
+              <td>    {{ item.balancePaymentId }} </td>
+              <td>    {{ item.tokenAmount }} </td>
+
+            </tr>
+
           </tbody>
+
         </table>
 
       </div>
-
-    -->
-
 
 
 

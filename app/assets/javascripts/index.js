@@ -11,7 +11,7 @@ import AlertRenderer from './alert-renderer'
 import OverviewRenderer from './overview-renderer'
 import HomeRenderer from './home-renderer'
 import AccountRenderer from './account-renderer'
-
+import ProfileRenderer from './profile-renderer'
 
 import EthHelper from './ethhelper'
 
@@ -20,7 +20,6 @@ import HomeDashboard from './home-dashboard'
 import AccountDashboard from './account-dashboard'
 import OverviewDashboard from './overview-dashboard'
 
-import ProfileRenderer from './profile-renderer'
 
 //var web3 = this.connectWeb3();
 
