@@ -12,6 +12,7 @@ import OverviewRenderer from './overview-renderer'
 import HomeRenderer from './home-renderer'
 import AccountRenderer from './account-renderer'
 
+
 import EthHelper from './ethhelper'
 
 
@@ -19,12 +20,15 @@ import HomeDashboard from './home-dashboard'
 import AccountDashboard from './account-dashboard'
 import OverviewDashboard from './overview-dashboard'
 
+import ProfileRenderer from './profile-renderer'
+
 //var web3 = this.connectWeb3();
 
 var overviewRenderer = new OverviewRenderer();
 var homeRenderer = new HomeRenderer();
 var accountRenderer = new AccountRenderer();
 var alertRenderer = new AlertRenderer();
+var profileRenderer = new ProfileRenderer();
 //var ethHelper = new EthHelper();
 var home = new HomeDashboard();
 var account = new AccountDashboard();
@@ -48,6 +52,9 @@ $(document).ready(function(){
         home.init(homeRenderer);
       }
 
+      if($("#profile").length > 0){
+        profileRenderer.init()
+      }
 
 
       if($("#account").length > 0){

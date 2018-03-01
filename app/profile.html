@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      <link rel="icon" type="image/png" href="/app/assets/images/0xbitcoin.png" />
+
+  </head>
+  <body>
+
+        <%= require('html-loader!./assets/html/navbar.html') %>
+
+
+<div class="page-container" id="profile">
+
+      <section class="hero">
+        <div class="hero-body">
+          <div class="container has-text-centered">
+            <h1 class="title font-primary-title color-primary">
+              Miner Profile
+            </h1>
+            <h2 class="subtitle">
+             __ address __
+            </h2>
+
+
+
+             <div class="whitespace-sm"></div>
+
+
+
+
+
+        </div>
+      </section>
+
+
+      -- show balance payouts
+
+      -- show balance transfers 
+
+      <div id="accountlist" class="box  " style="overflow-x:auto; min-height:480px;">
+        <div class='subtitle'>Miners</div>
+        <table class='table'>
+
+          <thead>
+            <tr >
+              <td> Miner # </td>
+              <td> Eth Address </td>
+              <td> Hash Rate </td>
+              <td> Share Credits </td>
+              <td> Token Balance </td>
+              <td> Tokens Earned </td>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr v-for="(item, index) in accounts.account_list">
+              <td> Miner {{ index }} </td>
+              <td> {{ item.minerAddress }} </td>
+              <td> {{ item.minerData.hashRate }} </td>
+
+              <td>  {{ item.minerData.shareCredits}} </td>
+              <td>  {{ item.minerData.tokenBalanceFormatted }} </td>
+              <td>  {{ item.minerData.tokenRewardsFormatted }} </td>
+            </tr>
+
+
+          </tbody>
+        </table>
+
+      </div>
+
+          <!--
+      <div id="poolstats" class="box  " style="overflow-x:auto; min-height:480px;">
+        <div class='subtitle'>Pool Stats</div>
+        <table class='table'>
+
+          <tbody>
+            <tr> <td> Network: MAINNET </td> </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+    -->
+
+
+
+
+
+      <div id="about" class="box has-text-centered">
+
+        <div class='title'> Token Mining Pool </div>
+        <div class='subtitle '> Mine Ethereum tokens distributed using Proof of Work </div>
+
+
+        <div class="">
+
+        </div>
+
+        <div class="">
+          <p> Read more on <a href="https://reddit.com/r/tokenmining" target="_blank"> Reddit </a> </p>
+
+
+        </div>
+      </div>
+
+
+  </div>
+
+
+      <%= require('html-loader!./assets/html/footer.html') %>
+
+
+  </body>
+</html>

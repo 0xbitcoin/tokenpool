@@ -7948,110 +7948,6 @@ exports.shr64_lo = shr64_lo;
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Buffer = __webpack_require__(2).Buffer;
-var Transform = __webpack_require__(39).Transform;
-var StringDecoder = __webpack_require__(56).StringDecoder;
-var inherits = __webpack_require__(0);
-
-function CipherBase(hashMode) {
-  Transform.call(this);
-  this.hashMode = typeof hashMode === 'string';
-  if (this.hashMode) {
-    this[hashMode] = this._finalOrDigest;
-  } else {
-    this.final = this._finalOrDigest;
-  }
-  if (this._final) {
-    this.__final = this._final;
-    this._final = null;
-  }
-  this._decoder = null;
-  this._encoding = null;
-}
-inherits(CipherBase, Transform);
-
-CipherBase.prototype.update = function (data, inputEnc, outputEnc) {
-  if (typeof data === 'string') {
-    data = Buffer.from(data, inputEnc);
-  }
-
-  var outData = this._update(data);
-  if (this.hashMode) return this;
-
-  if (outputEnc) {
-    outData = this._toString(outData, outputEnc);
-  }
-
-  return outData;
-};
-
-CipherBase.prototype.setAutoPadding = function () {};
-CipherBase.prototype.getAuthTag = function () {
-  throw new Error('trying to get auth tag in unsupported state');
-};
-
-CipherBase.prototype.setAuthTag = function () {
-  throw new Error('trying to set auth tag in unsupported state');
-};
-
-CipherBase.prototype.setAAD = function () {
-  throw new Error('trying to set aad in unsupported state');
-};
-
-CipherBase.prototype._transform = function (data, _, next) {
-  var err;
-  try {
-    if (this.hashMode) {
-      this._update(data);
-    } else {
-      this.push(this._update(data));
-    }
-  } catch (e) {
-    err = e;
-  } finally {
-    next(err);
-  }
-};
-CipherBase.prototype._flush = function (done) {
-  var err;
-  try {
-    this.push(this.__final());
-  } catch (e) {
-    err = e;
-  }
-
-  done(err);
-};
-CipherBase.prototype._finalOrDigest = function (outputEnc) {
-  var outData = this.__final() || Buffer.alloc(0);
-  if (outputEnc) {
-    outData = this._toString(outData, outputEnc, true);
-  }
-  return outData;
-};
-
-CipherBase.prototype._toString = function (value, enc, fin) {
-  if (!this._decoder) {
-    this._decoder = new StringDecoder(enc);
-    this._encoding = enc;
-  }
-
-  if (this._encoding !== enc) throw new Error('can\'t switch encodings');
-
-  var out = this._decoder.write(value);
-  if (fin) {
-    out += this._decoder.end();
-  }
-
-  return out;
-};
-
-module.exports = CipherBase;
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
  * jQuery JavaScript Library v3.3.1
  * https://jquery.com/
@@ -17972,6 +17868,110 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 });
 
 /***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Buffer = __webpack_require__(2).Buffer;
+var Transform = __webpack_require__(39).Transform;
+var StringDecoder = __webpack_require__(56).StringDecoder;
+var inherits = __webpack_require__(0);
+
+function CipherBase(hashMode) {
+  Transform.call(this);
+  this.hashMode = typeof hashMode === 'string';
+  if (this.hashMode) {
+    this[hashMode] = this._finalOrDigest;
+  } else {
+    this.final = this._finalOrDigest;
+  }
+  if (this._final) {
+    this.__final = this._final;
+    this._final = null;
+  }
+  this._decoder = null;
+  this._encoding = null;
+}
+inherits(CipherBase, Transform);
+
+CipherBase.prototype.update = function (data, inputEnc, outputEnc) {
+  if (typeof data === 'string') {
+    data = Buffer.from(data, inputEnc);
+  }
+
+  var outData = this._update(data);
+  if (this.hashMode) return this;
+
+  if (outputEnc) {
+    outData = this._toString(outData, outputEnc);
+  }
+
+  return outData;
+};
+
+CipherBase.prototype.setAutoPadding = function () {};
+CipherBase.prototype.getAuthTag = function () {
+  throw new Error('trying to get auth tag in unsupported state');
+};
+
+CipherBase.prototype.setAuthTag = function () {
+  throw new Error('trying to set auth tag in unsupported state');
+};
+
+CipherBase.prototype.setAAD = function () {
+  throw new Error('trying to set aad in unsupported state');
+};
+
+CipherBase.prototype._transform = function (data, _, next) {
+  var err;
+  try {
+    if (this.hashMode) {
+      this._update(data);
+    } else {
+      this.push(this._update(data));
+    }
+  } catch (e) {
+    err = e;
+  } finally {
+    next(err);
+  }
+};
+CipherBase.prototype._flush = function (done) {
+  var err;
+  try {
+    this.push(this.__final());
+  } catch (e) {
+    err = e;
+  }
+
+  done(err);
+};
+CipherBase.prototype._finalOrDigest = function (outputEnc) {
+  var outData = this.__final() || Buffer.alloc(0);
+  if (outputEnc) {
+    outData = this._toString(outData, outputEnc, true);
+  }
+  return outData;
+};
+
+CipherBase.prototype._toString = function (value, enc, fin) {
+  if (!this._decoder) {
+    this._decoder = new StringDecoder(enc);
+    this._encoding = enc;
+  }
+
+  if (this._encoding !== enc) throw new Error('can\'t switch encodings');
+
+  var out = this._decoder.write(value);
+  if (fin) {
+    out += this._decoder.end();
+  }
+
+  return out;
+};
+
+module.exports = CipherBase;
+
+/***/ }),
 /* 15 */
 /***/ (function(module, exports) {
 
@@ -20124,7 +20124,7 @@ var md5 = __webpack_require__(51);
 var RIPEMD160 = __webpack_require__(52);
 var sha = __webpack_require__(57);
 
-var Base = __webpack_require__(13);
+var Base = __webpack_require__(14);
 
 function HashNoConstructor(hash) {
   Base.call(this, 'digest');
@@ -43054,7 +43054,7 @@ module.exports = Sha512;
 
 var inherits = __webpack_require__(0);
 var Legacy = __webpack_require__(217);
-var Base = __webpack_require__(13);
+var Base = __webpack_require__(14);
 var Buffer = __webpack_require__(2).Buffer;
 var md5 = __webpack_require__(51);
 var RIPEMD160 = __webpack_require__(52);
@@ -43330,7 +43330,7 @@ module.exports = {"aes-128-ecb":{"cipher":"AES","key":128,"iv":0,"mode":"ECB","t
 
 var aes = __webpack_require__(42);
 var Buffer = __webpack_require__(2).Buffer;
-var Transform = __webpack_require__(13);
+var Transform = __webpack_require__(14);
 var inherits = __webpack_require__(0);
 var GHASH = __webpack_require__(230);
 var xor = __webpack_require__(27);
@@ -43452,7 +43452,7 @@ module.exports = StreamCipher;
 
 var aes = __webpack_require__(42);
 var Buffer = __webpack_require__(2).Buffer;
-var Transform = __webpack_require__(13);
+var Transform = __webpack_require__(14);
 var inherits = __webpack_require__(0);
 
 function StreamCipher(mode, key, iv, decrypt) {
@@ -45691,7 +45691,7 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(125);
-module.exports = __webpack_require__(315);
+module.exports = __webpack_require__(316);
 
 
 /***/ }),
@@ -45713,8 +45713,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__home_dashboard__ = __webpack_require__(312);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__account_dashboard__ = __webpack_require__(313);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__overview_dashboard__ = __webpack_require__(314);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__profile_renderer__ = __webpack_require__(315);
 
-const $ = __webpack_require__(14);
+const $ = __webpack_require__(13);
+
+
 
 
 
@@ -45739,6 +45742,7 @@ var overviewRenderer = new __WEBPACK_IMPORTED_MODULE_4__overview_renderer__["a" 
 var homeRenderer = new __WEBPACK_IMPORTED_MODULE_5__home_renderer__["a" /* default */]();
 var accountRenderer = new __WEBPACK_IMPORTED_MODULE_6__account_renderer__["a" /* default */]();
 var alertRenderer = new __WEBPACK_IMPORTED_MODULE_3__alert_renderer__["a" /* default */]();
+var profileRenderer = new __WEBPACK_IMPORTED_MODULE_11__profile_renderer__["a" /* default */]();
 //var ethHelper = new EthHelper();
 var home = new __WEBPACK_IMPORTED_MODULE_8__home_dashboard__["a" /* default */]();
 var account = new __WEBPACK_IMPORTED_MODULE_9__account_dashboard__["a" /* default */]();
@@ -45758,6 +45762,10 @@ $(document).ready(function () {
     //  var web3 = ethHelper.init( alertRenderer);
 
     home.init(homeRenderer);
+  }
+
+  if ($("#profile").length > 0) {
+    profileRenderer.init();
   }
 
   if ($("#account").length > 0) {
@@ -46005,7 +46013,7 @@ class AlertRenderer {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(31);
 
-const $ = __webpack_require__(14);
+const $ = __webpack_require__(13);
 
 
 var io = __webpack_require__(45);
@@ -49254,7 +49262,7 @@ Backoff.prototype.setJitter = function (jitter) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(31);
 
-const $ = __webpack_require__(14);
+const $ = __webpack_require__(13);
 
 
 var io = __webpack_require__(45);
@@ -49381,7 +49389,7 @@ class HomeRenderer {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(31);
 
-const $ = __webpack_require__(14);
+const $ = __webpack_require__(13);
 
 
 var io = __webpack_require__(45);
@@ -58640,7 +58648,7 @@ module.exports = __webpack_require__(180).version;
 /* 180 */
 /***/ (function(module, exports) {
 
-module.exports = {"_from":"websocket@git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","_id":"websocket@1.0.24","_inBundle":false,"_integrity":"sha1-Sqbof9foWKJ06k4o3V7m5V92+x4=","_location":"/websocket","_phantomChildren":{},"_requested":{"type":"git","raw":"websocket@git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","name":"websocket","escapedName":"websocket","rawSpec":"git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","saveSpec":"git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","fetchSpec":"git://github.com/frozeman/WebSocket-Node.git","gitCommittish":"7004c39c42ac98875ab61126e5b4a925430f592c"},"_requiredBy":["/web3-providers-ws"],"_resolved":"git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","_spec":"websocket@git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","_where":"/home/andy/dev/tokenpool","author":{"name":"Brian McKelvey","email":"brian@worlize.com","url":"https://www.worlize.com/"},"browser":"lib/browser.js","bugs":{"url":"https://github.com/theturtle32/WebSocket-Node/issues"},"bundleDependencies":false,"config":{"verbose":false},"contributors":[{"name":"Iñaki Baz Castillo","email":"ibc@aliax.net","url":"http://dev.sipdoc.net"}],"dependencies":{"debug":"^2.2.0","nan":"^2.3.3","typedarray-to-buffer":"^3.1.2","yaeti":"^0.0.6"},"deprecated":false,"description":"Websocket Client & Server Library implementing the WebSocket protocol as specified in RFC 6455.","devDependencies":{"buffer-equal":"^1.0.0","faucet":"^0.0.1","gulp":"git+https://github.com/gulpjs/gulp.git#4.0","gulp-jshint":"^2.0.4","jshint":"^2.0.0","jshint-stylish":"^2.2.1","tape":"^4.0.1"},"directories":{"lib":"./lib"},"engines":{"node":">=0.8.0"},"homepage":"https://github.com/theturtle32/WebSocket-Node","keywords":["websocket","websockets","socket","networking","comet","push","RFC-6455","realtime","server","client"],"license":"Apache-2.0","main":"index","name":"websocket","repository":{"type":"git","url":"git+https://github.com/theturtle32/WebSocket-Node.git"},"scripts":{"gulp":"gulp","install":"(node-gyp rebuild 2> builderror.log) || (exit 0)","test":"faucet test/unit"},"version":"1.0.24"}
+module.exports = {"_from":"websocket@git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","_id":"websocket@1.0.24","_inBundle":false,"_location":"/websocket","_phantomChildren":{},"_requested":{"type":"git","raw":"websocket@git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","name":"websocket","escapedName":"websocket","rawSpec":"git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","saveSpec":"git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","fetchSpec":"git://github.com/frozeman/WebSocket-Node.git","gitCommittish":"7004c39c42ac98875ab61126e5b4a925430f592c"},"_requiredBy":["/web3-providers-ws"],"_resolved":"git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","_spec":"websocket@git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","_where":"/home/andy/dev/tokenpool","author":{"name":"Brian McKelvey","email":"brian@worlize.com","url":"https://www.worlize.com/"},"browser":"lib/browser.js","bugs":{"url":"https://github.com/theturtle32/WebSocket-Node/issues"},"bundleDependencies":false,"config":{"verbose":false},"contributors":[{"name":"Iñaki Baz Castillo","email":"ibc@aliax.net","url":"http://dev.sipdoc.net"}],"dependencies":{"debug":"^2.2.0","nan":"^2.3.3","typedarray-to-buffer":"^3.1.2","yaeti":"^0.0.6"},"deprecated":false,"description":"Websocket Client & Server Library implementing the WebSocket protocol as specified in RFC 6455.","devDependencies":{"buffer-equal":"^1.0.0","faucet":"^0.0.1","gulp":"git+https://github.com/gulpjs/gulp.git#4.0","gulp-jshint":"^2.0.4","jshint":"^2.0.0","jshint-stylish":"^2.2.1","tape":"^4.0.1"},"directories":{"lib":"./lib"},"engines":{"node":">=0.8.0"},"homepage":"https://github.com/theturtle32/WebSocket-Node","keywords":["websocket","websockets","socket","networking","comet","push","RFC-6455","realtime","server","client"],"license":"Apache-2.0","main":"index","name":"websocket","repository":{"type":"git","url":"git+https://github.com/theturtle32/WebSocket-Node.git"},"scripts":{"gulp":"gulp","install":"(node-gyp rebuild 2> builderror.log) || (exit 0)","test":"faucet test/unit"},"version":"1.0.24"}
 
 /***/ }),
 /* 181 */
@@ -78429,7 +78437,7 @@ module.exports = Sha384;
 var inherits = __webpack_require__(0);
 var Buffer = __webpack_require__(2).Buffer;
 
-var Base = __webpack_require__(13);
+var Base = __webpack_require__(14);
 
 var ZEROS = Buffer.alloc(128);
 var blocksize = 64;
@@ -78920,7 +78928,7 @@ var MODES = __webpack_require__(60);
 var AuthCipher = __webpack_require__(101);
 var Buffer = __webpack_require__(2).Buffer;
 var StreamCipher = __webpack_require__(102);
-var Transform = __webpack_require__(13);
+var Transform = __webpack_require__(14);
 var aes = __webpack_require__(42);
 var ebtk = __webpack_require__(41);
 var inherits = __webpack_require__(0);
@@ -79296,7 +79304,7 @@ var AuthCipher = __webpack_require__(101);
 var Buffer = __webpack_require__(2).Buffer;
 var MODES = __webpack_require__(60);
 var StreamCipher = __webpack_require__(102);
-var Transform = __webpack_require__(13);
+var Transform = __webpack_require__(14);
 var aes = __webpack_require__(42);
 var ebtk = __webpack_require__(41);
 var inherits = __webpack_require__(0);
@@ -79418,7 +79426,7 @@ exports.createDecipheriv = createDecipheriv;
 /* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(Buffer) {var CipherBase = __webpack_require__(13);
+/* WEBPACK VAR INJECTION */(function(Buffer) {var CipherBase = __webpack_require__(14);
 var des = __webpack_require__(61);
 var inherits = __webpack_require__(0);
 
@@ -87925,7 +87933,7 @@ module.exports = function (_ref) {
 
 "use strict";
 
-const $ = __webpack_require__(14);
+const $ = __webpack_require__(13);
 
 class HomeDashboard {
 
@@ -87948,7 +87956,7 @@ class HomeDashboard {
 
 "use strict";
 
-const $ = __webpack_require__(14);
+const $ = __webpack_require__(13);
 
 class AccountDashboard {
 
@@ -87972,7 +87980,7 @@ class AccountDashboard {
 
 "use strict";
 
-const $ = __webpack_require__(14);
+const $ = __webpack_require__(13);
 
 class OverviewDashboard {
 
@@ -87991,6 +87999,50 @@ class OverviewDashboard {
 
 /***/ }),
 /* 315 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+const $ = __webpack_require__(13);
+
+class ProfileRenderer {
+
+  init() {
+    setInterval(function () {
+      console.log("updating profile data");
+
+      this.update();
+    }, 30 * 1000);
+
+    //  this.start();
+
+    this.initSockets();
+
+    this.getAccountUrlParam();
+  }
+
+  initSockets() {}
+
+  getAccountUrlParam() {
+    console.log(window.location.href);
+    let url = new URL(window.location.href);
+    let searchParams = new URLSearchParams(url.search);
+    console.log('address in url ', searchParams.get('address'));
+  }
+
+  /*
+    let url = new URL('http://www.test.com/t.html?a=1&b=3&c=m2-m3-m4-m5');
+    let searchParams = new URLSearchParams(url.search);
+    console.log(searchParams.get('c'));
+  
+  */
+
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = ProfileRenderer;
+
+
+/***/ }),
+/* 316 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
