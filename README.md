@@ -4,32 +4,35 @@
 
 A pool for mining 'energy' tokens such as 0xBTC
 
+CSS Colors: https://flatuicolors.com/palette/au
 
 
 ### BASIC SETUP  (needs Node8)
-1. yarn
+1. npm install -g node-gyp
+1. sudo apt-get install build-essential
 2. npm install
 3. npm run webpack  #(to build the website files)
 4. rename 'sample.account.config.js' to 'account.config.js' and fill it with the pool's ethereum account data
+
 5. install redis-server and make sure it is running
 6. Edit pool.config.js to your tastes
-7. Edit the website files in /app  to change the look of the website 
-8. npm run server #(or npm run server test for Ropsten test net) 
+7. Edit the website files in /app  to change the look of the website
+8. npm run server #(or npm run server test for Ropsten test net)
 
 
 ### HOW TO USE
-1. Point a poolminer at your pool using http://localhost:8586  (or ipaddress:8586 or domain.com:8586)  (make sure firewall allows this port) 
+1. Point a poolminer at your pool using http://localhost:8586  (or ipaddress:8586 or domain.com:8586)  (make sure firewall allows this port)
 2. View website interface at http://localhost:3000 (you can set up nginx to serve the static files in /public)
 
 
 ## Installing Redis  
   1. sudo apt-get install redis
-  2. sudo service redis-server start 
-  
+  2. sudo service redis-server start
+
    - Redis will serve/connect at localhost:6379 by default - the pool will use this port
 
 
 
-## TODO / BUGS 
-- Add more clustering/workers and more JSONRPC/socket ports to handle heavy loads 
-- Make sure good solns ARE BEING TRANFERRED 
+## TODO / BUGS
+- Add more clustering/workers and more JSONRPC/socket ports to handle heavy loads
+- Make sure good solns ARE BEING TRANFERRED

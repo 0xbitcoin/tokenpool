@@ -10,7 +10,8 @@ var app;
 var dashboardData;
 
 
-var txlist;
+var solutiontxlist;
+var transfertxlist;
 var jumbotron;
 
 export default class HomeRenderer {
@@ -47,18 +48,43 @@ export default class HomeRenderer {
       this.socket.on('activeTransactionData', function (data) {
       //  console.log('got transactionData', JSON.stringify(data));
 
-      //  data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  ))
-      //  data.map(item => item.formattedStatus =  self.getFormattedStatus(item.receiptData) )
+      var solution_list = [];
+      var transfer_list = [];
 
         for(var i in data )
         {
-          data[i].formattedStatus =  self.getFormattedStatus(data[i].receiptData)
+          var formattedStatus =  self.getFormattedStatus(data[i].receiptData)
+          data[i].formattedStatus = formattedStatus;
+
+          if(formattedStatus == '?'){formattedStatus = 'unknown'}
+          data[i].htmlClass = "tx-row status-"+ formattedStatus;
+
+          if(data[i].txHash){
+            data[i].txURL = ("https://etherscan.io/tx/"+ data[i].txHash.toString());
+          }
+
+          data.sort(function(a, b) {
+              return b.block - a.block;
+            });
+
+
+          if( data[i].txType=='solution'  )
+          {
+            solution_list.push( data[i] )
+          }
+          if( data[i].txType=='transfer'  )
+          {
+            transfer_list.push( data[i] )
+          }
+
         }
 
        console.log('got transactionData', JSON.stringify(data));
 
 
-        Vue.set(txlist.transactions, 'tx_list',  data.slice(0,25) )
+
+       Vue.set(solutiontxlist.transactions, 'tx_list',  solution_list.slice(0,25) )
+       Vue.set(transfertxlist.transactions, 'tx_list',  transfer_list.slice(0,25) )
 
       });
 
@@ -79,8 +105,8 @@ export default class HomeRenderer {
 
 
 
-      txlist = new Vue({
-          el: '#txlist',
+      solutiontxlist = new Vue({
+          el: '#solutiontxlist',
           data: {
             //parentMessage: 'Parent',
             transactions: {
@@ -88,6 +114,16 @@ export default class HomeRenderer {
             }
           }
         })
+
+       transfertxlist = new Vue({
+            el: '#transfertxlist',
+            data: {
+              //parentMessage: 'Parent',
+              transactions: {
+                tx_list: this.transactionListData.txData
+              }
+            }
+          })
 
 
          jumbotron = new Vue({

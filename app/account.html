@@ -53,6 +53,7 @@
           <thead>
             <tr >
               <td> Miner # </td>
+
               <td> Eth Address </td>
               <td> Hash Rate </td>
               <td> Share Credits </td>
@@ -66,11 +67,12 @@
             <tr v-for="(item, index) in accounts.account_list">
               <td> Miner {{ index }} </td>
 
+             
                 <td>
                       <a v-bind:href='item.profileURL' >
                         <p>  {{ item.minerAddress }}  </p>
                       </a>
-                </td> 
+                </td>
 
               <td> {{ item.minerData.hashRate }} </td>
 

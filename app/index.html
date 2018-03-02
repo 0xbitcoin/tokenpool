@@ -27,7 +27,7 @@
               Mine 0xBitcoin with us
             </h2>
 
- 
+
               <a v-bind:href='pool.etherscanContractURL' >
                 <p> {{pool.poolData.address}}</p>
               </a>
@@ -72,36 +72,68 @@
         </a>
       </div>
 
-      <div id="txlist" class="box  " style="overflow-x:auto; min-height:480px;">
-        <div class='subtitle'>Recent Transactions</div>
+      <div id="solutiontxlist" class="box transaction-list" style="overflow-x:auto; min-height:480px;">
+        <div class='subtitle'>Recent Solutions</div>
         <table class='table'>
 
           <thead>
             <tr >
-                <td> Block </td>
+              <td> Block </td>
               <td> TxHash </td>
-              <td> Type </td>
+              <td>   </td>
               <td> Status </td>
             </tr>
           </thead>
 
           <tbody>
 
-            <tr v-for="(item, index) in transactions.tx_list">
-                <td>  {{ item.block  }} </td>
-              <td>  {{ item.txHash  }} </td>
-              <td> {{  item.txType }} </td>
+            <tr v-for="(item, index) in transactions.tx_list"  v-bind:class="item.htmlClass">
+              <td>  {{ item.block  }} </td>
+              <td>
+
+                <a v-bind:href='item.txURL' >
+                 {{ item.txHash  }}
+               </a>
+               </td>
 
               <td>  {{ item.formattedStatus}} </td>
-
             </tr>
-
 
           </tbody>
         </table>
 
       </div>
 
+      <div id="transfertxlist" class="box transaction-list" style="overflow-x:auto; min-height:480px;">
+        <div class='subtitle'>Recent Transfers</div>
+        <table class='table'>
+
+          <thead>
+            <tr >
+              <td> Block </td>
+              <td> TxHash </td>
+              <td>   </td>
+              <td> Status </td>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr v-for="(item, index) in transactions.tx_list"  v-bind:class="item.htmlClass">
+              <td>  {{ item.block  }} </td>
+              <td>
+                  <a v-bind:href='item.txURL' >
+                 {{ item.txHash  }}
+               </a>
+               </td>
+             
+              <td>  {{ item.formattedStatus}} </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
 
 
 
