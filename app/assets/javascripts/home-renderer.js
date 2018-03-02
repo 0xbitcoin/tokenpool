@@ -51,6 +51,10 @@ export default class HomeRenderer {
       var solution_list = [];
       var transfer_list = [];
 
+          data.sort(function(a, b) {
+              return b.block - a.block;
+            });
+
         for(var i in data )
         {
           var formattedStatus =  self.getFormattedStatus(data[i].receiptData)
@@ -63,9 +67,7 @@ export default class HomeRenderer {
             data[i].txURL = ("https://etherscan.io/tx/"+ data[i].txHash.toString());
           }
 
-          data.sort(function(a, b) {
-              return b.block - a.block;
-            });
+
 
 
           if( data[i].txType=='solution'  )
