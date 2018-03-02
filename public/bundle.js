@@ -49498,6 +49498,8 @@ var io = __webpack_require__(33);
 var minerBalancePaymentsList;
 var minerBalanceTransfersList;
 
+var jumbotron;
+
 var minerAddress = null;
 
 class ProfileRenderer {
@@ -49536,6 +49538,13 @@ class ProfileRenderer {
       console.log('disconnected from socket.io server');
     });
 
+    this.socket.on('minerDetails', function (data) {
+
+      console.log('got minerDetails', JSON.stringify(data));
+
+      //Vue.set(jumbotron.miner, 'minerData',  data.address )
+    });
+
     this.socket.on('minerBalancePayments', function (data) {
 
       console.log('got minerBalancePayments', JSON.stringify(data));
@@ -49550,6 +49559,15 @@ class ProfileRenderer {
       console.log('got minerBalanceTransfers', JSON.stringify(data));
 
       __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].set(minerBalanceTransfersList, 'transactions', { tx_list: data.slice(0, 50) });
+    });
+
+    jumbotron = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
+      el: '#jumbotron',
+      data: {
+        miner: {
+          minerData: { address: minerAddress, etherscanURL: 'https://etherscan.io/address/' + minerAddress.toString() }
+        }
+      }
     });
 
     minerBalancePaymentsList = new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
@@ -49572,6 +49590,8 @@ class ProfileRenderer {
       }
     });
 
+    this.socket.emit('getMinerDetails', { address: minerAddress });
+
     this.socket.emit('getMinerBalancePayments', { address: minerAddress });
     this.socket.emit('getMinerBalanceTransfers', { address: minerAddress });
   }
@@ -49586,6 +49606,8 @@ class ProfileRenderer {
   }
 
   update() {
+
+    this.socket.emit('getMinerDetails', { address: minerAddress });
 
     this.socket.emit('getMinerBalancePayments', { address: minerAddress });
     this.socket.emit('getMinerBalanceTransfers', { address: minerAddress });
@@ -58766,7 +58788,7 @@ module.exports = __webpack_require__(181).version;
 /* 181 */
 /***/ (function(module, exports) {
 
-module.exports = {"_from":"websocket@git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","_id":"websocket@1.0.24","_inBundle":false,"_location":"/websocket","_phantomChildren":{},"_requested":{"type":"git","raw":"websocket@git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","name":"websocket","escapedName":"websocket","rawSpec":"git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","saveSpec":"git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","fetchSpec":"git://github.com/frozeman/WebSocket-Node.git","gitCommittish":"7004c39c42ac98875ab61126e5b4a925430f592c"},"_requiredBy":["/web3-providers-ws"],"_resolved":"git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","_spec":"websocket@git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","_where":"/home/andy/dev/tokenpool","author":{"name":"Brian McKelvey","email":"brian@worlize.com","url":"https://www.worlize.com/"},"browser":"lib/browser.js","bugs":{"url":"https://github.com/theturtle32/WebSocket-Node/issues"},"bundleDependencies":false,"config":{"verbose":false},"contributors":[{"name":"Iñaki Baz Castillo","email":"ibc@aliax.net","url":"http://dev.sipdoc.net"}],"dependencies":{"debug":"^2.2.0","nan":"^2.3.3","typedarray-to-buffer":"^3.1.2","yaeti":"^0.0.6"},"deprecated":false,"description":"Websocket Client & Server Library implementing the WebSocket protocol as specified in RFC 6455.","devDependencies":{"buffer-equal":"^1.0.0","faucet":"^0.0.1","gulp":"git+https://github.com/gulpjs/gulp.git#4.0","gulp-jshint":"^2.0.4","jshint":"^2.0.0","jshint-stylish":"^2.2.1","tape":"^4.0.1"},"directories":{"lib":"./lib"},"engines":{"node":">=0.8.0"},"homepage":"https://github.com/theturtle32/WebSocket-Node","keywords":["websocket","websockets","socket","networking","comet","push","RFC-6455","realtime","server","client"],"license":"Apache-2.0","main":"index","name":"websocket","repository":{"type":"git","url":"git+https://github.com/theturtle32/WebSocket-Node.git"},"scripts":{"gulp":"gulp","install":"(node-gyp rebuild 2> builderror.log) || (exit 0)","test":"faucet test/unit"},"version":"1.0.24"}
+module.exports = {"_from":"websocket@git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","_id":"websocket@1.0.24","_inBundle":false,"_integrity":"sha1-Sqbof9foWKJ06k4o3V7m5V92+x4=","_location":"/websocket","_phantomChildren":{},"_requested":{"type":"git","raw":"websocket@git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","name":"websocket","escapedName":"websocket","rawSpec":"git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","saveSpec":"git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","fetchSpec":"git://github.com/frozeman/WebSocket-Node.git","gitCommittish":"7004c39c42ac98875ab61126e5b4a925430f592c"},"_requiredBy":["/web3-providers-ws"],"_resolved":"git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","_spec":"websocket@git://github.com/frozeman/WebSocket-Node.git#7004c39c42ac98875ab61126e5b4a925430f592c","_where":"/home/andy/dev/tokenpool","author":{"name":"Brian McKelvey","email":"brian@worlize.com","url":"https://www.worlize.com/"},"browser":"lib/browser.js","bugs":{"url":"https://github.com/theturtle32/WebSocket-Node/issues"},"bundleDependencies":false,"config":{"verbose":false},"contributors":[{"name":"Iñaki Baz Castillo","email":"ibc@aliax.net","url":"http://dev.sipdoc.net"}],"dependencies":{"debug":"^2.2.0","nan":"^2.3.3","typedarray-to-buffer":"^3.1.2","yaeti":"^0.0.6"},"deprecated":false,"description":"Websocket Client & Server Library implementing the WebSocket protocol as specified in RFC 6455.","devDependencies":{"buffer-equal":"^1.0.0","faucet":"^0.0.1","gulp":"git+https://github.com/gulpjs/gulp.git#4.0","gulp-jshint":"^2.0.4","jshint":"^2.0.0","jshint-stylish":"^2.2.1","tape":"^4.0.1"},"directories":{"lib":"./lib"},"engines":{"node":">=0.8.0"},"homepage":"https://github.com/theturtle32/WebSocket-Node","keywords":["websocket","websockets","socket","networking","comet","push","RFC-6455","realtime","server","client"],"license":"Apache-2.0","main":"index","name":"websocket","repository":{"type":"git","url":"git+https://github.com/theturtle32/WebSocket-Node.git"},"scripts":{"gulp":"gulp","install":"(node-gyp rebuild 2> builderror.log) || (exit 0)","test":"faucet test/unit"},"version":"1.0.24"}
 
 /***/ }),
 /* 182 */

@@ -23,7 +23,7 @@
 
        <div class="navbar-menu">
          <div class="navbar-end" style="padding:5px;">
-           <a href="https://github.com/0xbitcoin/0xbitcoin-token" target="_blank">
+           <a href="https://github.com/0xbitcoin/tokenpool" target="_blank">
              <img :src="githubLogo" height="28" width="28" target="_blank"/>
            </a>
          </div>
@@ -36,12 +36,14 @@
 
       <section class="hero">
         <div class="hero-body">
-          <div class="container has-text-centered">
+          <div class="container has-text-centered" id=jumbotron>
             <h1 class="title font-primary-title color-primary">
               Miner Profile
             </h1>
             <h2 class="subtitle">
-             __ address __
+              <a v-bind:href='miner.minerData.etherscanURL'>
+                {{miner.minerData.address}}
+              </a>
             </h2>
 
 
@@ -94,9 +96,10 @@
             <tr >
               <td> EthBlock </td>
               <td> Status </td>
+                <td> Amount Sent </td>
               <td> Tx Hash </td>
               <td> Payment Id  </td>
-              <td> Amount Sent </td>
+
 
             </tr>
           </thead>
@@ -108,6 +111,8 @@
               <td>    {{ item.block }} </td>
               <td>    {{ item.status }} </td>
 
+              <td>    {{ item.tokenAmount }} </td>
+
               <td>
                     <a v-bind:href='item.etherscanTxURL' >
                       <p>  {{ item.txHash }}  </p>
@@ -117,7 +122,6 @@
 
 
               <td>    {{ item.balancePaymentId }} </td>
-              <td>    {{ item.tokenAmount }} </td>
 
             </tr>
 

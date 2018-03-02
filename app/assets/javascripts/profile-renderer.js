@@ -8,6 +8,8 @@ var io = require('socket.io-client');
 var minerBalancePaymentsList;
 var minerBalanceTransfersList;
 
+var jumbotron;
+
 var minerAddress = null;
 
 export default class ProfileRenderer {
@@ -57,9 +59,17 @@ export default class ProfileRenderer {
     });
 
 
+
+    this.socket.on('minerDetails', function (data) {
+
+     console.log('got minerDetails', JSON.stringify(data));
+
+      //Vue.set(jumbotron.miner, 'minerData',  data.address )
+
+    });
+
+
     this.socket.on('minerBalancePayments', function (data) {
-
-
 
      console.log('got minerBalancePayments', JSON.stringify(data));
 
@@ -77,6 +87,16 @@ export default class ProfileRenderer {
       Vue.set(minerBalanceTransfersList, 'transactions',  {tx_list: data.slice(0,50) }  )
 
     });
+
+
+    jumbotron = new Vue({
+         el: '#jumbotron',
+         data:{
+           miner:{
+             minerData: { address: minerAddress , etherscanURL: ('https://etherscan.io/address/'+minerAddress.toString())},
+            }
+          }
+       });
 
 
     minerBalancePaymentsList = new Vue({
@@ -100,6 +120,7 @@ export default class ProfileRenderer {
         })
 
 
+        this.socket.emit('getMinerDetails',{address: minerAddress});
 
         this.socket.emit('getMinerBalancePayments',{address: minerAddress});
         this.socket.emit('getMinerBalanceTransfers',{address: minerAddress});
@@ -119,6 +140,7 @@ export default class ProfileRenderer {
 
   update(){
 
+            this.socket.emit('getMinerDetails',{address: minerAddress});
 
             this.socket.emit('getMinerBalancePayments',{address: minerAddress});
             this.socket.emit('getMinerBalanceTransfers',{address: minerAddress});

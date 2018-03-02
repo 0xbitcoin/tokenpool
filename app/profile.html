@@ -18,12 +18,14 @@
 
       <section class="hero">
         <div class="hero-body">
-          <div class="container has-text-centered">
+          <div class="container has-text-centered" id=jumbotron>
             <h1 class="title font-primary-title color-primary">
               Miner Profile
             </h1>
             <h2 class="subtitle">
-             __ address __
+              <a v-bind:href='miner.minerData.etherscanURL'>
+                {{miner.minerData.address}}
+              </a>
             </h2>
 
 
