@@ -9,11 +9,14 @@ A pool for mining RC20 Tokens
 
 CSS Colors: https://flatuicolors.com/palette/au
 
+1) improve colors
+2) more workers  (jsonrpc listeners?)
+3) two eth accounts .. xfers and mints 
 
 ## Running Geth
 
  geth --syncmode light --rpc --rpcaddr "localhost" --rpcport 8545
- 
+
 
 
 ### BASIC SETUP  (needs Node8)
