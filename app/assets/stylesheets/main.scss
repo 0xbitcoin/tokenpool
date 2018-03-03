@@ -1,11 +1,4 @@
 
-.font-primary-title
-{
-
-    font-family: 'Anton', sans-serif;
-
-}
-
 
 
 html
@@ -20,6 +13,12 @@ html
 a
 {
   color: #ff7209;
+}
+
+
+.font-primary-title
+{
+    font-family: 'Roboto Mono', monospace;
 }
 
 .color-primary
@@ -121,21 +120,58 @@ a
 }
 
 
-.color-fun-primary
+
+.title
 {
-    color: #e2c08d;
+  color: #6ab04c;
+
+}
+.subtitle
+{
+    color: white;
 }
 
-.color-fun-secondary
+
+.slate-theme-dark
 {
-    color: #73c990;
+    background-color: #282c34;
+
+
 }
 
-.backgound-primary
+
+.slate-theme
 {
-  background-color: #21252b;
+    background-color: #21252b;
+
+
+
+  .color-fun-primary
+  {
+      color: #e2c08d;
+  }
+
+  .color-fun-secondary
+  {
+      color: #73c990;
+  }
+
+  .backgound-primary
+  {
+    background-color: #21252b;
+  }
+  .backgound-secondary
+  {
+    background-color: #282c34;
+  }
+
+
 }
-.backgound-secondary
+
+.circuit-overlay
 {
-  background-color: #282c34;
+  position: relative;
+
+  background: url(/app/assets/images/circuits-overlay.png);
+
 }

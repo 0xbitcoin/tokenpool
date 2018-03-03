@@ -4,9 +4,8 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <title><%= htmlWebpackPlugin.options.title %></title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <%= require('html-loader!./assets/html/head.html') %>
 
-      <link rel="icon" type="image/png" href="/app/assets/images/0xbitcoin.png" />
 
   </head>
   <body>
@@ -14,13 +13,13 @@
         <%= require('html-loader!./assets/html/navbar.html') %>
 
 
-<div class="page-container" id="home">
+<div class="page-container slate-theme " id="home">
 
-      <section class="hero">
+      <section class="hero circuit-overlay">
         <div class="hero-body">
           <div class="container has-text-centered" id='jumbotron'>
             <h1 class="title font-primary-title color-primary">
-              Token Mining Pool
+                Token Mining Pool
             </h1>
 
             <h2 class="subtitle">
@@ -63,16 +62,16 @@
 
       </div>
 
-      <div id="guide" class="box has-text-centered">
+      <div id="guide" class="box backgound-secondary has-text-centered ">
         <div class='title'> Start Mining 0xBitcoin </div>
         <div class='subtitle '> Download the CPU Miner from Github </div>
 
         <a href="https://github.com/0xbitcoin/0xbitcoin-miner" target="_blank">
-          <div class='button-bubble button-primary'>Download the 0xBTC Miner</div>
+          <div class='button-bubble button-primary'>Download the Token Miner</div>
         </a>
       </div>
 
-      <div id="solutiontxlist" class="box transaction-list" style="overflow-x:auto; min-height:480px;">
+      <div id="solutiontxlist" class="box backgound-secondary transaction-list" style="overflow-x:auto; min-height:480px;">
         <div class='subtitle'>Recent Solutions</div>
         <table class='table'>
 
@@ -104,7 +103,7 @@
 
       </div>
 
-      <div id="transfertxlist" class="box transaction-list" style="overflow-x:auto; min-height:480px;">
+      <div id="transfertxlist" class="box backgound-secondary transaction-list" style="overflow-x:auto; min-height:480px;">
         <div class='subtitle'>Recent Transfers</div>
         <table class='table'>
 
@@ -126,7 +125,7 @@
                  {{ item.txHash  }}
                </a>
                </td>
-             
+
               <td>  {{ item.formattedStatus}} </td>
             </tr>
 
@@ -137,7 +136,7 @@
 
 
 
-      <div id="about" class="box has-text-centered">
+      <div id="about" class="box backgound-secondary has-text-centered">
 
         <div class='title'> Token Mining Pool </div>
         <div class='subtitle '> Mine Ethereum tokens distributed using Proof of Work </div>

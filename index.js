@@ -41,7 +41,7 @@ if(test_mode){
      console.log('using web3',specified_web3)
    }else{
      web3.setProvider(INFURA_MAINNET_URL)
-   } 
+   }
 
    accountConfig = require('./account.config').account;
 }
@@ -58,7 +58,7 @@ async function init(web3)
       if (cluster.isMaster) {
 
           // Count the machine's CPUs
-          var cpuCount = require('os').cpus().length;
+        //  var cpuCount = require('os').cpus().length;
 
           // Create a worker for each CPU
           for (var i = 0; i < 2; i += 1) {
@@ -71,6 +71,7 @@ async function init(web3)
           await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,test_mode)
           await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode) //initJSONRPCServer();
           await webServer.init(https_enabled,webInterface,peerInterface)
+          await diagnosticsManager.init(redisInterface,webInterface,peerInterface)
 
 
       // Code to run if we're in a worker process
@@ -86,7 +87,7 @@ async function init(web3)
 
               await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode) //initJSONRPCServer();
                 tokenInterface.update();
-              peerInterface.update();
+                peerInterface.update();
             }
             if(worker_id == 2)
             {

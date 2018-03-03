@@ -4,9 +4,7 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <title><%= htmlWebpackPlugin.options.title %></title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-      <link rel="icon" type="image/png" href="/app/assets/images/0xbitcoin.png" />
+    <%= require('html-loader!./assets/html/head.html') %>
 
   </head>
   <body>
@@ -67,7 +65,7 @@
             <tr v-for="(item, index) in accounts.account_list">
               <td> Miner {{ index }} </td>
 
-             
+
                 <td>
                       <a v-bind:href='item.profileURL' >
                         <p>  {{ item.minerAddress }}  </p>
