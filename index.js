@@ -32,7 +32,16 @@ if(test_mode){
 
    accountConfig = require('./test.account.config').account;
 }else{
-  web3.setProvider(INFURA_MAINNET_URL)
+
+  var specified_web3 = poolConfig.web3provider
+
+   if(specified_web3 != null)
+   {
+     web3.setProvider(specified_web3)
+     console.log('using web3',specified_web3)
+   }else{
+     web3.setProvider(INFURA_MAINNET_URL)
+   } 
 
    accountConfig = require('./account.config').account;
 }

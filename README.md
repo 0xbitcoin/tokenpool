@@ -1,10 +1,19 @@
 ### Token Mining Pool  
 
+Developed by the 0xBitcoin Community
+
 (GNU PUBLIC LICENSE)
 
-A pool for mining 'energy' tokens such as 0xBTC
+A pool for mining RC20 Tokens
+
 
 CSS Colors: https://flatuicolors.com/palette/au
+
+
+## Running Geth
+
+ geth --syncmode light --rpc --rpcaddr "localhost" --rpcport 8545
+ 
 
 
 ### BASIC SETUP  (needs Node8)
