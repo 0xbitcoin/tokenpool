@@ -20,15 +20,13 @@ export default class HashGraph {
     var config = {
       type: 'line',
       data: {
-        labels: hashingDataSet.blocks, //blocks   // [ 1000,2000,3000,4000,5000 ],
+        labels:  hashingDataSet.blocks, //blocks   // [ 1000,2000,3000,4000,5000 ],
         datasets: [{
           label: 'Hashrate',
 
           backgroundColor: 'transparent',
           borderColor: '#ff7209',
-          data:
-            hashingDataSet.points,
-            //2,4,1,5,1,2,4,2,1,
+          data:    hashingDataSet.points,   //2,4,1,5,1,2,4,2,1,
 
           fill: false,
         } ]
@@ -72,12 +70,16 @@ export default class HashGraph {
       }
     };
 
-    window.onload = function() {
+
+
+
+
+
       var ctx = document.getElementById('hashgraph').getContext('2d');
       window.myLine = new Chart(ctx, config);
-    };
 
 
+    console.log('building hashrate chart')
 
   }
 
