@@ -115,7 +115,7 @@ export default class HomeRenderer {
         var blocks = [];
         var hashRates = [];
 
-        data.slice(0,100).map(function(item){
+        data.reverse.slice(0,100).map(function(item){
           labels.push('Block '+ item.block.toString()),
           blocks.push(item.block),
           hashRates.push(item.hashrate)
