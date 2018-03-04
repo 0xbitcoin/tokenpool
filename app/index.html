@@ -22,9 +22,11 @@
                 Token Mining Pool
             </h1>
 
+        <!--
             <h2 class="subtitle">
               Mine 0xBitcoin with us
             </h2>
+          -->
 
 
               <a v-bind:href='pool.etherscanContractURL' >
@@ -34,12 +36,10 @@
               <div class="whitespace-sm"></div>
 
               <div class="columns">
-              <div class= "column box is-half-desktop " style=" margin: 0 auto;">
-                <p>Download the mining software - version 1.5 or higher</p>
-                <hr>
-                <p>Connect to this pool with 'pool select http://tokenminingpool.com:8586'</p>
-                <hr>
-                <p>Start mining with 'pool mine'</p>
+              <div class= "column   is-half-desktop " style=" margin: 0 auto;">
+
+                    <canvas id="hashgraph"></canvas>
+
                </div>
              </div>
 
@@ -58,22 +58,36 @@
       </section>
 
 
-      <div id="app">
 
-      </div>
 
-      <div id="guide" class="box backgound-secondary has-text-centered ">
+      <div id="guide" class="box background-secondary has-text-centered ">
         <div class='title'> Start Mining 0xBitcoin </div>
         <div class='subtitle '> Download the CPU Miner from Github </div>
 
         <a href="https://github.com/0xbitcoin/0xbitcoin-miner" target="_blank">
           <div class='button-bubble button-primary'>Download the Token Miner</div>
         </a>
+
+
+        <div class="toggle-mining-instructions acts-as-link color-fun-secondary">Instructions</div>
+
+        <div class="mining-instructions-container">
+            <div class="columns">
+            <div class= "column background-primary color-orange is-half-desktop " style=" margin: 0 auto;">
+              <p>Download the mining software - version 1.5 or higher</p>
+              <hr>
+              <p>Connect to this pool with 'pool select http://tokenminingpool.com:8586'</p>
+              <hr>
+              <p>Start mining with 'pool mine'</p>
+             </div>
+           </div>
+     </div>
+
       </div>
 
-      <div id="solutiontxlist" class="box backgound-secondary transaction-list" style="overflow-x:auto; min-height:480px;">
+      <div id="solutiontxlist" class="box background-secondary transaction-list " style="overflow-x:auto; min-height:480px;">
         <div class='subtitle'>Recent Solutions</div>
-        <table class='table'>
+        <table class='table table-dark zeroauto'>
 
           <thead>
             <tr >
@@ -95,7 +109,7 @@
                </a>
                </td>
 
-              <td>  {{ item.formattedStatus}} </td>
+              <td class="tx-status-cell">  {{ item.formattedStatus}} </td>
             </tr>
 
           </tbody>
@@ -103,16 +117,16 @@
 
       </div>
 
-      <div id="transfertxlist" class="box backgound-secondary transaction-list" style="overflow-x:auto; min-height:480px;">
+      <div id="transfertxlist" class="box background-secondary transaction-list  " style="overflow-x:auto; min-height:480px;">
         <div class='subtitle'>Recent Transfers</div>
-        <table class='table'>
+        <table class='table table-dark zeroauto'>
 
           <thead>
             <tr >
               <td> Block </td>
               <td> TxHash </td>
               <td>   </td>
-              <td> Status </td>
+              <td > Status </td>
             </tr>
           </thead>
 
@@ -126,7 +140,7 @@
                </a>
                </td>
 
-              <td>  {{ item.formattedStatus}} </td>
+              <td class="tx-status-cell">  {{ item.formattedStatus}} </td>
             </tr>
 
           </tbody>
@@ -136,9 +150,15 @@
 
 
 
-      <div id="about" class="box backgound-secondary has-text-centered">
+      <div id="about" class="box background-secondary has-text-centered">
+
+        <div class="whitespace-sm"></div>
 
         <div class='title'> Token Mining Pool </div>
+
+
+        <div class="whitespace-sm"></div>
+
         <div class='subtitle '> Mine Ethereum tokens distributed using Proof of Work </div>
 
 
@@ -149,6 +169,9 @@
         </div>
 
         <div class="">
+          <p> View  <a href="/overview" target="_blank"> Server Health </a> </p>
+
+
           <p> Read more on <a href="https://reddit.com/r/tokenmining" target="_blank"> Reddit </a> </p>
 
 

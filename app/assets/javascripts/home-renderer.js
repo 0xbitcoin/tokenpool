@@ -5,6 +5,9 @@ import Vue from 'vue';
 
 var io = require('socket.io-client');
 
+import HashGraph from './hash-graph'
+
+var hashGraph = new HashGraph();
 
 var app;
 var dashboardData;
@@ -81,7 +84,7 @@ export default class HomeRenderer {
 
         }
 
-       console.log('got transactionData', JSON.stringify(data));
+      // console.log('got transactionData', JSON.stringify(data));
 
 
 
@@ -91,7 +94,7 @@ export default class HomeRenderer {
       });
 
       this.socket.on('poolData', function (data) {
-        console.log('got poolData ', JSON.stringify(data));
+      //  console.log('got poolData ', JSON.stringify(data));
 
 
       //  self.accountListData.minerAccountData = data;
@@ -104,6 +107,29 @@ export default class HomeRenderer {
         Vue.set(jumbotron.pool, 'etherscanContractURL',  etherscanContractURL )
 
       });
+
+
+      this.socket.on('hashrateData',   function (data) {
+
+        var labels = [];
+        var blocks = [];
+        var hashRates = [];
+
+        data.slice(0,100).map(function(item){
+          labels.push('Block '+ item.block.toString()),
+          blocks.push(item.block),
+          hashRates.push(item.hashrate)
+        })
+
+        var hashingDataSet = {blocks: blocks, points: hashRates, labels:labels};
+
+        console.log('got hashratedata ', hashingDataSet );
+
+        hashGraph.update(hashingDataSet)
+
+
+      });
+
 
 
 
@@ -138,10 +164,30 @@ export default class HomeRenderer {
          }
       });
 
+
+      var hashingDataSet= {
+        labels: [5555,5556,5557],
+        points: [0,0,0]
+      }
+
+      hashGraph.init()
+
+
+
+
+
+      $('.mining-instructions-container').hide();
+
+      $('.toggle-mining-instructions').on('click',function(){
+          $('.mining-instructions-container').toggle();
+      });
+
+
       this.show();
 
       console.log('Emit to websocket')
        this.socket.emit('getPoolData');
+       this.socket.emit('getHashrateData');
        this.socket.emit('getActiveTransactionData');
 
     }
@@ -161,6 +207,7 @@ export default class HomeRenderer {
     {
 
       this.socket.emit('getPoolData');
+      this.socket.emit('getHashrateData');
       this.socket.emit('getActiveTransactionData');
 
 

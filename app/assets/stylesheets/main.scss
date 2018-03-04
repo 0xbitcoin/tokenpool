@@ -92,24 +92,37 @@ a
     {
         border-left: 4px solid #6ab04c;
 
+        .tx-status-cell
+        {
+          color: #6ab04c
+        }
     }
 
   .status-mined
   {
-  border-left: 4px solid #30336b;
-
+    border-left: 4px solid #30336b;
+      .tx-status-cell
+      {
+        color: #30336b
+      }
   }
 
   .status-pending
   {
     border-left: 4px solid #f9ca24;
-
+      .tx-status-cell
+      {
+        color: #f9ca24
+      }
   }
 
   .status-queued
   {
       border-left: 4px solid #22a6b3;
-
+      .tx-status-cell
+      {
+        color: #22a6b3
+      }
   }
 
   .status-unknown
@@ -139,10 +152,20 @@ a
 
 }
 
+.color-orange
+{
+   color: #ff7209
+}
+
+.acts-as-link
+{
+  cursor:pointer;
+}
 
 .slate-theme
 {
     background-color: #21252b;
+
 
 
 
@@ -156,11 +179,11 @@ a
       color: #73c990;
   }
 
-  .backgound-primary
+  .background-primary
   {
     background-color: #21252b;
   }
-  .backgound-secondary
+  .background-secondary
   {
     background-color: #282c34;
   }
@@ -173,5 +196,38 @@ a
   position: relative;
 
   background: url(/app/assets/images/circuits-overlay.png);
+
+}
+
+
+.toggle-mining-instructions
+{
+  padding:10px;
+  margin:10px;
+
+}
+
+.mining-instructions-container
+{
+  padding:10px;
+  margin:10px;
+}
+
+.zeroauto
+{
+  margin:0 auto;
+}
+
+.table-dark
+{
+  color: white;
+  background-color: transparent;
+
+  thead
+  {
+    td {
+      color: #73c990;
+    }
+  }
 
 }

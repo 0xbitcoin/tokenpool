@@ -11,13 +11,9 @@ CSS Colors: https://flatuicolors.com/palette/au
 
 1) improve colors
 2) more workers  (jsonrpc listeners?)
-3) two eth accounts .. xfers and mints 
-
-## Running Geth
-
- geth --syncmode light --rpc --rpcaddr "localhost" --rpcport 8545
-
-
+3) two eth accounts .. xfers and mints
+4) separate geth
+5) why does it say 'Reply:OK' ??
 
 ### BASIC SETUP  (needs Node8)
 1. npm install -g node-gyp
