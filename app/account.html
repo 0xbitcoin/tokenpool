@@ -4,9 +4,7 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <title><%= htmlWebpackPlugin.options.title %></title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-      <link rel="icon" type="image/png" href="/app/assets/images/0xbitcoin.png" />
+    <%= require('html-loader!./assets/html/head.html') %>
 
   </head>
   <body>
@@ -14,7 +12,7 @@
         <%= require('html-loader!./assets/html/navbar.html') %>
 
 
-<div class="page-container" id="account">
+<div class="page-container slate-theme" id="account">
 
       <section class="hero">
         <div class="hero-body">
@@ -46,15 +44,16 @@
         </div>
       </section>
 
-      <div id="accountlist" class="box  " style="overflow-x:auto; min-height:480px;">
+      <div id="accountlist" class="box  background-secondary" style="overflow-x:auto; min-height:480px;">
         <div class='subtitle'>Miners</div>
-        <table class='table'>
+        <table class='table table-dark zeroauto'>
 
           <thead>
             <tr >
               <td> Miner # </td>
-              <td> Eth Address </td>
 
+              <td> Eth Address </td>
+              <td> Hash Rate </td>
               <td> Share Credits </td>
               <td> Token Balance </td>
               <td> Tokens Earned </td>
@@ -65,7 +64,15 @@
 
             <tr v-for="(item, index) in accounts.account_list">
               <td> Miner {{ index }} </td>
-              <td> {{ item.minerAddress }} </td>
+
+
+                <td>
+                      <a v-bind:href='item.profileURL' >
+                        <p>  {{ item.minerAddress }}  </p>
+                      </a>
+                </td>
+
+              <td> {{ item.minerData.hashRate }} </td>
 
               <td>  {{ item.minerData.shareCredits}} </td>
               <td>  {{ item.minerData.tokenBalanceFormatted }} </td>
@@ -96,9 +103,11 @@
 
 
 
-      <div id="about" class="box has-text-centered">
+      <div id="about" class="   background-secondary has-text-centered">
 
+        <div class="whitespace-sm"></div>
         <div class='title'> Token Mining Pool </div>
+        <div class="whitespace-sm"></div>
         <div class='subtitle '> Mine Ethereum tokens distributed using Proof of Work </div>
 
 

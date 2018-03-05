@@ -1,4 +1,6 @@
 node_modules
 account.config.js
 test.account.config.js
+pool.config.js
 dump.rdb
+public/*

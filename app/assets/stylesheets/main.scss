@@ -1,11 +1,4 @@
 
-.font-primary-title
-{
-
-    font-family: 'Anton', sans-serif;
-
-}
-
 
 
 html
@@ -20,6 +13,12 @@ html
 a
 {
   color: #ff7209;
+}
+
+
+.font-primary-title
+{
+    font-family: 'Roboto Mono', monospace;
 }
 
 .color-primary
@@ -66,7 +65,7 @@ a
 {
   background-color: #ff7209;
 
-   
+
 
   .color-primary
   {
@@ -84,4 +83,151 @@ a
     color: black;
 
   }
+}
+
+
+.transaction-list
+{
+  .status-success
+    {
+        border-left: 4px solid #6ab04c;
+
+        .tx-status-cell
+        {
+          color: #6ab04c
+        }
+    }
+
+  .status-mined
+  {
+    border-left: 4px solid #30336b;
+      .tx-status-cell
+      {
+        color: #30336b
+      }
+  }
+
+  .status-pending
+  {
+    border-left: 4px solid #f9ca24;
+      .tx-status-cell
+      {
+        color: #f9ca24
+      }
+  }
+
+  .status-queued
+  {
+      border-left: 4px solid #22a6b3;
+      .tx-status-cell
+      {
+        color: #22a6b3
+      }
+  }
+
+  .status-unknown
+    {
+        border-left: 4px solid #e056fd;
+
+    }
+}
+
+
+
+.title
+{
+  color: #6ab04c;
+
+}
+.subtitle
+{
+    color: white;
+}
+
+
+.slate-theme-dark
+{
+    background-color: #282c34;
+
+
+}
+
+.color-orange
+{
+   color: #ff7209
+}
+
+.acts-as-link
+{
+  cursor:pointer;
+}
+
+.slate-theme
+{
+    background-color: #21252b;
+
+
+
+
+  .color-fun-primary
+  {
+      color: #e2c08d;
+  }
+
+  .color-fun-secondary
+  {
+      color: #73c990;
+  }
+
+  .background-primary
+  {
+    background-color: #21252b;
+  }
+  .background-secondary
+  {
+    background-color: #282c34;
+  }
+
+
+}
+
+.circuit-overlay
+{
+  position: relative;
+
+  background: url(/app/assets/images/circuits-overlay.png);
+
+}
+
+
+.toggle-mining-instructions
+{
+  padding:10px;
+  margin:10px;
+
+}
+
+.mining-instructions-container
+{
+  padding:10px;
+  margin:10px;
+}
+
+.zeroauto
+{
+  margin:0 auto;
+}
+
+.table-dark
+{
+  color: white;
+  background-color: transparent;
+
+  thead
+  {
+    td {
+      color: #73c990;
+    }
+  }
+
 }

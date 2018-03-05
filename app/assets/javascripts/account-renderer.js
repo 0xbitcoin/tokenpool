@@ -2,7 +2,7 @@
 const $ = require('jquery');
 import Vue from 'vue';
 
-
+var blockies = require('ethereum-blockies')
 var io = require('socket.io-client');
 
 
@@ -46,8 +46,31 @@ export default class AccountRenderer {
       this.socket.on('minerData', function (data) {
         console.log('got miner data ', JSON.stringify(data));
 
-        data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  ))
-        data.map(item => item.minerData.tokenRewardsFormatted = (item.minerData.tokensAwarded / parseFloat(1e8)  ))
+         data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  ))
+         data.map(item => item.minerData.tokenRewardsFormatted = (item.minerData.tokensAwarded / parseFloat(1e8)  ))
+         data.map(item => item.profileURL = ('/profile/?address=' + item.minerAddress.toString())  )
+
+
+
+
+         data.sort(function(a, b){return b.minerData.shareCredits - a.minerData.shareCredits});
+
+
+        for(var i in data)
+        {
+          var shares = parseInt(data[i].minerData.shareCredits)
+          console.log(shares)
+          if( isNaN(shares) || shares <= 0)
+          {
+             data.splice(i, 1);
+          }
+
+
+          //still a WIP 
+        // data[i].identicon = self.getIdenticon( data[i].minerAddress  )
+
+
+        }
 
 
         self.accountListData.minerAccountData = data;
@@ -72,7 +95,7 @@ export default class AccountRenderer {
         })
     }
 
- 
+
      async update( )
     {
 
@@ -81,6 +104,31 @@ export default class AccountRenderer {
       this.socket.emit('getAllMinerData');
 
     }
+
+    getIdenticon(hash)
+    {
+
+      var icon = blockies.create({ // All options are optional
+          seed: hash, // seed used to generate icon data, default: random
+        //  color: '#dfe', // to manually specify the icon color, default: random
+      //    bgcolor: '#aaa', // choose a different background color, default: random
+          size: 15, // width/height of the icon in blocks, default: 8
+          scale: 3, // width/height of each block in pixels, default: 4
+      //    spotcolor: '#000' // each pixel has a 13% chance of being of a third color,
+          // default: random. Set to -1 to disable it. These "spots" create structures
+          // that look like eyes, mouths and noses.
+      });
+
+
+      return this.htmlEntities( icon.toString() );
+
+    }
+
+     htmlEntities(str) {
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+
 
     hide()
     {

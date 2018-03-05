@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+
+    <%= require('html-loader!./assets/html/head.html') %>
+
+  </head>
+  <body>
+
+        <%= require('html-loader!./assets/html/navbar.html') %>
+
+
+<div class="page-container slate-theme " id="profile">
+
+      <section class="hero">
+        <div class="hero-body">
+          <div class="container has-text-centered" id=jumbotron>
+            <h1 class="title font-primary-title color-primary">
+              Miner Profile
+            </h1>
+            <h2 class="subtitle">
+              <a v-bind:href='miner.minerData.etherscanURL'>
+                {{miner.minerData.address}}
+              </a>
+            </h2>
+
+
+
+             <div class="whitespace-sm"></div>
+
+
+
+
+
+        </div>
+      </section>
+
+
+      <div id="minerBalancePaymentsList" class="box background-secondary " style="overflow-x:auto; min-height:480px;">
+        <div class='subtitle'>Balance Payments</div>
+        <table class='table table-dark'>
+
+          <thead>
+            <tr >
+              <td> EthBlock </td>
+              <td> Id  </td>
+              <td> Balance Paid </td>
+
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr v-for="(item, index) in transactions.tx_list">
+
+              <td>    {{ item.block }} </td>
+              <td>    {{ item.id }} </td>
+              <td>    {{ item.previousTokenBalance }} </td>
+
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <div id="minerBalanceTransfersList" class="box background-secondary " style="overflow-x:auto; min-height:480px;">
+        <div class='subtitle'>Balance Transfers</div>
+        <table class='table table-dark'>
+
+          <thead>
+            <tr >
+              <td> EthBlock </td>
+              <td> Status </td>
+                <td> Amount Sent </td>
+              <td> Tx Hash </td>
+              <td> Payment Id  </td>
+
+
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr v-for="(item, index) in transactions.tx_list">
+
+              <td>    {{ item.block }} </td>
+              <td>    {{ item.status }} </td>
+
+              <td>    {{ item.tokenAmount }} </td>
+
+              <td>
+                    <a v-bind:href='item.etherscanTxURL' >
+                      <p>  {{ item.txHash }}  </p>
+                    </a>
+              </td>
+
+
+
+              <td>    {{ item.balancePaymentId }} </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+
+
+      <div id="about" class="box background-secondary has-text-centered">
+          <div class="whitespace-sm"></div>
+
+        <div class='title'> Token Mining Pool </div>
+
+          <div class="whitespace-sm"></div>
+
+        <div class='subtitle '> Mine Ethereum tokens distributed using Proof of Work </div>
+
+
+        <div class="">
+
+        </div>
+
+        <div class="">
+          <p> Read more on <a href="https://reddit.com/r/tokenmining" target="_blank"> Reddit </a> </p>
+
+
+        </div>
+      </div>
+
+
+  </div>
+
+
+      <%= require('html-loader!./assets/html/footer.html') %>
+
+
+  </body>
+</html>
