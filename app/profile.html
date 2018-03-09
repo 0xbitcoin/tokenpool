@@ -37,7 +37,7 @@
         </div>
       </section>
 
-   
+
       <div id="minerSubmittedSharesList" class="box background-secondary " style="overflow-x:auto; min-height:480px;">
         <div class='subtitle'>Submitted Shares</div>
         <table class='table table-dark'>
@@ -54,7 +54,7 @@
 
           <tbody>
 
-            <tr v-for="(item, index) in transactions.tx_list">
+            <tr v-for="(item, index) in shares.share_list">
 
               <td>    {{ item.block }} </td>
               <td>    {{ item.difficulty }} </td>
