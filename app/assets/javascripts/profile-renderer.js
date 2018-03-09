@@ -113,7 +113,7 @@ export default class ProfileRenderer {
 
     minerBalancePaymentsList = new Vue({
         el: '#minerBalancePaymentsList',
-        data: { 
+        data: {
           transactions: {
             tx_list: []
           }
@@ -166,6 +166,7 @@ export default class ProfileRenderer {
 
             this.socket.emit('getMinerBalancePayments',{address: minerAddress});
             this.socket.emit('getMinerBalanceTransfers',{address: minerAddress});
+            this.socket.emit('getMinerSubmittedShares',{address: minerAddress});
 
   }
 
