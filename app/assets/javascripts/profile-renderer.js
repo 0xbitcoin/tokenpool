@@ -89,7 +89,7 @@ export default class ProfileRenderer {
 
     });
 
-    this.socket.on('getMinerSubmittedShares', function (data) {
+    this.socket.on('minerSubmittedShares', function (data) {
 
      console.log('got minerSubmittedShares', JSON.stringify(data));
 
