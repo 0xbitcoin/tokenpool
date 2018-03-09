@@ -68,7 +68,7 @@ async function init(web3)
 
 
            await redisInterface.init()
-         await webInterface.init(web3,accountConfig,poolConfig,redisInterface)
+           await webInterface.init(web3,accountConfig,poolConfig,redisInterface)
            await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,test_mode)
            await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode) //initJSONRPCServer();
            await webServer.init(https_enabled,webInterface,peerInterface)
@@ -88,11 +88,15 @@ async function init(web3)
 
                await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode) //initJSONRPCServer();
                tokenInterface.update();
-                 peerInterface.update();
+               peerInterface.update();
             }
             if(worker_id == 2)
             {
-
+              await redisInterface.init()
+              await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,test_mode)
+              await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode) //initJSONRPCServer();
+              //tokenInterface.update();
+              peerInterface.listenForJSONRPC();
             }
       }
 

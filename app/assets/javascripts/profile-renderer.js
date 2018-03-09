@@ -7,6 +7,7 @@ var io = require('socket.io-client');
 
 var minerBalancePaymentsList;
 var minerBalanceTransfersList;
+var minerSubmittedSharesList;
 
 var jumbotron;
 
@@ -88,6 +89,17 @@ export default class ProfileRenderer {
 
     });
 
+    this.socket.on('getMinerSubmittedShares', function (data) {
+
+     console.log('got minerSubmittedShares', JSON.stringify(data));
+
+      Vue.set(minerSubmittedSharesList, 'shares',  {share_list: data.slice(0,50) }  )
+
+    });
+
+
+
+
 
     jumbotron = new Vue({
          el: '#jumbotron',
@@ -101,8 +113,7 @@ export default class ProfileRenderer {
 
     minerBalancePaymentsList = new Vue({
         el: '#minerBalancePaymentsList',
-        data: {
-
+        data: { 
           transactions: {
             tx_list: []
           }
@@ -112,18 +123,29 @@ export default class ProfileRenderer {
       minerBalanceTransfersList = new Vue({
           el: '#minerBalanceTransfersList',
           data: {
-
             transactions: {
               tx_list: []
             }
           }
         })
 
+        minerSubmittedSharesList = new Vue({
+            el: '#minerSubmittedSharesList',
+            data: {
+              shares: {
+                share_list: []
+              }
+            }
+          })
+
 
         this.socket.emit('getMinerDetails',{address: minerAddress});
 
         this.socket.emit('getMinerBalancePayments',{address: minerAddress});
         this.socket.emit('getMinerBalanceTransfers',{address: minerAddress});
+        this.socket.emit('getMinerSubmittedShares',{address: minerAddress});
+
+
 
   }
 
