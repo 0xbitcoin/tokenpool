@@ -46,8 +46,10 @@ export default class AccountRenderer {
       this.socket.on('minerData', function (data) {
         console.log('got miner data ', JSON.stringify(data));
 
-         data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  ))
-         data.map(item => item.minerData.tokenRewardsFormatted = (item.minerData.tokensAwarded / parseFloat(1e8)  ))
+
+        data.map(item => item.minerData.hashRateFormatted = self.formatHashRate(item.minerData.hashRate   ))
+        data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  ))
+        data.map(item => item.minerData.tokenRewardsFormatted = (item.minerData.tokensAwarded / parseFloat(1e8)  ))
          data.map(item => item.profileURL = ('/profile/?address=' + item.minerAddress.toString())  )
 
 
@@ -66,7 +68,7 @@ export default class AccountRenderer {
           }
 
 
-          //still a WIP 
+          //still a WIP
         // data[i].identicon = self.getIdenticon( data[i].minerAddress  )
 
 
@@ -94,6 +96,10 @@ export default class AccountRenderer {
           }
         })
     }
+
+
+
+
 
 
      async update( )
@@ -128,6 +134,24 @@ export default class AccountRenderer {
         return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
+
+    formatHashRate(hashRate)
+    {
+      hashRate = parseFloat(hashRate);
+
+      if(hashRate > 10e9)
+      {
+        return ((hashRate / (10e9)).round(2).toString() + "Gh/s");
+      }else if(hashRate > 10e6)
+      {
+        return ((hashRate / (10e6)).round(2).toString() + "Mh/s");
+      }else if(hashRate > 10e3)
+      {
+        return ((hashRate / (10e3)).round(2).toString() + "Kh/s");
+      }else{
+         return ((hashRate ).round(2).toString() + "H/s");
+      }
+    }
 
 
     hide()
