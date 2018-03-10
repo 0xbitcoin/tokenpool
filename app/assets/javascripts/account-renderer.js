@@ -141,15 +141,15 @@ export default class AccountRenderer {
 
       if(hashRate > 10e9)
       {
-        return ((hashRate / (10e9)).round(2).toString() + "Gh/s");
+        return (Math.round(hashRate / (10e9),2).toString() + "Gh/s");
       }else if(hashRate > 10e6)
       {
-        return ((hashRate / (10e6)).round(2).toString() + "Mh/s");
+        return (Math.round(hashRate / (10e6),2).toString() + "Mh/s");
       }else if(hashRate > 10e3)
       {
-        return ((hashRate / (10e3)).round(2).toString() + "Kh/s");
+        return (Math.round(hashRate / (10e3),2).toString() + "Kh/s");
       }else{
-         return ((hashRate ).round(2).toString() + "H/s");
+         return (Math.round(hashRate ,2).toString() + "H/s");
       }
     }
 
