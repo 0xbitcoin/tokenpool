@@ -1,6 +1,6 @@
 const $ = require('jquery');
 import Vue from 'vue';
-
+var moment = require('moment');
 
 var io = require('socket.io-client');
 
@@ -42,6 +42,7 @@ export default class ProfileRenderer {
   initSockets()
   {
 
+    var self = this;
 
     var current_hostname = window.location.hostname;
 
@@ -65,7 +66,11 @@ export default class ProfileRenderer {
 
      console.log('got minerDetails', JSON.stringify(data));
 
-      //Vue.set(jumbotron.miner, 'minerData',  data.address )
+
+     data.address = minerAddress;
+     data.etherscanURL = ('https://etherscan.io/address/'+minerAddress.toString());
+
+     Vue.set(jumbotron.miner, 'minerData',  data )
 
     });
 
@@ -93,6 +98,11 @@ export default class ProfileRenderer {
 
      console.log('got minerSubmittedShares', JSON.stringify(data));
 
+     data.map(item => item.timeFormatted =   moment(item.time).format('MM/DD HH:mm')     )
+
+     data.map(item => item.hashRateFormatted =  self.formatHashRate(item.hashRateEstimate)    )
+
+ 
       Vue.set(minerSubmittedSharesList, 'shares',  {share_list: data.slice(0,50) }  )
 
     });
@@ -170,6 +180,25 @@ export default class ProfileRenderer {
 
   }
 
+
+
+  formatHashRate(hashRate)
+  {
+    hashRate = parseFloat(hashRate);
+
+    if(hashRate > 10e9)
+    {
+      return (Math.round(hashRate / (10e9),2).toString() + "Gh/s");
+    }else if(hashRate > 10e6)
+    {
+      return (Math.round(hashRate / (10e6),2).toString() + "Mh/s");
+    }else if(hashRate > 10e3)
+    {
+      return (Math.round(hashRate / (10e3),2).toString() + "Kh/s");
+    }else{
+       return (Math.round(hashRate ,2).toString() + "H/s");
+    }
+  }
 
 
 /*
