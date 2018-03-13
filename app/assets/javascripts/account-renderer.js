@@ -46,10 +46,13 @@ export default class AccountRenderer {
       this.socket.on('minerData', function (data) {
         console.log('got miner data ', JSON.stringify(data));
 
+        var totalShares = 0;
 
         data.map(item => item.minerData.hashRateFormatted = self.formatHashRate(item.minerData.hashRate   ))
         data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  ))
         data.map(item => item.minerData.tokenRewardsFormatted = (item.minerData.tokensAwarded / parseFloat(1e8)  ))
+          data.map(item =>  (totalShares +=  item.minerData.shareCredits ) )
+          data.map(item => item.minerData.sharesPercent = (Math.round((item.minerData.shareCredits / parseFloat(totalShares)), 2).toString() + '%')   )
          data.map(item => item.profileURL = ('/profile/?address=' + item.minerAddress.toString())  )
 
 
