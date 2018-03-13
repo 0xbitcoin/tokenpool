@@ -52,10 +52,9 @@ export default class AccountRenderer {
         data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  ))
         data.map(item => item.minerData.tokenRewardsFormatted = (item.minerData.tokensAwarded / parseFloat(1e8)  ))
           data.map(item =>  (totalShares =  (totalShares + item.minerData.shareCredits) ) )
-          console.log('total shares',totalShares)
-          data.map(item => item.minerData.sharesPercent = ( Math.round((item.minerData.shareCredits / parseFloat(totalShares)), 2).toString() + '%')   )
-         data.map(item => item.profileURL = ('/profile/?address=' + item.minerAddress.toString())  )
 
+          data.map(item => item.minerData.sharesPercent = (  ((item.minerData.shareCredits / parseFloat(totalShares))).toFixed(2).toString() + '%')   )
+         data.map(item => item.profileURL = ('/profile/?address=' + item.minerAddress.toString())  )
 
 
 
