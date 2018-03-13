@@ -10,7 +10,7 @@ describe('Peer Interface', function() {
     it('should return a good hashrate', function() {
 
 
-      assert.equal(peerInterface.getEstimatedShareHashrate(50,30000), web3utils.toBN('96000000'));
+      assert.equal(peerInterface.getEstimatedShareHashrate(50,30000), 2516582400) ;
 
 
 
