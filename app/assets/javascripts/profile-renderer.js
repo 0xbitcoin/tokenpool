@@ -187,7 +187,7 @@ export default class ProfileRenderer {
       return "--";
     }
 
-    return moment(item.time).format('MM/DD HH:mm')
+    return moment.unix(item.time).format('MM/DD HH:mm');
   }
 
   formatHashRate(hashRate)
