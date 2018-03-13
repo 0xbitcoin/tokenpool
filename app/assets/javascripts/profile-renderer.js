@@ -98,11 +98,11 @@ export default class ProfileRenderer {
 
      console.log('got minerSubmittedShares', JSON.stringify(data));
 
-     data.map(item => item.timeFormatted =   moment(item.time).format('MM/DD HH:mm')     )
+     data.map(item => item.timeFormatted = self.formatTime(item.time)     )
 
      data.map(item => item.hashRateFormatted =  self.formatHashRate(item.hashRateEstimate)    )
 
- 
+
       Vue.set(minerSubmittedSharesList, 'shares',  {share_list: data.slice(0,50) }  )
 
     });
@@ -180,10 +180,25 @@ export default class ProfileRenderer {
 
   }
 
+  formatTime(time)
+  {
+    if(item.time == null || item.time == 0)
+    {
+      return "--";
+    }
 
+    return moment(item.time).format('MM/DD HH:mm')
+  }
 
   formatHashRate(hashRate)
   {
+
+    if(hashRate==null || hashRate==0)
+    {
+      return "--";
+    }
+
+
     hashRate = parseFloat(hashRate);
 
     if(hashRate > 10e9)

@@ -140,6 +140,11 @@ export default class AccountRenderer {
 
     formatHashRate(hashRate)
     {
+      if(hashRate==null || hashRate==0)
+      {
+        return "--";
+      }
+
       hashRate = parseFloat(hashRate);
 
       if(hashRate > 10e9)
