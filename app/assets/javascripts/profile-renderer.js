@@ -182,7 +182,7 @@ export default class ProfileRenderer {
 
   formatTime(time)
   {
-    if(item.time == null || item.time == 0)
+    if(time == null || time == 0)
     {
       return "--";
     }
