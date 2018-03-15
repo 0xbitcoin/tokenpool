@@ -20,7 +20,7 @@ describe('Peer Interface', function() {
     it('should return a good hashrate', function() {
 
 
-      assert.equal(peerInterface.getEstimatedShareHashrate(50,30000), 2516582400) ;
+      assert.equal(peerInterface.getEstimatedShareHashrate(30000,50 ), 2516582400) ;
 
 
 
