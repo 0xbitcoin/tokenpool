@@ -27,8 +27,8 @@ describe('Peer Interface', function() {
     });
   });
 
-  describe('Estimate Miner Hashrate', function() {
-   it('should return a good hashrate', async function() {
+  describe('Estimate Miner Vardiff', function() {
+   it('should return a good vardiff', async function() {
 
      var test_mode = true;
      web3.setProvider(INFURA_ROPSTEN_URL);
