@@ -70,6 +70,9 @@ export default class ProfileRenderer {
      data.address = minerAddress;
      data.etherscanURL = ('https://etherscan.io/address/'+minerAddress.toString());
 
+     data.tokenBalanceFormatted = this.formatTokenQuantity( data.tokenBalance );
+
+
      Vue.set(jumbotron.miner, 'minerData',  data )
 
     });
@@ -213,6 +216,11 @@ export default class ProfileRenderer {
     }else{
        return (Math.round(hashRate ,2).toString() + "H/s");
     }
+  }
+
+  formatTokenQuantity(satoshis)
+  {
+    return (parseFloat(satoshis) / 1e8).toString();
   }
 
 
