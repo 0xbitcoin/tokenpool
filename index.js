@@ -71,8 +71,9 @@ async function init(web3)
            await webInterface.init(web3,accountConfig,poolConfig,redisInterface)
            await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,test_mode)
            await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode) //initJSONRPCServer();
-           await webServer.init(https_enabled,webInterface,peerInterface)
            await diagnosticsManager.init(redisInterface,webInterface,peerInterface)
+
+           await webServer.init(https_enabled,webInterface,peerInterface)
 
 
       // Code to run if we're in a worker process
