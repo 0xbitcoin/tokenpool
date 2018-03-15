@@ -70,7 +70,7 @@ export default class ProfileRenderer {
      data.address = minerAddress;
      data.etherscanURL = ('https://etherscan.io/address/'+minerAddress.toString());
 
-     data.tokenBalanceFormatted = this.formatTokenQuantity( data.tokenBalance );
+     data.tokenBalanceFormatted = self.formatTokenQuantity( data.tokenBalance );
 
 
      Vue.set(jumbotron.miner, 'minerData',  data )
