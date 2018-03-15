@@ -220,7 +220,7 @@ export default class ProfileRenderer {
 
   formatTokenQuantity(satoshis)
   {
-    return (parseFloat(satoshis) / 1e8).toString();
+    return (parseFloat(satoshis) / parseFloat(1e8)).toString();
   }
 
 
