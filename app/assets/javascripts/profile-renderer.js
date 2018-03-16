@@ -64,13 +64,14 @@ export default class ProfileRenderer {
 
     this.socket.on('minerDetails', function (data) {
 
-     console.log('got minerDetails', JSON.stringify(data));
 
 
      data.address = minerAddress;
      data.etherscanURL = ('https://etherscan.io/address/'+minerAddress.toString());
 
      data.tokenBalanceFormatted = self.formatTokenQuantity( data.tokenBalance );
+
+     console.log('got minerDetails', JSON.stringify(data));
 
 
      Vue.set(jumbotron.miner, 'minerData',  data )
@@ -80,9 +81,9 @@ export default class ProfileRenderer {
 
     this.socket.on('minerBalancePayments', function (data) {
 
-     console.log('got minerBalancePayments', JSON.stringify(data));
 
      data.map(item => item.previousTokenBalanceFormatted  = self.formatTokenQuantity(item.previousTokenBalance)    )
+     console.log('got minerBalancePayments', JSON.stringify(data));
 
 
 

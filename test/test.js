@@ -5,6 +5,9 @@ const poolConfig = require('../pool.config').config;
 var accountConfig = require('../test.account.config').account;
 
 
+
+var renderUtils = require('../app/assets/javascripts/render-utils')
+
 var tokenInterface = require('../lib/token-interface')
 var peerInterface = require('../lib/peer-interface')
 var redisInterface = require('../lib/redis-interface')
@@ -52,5 +55,18 @@ describe('Peer Interface', function() {
   describe('Estimate Total Hashrate', function() {
    //await this.redisInterface.dropList('total_pool_hashrate')
  });
+
+
+   describe('Format Token Quantity', function() {
+
+     assert.equal(renderUtils.formatTokenQuantity(102312342), '1.02312342') ;
+
+
+
+  });
+
+
+
+
 
 });
