@@ -39,6 +39,11 @@ CSS Colors: https://flatuicolors.com/palette/au
 
    - Redis will serve/connect at localhost:6379 by default - the pool will use this port
 
+## Redis Commands
+
+LRANGE broadcasted_payments 0 -1
+
+
 
 
 ## TODO / BUGS
