@@ -31,7 +31,7 @@ if(test_mode){
   console.log("Using test mode!!! - Ropsten ")
   web3.setProvider(INFURA_ROPSTEN_URL)
 
-   accountConfig = require('./test.account.config').account;
+   accountConfig = require('./test.account.config').accounts;
 }else{
 
   var specified_web3 = poolConfig.web3provider
@@ -44,7 +44,7 @@ if(test_mode){
      web3.setProvider(INFURA_MAINNET_URL)
    }
 
-   accountConfig = require('./account.config').account;
+   accountConfig = require('./account.config').accounts;
 }
 
 

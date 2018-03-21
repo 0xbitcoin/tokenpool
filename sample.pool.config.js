@@ -6,7 +6,7 @@ var poolconfig = {
   poolTokenFee: 15,
   minBalanceForTransfer: 1500000000,
   populationLimit: 100,
-  web3provider: 'http://localhost:8545'
+  web3provider: "http://127.0.0.1:8545"
 }
 
 
