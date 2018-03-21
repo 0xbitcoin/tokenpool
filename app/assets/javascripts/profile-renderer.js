@@ -8,6 +8,7 @@ var io = require('socket.io-client');
 var minerBalancePaymentsList;
 var minerBalanceTransfersList;
 var minerSubmittedSharesList;
+var minerInvalidSharesList;
 
 var jumbotron;
 
@@ -117,7 +118,16 @@ export default class ProfileRenderer {
 
     });
 
+    this.socket.on('minerInvalidShares', function (data) {
 
+     console.log('got minerInvalidShares', JSON.stringify(data));
+
+     data.map(item => item.timeFormatted = self.formatTime(item.time)     )
+
+
+      Vue.set(minerInvalidSharesList, 'shares',  {share_list: data.slice(0,50) }  )
+
+    });
 
 
 
@@ -158,12 +168,21 @@ export default class ProfileRenderer {
             }
           })
 
+          minerInvalidSharesList = new Vue({
+              el: '#minerInvalidSharesList',
+              data: {
+                shares: {
+                  share_list: []
+                }
+              }
+            })
 
         this.socket.emit('getMinerDetails',{address: minerAddress});
 
         this.socket.emit('getMinerBalancePayments',{address: minerAddress});
         this.socket.emit('getMinerBalanceTransfers',{address: minerAddress});
         this.socket.emit('getMinerSubmittedShares',{address: minerAddress});
+        this.socket.emit('getMinerInvalidShares',{address: minerAddress});
 
 
 
@@ -187,6 +206,7 @@ export default class ProfileRenderer {
             this.socket.emit('getMinerBalancePayments',{address: minerAddress});
             this.socket.emit('getMinerBalanceTransfers',{address: minerAddress});
             this.socket.emit('getMinerSubmittedShares',{address: minerAddress});
+            this.socket.emit('getMinerInvalidShares',{address: minerAddress});
 
   }
 
