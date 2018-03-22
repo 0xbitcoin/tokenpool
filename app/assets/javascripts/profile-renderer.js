@@ -72,7 +72,8 @@ export default class ProfileRenderer {
 
      data.tokenBalanceFormatted = self.formatTokenQuantity( data.tokenBalance );
 
-     console.log('got minerDetails', JSON.stringify(data));
+     console.log('got miner details')
+     console.dir(  data );
 
 
      Vue.set(jumbotron.miner, 'minerData',  data )
@@ -84,9 +85,9 @@ export default class ProfileRenderer {
 
 
      data.map(item => item.previousTokenBalanceFormatted  = self.formatTokenQuantity(item.previousTokenBalance)    )
-     console.log('got minerBalancePayments', JSON.stringify(data));
 
-
+     console.log('got minerBalancePayments')
+     console.dir(  data );
 
       Vue.set(minerBalancePaymentsList, 'transactions',  {tx_list: data.slice(0,50) }  )
 
@@ -99,7 +100,8 @@ export default class ProfileRenderer {
       data.map(item => item.tokenAmountFormatted  = self.formatTokenQuantity(item.tokenAmount)    )
 
 
-     console.log('got minerBalanceTransfers', JSON.stringify(data));
+      console.log('got minerBalanceTransfers')
+      console.dir(  data );
 
       Vue.set(minerBalanceTransfersList, 'transactions',  {tx_list: data.slice(0,50) }  )
 
@@ -107,7 +109,8 @@ export default class ProfileRenderer {
 
     this.socket.on('minerSubmittedShares', function (data) {
 
-     console.log('got minerSubmittedShares', JSON.stringify(data));
+      console.log('got minerSubmittedShares')
+      console.dir(  data );
 
      data.map(item => item.timeFormatted = self.formatTime(item.time)     )
 
@@ -120,8 +123,9 @@ export default class ProfileRenderer {
 
     this.socket.on('minerInvalidShares', function (data) {
 
-     console.log('got minerInvalidShares', JSON.stringify(data));
-
+      console.log('got minerInvalidShares')
+      console.dir(  data );
+      
      data.map(item => item.timeFormatted = self.formatTime(item.time)     )
 
 
