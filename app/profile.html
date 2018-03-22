@@ -89,6 +89,39 @@
         </table>
 
       </div>
+      <div id="minerInvalidSharesList" class="box background-secondary " style="overflow-x:auto; min-height:480px;">
+        <div class='subtitle'>Invalid Shares</div>
+        <table class='table table-dark'>
+
+          <thead>
+            <tr >
+              <td> EthBlock </td>
+              <td> Time </td>
+
+              <td> Difficulty </td>
+              <td> Nonce </td>
+
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr v-for="(item, index) in shares.share_list">
+
+              <td>    {{ item.block }} </td>
+              <td>    {{ item.timeFormatted }} </td>
+
+              <td>    {{ item.difficulty }} </td>
+              <td>    {{ item.nonce }} </td>
+
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
 
       <div id="minerBalancePaymentsList" class="box background-secondary " style="overflow-x:auto; min-height:480px;">
         <div class='subtitle'>Balance Payments</div>
