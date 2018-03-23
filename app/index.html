@@ -29,8 +29,12 @@
           -->
 
 
-              <a v-bind:href='pool.etherscanContractURL' >
-                <p> {{pool.poolData.address}}</p>
+              <a v-bind:href='pool.poolData.etherscanMintingURL' >
+                <p>Minting: {{pool.poolData.mintingAddress}}</p>
+              </a>
+
+              <a v-bind:href='pool.poolData.etherscanPaymentsURL' >
+                <p>Payments: {{pool.poolData.paymentAddress}}</p>
               </a>
 
               <div class="whitespace-sm"></div>
