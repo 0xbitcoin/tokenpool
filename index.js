@@ -27,20 +27,28 @@ var Web3 = require('web3')
 
 var web3 = new Web3()
 
+
+var specified_web3 = poolConfig.web3provider;
+
+ if(specified_web3 != null)
+ {
+   web3.setProvider(specified_web3)
+   console.log('using web3',specified_web3)
+ }
+
 if(test_mode){
   console.log("Using test mode!!! - Ropsten ")
-  web3.setProvider(INFURA_ROPSTEN_URL)
+
+  if(specified_web3 == null)
+  {
+    web3.setProvider(INFURA_ROPSTEN_URL)
+  }
 
    accountConfig = require('./test.account.config').accounts;
 }else{
 
-  var specified_web3 = poolConfig.web3provider
-
-   if(specified_web3 != null)
-   {
-     web3.setProvider(specified_web3)
-     console.log('using web3',specified_web3)
-   }else{
+    if(specified_web3 == null)
+    {
      web3.setProvider(INFURA_MAINNET_URL)
    }
 
@@ -88,7 +96,7 @@ async function init(web3)
 
 
                await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode) //initJSONRPCServer();
-               tokenInterface.update();
+               tokenInterface.update();  //reply OK 
                peerInterface.update();
             }
             if(worker_id == 2)
