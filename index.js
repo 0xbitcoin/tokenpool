@@ -4,7 +4,17 @@ var INFURA_MAINNET_URL = 'https://mainnet.infura.io/gmXEVo5luMPUGPqg6mhy';
 
 
 var https_enabled = process.argv[2] === 'https';
-var test_mode = process.argv[2] === 'test';
+var pool_env = 'production';
+
+if( process.argv[2] == "test" )
+{
+  pool_env = 'test'
+}
+
+if( process.argv[2] == "staging" )
+{
+  pool_env = 'staging'
+}
 
 var cluster = require('cluster')
 
@@ -27,11 +37,12 @@ var Web3 = require('web3')
 
 var web3 = new Web3()
 
-if(test_mode){
+if(pool_env == "test"){
   console.log("Using test mode!!! - Ropsten ")
   web3.setProvider(INFURA_ROPSTEN_URL)
-
-   accountConfig = require('./test.account.config').accounts;
+  accountConfig = require('./test.account.config').accounts;
+}else if(pool_env == "staging"){
+  console.log("Using staging mode!!! - Mainet ")
 }else{
 
   var specified_web3 = poolConfig.web3provider
@@ -69,8 +80,8 @@ async function init(web3)
 
            await redisInterface.init()
            await webInterface.init(web3,accountConfig,poolConfig,redisInterface)
-           await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,test_mode)
-           await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode) //initJSONRPCServer();
+           await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,pool_env)
+           await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,pool_env) //initJSONRPCServer();
            await diagnosticsManager.init(redisInterface,webInterface,peerInterface)
 
            await webServer.init(https_enabled,webInterface,peerInterface)
@@ -84,18 +95,18 @@ async function init(web3)
             if(worker_id == 1)
             {
                await redisInterface.init()
-               await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,test_mode)
+               await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,pool_env)
 
 
-               await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode) //initJSONRPCServer();
+               await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,pool_env) //initJSONRPCServer();
                tokenInterface.update();
                peerInterface.update();
             }
             if(worker_id == 2)
             {
               await redisInterface.init()
-              await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,test_mode)
-              await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode) //initJSONRPCServer();
+              await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,pool_env)
+              await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,pool_env) //initJSONRPCServer();
               //tokenInterface.update();
               peerInterface.listenForJSONRPC();
             }
