@@ -54,16 +54,15 @@ var specified_web3 = poolConfig.web3provider;
    console.log('using web3',specified_web3)
  }
 
-if(test_mode){
+if(pool_env == "test"){
   console.log("Using test mode!!! - Ropsten ")
-
   if(specified_web3 == null)
   {
     web3.setProvider(INFURA_ROPSTEN_URL)
   }
-
    accountConfig = require('./test.account.config').accounts;
->>>>>>> 10fe08cc77723dfc9b731bfa370c2245a71eea98
+}else if(pool_env == "staging"){
+    console.log("Using staging mode!!! - Mainnet ") 
 }else{
 
     if(specified_web3 == null)
