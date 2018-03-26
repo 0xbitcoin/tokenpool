@@ -53,7 +53,7 @@ export default class OverviewRenderer {
           data[i].formattedStatus =  self.getFormattedStatus(data[i].receiptData)
         }
 
-       console.log('got activeTransactionData', JSON.stringify(data));
+       console.log('got activeTransactionData',  data );
 
         Vue.set(activeTransactionsList, 'transactions',  {tx_list: data.slice(0,50) }  )
 
@@ -67,7 +67,7 @@ export default class OverviewRenderer {
           data[i].formattedStatus =  self.getFormattedStatus(data[i].receiptData)
         }
 
-         console.log('got queuedTransactionData', JSON.stringify(data));
+         console.log('got queuedTransactionData',  data );
 
            Vue.set(queuedTransactionsList, 'transactions', {tx_list: data.slice(0,50) } )
 
@@ -76,7 +76,7 @@ export default class OverviewRenderer {
       this.socket.on('queuedReplacementPaymentData', function (data) {
 
 
-         console.log('got queuedReplacementPaymentData', JSON.stringify(data));
+         console.log('got queuedReplacementPaymentData',  data );
 
            Vue.set(queuedReplacementPaymentsList, 'transactions', {tx_list: data.slice(0,50) } )
 
@@ -91,13 +91,13 @@ export default class OverviewRenderer {
       });
 
         this.socket.on('poolStats', function (data) {
-          console.log('got poolStats ', JSON.stringify(data));
+          console.log('got poolStats ',  data );
 
           Vue.set(poolStats.pool, 'poolStats',  data )
         });
 
         this.socket.on('submittedShares', function (data) {
-          console.log('got submittedShares ', JSON.stringify(data));
+          console.log('got submittedShares ',  data );
 
           Vue.set(submittedShares.shares, 'submittedShares',  data.slice(0,50))
         });
@@ -106,7 +106,7 @@ export default class OverviewRenderer {
 //working ?
         this.socket.on('submittedSolutions', function (data) {
 
-          console.log('got submittedSolutions ', JSON.stringify(data));
+          console.log('got submittedSolutions ',  data );
 
           Vue.set(submittedSolutions.solutions, 'submittedSolutions',  data.slice(0,50))
 
