@@ -37,15 +37,7 @@ var Web3 = require('web3')
 
 var web3 = new Web3()
 
-<<<<<<< HEAD
-if(pool_env == "test"){
-  console.log("Using test mode!!! - Ropsten ")
-  web3.setProvider(INFURA_ROPSTEN_URL)
-  accountConfig = require('./test.account.config').accounts;
-}else if(pool_env == "staging"){
-  console.log("Using staging mode!!! - Mainet ")
-=======
-
+ 
 var specified_web3 = poolConfig.web3provider;
 
  if(specified_web3 != null)
@@ -62,7 +54,7 @@ if(pool_env == "test"){
   }
    accountConfig = require('./test.account.config').accounts;
 }else if(pool_env == "staging"){
-    console.log("Using staging mode!!! - Mainnet ") 
+    console.log("Using staging mode!!! - Mainnet ")
 }else{
 
     if(specified_web3 == null)
