@@ -37,7 +37,7 @@ var Web3 = require('web3')
 
 var web3 = new Web3()
 
- 
+
 var specified_web3 = poolConfig.web3provider;
 
  if(specified_web3 != null)
@@ -55,13 +55,16 @@ if(pool_env == "test"){
    accountConfig = require('./test.account.config').accounts;
 }else if(pool_env == "staging"){
     console.log("Using staging mode!!! - Mainnet ")
-}else{
-
     if(specified_web3 == null)
     {
      web3.setProvider(INFURA_MAINNET_URL)
    }
-
+   accountConfig = require('./account.config').accounts;
+}else{
+    if(specified_web3 == null)
+    {
+     web3.setProvider(INFURA_MAINNET_URL)
+    }
    accountConfig = require('./account.config').accounts;
 }
 
