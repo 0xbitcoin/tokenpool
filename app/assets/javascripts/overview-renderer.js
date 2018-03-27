@@ -12,6 +12,7 @@ var dashboardData;
 
 var queuedTransactionsList;
 var queuedReplacementPaymentsList;
+var unconfirmedBroadcastedPaymentsList;
 var activeTransactionsList;
 var poolConfig;
 var poolStats;
@@ -82,6 +83,15 @@ export default class OverviewRenderer {
 
       });
 
+      this.socket.on('unconfirmedBroadcastedPaymentData', function (data) {
+
+
+         console.log('got unconfirmedBroadcastedPaymentData',  data );
+
+           Vue.set(unconfirmedBroadcastedPaymentsList, 'transactions', {tx_list: data.slice(0,50) } )
+
+      });
+
 
       this.socket.on('poolConfig', function (data) {
         console.log('got poolConfig ', JSON.stringify(data));
@@ -132,6 +142,15 @@ export default class OverviewRenderer {
           }
         })
 
+        unconfirmedBroadcastedPaymentsList = new Vue({
+            el: '#unconfirmedBroadcastedPaymentsList',
+            data: {
+              //parentMessage: 'Parent',
+              transactions: {
+                tx_list: []
+              }
+            }
+          })
 
         activeTransactionsList = new Vue({
             el: '#activeTransactionsList',
@@ -190,6 +209,7 @@ export default class OverviewRenderer {
        this.socket.emit('getActiveTransactionData');
        this.socket.emit('getQueuedTransactionData')
        this.socket.emit('getQueuedReplacementPaymentData')
+       this.socket.emit('getUnconfirmedBroadcastedPaymentData')
        this.socket.emit('getSubmittedShares')
 
     }
@@ -212,6 +232,7 @@ export default class OverviewRenderer {
       this.socket.emit('getActiveTransactionData');
       this.socket.emit('getQueuedTransactionData')
       this.socket.emit('getQueuedReplacementPaymentData')
+      this.socket.emit('getUnconfirmedBroadcastedPaymentData')
       this.socket.emit('getSubmittedShares')
 
         this.show();
