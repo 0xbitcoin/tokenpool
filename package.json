@@ -11,7 +11,8 @@
     "webpack": "webpack",
     "dev": "webpack-dev-server ",
     "server": "node index.js",
-    "redis": "redis-server"
+    "redis": "redis-server",
+    "payment_log": "node util/payment-log.js"
   },
   "keywords": [
     "token",
