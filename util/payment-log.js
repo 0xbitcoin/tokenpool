@@ -14,12 +14,16 @@ async function init()
   var paymentLog = {};
 
 
-  paymentLog.missedPayments = [];
+  paymentLog.payments = [];
 
 
   var balancePaymentKeyList = [];
   var balancePayments = [];
 
+
+    var balanceTransferKeyList = [];
+    var balanceTransfers = [];
+      var balanceTransfersTable = {}
 
   await new Promise(function (fulfilled,rejected) {
 
@@ -54,7 +58,7 @@ async function init()
         console.log('key',key)
           var balancePaymentList = await redisInterface.getParsedElementsOfListInRedis(key)
 
-         
+
           console.log('length',balancePaymentList.length)
           for(var j=0;j<balancePaymentList.length;j++ )
           {
@@ -71,9 +75,102 @@ async function init()
 
   });
 
-  console.log('balancePaymentss',balancePayments)
 
-  paymentLog.missedPayments.push({balancePayments: balancePayments })
+
+
+  await new Promise(function (fulfilled,rejected) {
+
+        redisInterface.getRedisClient().keys('*',  function(err, keys){
+            keys.forEach( function(key,i){
+          //  if(!key.toLowerCase().endsWith('0xf13e2680a930aE3a640188afe0F94aFCeBe7023b'.toLowerCase())) return;
+          //  console.log(key);
+
+
+            if(key.startsWith("balance_transfers")){ // get all of the keys that have balance transfer (blockchain transactions)
+
+              balanceTransferKeyList.push(key);
+            }
+
+          });
+
+            fulfilled();
+        });
+
+
+
+    });
+
+
+
+    console.log("balanceTransferKeyList",balanceTransferKeyList)
+
+  await new Promise(async function (fulfilled,rejected) {
+
+    await asyncForEach(balanceTransferKeyList,async function(key,i){
+
+        console.log('key',key)
+          var balanceTransferList = await redisInterface.getParsedElementsOfListInRedis(key)
+
+
+          console.log('length',balanceTransferList.length)
+          for(var j=0;j<balanceTransferList.length;j++ )
+          {
+            var transfer = balanceTransferList[j]
+            balanceTransfers.push(transfer)
+            console.log(transfer)
+            balanceTransfersTable[transfer.balancePaymentId] = transfer
+          //  console.log(j);
+          }
+
+
+      });
+
+      fulfilled()
+
+
+  });
+
+
+
+var missingTransfers = [];
+
+
+  for(var i=0;i<balancePayments.length;i++)
+   {
+     var balancePayment = balancePayments[i];
+
+    // console.log(balancePayment)
+
+     var paymentHash = balancePayment.id;
+
+     //console.log(paymentHash)
+
+     var transfer = balanceTransfersTable[paymentHash];
+
+     if(transfer!=null)
+     {
+      //  console.log('matching transfer',transfer)
+     }else{
+
+       missingTransfers.push(balancePayment)
+      //  console.log('missing transfer')
+     }
+
+
+
+   }
+
+
+
+    console.log('balancePaymentss',balancePayments.length)
+    console.log('balanceTransferss',balanceTransfers.length)
+    console.log('missingTransfers',missingTransfers.length)
+
+  paymentLog.payments.push({
+    balancePayments: balancePayments,
+    balanceTransfers: balanceTransfers,
+    missingTransfers: missingTransfers
+   })
 
 
 
