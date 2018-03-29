@@ -28,9 +28,9 @@ async function init()
           //  if(!key.toLowerCase().endsWith('0xf13e2680a930aE3a640188afe0F94aFCeBe7023b'.toLowerCase())) return;
           //  console.log(key);
 
-            console.log('for each key')
+
             if(key.startsWith("balance_payments")){ // get all of the keys that have balance transfer (blockchain transactions)
-              console.log(key);
+
               balancePaymentKeyList.push(key);
             }
 
@@ -49,15 +49,20 @@ async function init()
 
   await new Promise(async function (fulfilled,rejected) {
 
-    balancePaymentKeyList.forEach(async function(key,i){
+    await asyncForEach(balancePaymentKeyList,async function(key,i){
 
-        console.log(key)
-          var balancePayments = await redisInterface.getParsedElementsOfListInRedis(key)
+        console.log('key',key)
+          var balancePaymentList = await redisInterface.getParsedElementsOfListInRedis(key)
 
-          balancePayments.forEach(function(payment,j){
+         
+          console.log('length',balancePaymentList.length)
+          for(var j=0;j<balancePaymentList.length;j++ )
+          {
+            var payment = balancePaymentList[j]
             balancePayments.push(payment)
-            console.log(payment)
-          });
+          //  console.log(j);
+          }
+
 
       });
 
@@ -66,7 +71,7 @@ async function init()
 
   });
 
-  console.log('balancePayments',balancePayments)
+  console.log('balancePaymentss',balancePayments)
 
   paymentLog.missedPayments.push({balancePayments: balancePayments })
 
@@ -86,3 +91,10 @@ async function init()
 
 
 init();
+
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array)
+  }
+}
