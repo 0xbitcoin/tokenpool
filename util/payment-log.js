@@ -152,10 +152,9 @@ var OWED_PAYMENT_BLOCK_CUTOFF = 5341507;
 
      var transfer = balanceTransfersTable[paymentHash];
 
-     if(transfer!=null)
+     if(transfer==null && balancePayment.block < OWED_PAYMENT_BLOCK_CUTOFF)
      {
-      //  console.log('matching transfer',transfer)
-     }else{
+
        console.log(balancePayment)
 
        if(owedPayments[balancePayment.minerAddress] == null){owedPayments[balancePayment.minerAddress]=0}
