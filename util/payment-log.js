@@ -23,7 +23,9 @@ async function init()
 
     var balanceTransferKeyList = [];
     var balanceTransfers = [];
-      var balanceTransfersTable = {}
+    var balanceTransfersTable = {};
+
+    var owedPayments = {};
 
   await new Promise(function (fulfilled,rejected) {
 
@@ -119,6 +121,8 @@ async function init()
             balanceTransfers.push(transfer)
             console.log(transfer)
             balanceTransfersTable[transfer.balancePaymentId] = transfer
+
+
           //  console.log(j);
           }
 
@@ -151,7 +155,10 @@ var missingTransfers = [];
      {
       //  console.log('matching transfer',transfer)
      }else{
+       console.log(balancePayment)
 
+       if(owedPayments[balancePayment.minerAddress] == null){owedPayments[balancePayment.minerAddress]=0}
+       owedPayments[balancePayment.minerAddress] += balancePayment.previousTokenBalance;
        missingTransfers.push(balancePayment)
       //  console.log('missing transfer')
      }
@@ -165,11 +172,13 @@ var missingTransfers = [];
     console.log('balancePaymentss',balancePayments.length)
     console.log('balanceTransferss',balanceTransfers.length)
     console.log('missingTransfers',missingTransfers.length)
+//    console.log('owedPayments',owedPayments.keys.length)
 
   paymentLog.payments.push({
     balancePayments: balancePayments,
     balanceTransfers: balanceTransfers,
-    missingTransfers: missingTransfers
+    missingTransfers: missingTransfers,
+    owedPayments: owedPayments
    })
 
 
