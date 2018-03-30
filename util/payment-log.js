@@ -138,6 +138,7 @@ async function init()
 
 var missingTransfers = [];
 
+var OWED_PAYMENT_BLOCK_CUTOFF = 5341507;
 
   for(var i=0;i<balancePayments.length;i++)
    {
