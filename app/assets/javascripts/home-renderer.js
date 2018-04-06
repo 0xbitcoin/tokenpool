@@ -99,12 +99,16 @@ export default class HomeRenderer {
 
       //  self.accountListData.minerAccountData = data;
 
-        Vue.set(jumbotron.pool, 'poolData',  data )
 
-        var address = data.address;
-        var etherscanContractURL = "https://etherscan.io/address/"+address.toString();
 
-        Vue.set(jumbotron.pool, 'etherscanContractURL',  etherscanContractURL )
+        data.etherscanMintingURL = "https://etherscan.io/address/"+data.mintingAddress.toString();
+        data.etherscanPaymentURL = "https://etherscan.io/address/"+data.paymentAddress.toString();
+
+
+          Vue.set(jumbotron.pool, 'poolData',  data )
+
+      //  Vue.set(jumbotron.pool, 'etherscanMintingURL',  etherscanMintingURL )
+      //  Vue.set(jumbotron.pool, 'etherscanPaymentURL',  etherscanPaymentURL )
 
       });
 

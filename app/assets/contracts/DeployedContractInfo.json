@@ -6,6 +6,11 @@
                 "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31"}
               }
             },
+      "staging": {
+              "contracts": {
+                "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x176762d66f15ccdd0d3a1dc13040d794c9c93776"}
+              }
+            },
       "testnet": {
               "contracts": {
                 "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x9d2cc383e677292ed87f63586086cff62a009010"}

@@ -29,8 +29,12 @@
           -->
 
 
-              <a v-bind:href='pool.etherscanContractURL' >
-                <p> {{pool.poolData.address}}</p>
+              <a v-bind:href='pool.poolData.etherscanMintingURL' >
+                <p>Minting: {{pool.poolData.mintingAddress}}</p>
+              </a>
+
+              <a v-bind:href='pool.poolData.etherscanPaymentURL' >
+                <p>Payments: {{pool.poolData.paymentAddress}}</p>
               </a>
 
               <div class="whitespace-sm"></div>
@@ -62,7 +66,7 @@
 
       <div id="guide" class="box background-secondary has-text-centered ">
         <div class='title'> Start Mining 0xBitcoin </div>
-        <div class='subtitle '> Download the CPU Miner from Github </div>
+        <div class='subtitle '> Download the Token Miner from Github </div>
 
         <a href="https://github.com/0xbitcoin/0xbitcoin-miner" target="_blank">
           <div class='button-bubble button-primary'>Download the Token Miner</div>
