@@ -20,9 +20,9 @@ var cluster = require('cluster')
 
 const poolConfig = require('./pool.config').config
 
-console.log(poolConfig)
+// console.log(poolConfig)
 
-console.log('init');
+// console.log('init');
 
 fs = require('fs');
 
