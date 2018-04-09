@@ -3,6 +3,7 @@ import Vue from 'vue';
 var moment = require('moment');
 
 var io = require('socket.io-client');
+var renderUtils = require('./render-utils')
 
 
 var minerBalancePaymentsList;
@@ -114,7 +115,7 @@ export default class ProfileRenderer {
 
      data.map(item => item.timeFormatted = self.formatTime(item.time)     )
 
-     data.map(item => item.hashRateFormatted =  self.formatHashRate(item.hashRateEstimate)    )
+     data.map(item => item.hashRateFormatted =  renderUtils.formatHashRate(item.hashRateEstimate)    )
 
 
       Vue.set(minerSubmittedSharesList, 'shares',  {share_list: data.slice(0,50) }  )
@@ -222,31 +223,6 @@ export default class ProfileRenderer {
     }
 
     return moment.unix(time).format('MM/DD HH:mm');
-  }
-
-  formatHashRate(hashRate)
-  {
-
-    if(hashRate==null || hashRate==0)
-    {
-      return "--";
-    }
-
-
-    hashRate = parseFloat(hashRate);
-
-    if(hashRate > 10e9)
-    {
-      return (Math.round(hashRate / (10e9),2).toString() + "Gh/s");
-    }else if(hashRate > 10e6)
-    {
-      return (Math.round(hashRate / (10e6),2).toString() + "Mh/s");
-    }else if(hashRate > 10e3)
-    {
-      return (Math.round(hashRate / (10e3),2).toString() + "Kh/s");
-    }else{
-       return (Math.round(hashRate ,2).toString() + "H/s");
-    }
   }
 
   formatTokenQuantity(satoshis)
