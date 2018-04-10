@@ -72,6 +72,7 @@ export default class ProfileRenderer {
      data.etherscanURL = ('https://etherscan.io/address/'+minerAddress.toString());
 
      data.tokenBalanceFormatted = self.formatTokenQuantity( data.tokenBalance );
+     data.hashRateFormatted = renderUtils.formatHashRate( data.hashRate );
 
      console.log('got miner details')
      console.dir(  data );
