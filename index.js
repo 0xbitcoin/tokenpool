@@ -109,7 +109,7 @@ async function init(web3)
 
 
                await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,pool_env) //initJSONRPCServer();
-               tokenInterface.update();
+               /// tokenInterface.update();
                peerInterface.update();
             }
             if(worker_id == 2)
