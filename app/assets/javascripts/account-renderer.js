@@ -4,6 +4,7 @@ import Vue from 'vue';
 
 var blockies = require('ethereum-blockies')
 var io = require('socket.io-client');
+var renderUtils = require('./render-utils')
 
 
 var app;
@@ -48,7 +49,7 @@ export default class AccountRenderer {
 
         var totalShares = 0;
 
-        data.map(item => item.minerData.hashRateFormatted = self.formatHashRate(item.minerData.hashRate   ))
+        data.map(item => item.minerData.hashRateFormatted = renderUtils.formatHashRate(item.minerData.hashRate   ))
         data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  ))
         data.map(item => item.minerData.tokenRewardsFormatted = (item.minerData.tokensAwarded / parseFloat(1e8)  ))
           data.map(item =>  (totalShares =  (totalShares + item.minerData.shareCredits) ) )
@@ -135,30 +136,6 @@ export default class AccountRenderer {
 
      htmlEntities(str) {
         return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-    }
-
-
-    formatHashRate(hashRate)
-    {
-      if(hashRate==null || hashRate==0)
-      {
-        return "--";
-      }
-
-      hashRate = parseFloat(hashRate);
-
-      if(hashRate > 10e9)
-      {
-        return (Math.round(hashRate / (10e9),2).toString() + "Gh/s");
-      }else if(hashRate > 10e6)
-      {
-        return (Math.round(hashRate / (10e6),2).toString() + "Mh/s");
-      }else if(hashRate > 10e3)
-      {
-        return (Math.round(hashRate / (10e3),2).toString() + "Kh/s");
-      }else{
-         return (Math.round(hashRate ,2).toString() + "H/s");
-      }
     }
 
 
