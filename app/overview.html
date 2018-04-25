@@ -195,6 +195,38 @@
 
       </div>
 
+      <div id="pendingBalanceTransfersList" class="box  background-secondary " style="overflow-x:auto; min-height:480px;">
+        <div class='subtitle'>Pending Balance Transfers</div>
+        <table class='table  table-dark'>
+
+          <thead>
+            <tr >
+              <td> EthBlock </td>
+              <td> MinerAddress  </td>
+                <td> Amount </td>
+              <td> Payment Id </td>
+              <td> Confirmed </td>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr v-for="(item, index) in transactions.tx_list">
+
+              <td>    {{ item.last_broadcast_block }} </td>
+              <td>    {{ item.minerAddress }} </td>
+              <td>    {{ item.amount }} </td>
+              <td>    {{ item.balancePaymentId }} </td>
+              <td>    {{ item.confirmed }} </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
 
       <div id="queuedReplacementPaymentsList" class="box  background-secondary " style="overflow-x:auto; min-height:480px;">
         <div class='subtitle'>Queued Replacement Payments</div>
