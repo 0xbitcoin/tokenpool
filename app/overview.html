@@ -214,13 +214,12 @@
 
             <tr v-for="(item, index) in transactions.tx_list">
 
-              <td>    {{ item.last_broadcast_block }} </td>
+              <td>    {{ item.block }} </td>
               <td>    {{ item.minerAddress }} </td>
-              <td>    {{ item.amount }} </td>
+              <td>    {{ item.tokenAmount }} </td>
               <td>    {{ item.balancePaymentId }} </td>
               <td>    {{ item.confirmed }} </td>
-              <td>    {{ item.              txHash
- }} </td>
+              <td>    {{ item.txHash }} </td>
             </tr>
 
           </tbody>
