@@ -29,11 +29,16 @@
           -->
 
 
-              <a v-bind:href='pool.poolData.etherscanMintingURL' >
+            <div  v-if="false"  class="loading-animation">
+                <div class="loader"></div>
+            </div>
+
+
+              <a v-cloak v-bind:href='pool.poolData.etherscanMintingURL' >
                 <p>Minting: {{pool.poolData.mintingAddress}}</p>
               </a>
 
-              <a v-bind:href='pool.poolData.etherscanPaymentURL' >
+              <a v-cloak v-bind:href='pool.poolData.etherscanPaymentURL' >
                 <p>Payments: {{pool.poolData.paymentAddress}}</p>
               </a>
 
@@ -89,9 +94,9 @@
 
       </div>
 
-      <div id="solutiontxlist" class="box background-secondary transaction-list " style="overflow-x:auto; min-height:480px;">
+      <div id="solutiontxlist"  class="box background-secondary transaction-list " style="overflow-x:auto; min-height:480px;">
         <div class='subtitle'>Recent Solutions</div>
-        <table class='table table-dark zeroauto'>
+        <table class='table table-dark zeroauto' v-cloak>
 
           <thead>
             <tr >
@@ -123,7 +128,7 @@
 
       <div id="transfertxlist" class="box background-secondary transaction-list  " style="overflow-x:auto; min-height:480px;">
         <div class='subtitle'>Recent Transfers</div>
-        <table class='table table-dark zeroauto'>
+        <table class='table table-dark zeroauto' v-cloak>
 
           <thead>
             <tr >
