@@ -162,7 +162,7 @@
           <thead>
             <tr >
               <td> EthBlock </td>
-              <td> Status </td>
+              <td> Confirmed </td>
                 <td> Amount Sent </td>
               <td> Tx Hash </td>
               <td> Payment Id  </td>
@@ -176,7 +176,7 @@
             <tr v-for="(item, index) in transactions.tx_list">
 
               <td>    {{ item.block }} </td>
-              <td>    {{ item.status }} </td>
+              <td>    {{ item.confirmed }} </td>
 
               <td>    {{ item.tokenAmount  }} </td>
 
