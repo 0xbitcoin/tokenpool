@@ -1,6 +1,6 @@
 
 const $ = require('jquery');
-
+import 'babel-polyfill'
 import logo from '../images/0xbitcoin.png'
 import githubLogo from '../images/GitHub-Mark-64px.png'
 

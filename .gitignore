@@ -4,5 +4,6 @@ test.account.config.js
 pool.config.js
 dump.rdb
 public/*
+yarn.lock
 
 logs
