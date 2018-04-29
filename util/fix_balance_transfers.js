@@ -26,5 +26,5 @@ async function init()
       console.log('fix success', minerAddress.toString())
    }
 
-
+   console.log('done!' )
 }
