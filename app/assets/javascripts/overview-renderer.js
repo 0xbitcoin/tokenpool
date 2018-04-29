@@ -104,6 +104,10 @@ export default class OverviewRenderer {
       this.socket.on('poolConfig', function (data) {
         console.log('got poolConfig ', JSON.stringify(data));
 
+
+        data.poolConfig.formattedMinBalanceForTransfer = self.formatTokenQuantity( data.poolConfig.minBalanceForTransfer );
+
+
         Vue.set(poolConfig.pool, 'poolConfig',  data.poolConfig )
 
       });
@@ -256,6 +260,12 @@ export default class OverviewRenderer {
       this.socket.emit('getSubmittedShares')
 
         this.show();
+    }
+
+
+    formatTokenQuantity(satoshis)
+    {
+      return (parseFloat(satoshis) / parseFloat(1e8)).toString();
     }
 
     hide()
