@@ -5,6 +5,7 @@ var poolconfig = {
   transferGasPriceWei: 6,
   poolTokenFee: 15,
   minBalanceForTransfer: 1500000000,
+  payoutWalletMinimum: 1000,
   populationLimit: 100,
   web3provider: "http://127.0.0.1:8545"
 }
