@@ -10,10 +10,10 @@ client.connect(PORT, HOST, function() {
     console.log('CONNECTED TO: ' + HOST + ':' + PORT);
     var msg = {
     	id : 1,
-	    method : 'subscribe',
+	    method : 'mining.subscribe',
 	    params : ['0x1234']
     };
-    client.write(JSON.stringify(msg));
+    client.write(JSON.stringify(msg) + '\n');
 });
 
 client.on('data', function(data) {
