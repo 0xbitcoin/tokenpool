@@ -23,7 +23,7 @@ async function init()
      var minerAddress = transferData.addressTo;
      var result = await redisInterface.storeRedisHashData('balance_transfer:'+minerAddress.toString(),transferId,transferDataJSON);
 
-      console.log('fix success', result)
+      console.log('fix success', minerAddress.toString())
    }
 
 
