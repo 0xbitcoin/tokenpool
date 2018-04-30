@@ -55,8 +55,10 @@
         <tr> <td> Network: {{ pool.poolStats.networkType }} </td> </tr>
         <tr> <td> Challenge Number:  {{ pool.poolStats.ChallengeNumber }} </td> </tr>
         <tr> <td> Eth Block Number:  {{ pool.poolStats.blockNumber }} </td> </tr>
-        <tr> <td> Tx Queued:  {{ pool.poolStats.TxQueued }}</td></tr>
-        <tr> <td> Tx Pending:  {{ pool.poolStats.TxPending }}</td></tr>
+        <tr> <td> Mint Tx Queued:  {{ pool.poolStats.MintsTxQueued }}</td></tr>
+        <tr> <td> Mint Tx Pending:  {{ pool.poolStats.MintsTxPending }}</td></tr>
+        <tr> <td> Payment Tx Queued:  {{ pool.poolStats.PaymentsTxQueued }}</td></tr>
+        <tr> <td> Payment Tx Pending:  {{ pool.poolStats.PaymentsTxPending }}</td></tr>
         <tr> <td> Tx Mined:  {{ pool.poolStats.TxMined }}</td></tr>
         <tr> <td> Tx Succeeded:  {{ pool.poolStats.TxSuccess }}</td></tr>
       </tbody>
