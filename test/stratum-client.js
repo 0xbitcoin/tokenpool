@@ -49,3 +49,25 @@ function submitShare() {
    };
    client.write(JSON.stringify(msg) + '\n');
 }
+
+
+   var ipc=require('node-ipc');
+
+   ipc.config.id   = 'hello';
+   ipc.config.retry= 1500;
+
+   ipc.connectTo(
+      'master', 'some_path',
+      function(){
+         ipc.of.master.on('connect', function() {
+            ipc.log('## connected to master ##'.rainbow, ipc.config.delay);
+            ipc.of.master.emit('message', 'hello from statum client')
+         });
+         ipc.of.master.on('disconnect', function() {
+            ipc.log('disconnected from master'.notice);
+         });
+         ipc.of.master.on('multi-message', function(data){
+            ipc.log('got a message from master : '.debug, data);
+         });
+      }
+   );
