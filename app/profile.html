@@ -134,6 +134,7 @@
               <td> EthBlock </td>
               <td> Id  </td>
               <td> Balance Paid </td>
+              <td> Transfer TX hash </td>
 
             </tr>
           </thead>
@@ -145,7 +146,7 @@
               <td>    {{ item.block }} </td>
               <td>    {{ item.id }} </td>
               <td>    {{ item.previousTokenBalance  }} </td>
-
+              <td>  <a v-bind:href='item.etherscanTxURL' >  {{ item.transferTxHash }}   </a> </td>
 
             </tr>
 

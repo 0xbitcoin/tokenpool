@@ -88,8 +88,24 @@ export default class ProfileRenderer {
 
      data.map(item => item.previousTokenBalanceFormatted  = self.formatTokenQuantity(item.previousTokenBalance)    )
 
+      data.map( function(item){
+ 
+           if(item.transferData)
+           {
+             item.transferTxHash = item.transferData.txHash;
+             item.etherscanTxURL = ('https://etherscan.io/tx/' + item.transferData.txHash.toString())
+           }
+
+          return item;
+      } )
+
+
+
      console.log('got minerBalancePayments')
      console.dir(  data );
+
+
+
 
       Vue.set(minerBalancePaymentsList, 'transactions',  {tx_list: data.slice(0,50) }  )
 
@@ -100,6 +116,7 @@ export default class ProfileRenderer {
       data.map(item => item.etherscanTxURL = ('https://etherscan.io/tx/' + item.txHash.toString())  )
 
       data.map(item => item.tokenAmountFormatted  = self.formatTokenQuantity(item.tokenAmount)    )
+
 
 
       console.log('got minerBalanceTransfers')
