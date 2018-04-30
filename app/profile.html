@@ -156,48 +156,7 @@
 
       </div>
 
-      <div id="minerBalanceTransfersList" class="box background-secondary " style="overflow-x:auto; min-height:480px;">
-        <div class='subtitle'>Balance Transfers</div>
-        <table class='table table-dark'>
-
-          <thead>
-            <tr >
-              <td> EthBlock </td>
-              <td> Confirmed </td>
-                <td> Amount Sent </td>
-              <td> Tx Hash </td>
-              <td> Payment Id  </td>
-
-
-            </tr>
-          </thead>
-
-          <tbody>
-
-            <tr v-for="(item, index) in transactions.tx_list">
-
-              <td>    {{ item.block }} </td>
-              <td>    {{ item.confirmed }} </td>
-
-              <td>    {{ item.tokenAmount  }} </td>
-
-              <td>
-                    <a v-bind:href='item.etherscanTxURL' >
-                      <p>  {{ item.txHash }}  </p>
-                    </a>
-              </td>
-
-
-
-              <td>    {{ item.balancePaymentId }} </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
+       
 
       <div id="minerUnsuccessfulBalanceTransfersList" class="box background-secondary " style="overflow-x:auto; min-height:480px;">
         <div class='subtitle'>Unsuccessful Balance Transfers (will be rebroadcast)</div>
