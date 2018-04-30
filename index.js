@@ -103,21 +103,21 @@ async function init(web3)
           // config ipc
           ipc.config.id   = 'master';
           ipc.config.retry = 1500;
-          // ipc.config.silent = true;
+          ipc.config.silent = true;
        
-          ipc.serve('some_path');
+          ipc.serve();
           ipc.server.on('start', function() {
             ipc.server.on(
                 'message',
                 function(data,socket) {
-                    ipc.log('got a message : '.debug, data);
+                    console.log('got a message : ', data);
                     ipc.server.emit(socket, 'response', data + ' world!');
                 }
             );
             ipc.server.on(
                 'socket.disconnected',
                 function(socket, destroyedSocketID) {
-                    ipc.log('client ' + destroyedSocketID + ' has disconnected!');
+                    console.log('client ' + destroyedSocketID + ' has disconnected!');
             });
           });
        
