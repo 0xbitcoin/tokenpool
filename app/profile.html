@@ -43,13 +43,17 @@
             </a>
           </td>
        </tr>
-       <tr> <td> Accumulated Shares: {{  miner.minerData.shareCredits }}  </td> </tr>
-       <tr> <td> Balance: {{  miner.minerData.tokenBalance }}  </td> </tr>
+       <tr> <td> Total Rewards Mined: {{  miner.minerData.tokenRewardsFormatted }}  </td> </tr>
+
+        <tr> <td> Pending Open Balance: {{  miner.minerData.tokenBalanceFormatted }}  </td> </tr>
+
+
 
        <tr> <td> Vardiff: {{  miner.minerData.varDiff }}  </td> </tr>
        <tr> <td> Using Custom Vardiff: {{  miner.minerData.usingCustomDifficulty }}  </td> </tr>
 
        <tr> <td> Hashrate: {{  miner.minerData.hashRateFormatted }}  </td> </tr>
+       <tr> <td> Accumulated Shares: {{  miner.minerData.shareCredits }}  </td> </tr>
 
 
 
@@ -156,7 +160,7 @@
 
       </div>
 
-       
+
 
       <div id="minerUnsuccessfulBalanceTransfersList" class="box background-secondary " style="overflow-x:auto; min-height:480px;">
         <div class='subtitle'>Unsuccessful Balance Transfers (will be rebroadcast)</div>
