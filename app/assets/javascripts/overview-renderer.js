@@ -115,6 +115,10 @@ export default class OverviewRenderer {
         this.socket.on('poolStats', function (data) {
           console.log('got poolStats ',  data );
 
+
+          data.poolStats.formattedTotalPoolFeeTokens=  self.formatTokenQuantity( data.poolStats.totalPoolFeeTokens );
+          data.poolStats.formattedTotalCommunityFeeTokens= self.formatTokenQuantity( data.poolStats.totalCommunityFeeTokens );
+
           Vue.set(poolStats.pool, 'poolStats',  data )
         });
 

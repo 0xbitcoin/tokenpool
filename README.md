@@ -28,6 +28,27 @@ CSS Colors: https://flatuicolors.com/palette/au
 8. npm run server #(or npm run server test for Ropsten test net)
 
 
+### CONFIGURING  - set up  account.config.js and pool.config.js
+
+##### pool.config.js
+
+var poolconfig = {
+  minimumShareDifficulty: 5000,   //lowest miner share difficulty
+  maximumShareDifficulty: 10000    //highest miner share difficulty
+  solutionGasPriceWei: 10,   //ether paid by the pool for each mint
+  transferGasPriceWei: 6,   //ether paid by the pool for each payment
+  poolTokenFee: 5,     //percent of tokens the pool keeps for itself
+  communityTokenFee: 2,   //percent of tokens the pool pledges to donate
+  minBalanceForTransfer: 1500000000,   
+  payoutWalletMinimum: 100000000000,
+  populationLimit: 100,    //not implemented yet...
+  web3provider: "http://127.0.0.1:8545"   //point at Geth or remove to use Infura
+}
+
+
+
+
+
 ### HOW TO USE
 1. Point a poolminer at your pool using http://localhost:8586  (or ipaddress:8586 or domain.com:8586)  (make sure firewall allows this port)
 2. View website interface at http://localhost:3000 (you can set up nginx to serve the static files in /public)
