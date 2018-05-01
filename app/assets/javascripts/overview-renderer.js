@@ -116,8 +116,8 @@ export default class OverviewRenderer {
           console.log('got poolStats ',  data );
 
 
-          data.poolStats.formattedTotalPoolFeeTokens=  self.formatTokenQuantity( data.poolStats.totalPoolFeeTokens );
-          data.poolStats.formattedTotalCommunityFeeTokens= self.formatTokenQuantity( data.poolStats.totalCommunityFeeTokens );
+          data.formattedTotalPoolFeeTokens=  self.formatTokenQuantity( data.totalPoolFeeTokens );
+          data.formattedTotalCommunityFeeTokens= self.formatTokenQuantity( data.totalCommunityFeeTokens );
 
           Vue.set(poolStats.pool, 'poolStats',  data )
         });
