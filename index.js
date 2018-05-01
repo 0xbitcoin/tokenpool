@@ -111,7 +111,7 @@ async function init(web3)
                await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,pool_env)
                await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,pool_env) //initJSONRPCServer();
                tokenInterface.update(ipcServer);
-               peerInterface.update();
+               peerInterface.update(ipcServer);
             }
             if(worker_id == 2)
             {
