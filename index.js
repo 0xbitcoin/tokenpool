@@ -33,7 +33,6 @@ var webInterface = require('./lib/web-interface')
 var webServer =  require('./lib/web-server')
 var stratumServer = require('./lib/stratum-server')
 var diagnosticsManager =  require('./lib/diagnostics-manager')
-var ipc = require('node-ipc')
 var accountConfig;
 var Web3 = require('web3')
 
@@ -100,33 +99,6 @@ async function init(web3)
 
            console.log("Web3 provider:", web3.currentProvider.host);
 
-          // config ipc
-          ipc.config.id   = 'master';
-          ipc.config.retry = 1500;
-          ipc.config.silent = true;
-       
-          ipc.serve();
-          ipc.server.on('start', function() {
-            ipc.server.on(
-                'message',
-                function(data,socket) {
-                    console.log('got a message : ', data);
-                    ipc.server.emit(socket, 'response', data + ' world!');
-                }
-            );
-            ipc.server.on(
-                'socket.disconnected',
-                function(socket, destroyedSocketID) {
-                    console.log('client ' + destroyedSocketID + ' has disconnected!');
-            });
-          });
-       
-          ipc.server.start();
-
-          setInterval(function() {
-            ipc.server.broadcast('multi-message', 'how is everybody doing?');
-          }, 4000);
-
       // Code to run if we're in a worker process
       } else {
         var worker_id = cluster.worker.id
@@ -134,12 +106,12 @@ async function init(web3)
 
             if(worker_id == 1)
             {
+               var ipc = require('./lib/ipc');
+
                await redisInterface.init()
                await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,pool_env)
-
-
                await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,pool_env) //initJSONRPCServer();
-               tokenInterface.update();
+               tokenInterface.update(ipc.server);
                peerInterface.update();
             }
             if(worker_id == 2)

@@ -1,11 +1,11 @@
 
-var net = require('net');
+const net = require('net');
+const os = require('os');
 
 var HOST = '127.0.0.1';
 var PORT = 5000;
 
 var client = new net.Socket();
-
 
 client.connect(PORT, HOST);
 
@@ -21,7 +21,7 @@ client.on('connect', function() {
    client.write(JSON.stringify(msg) + '\n');
 
    // send some shares to the pool every so often
-   setInterval(submitShare, 10 * 1000);
+   // setInterval(submitShare, 10 * 1000);
 
 }).on('data', function(data) {
    // listen for :
@@ -57,18 +57,25 @@ function submitShare() {
    ipc.config.retry= 1500;
    ipc.config.silent = true;
 
-   ipc.connectTo(
+   if (os.hostname() == 'desktop-pc') {
+      ipc.myConnect = ipc.connectToNet;
+   }
+   else {
+      ipc.myConnect = ipc.connect;
+   }
+
+   ipc.myConnect(
       'master',
       function(){
          ipc.of.master.on('connect', function() {
-            console.log('## connected to master ##', ipc.config.delay);
+            console.log('## connected to master ##');
             ipc.of.master.emit('message', 'hello from statum client')
          });
          ipc.of.master.on('disconnect', function() {
-            console.log('disconnected from master'.notice);
+            console.log('disconnected from master');
          });
-         ipc.of.master.on('multi-message', function(data){
-            console.log('got a message from master : ', data);
+         ipc.of.master.on('challengeNumber', function(data){
+            console.log('New challenge :', data);
          });
       }
    );
