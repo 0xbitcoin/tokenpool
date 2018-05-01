@@ -31,7 +31,6 @@ var peerInterface = require('./lib/peer-interface')
 var tokenInterface = require('./lib/token-interface')
 var webInterface = require('./lib/web-interface')
 var webServer =  require('./lib/web-server')
-var stratumServer = require('./lib/stratum-server')
 var diagnosticsManager =  require('./lib/diagnostics-manager')
 var accountConfig;
 var Web3 = require('web3')
@@ -95,7 +94,6 @@ async function init(web3)
            await diagnosticsManager.init(redisInterface,webInterface,peerInterface)
 
            await webServer.init(https_enabled,webInterface,peerInterface)
-           await stratumServer.init();
 
            console.log("Web3 provider:", web3.currentProvider.host);
 
@@ -107,11 +105,12 @@ async function init(web3)
             if(worker_id == 1)
             {
                var ipc = require('./lib/ipc');
-
+               var ipcServer = new ipc.IpcServer();
+               
                await redisInterface.init()
                await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,pool_env)
                await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,pool_env) //initJSONRPCServer();
-               tokenInterface.update(ipc.server);
+               tokenInterface.update(ipcServer);
                peerInterface.update();
             }
             if(worker_id == 2)

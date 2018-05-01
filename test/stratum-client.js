@@ -21,7 +21,7 @@ client.on('connect', function() {
    client.write(JSON.stringify(msg) + '\n');
 
    // send some shares to the pool every so often
-   // setInterval(submitShare, 10 * 1000);
+   setInterval(submitShare, 10 * 1000);
 
 }).on('data', function(data) {
    // listen for :
@@ -51,31 +51,3 @@ function submitShare() {
 }
 
 
-   var ipc=require('node-ipc');
-
-   ipc.config.id   = 'hello';
-   ipc.config.retry= 1500;
-   ipc.config.silent = true;
-
-   if (os.hostname() == 'desktop-pc') {
-      ipc.myConnect = ipc.connectToNet;
-   }
-   else {
-      ipc.myConnect = ipc.connect;
-   }
-
-   ipc.myConnect(
-      'master',
-      function(){
-         ipc.of.master.on('connect', function() {
-            console.log('## connected to master ##');
-            ipc.of.master.emit('message', 'hello from statum client')
-         });
-         ipc.of.master.on('disconnect', function() {
-            console.log('disconnected from master');
-         });
-         ipc.of.master.on('challengeNumber', function(data){
-            console.log('New challenge :', data);
-         });
-      }
-   );
