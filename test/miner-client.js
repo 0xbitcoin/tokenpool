@@ -35,11 +35,18 @@ client.on('connect', function() {
    // send some shares to the pool every so often
    // setInterval(submitShare, 10 * 1000);
 
-}).on('data', function(data) {
+}).on('data', function(jsonData) {
    // listen for :
    //    - mining.notify messages 
    //    - server responses to our subscribe msg and share submits
-   console.log('DATA: ' + data);
+   var data = JSON.parse(jsonData);
+   if (data.method == 'mining.notify') {
+      console.log('mining.notify: challenge =', data.params[0].substring(0, 10), 
+                  ', target =', data.params[1].substring(0,10),
+                  ', difficulty =', data.params[2]);
+   } else {
+      console.log('DATA: ' + jsonData);
+   }
    
 }).on('close', function() {
    console.log('Connection closed');

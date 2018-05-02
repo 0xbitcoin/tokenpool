@@ -45,5 +45,6 @@ init();
 async function init()
 {
    await redisInterface.init()
-   await stratumServer.init(accountConfig, redisInterface);
+   var stratumServer = new StratumServer(accountConfig, redisInterface);
+   stratumServer.start();
 }
