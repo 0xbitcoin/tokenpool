@@ -4,7 +4,7 @@ var INFURA_ROPSTEN_URL = 'https://ropsten.infura.io/gmXEVo5luMPUGPqg6mhy';
 var INFURA_MAINNET_URL = 'https://mainnet.infura.io/gmXEVo5luMPUGPqg6mhy';
 
 var redisInterface = require('./lib/redis-interface')
-var stratumServer = require('./lib/stratum-server')
+var StratumServer = require('./lib/stratum-server')
 
 var accountConfig;
 
