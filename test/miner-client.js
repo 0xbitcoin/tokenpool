@@ -2,6 +2,7 @@
 const net = require('net');
 const os = require('os');
 
+
 var miners = ['0x3650cb4be89370dc547205138bb1d6533eb20ec2', '0x1b7bfB694eE51913c347971c7090a74AEFbd41f6'];
 
 if (process.argv[2] == null) {
@@ -9,12 +10,11 @@ if (process.argv[2] == null) {
    return;
 }
 
-console.log('argv[2]=', process.argv[2]);
-
 var minerAccount = miners[process.argv[2]];
 
-var HOST = '127.0.0.1';
-var PORT = 5000;
+var HOST = '192.168.1.81';
+// var HOST = '75.157.162.19';
+var PORT = 9192;
 
 var client = new net.Socket();
 
@@ -33,7 +33,7 @@ client.on('connect', function() {
    client.write(JSON.stringify(msg) + '\n');
 
    // send some shares to the pool every so often
-   setTimeout(submitShare, 5 * 1000);
+   // setTimeout(submitShare, 5 * 1000);
 
 }).on('data', function(jsonData) {
    // listen for :
