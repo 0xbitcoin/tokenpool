@@ -12,8 +12,9 @@ if (process.argv[2] == null) {
 
 var minerAccount = miners[process.argv[2]];
 
-var HOST = '192.168.1.81';
+// var HOST = '192.168.1.81';
 // var HOST = '75.157.162.19';
+var HOST = '127.0.0.1';
 var PORT = 9192;
 
 var client = new net.Socket();
