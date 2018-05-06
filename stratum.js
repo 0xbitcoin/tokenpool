@@ -5,8 +5,6 @@ var StratumServer = require('./lib/stratum-server')
 
 var pool_env = process.argv[2] || 'production';
 
-console.log('pool_env', pool_env);
-
 var accountConfigFile = './account.config';
 
 if (pool_env == "test") {
@@ -21,7 +19,7 @@ init();
 async function init()
 {
    var path = require('path');
-   global.logfileFolder = path.resolve(__dirname);
+   global.appRoot = path.resolve(__dirname);
    
    await redisInterface.init()
    var stratumServer = new StratumServer(accountConfig, redisInterface);
