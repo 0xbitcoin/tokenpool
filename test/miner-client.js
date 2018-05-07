@@ -34,7 +34,7 @@ client.on('connect', function() {
    client.write(JSON.stringify(msg) + '\n');
 
    // send some shares to the pool every so often
-   // setTimeout(submitShare, 5 * 1000);
+   setTimeout(submitShare, 5 * 1000);
 
 }).on('data', function(jsonData) {
    // listen for :
