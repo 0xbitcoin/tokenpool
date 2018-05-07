@@ -34,20 +34,20 @@ client.on('connect', function() {
    client.write(JSON.stringify(msg) + '\n');
 
    // send some shares to the pool every so often
-   setTimeout(submitShare, 5 * 1000);
+   // setTimeout(submitShare, 5 * 1000);
 
 }).on('data', function(jsonData) {
    // listen for :
    //    - mining.notify messages 
    //    - server responses to our subscribe msg and share submits
    var data = JSON.parse(jsonData);
-   if (data.method == 'mining.notify') {
-      console.log('mining.notify: challenge =', data.params[0].substring(0, 10), 
-                  ', target =', data.params[1].substring(0,10),
-                  ', difficulty =', data.params[2]);
-   } else {
+   // if (data.method == 'mining.notify') {
+   //    console.log('mining.notify: challenge =', data.params[0].substring(0, 10), 
+   //                ', target =', data.params[1].substring(0,10),
+   //                ', difficulty =', data.params[2]);
+   // } else {
       console.log('DATA: ' + jsonData);
-   }
+   // }
    
 }).on('close', function() {
    console.log('Connection closed');
@@ -64,7 +64,7 @@ function submitShare() {
          '0x_miner_eth_address',
          '0x_digest',
          '500',
-         '0x2a4b4ed9f32b244defc30ef48bcb2365619ecd01811a6499b7396d20cfc2c772'
+         '0x_challenge_number'
          ]
    };
    client.write(JSON.stringify(msg) + '\n');
