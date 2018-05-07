@@ -40,10 +40,12 @@
       <tbody>
         <tr> <td> Minting Gas Price: {{ pool.poolConfig.solutionGasPriceWei }} </td> </tr>
         <tr> <td> Transfer Gas Price: {{  pool.poolConfig.transferGasPriceWei }}  </td> </tr>
-        <tr> <td> Transfer Minimum Balance:  {{  pool.poolConfig.minBalanceForTransfer }}</td></tr>
+        <tr> <td> Transfer Minimum Balance:  {{  pool.poolConfig.formattedMinBalanceForTransfer }}</td></tr>
         <tr> <td> Minimum Share Difficulty:  {{  pool.poolConfig.minimumShareDifficulty }}</td></tr>
-        <tr> <td> Fee %:  {{ pool.poolConfig.poolTokenFee }} </td> </tr>
-     </tbody>
+        <tr> <td> Maximum Share Difficulty:  {{  pool.poolConfig.maximumShareDifficulty }}</td></tr>
+        <tr> <td> Pool Fee %:  {{ pool.poolConfig.poolTokenFee }} </td> </tr>
+        <tr> <td> Community Donations Fee %:  {{ pool.poolConfig.communityTokenFee }} </td> </tr>
+         </tbody>
       </table>
       </div>
 
@@ -54,10 +56,15 @@
         <tr> <td> Network: {{ pool.poolStats.networkType }} </td> </tr>
         <tr> <td> Challenge Number:  {{ pool.poolStats.ChallengeNumber }} </td> </tr>
         <tr> <td> Eth Block Number:  {{ pool.poolStats.blockNumber }} </td> </tr>
-        <tr> <td> Tx Queued:  {{ pool.poolStats.TxQueued }}</td></tr>
-        <tr> <td> Tx Pending:  {{ pool.poolStats.TxPending }}</td></tr>
+        <tr> <td> Mint Tx Queued:  {{ pool.poolStats.MintsTxQueued }}</td></tr>
+        <tr> <td> Mint Tx Pending:  {{ pool.poolStats.MintsTxPending }}</td></tr>
+        <tr> <td> Payment Tx Queued:  {{ pool.poolStats.PaymentsTxQueued }}</td></tr>
+        <tr> <td> Payment Tx Pending:  {{ pool.poolStats.PaymentsTxPending }}</td></tr>
         <tr> <td> Tx Mined:  {{ pool.poolStats.TxMined }}</td></tr>
         <tr> <td> Tx Succeeded:  {{ pool.poolStats.TxSuccess }}</td></tr>
+        <tr> <td> Pool Fee Tokens Collected:  {{ pool.poolStats.formattedTotalPoolFeeTokens }} </td> </tr>
+        <tr> <td> Community Donations Tokens Collected:  {{ pool.poolStats.formattedTotalCommunityFeeTokens }} </td> </tr>
+
       </tbody>
       </table>
       </div>
@@ -187,6 +194,39 @@
                 <td>    {{ item.balancePaymentId }} </td>
                 <td>    {{ item.confirmed }} </td>
 
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <div id="pendingBalanceTransfersList" class="box  background-secondary " style="overflow-x:auto; min-height:480px;">
+        <div class='subtitle'>Pending Balance Transfers</div>
+        <table class='table  table-dark'>
+
+          <thead>
+            <tr >
+              <td> EthBlock </td>
+              <td> MinerAddress  </td>
+                <td> Amount </td>
+              <td> Payment Id </td>
+              <td> Confirmed </td>
+              <td> txHash </td>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr v-for="(item, index) in transactions.tx_list">
+
+              <td>    {{ item.block }} </td>
+              <td>    {{ item.addressTo }} </td>
+              <td>    {{ item.tokenAmount }} </td>
+              <td>    {{ item.balancePaymentId }} </td>
+              <td>    {{ item.confirmed }} </td>
+              <td>    {{ item.txHash }} </td>
             </tr>
 
           </tbody>

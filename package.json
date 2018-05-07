@@ -13,7 +13,8 @@
     "server": "node index.js",
     "stratum": "node stratum.js",
     "redis": "redis-server",
-    "payment_log": "node util/payment-log.js"
+    "payment_log": "node util/payment-log.js",
+    "fix_balance_transfers": "node util/fix_balance_transfers.js"
   },
   "keywords": [
     "token",

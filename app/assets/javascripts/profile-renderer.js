@@ -5,7 +5,7 @@ var moment = require('moment');
 var io = require('socket.io-client');
 var renderUtils = require('./render-utils')
 
-
+var minerUnsuccessfulBalanceTransfersList;
 var minerBalancePaymentsList;
 var minerBalanceTransfersList;
 var minerSubmittedSharesList;
@@ -72,6 +72,7 @@ export default class ProfileRenderer {
      data.etherscanURL = ('https://etherscan.io/address/'+minerAddress.toString());
 
      data.tokenBalanceFormatted = self.formatTokenQuantity( data.tokenBalance );
+     data.tokenRewardsFormatted = self.formatTokenQuantity( data.tokensAwarded );
      data.hashRateFormatted = renderUtils.formatHashRate( data.hashRate );
 
      console.log('got miner details')
@@ -88,8 +89,24 @@ export default class ProfileRenderer {
 
      data.map(item => item.previousTokenBalanceFormatted  = self.formatTokenQuantity(item.previousTokenBalance)    )
 
+      data.map( function(item){
+
+           if(item.transferData)
+           {
+             item.transferTxHash = item.transferData.txHash;
+             item.etherscanTxURL = ('https://etherscan.io/tx/' + item.transferData.txHash.toString())
+           }
+
+          return item;
+      } )
+
+
+
      console.log('got minerBalancePayments')
      console.dir(  data );
+
+
+
 
       Vue.set(minerBalancePaymentsList, 'transactions',  {tx_list: data.slice(0,50) }  )
 
@@ -102,10 +119,25 @@ export default class ProfileRenderer {
       data.map(item => item.tokenAmountFormatted  = self.formatTokenQuantity(item.tokenAmount)    )
 
 
+
       console.log('got minerBalanceTransfers')
       console.dir(  data );
 
       Vue.set(minerBalanceTransfersList, 'transactions',  {tx_list: data.slice(0,50) }  )
+
+    });
+
+    this.socket.on('minerUnsuccessfulBalanceTransfers', function (data) {
+
+      //data.map(item => item.etherscanTxURL = ('https://etherscan.io/tx/' + item.txHash.toString())  )
+
+      data.map(item => item.tokenAmountFormatted  = self.formatTokenQuantity(item.tokenAmount)    )
+
+
+      console.log('got minerUnsuccessfulBalanceTransfers')
+      console.dir(  data );
+
+      Vue.set(minerUnsuccessfulBalanceTransfersList, 'transactions',  {tx_list: data.slice(0,50) }  )
 
     });
 
@@ -127,7 +159,7 @@ export default class ProfileRenderer {
 
       console.log('got minerInvalidShares')
       console.dir(  data );
-      
+
      data.map(item => item.timeFormatted = self.formatTime(item.time)     )
 
 
@@ -165,6 +197,15 @@ export default class ProfileRenderer {
           }
         })
 
+        minerUnsuccessfulBalanceTransfersList = new Vue({
+            el: '#minerUnsuccessfulBalanceTransfersList',
+            data: {
+              transactions: {
+                tx_list: []
+              }
+            }
+          })
+
         minerSubmittedSharesList = new Vue({
             el: '#minerSubmittedSharesList',
             data: {
@@ -187,6 +228,7 @@ export default class ProfileRenderer {
 
         this.socket.emit('getMinerBalancePayments',{address: minerAddress});
         this.socket.emit('getMinerBalanceTransfers',{address: minerAddress});
+        this.socket.emit('getMinerUnsuccessfulBalanceTransfers',{address: minerAddress});
         this.socket.emit('getMinerSubmittedShares',{address: minerAddress});
         this.socket.emit('getMinerInvalidShares',{address: minerAddress});
 
@@ -211,6 +253,7 @@ export default class ProfileRenderer {
 
             this.socket.emit('getMinerBalancePayments',{address: minerAddress});
             this.socket.emit('getMinerBalanceTransfers',{address: minerAddress});
+            this.socket.emit('getMinerUnsuccessfulBalanceTransfers',{address: minerAddress});
             this.socket.emit('getMinerSubmittedShares',{address: minerAddress});
             this.socket.emit('getMinerInvalidShares',{address: minerAddress});
 
