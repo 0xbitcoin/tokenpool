@@ -18,6 +18,7 @@ var HOST = '127.0.0.1';
 var PORT = 9192;
 
 var client = new net.Socket();
+client.setEncoding('utf8');
 
 client.connect(PORT, HOST);
 
@@ -34,13 +35,23 @@ client.on('connect', function() {
    client.write(JSON.stringify(msg) + '\n');
 
    // send some shares to the pool every so often
-   setTimeout(submitShare, 5 * 1000);
+   // setTimeout(submitShare, 5 * 1000);
 
 }).on('data', function(jsonData) {
    // listen for :
    //    - mining.notify messages 
    //    - server responses to our subscribe msg and share submits
+
+   console.log('raw data', jsonData);
+
    var data = JSON.parse(jsonData);
+
+   // console.log(data);
+
+   console.log('null ', data.id === null);
+   console.log('undefined ', data.id === undefined);
+   console.log('isNan ', isNaN(data.id));
+
    // if (data.method == 'mining.notify') {
    //    console.log('mining.notify: challenge =', data.params[0].substring(0, 10), 
    //                ', target =', data.params[1].substring(0,10),
