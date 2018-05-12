@@ -104,14 +104,11 @@ async function init(web3)
 
             if(worker_id == 1)
             {
-               var ipc = require('./lib/ipc');
-               var ipcServer = new ipc.IpcServer();
-               
                await redisInterface.init()
                await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,pool_env)
                await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,pool_env) //initJSONRPCServer();
-               tokenInterface.update(ipcServer);
-               peerInterface.update(ipcServer);
+               tokenInterface.update();
+               peerInterface.update();
             }
             if(worker_id == 2)
             {
