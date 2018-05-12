@@ -6,7 +6,7 @@ It currently listens on port 9192, but that can be changed in the source.
 
 It inserts submitted miner shares into redis exactly the way `peer-interface.js` does, so the back-end share processing is unchanged.
 
-The stratum server needs to be notified when a new challenge comes in, when a miner's varDiff changes, and when a new ETH block number comes in.  I implemented this using `node-ipc`.  Therefore, a few code changes are required in `peer-interface.js`, `token-interface.js` and `index.js`.
+The stratum server needs to be notified when a new challenge comes in, when a miner's varDiff changes, and when a new ETH block number comes in.  I implemented this using the Redis pub/sub feature.  Therefore, a few code changes are required in `peer-interface.js`, `token-interface.js` and `index.js`.
 
 **Miner Support**
 
