@@ -18,9 +18,6 @@ init();
 
 async function init()
 {
-   var path = require('path');
-   global.appRoot = path.resolve(__dirname);
-   
    await redisInterface.init()
    var stratumServer = new StratumServer(accountConfig, redisInterface);
    stratumServer.start();
