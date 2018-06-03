@@ -31,7 +31,7 @@ export default class OverviewRenderer {
 
       var current_hostname = window.location.hostname;
 
-      const socketServer = 'http://'+current_hostname+':4000';
+      const socketServer = 'http://'+current_hostname+':2052';
 
       const options = {transports: ['websocket'], forceNew: true};
       this.socket = io(socketServer, options);
