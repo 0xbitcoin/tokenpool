@@ -17,6 +17,7 @@ var activeTransactionsList;
 var pendingBalanceTransfersList;
 var poolConfig;
 var poolStats;
+var poolData;
 var submittedShares;
 var submittedSolutions;
 
@@ -97,6 +98,19 @@ export default class OverviewRenderer {
          console.log('got unconfirmedBroadcastedPaymentData',  data );
 
            Vue.set(unconfirmedBroadcastedPaymentsList, 'transactions', {tx_list: data.slice(0,50) } )
+
+      });
+
+
+      this.socket.on('poolData', function (data) {
+
+        console.log('pool data', data )
+        
+            data.etherscanMintingURL = "https://etherscan.io/address/"+data.mintingAddress.toString();
+            data.etherscanPaymentURL = "https://etherscan.io/address/"+data.paymentAddress.toString();
+
+
+          Vue.set(poolData.pool, 'poolData',  data )
 
       });
 
@@ -188,6 +202,15 @@ export default class OverviewRenderer {
             }
           })
 
+          poolData = new Vue({
+         el: '#pooldata',
+         data:{
+           pool:{
+             poolData: {  }
+            }
+          }
+       });
+
 
          poolConfig = new Vue({
         el: '#poolconfig',
@@ -230,6 +253,7 @@ export default class OverviewRenderer {
       this.show();
 
       console.log('socket emit ')
+       this.socket.emit('getPoolData');
        this.socket.emit('getPoolConfig');
        this.socket.emit('getPoolStats');
        this.socket.emit('getActiveTransactionData');
@@ -254,6 +278,7 @@ export default class OverviewRenderer {
 
      update(renderData)
     {
+      this.socket.emit('getPoolData');
       this.socket.emit('getPoolConfig');
       this.socket.emit('getPoolStats');
       this.socket.emit('getActiveTransactionData');

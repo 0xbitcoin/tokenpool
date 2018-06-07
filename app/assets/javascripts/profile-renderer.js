@@ -25,6 +25,9 @@ export default class ProfileRenderer {
 
     if(minerAddress == null) return
 
+    minerAddress = minerAddress.toString().toLowerCase();
+
+
     var self = this;
 
     setInterval( function(){

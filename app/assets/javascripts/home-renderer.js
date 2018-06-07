@@ -2,6 +2,8 @@
 const $ = require('jquery');
 import Vue from 'vue';
 
+var web3utils = require('web3-utils')
+
 
 var io = require('socket.io-client');
 
@@ -97,21 +99,12 @@ export default class HomeRenderer {
       });
 
       this.socket.on('poolData', function (data) {
-      //  console.log('got poolData ', JSON.stringify(data));
-
-
-      //  self.accountListData.minerAccountData = data;
-
-
 
         data.etherscanMintingURL = "https://etherscan.io/address/"+data.mintingAddress.toString();
         data.etherscanPaymentURL = "https://etherscan.io/address/"+data.paymentAddress.toString();
 
 
           Vue.set(jumbotron.pool, 'poolData',  data )
-
-      //  Vue.set(jumbotron.pool, 'etherscanMintingURL',  etherscanMintingURL )
-      //  Vue.set(jumbotron.pool, 'etherscanPaymentURL',  etherscanPaymentURL )
 
       });
 
@@ -165,7 +158,7 @@ export default class HomeRenderer {
         el: '#jumbotron',
         data:{
           pool:{
-            poolData: { address:'' },
+            poolData: {   },
             etherscanContractURL: {}
            }
          }
@@ -188,6 +181,30 @@ export default class HomeRenderer {
       $('.toggle-mining-instructions').on('click',function(){
           $('.mining-instructions-container').toggle();
       });
+
+
+      $('#mining-account-input').on('keypress', function (e) {
+         if(e.which === 13){
+
+
+            //Disable textbox to prevent multiple submit
+            $(this).attr("disabled", "disabled");
+
+            var address = $('#mining-account-input').val();
+
+             console.log('submit the thing ', address)
+
+             if( web3utils.isAddress(address) )
+             {
+               window.location.href = '/profile?address='+address;
+             }else{
+               console.error("Please provide a valid address")
+             }
+
+            //Enable the textbox again if needed.
+            $(this).removeAttr("disabled");
+         }
+   });
 
 
       this.show();

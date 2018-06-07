@@ -39,6 +39,12 @@ a
   color: #fab329;
 }
 
+
+.color-yellow
+{
+  color: #fab329;
+}
+
 .color-alternate
 {
   color: white;
@@ -237,6 +243,17 @@ a
 
   background: url(/app/assets/images/circuits-overlay.png);
 
+}
+
+.account-search-container
+{
+  max-width: 400px;
+  margin:0 auto;
+
+  .input
+  {
+    background: rgba(0,0,0,0.2);
+  }
 }
 
 

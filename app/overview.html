@@ -78,6 +78,13 @@
 
 
 
+      <div id="pooldata" class="box  background-secondary " style="overflow-x:auto; min-height:220px;">
+        <div class="subtitle color-yellow "> MintingAddress: <a v-bind:href="pool.poolData.etherscanMintingURL"> {{ pool.poolData.mintingAddress  }} </a></div>
+        <div class="subtitle color-yellow "> PaymentAddress: <a v-bind:href="pool.poolData.etherscanPaymentURL"> {{ pool.poolData.paymentAddress  }} </a></div>
+    </div>
+
+
+
       <!-- submitted_share  -->
         <div id="submittedShares" class="box  background-secondary " style="overflow-x:auto; min-height:480px;">
           <div class='subtitle'>Submitted Shares</div>
