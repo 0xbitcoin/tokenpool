@@ -18,6 +18,9 @@ var dashboardData;
 var solutiontxlist;
 var transfertxlist;
 var jumbotron;
+var poolStats;
+
+var performerList;
 
 export default class HomeRenderer {
 
@@ -98,6 +101,54 @@ export default class HomeRenderer {
 
       });
 
+
+
+
+
+      this.socket.on('minerData', function (data) {
+        console.log('got miner data ', JSON.stringify(data));
+
+        var totalShares = 0;
+
+        data.map(item => item.minerData.hashRateFormatted = renderUtils.formatHashRate(item.minerData.hashRate   ))
+        data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  ))
+        data.map(item => item.minerData.tokenRewardsFormatted = (item.minerData.tokensAwarded / parseFloat(1e8)  ))
+          data.map(item =>  (totalShares =  (totalShares + item.minerData.shareCredits) ) )
+
+          data.map(item => item.minerData.sharesPercent = (  ((item.minerData.shareCredits / parseFloat(totalShares)) * 100  ).toFixed(2).toString() + '%')   )
+         data.map(item => item.profileURL = ('/profile/?address=' + item.minerAddress.toString())  )
+
+
+
+         data.sort(function(a, b){return b.minerData.shareCredits - a.minerData.shareCredits});
+
+
+        for(var i in data)
+        {
+          var shares = parseInt(data[i].minerData.shareCredits)
+          console.log(shares)
+          if( isNaN(shares) || shares <= 0)
+          {
+             data.splice(i, 1);
+          }
+
+
+          //still a WIP
+        // data[i].identicon = self.getIdenticon( data[i].minerAddress  )
+
+
+        }
+
+
+        self.accountListData.minerAccountData = data;
+
+        Vue.set(accountlist.accounts, 'account_list',  data )
+
+      });
+
+
+
+
       this.socket.on('poolData', function (data) {
 
         data.etherscanMintingURL = "https://etherscan.io/address/"+data.mintingAddress.toString();
@@ -130,6 +181,15 @@ export default class HomeRenderer {
 
       });
 
+      this.socket.on('poolStats', function (data) {
+        console.log('got poolStats ',  data );
+
+
+        //data.formattedTotalPoolFeeTokens=  self.formatTokenQuantity( data.totalPoolFeeTokens );
+        //data.formattedTotalCommunityFeeTokens= self.formatTokenQuantity( data.totalCommunityFeeTokens );
+
+        Vue.set(poolStats.pool, 'poolStats',  data )
+      });
 
 
 
@@ -154,6 +214,17 @@ export default class HomeRenderer {
           })
 
 
+
+     performerList = new Vue({
+        el: '#topPerformers',
+        data: {
+          //parentMessage: 'Parent',
+          performers: {
+            list: []
+          }
+        }
+      })
+
          jumbotron = new Vue({
         el: '#jumbotron',
         data:{
@@ -164,6 +235,14 @@ export default class HomeRenderer {
          }
       });
 
+      poolStats = new Vue({
+         el: '#poolstats',
+         data:{
+           pool:{
+             poolStats: { }
+            }
+          }
+       });
 
       var hashingDataSet= {
         labels: [5555,5556,5557],
@@ -211,8 +290,10 @@ export default class HomeRenderer {
 
       console.log('Emit to websocket')
        this.socket.emit('getPoolData');
+       this.socket.emit('getPoolStats');
        this.socket.emit('getHashrateData');
        this.socket.emit('getActiveTransactionData');
+       this.socket.emit('getTopMinerData');
 
     }
 
@@ -231,8 +312,10 @@ export default class HomeRenderer {
     {
 
       this.socket.emit('getPoolData');
+      this.socket.emit('getPoolStats');
       this.socket.emit('getHashrateData');
       this.socket.emit('getActiveTransactionData');
+      this.socket.emit('getTopMinerData');
 
 
         this.show();

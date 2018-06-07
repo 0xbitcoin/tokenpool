@@ -105,9 +105,9 @@ export default class OverviewRenderer {
       this.socket.on('poolData', function (data) {
 
         console.log('pool data', data )
-        
-            data.etherscanMintingURL = "https://etherscan.io/address/"+data.mintingAddress.toString();
-            data.etherscanPaymentURL = "https://etherscan.io/address/"+data.paymentAddress.toString();
+
+            data.etherscanMintingURL = "http://explorer.0xbtc.io/account.html?address="+data.mintingAddress.toString();
+            data.etherscanPaymentURL = "http://explorer.0xbtc.io/account.html?address="+data.paymentAddress.toString();
 
 
           Vue.set(poolData.pool, 'poolData',  data )

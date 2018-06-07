@@ -30,11 +30,11 @@
 
                 <p class="color-primary-heavy">Mining URL: http://tokenminingpool.com:8080 </p>
 
-                <div class="whitespace-lg"></div>
+                <div class="whitespace-md"></div>
 
                 <div class="account-search-container">
                   <div class="field">
-                    <div class="label color-white">Mining Account Address</div>
+                    <div class="label color-white">View Mining Account</div>
                     <div class="control">
                       <input id="mining-account-input" class="input  " type="text" placeholder="Primary input">
                     </div>
@@ -91,23 +91,9 @@
       </a>
 
 
-  <div class="container">
+  <div class="container is-hidden" id="poolstats">
       <div class="columns" >
-        <div class="column">
-          <div class="card card-background-secondary">
-            <div class="card-content">
-              <div class="media-content">
-                <p class="title is-4 has-text-centered">Total Hashrate</p>
 
-              <div class="content has-text-grey has-text-centered">
-                <h3 class="has-text-white">1.4 TH/s</h3>
-                <br>
-                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
-              </div>
-            </div>
-            </div>
-          </div>
-        </div>
         <div class="column">
           <div class="card card-background-secondary">
             <div class="card-content">
@@ -116,9 +102,8 @@
 
               <div class="content has-text-grey has-text-centered">
 
-                <h3 class="has-text-white">1.4 TH/s</h3>
-                <br>
-                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                <h3 class="has-text-white">{{pool.poolStats.activeMinersCount}}</h3>
+
               </div>
             </div>
             </div>
@@ -131,13 +116,28 @@
                 <p class="title is-4 has-text-centered">Blocks / Hour</p>
               <div class="content has-text-grey has-text-centered">
                 <h3 class="has-text-white">1.4 TH/s</h3>
-                <br>
-                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+
               </div>
             </div>
             </div>
           </div>
         </div>
+
+
+          <div class="column">
+            <div class="card card-background-secondary">
+              <div class="card-content">
+                <div class="media-content">
+                  <p class="title is-4 has-text-centered">Pool Hashrate</p>
+
+                <div class="content has-text-grey has-text-centered">
+                  <h3 class="has-text-white">{{pool.poolStats.totalPoolHashrate}}</h3>
+
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
   </div>
 
 
@@ -151,8 +151,7 @@
 
           <div class="content has-text-grey has-text-centered">
             <h3 class="has-text-white">1.4 TH/s</h3>
-            <br>
-            <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+
           </div>
         </div>
         </div>
@@ -166,8 +165,7 @@
 
           <div class="content has-text-grey has-text-centered">
             <h3 class="has-text-white">1.4 TH/s</h3>
-            <br>
-            <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+
           </div>
         </div>
         </div>
@@ -179,16 +177,15 @@
           <div class="media-content">
             <p class="title is-4 has-text-centered color-primary">Difficulty</p>
           <div class="content has-text-grey has-text-centered">
-            <h3 class="has-text-white">1.4 TH/s</h3>
-            <br>
-            <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+            <h3 class="has-text-white">{{pool.poolStats.miningDifficulty}}</h3>
+
           </div>
         </div>
         </div>
       </div>
     </div>
   </div>
-
+  </div>
 
   <div class="columns" >
     <div class="column">
@@ -201,27 +198,41 @@
         </div>
       </div>
     </div>
-    <div class="column">
-      <div class="card card-background-secondary">
-        <div class="card-content">
+    <div class="column ">
+      <div class="card card-background-secondary" id="topPerformers">
+        <div class="card-content is-hidden">
           <div class='subtitle has-text-centered'>Top Performers</div>
-          <div class="media-content">
-            <canvas id="hashgraph"></canvas>
-          </div>
+
+
+
+                  <table class='table table-dark zeroauto' v-cloak>
+
+                    <thead>
+                      <tr >
+                        <td> Address </td>
+                        <td> Hashrate </td>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+
+                      <tr v-for="(item, index) in performers.list"  v-bind:class="item.htmlClass">
+                        <td>   </td>
+                        <td> </td>
+                       </tr>
+
+                    </tbody>
+                  </table>
+
+
         </div>
       </div>
     </div>
  </div>
 
       <div id="solutiontxlist"  class="box background-secondary transaction-list " style="overflow-x:auto; min-height:480px;">
-        <div class='subtitle'>Recent Solutions
-        <a href="/account" target="_blank" class="is-pulled-right" >
-          <div class='button buttom-primary'>Account Shares</div>
-        </a>
+        <div class='subtitle'>Recent Solutions</div>
 
-        <a href="/overview" target="_blank" class="is-pulled-right" style="margin-right: 10px;">
-          <div class='button buttom-primary'>Server Statistics</div>
-        </a></div>
 
         <table class='table table-dark zeroauto' v-cloak>
 

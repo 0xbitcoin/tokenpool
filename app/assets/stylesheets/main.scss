@@ -256,6 +256,33 @@ a
   }
 }
 
+.navbar-end
+{
+  .button
+  {
+    margin:5px;
+  }
+}
+
+.navbar-start
+{
+  .navbar-item
+  {
+    color:white;
+    font-size:1.2em;
+    padding:10px 35px;
+  }
+}
+
+.hover-line-blue:hover
+{
+  border-bottom: 2px solid #1289A7;
+}
+
+.hover-line-green:hover
+{
+  border-bottom: 2px solid #A3CB38;
+}
 
 .toggle-mining-instructions
 {
