@@ -9,12 +9,14 @@
   "scripts": {
      "test": "mocha",
     "webpack": "webpack",
-    "dev": "webpack-dev-server ",
+    "dev": "webpack-dev-server --port 3030",
     "server": "node index.js",
     "redis": "redis-server",
     "clean_redis": "node clean-redis.js",
+
     "payment_log": "node util/payment-log.js",
-    "fix_balance_transfers": "node util/fix_balance_transfers.js"
+    "fix_balance_transfers": "node util/fix_balance_transfers.js",
+    "migrate_accounts_downcase": "node util/migrate_accounts_downcase.js"
   },
   "keywords": [
     "token",

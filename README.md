@@ -69,5 +69,10 @@ LRANGE broadcasted_payments 0 -1
 
 
 ## TODO / BUGS
-- Add more clustering/workers and more JSONRPC/socket ports to handle heavy loads
-- Make sure good solns ARE BEING TRANFERRED
+- Add   clustering/workers code from Mikers
+- Better navbar (mobile navbar )
+- Account search field
+- ALl accounts should be case insensitive
+
+  1. copy over existing accounts to their case insensitive variants, in a new key, _downcase
+  2.whenever we save a new acct, save it in there -- as downcase 
