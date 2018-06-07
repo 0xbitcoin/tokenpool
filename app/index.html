@@ -7,6 +7,7 @@
       <%= require('html-loader!./assets/html/head.html') %>
 
 
+
   </head>
   <body>
 
@@ -18,61 +19,29 @@
       <section class="hero circuit-overlay">
         <div class="hero-body">
           <div class="container has-text-centered" id='jumbotron'>
-            <h1 class="title font-primary-title color-primary">
+            <h1 class="title font-primary-title color-alternate">
                 Token Mining Pool
             </h1>
-
-        <!--
-            <h2 class="subtitle">
-              Mine 0xBitcoin with us
-            </h2>
-          -->
-
 
             <div  v-if="false"  class="loading-animation">
                 <div class="loader"></div>
             </div>
 
 
-              <a v-cloak v-bind:href='pool.poolData.etherscanMintingURL' >
-                <p>Minting: {{pool.poolData.mintingAddress}}</p>
-              </a>
+                <p class="color-primary-heavy">Mining URL: http://tokenminingpool.com:8080 </p>
 
-              <a v-cloak v-bind:href='pool.poolData.etherscanPaymentURL' >
-                <p>Payments: {{pool.poolData.paymentAddress}}</p>
-              </a>
-
-
-                 <div class="whitespace-sm"></div>
-
-                <p class="color-white">Mining URL: http://tokenminingpool.com:8080 </p>
+                <div class="whitespace-lg"></div>
+                <div class="whitespace-lg"></div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
 
 
-              <div class="columns">
-              <div class= "column   is-half-desktop " style=" margin: 0 auto;">
 
-                    <canvas id="hashgraph"></canvas>
-
-               </div>
-             </div>
-
-             <div class="whitespace-sm"></div>
-
-
-             <a href="/account" target="_blank">
-               <div class='button-bubble button-white'>View Account Shares</div>
-             </a>
-
-              <div class="whitespace-sm"></div>
-
-             <a href="/overview" target="_blank">
-               <div class='button-bubble button-white'>View Server Stats</div>
-             </a>
-
-
-             <div class="whitespace-sm"></div>
-
-
+             <div class="whitespace-lg"></div>
+             <div class="whitespace-lg"></div>
           </div>
         </div>
       </section>
@@ -80,20 +49,19 @@
 
 
 
-      <div id="guide" class="box background-secondary has-text-centered ">
+      <div id="guide" class="box background-primary has-text-centered ">
         <div class='title'> Start Mining 0xBitcoin </div>
-        <div class='subtitle '> Download the Token Miner from Github </div>
 
         <a href="https://github.com/0xbitcoin/0xbitcoin-miner/blob/master/RELEASES.md" target="_blank">
-          <div class='button-bubble button-primary'>Download the Token Miner</div>
+          <div class='button-bubble button-gradient'>Download the Token Miner</div>
         </a>
 
 
-        <div class="toggle-mining-instructions acts-as-link color-fun-secondary">Instructions</div>
+        <div class="toggle-mining-instructions acts-as-link color-fun-secondary"> Instructions</div>
 
         <div class="mining-instructions-container">
             <div class="columns">
-            <div class= "column background-primary color-orange is-half-desktop " style=" margin: 0 auto;">
+            <div class= "column background-secondary color-primary is-half-desktop " style=" margin: 0 auto;">
               <p>Download the mining software - version 1.5 or higher</p>
               <hr>
               <p>Connect to this pool with 'pool select http://tokenminingpool.com:8080'</p>
@@ -105,8 +73,148 @@
 
       </div>
 
+
+      <a v-cloak v-bind:href='pool.poolData.etherscanMintingURL' >
+        <p>Minting: {{pool.poolData.mintingAddress}}</p>
+      </a>
+
+      <a v-cloak v-bind:href='pool.poolData.etherscanPaymentURL' >
+        <p>Payments: {{pool.poolData.paymentAddress}}</p>
+      </a>
+
+
+  <div class="container">
+      <div class="columns" >
+        <div class="column">
+          <div class="card card-background-secondary">
+            <div class="card-content">
+              <div class="media-content">
+                <p class="title is-4 has-text-centered">Total Hashrate</p>
+
+              <div class="content has-text-grey has-text-centered">
+                <h3 class="has-text-white">1.4 TH/s</h3>
+                <br>
+                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="card card-background-secondary">
+            <div class="card-content">
+              <div class="media-content">
+                <p class="title is-4 has-text-centered">Active Miners</p>
+
+              <div class="content has-text-grey has-text-centered">
+
+                <h3 class="has-text-white">1.4 TH/s</h3>
+                <br>
+                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="card card-background-secondary">
+            <div class="card-content">
+              <div class="media-content">
+                <p class="title is-4 has-text-centered">Blocks / Hour</p>
+              <div class="content has-text-grey has-text-centered">
+                <h3 class="has-text-white">1.4 TH/s</h3>
+                <br>
+                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+  </div>
+
+
+
+  <div class="columns" >
+    <div class="column">
+      <div class="card card-background-secondary">
+        <div class="card-content">
+          <div class="media-content">
+            <p class="title is-4 has-text-centered">Last Mined Block</p>
+
+          <div class="content has-text-grey has-text-centered">
+            <h3 class="has-text-white">1.4 TH/s</h3>
+            <br>
+            <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="card card-background-secondary">
+        <div class="card-content">
+          <div class="media-content">
+            <p class="title is-4 has-text-centered">Price</p>
+
+          <div class="content has-text-grey has-text-centered">
+            <h3 class="has-text-white">1.4 TH/s</h3>
+            <br>
+            <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="card card-background-secondary">
+        <div class="card-content">
+          <div class="media-content">
+            <p class="title is-4 has-text-centered color-primary">Difficulty</p>
+          <div class="content has-text-grey has-text-centered">
+            <h3 class="has-text-white">1.4 TH/s</h3>
+            <br>
+            <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="columns" >
+    <div class="column">
+      <div class="card card-background-secondary">
+        <div class="card-content">
+          <div class='subtitle has-text-centered'>Hashrate</div>
+          <div class="media-content">
+            <canvas id="hashgraph"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="card card-background-secondary">
+        <div class="card-content">
+          <div class='subtitle has-text-centered'>Top Performers</div>
+          <div class="media-content">
+            <canvas id="hashgraph"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+ </div>
+
       <div id="solutiontxlist"  class="box background-secondary transaction-list " style="overflow-x:auto; min-height:480px;">
-        <div class='subtitle'>Recent Solutions</div>
+        <div class='subtitle'>Recent Solutions
+        <a href="/account" target="_blank" class="is-pulled-right" >
+          <div class='button buttom-primary'>Account Shares</div>
+        </a>
+
+        <a href="/overview" target="_blank" class="is-pulled-right" style="margin-right: 10px;">
+          <div class='button buttom-primary'>Server Statistics</div>
+        </a></div>
+
         <table class='table table-dark zeroauto' v-cloak>
 
           <thead>
@@ -175,32 +283,17 @@
         <div class="whitespace-sm"></div>
 
         <div class='title'> Token Mining Pool </div>
-
-
         <div class="whitespace-sm"></div>
-
         <div class='subtitle '> Mine Ethereum tokens distributed using Proof of Work </div>
-
-
-
-
         <div class="">
-
         </div>
-
         <div class="">
-
-
-          <p> Read more on <a href="https://reddit.com/r/tokenmining" target="_blank"> Reddit </a> </p>
-
-
+          <p class="has-text-light"> Read more on <a href="https://reddit.com/r/tokenmining" target="_blank" > Reddit </a> </p>
         </div>
       </div>
-
-
+      <div class="whitespace-sm"></div>
   </div>
-
-
+  
       <%= require('html-loader!./assets/html/footer.html') %>
 
 
