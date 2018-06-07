@@ -71,16 +71,19 @@ export default class HomeRenderer {
           }
 
 
+          if(data[i].receiptData.pending == false)
+          {
+            if( data[i].txType=='solution'  )
+            {
+              solution_list.push( data[i] )
+            }
+            if( data[i].txType=='transfer'  )
+            {
+              transfer_list.push( data[i] )
+            }
+          }
 
 
-          if( data[i].txType=='solution'  )
-          {
-            solution_list.push( data[i] )
-          }
-          if( data[i].txType=='transfer'  )
-          {
-            transfer_list.push( data[i] )
-          }
 
         }
 
