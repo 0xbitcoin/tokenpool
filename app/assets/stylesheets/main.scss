@@ -95,6 +95,16 @@ a
 }
 
 
+.button-bubble:hover
+{
+  padding:9px;
+  border: 0px solid #e19725;
+  border-radius: 3px;
+  display: inline-block;
+  color: #ddd;
+}
+
+
 .color-white
 {
   color: white;
@@ -253,6 +263,7 @@ a
   .input
   {
     background: rgba(0,0,0,0.2);
+    color:white;
   }
 }
 
