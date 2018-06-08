@@ -148,11 +148,15 @@ a
 }
 
 
+ 
+
+
+
 .transaction-list
 {
   .status-success
     {
-        border-left: 4px solid #d5c8c6;
+        border-left: 4px solid #A3CB38;
 
         .tx-status-cell
         {
@@ -162,7 +166,7 @@ a
 
   .status-mined
   {
-    border-left: 4px solid #30336b;
+    border-left: 4px solid #1289A7;
       .tx-status-cell
       {
         color: #30336b
