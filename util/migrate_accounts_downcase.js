@@ -37,7 +37,7 @@ async function init()
      var minerDataJSON = await redisInterface.findHashInRedis('miner_data',minerAddress);
      var minerData = JSON.parse(minerDataJSON)
 
-
+     //sum pending balance with pending balance of other accounts with same address
      var minerAddressDowncase = minerAddress.toString().toLowerCase();
      var existingNewMinerDataJSON = await redisInterface.findHashInRedis('miner_data_downcase',minerAddressDowncase);
      if(existingNewMinerDataJSON )
