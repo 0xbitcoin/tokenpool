@@ -20,7 +20,7 @@ async function init()
    for(var i in downcase_miner_keys)
    {
      var minerAddress = downcase_miner_keys[i];
-     console.log('deleting data ',minerAddress)
+     console.log('deleting data miner_data_downcase:',minerAddress)
      redisInterface.deleteHashInRedis('miner_data_downcase',minerAddress)
 
    }
@@ -40,9 +40,9 @@ async function init()
 
      var minerAddressDowncase = minerAddress.toString().toLowerCase();
      var existingNewMinerDataJSON = await redisInterface.findHashInRedis('miner_data_downcase',minerAddressDowncase);
-     if(minerDataJSON )
+     if(existingNewMinerDataJSON )
      {
-       var existingNewMinerData = JSON.parse(minerDataJSON)
+       var existingNewMinerData = JSON.parse(existingNewMinerDataJSON)
        minerData.tokenBalance += existingNewMinerData.tokenBalance;
        console.log('summing token balance', minerAddressDowncase , minerData.tokenBalance)
      }
