@@ -17,7 +17,12 @@ CSS Colors: https://flatuicolors.com/palette/au
 
 ### BASIC SETUP  (needs Node8)
 1. npm install -g node-gyp
-1. sudo apt-get install build-essential
+1.1. sudo apt-get install build-essential
+
+You may need to do..
+1.2.sudo apt-get install python2.7
+1.3.npm config set python python2.7
+
 2. npm install
 3. npm run webpack  #(to build the website files)
 4. rename 'sample.account.config.js' to 'account.config.js' and fill it with the pool's ethereum account data
