@@ -12,6 +12,7 @@
     "dev": "webpack-dev-server --port 3030",
     "server": "node index.js",
     "redis": "redis-server",
+    
     "clean_redis": "node clean-redis.js",
 
     "payment_log": "node util/payment-log.js",

@@ -39,14 +39,10 @@ async function init()
 
      //sum pending balance with pending balance of other accounts with same address
      var minerAddressDowncase = minerAddress.toString().toLowerCase();
-     var existingNewMinerDataJSON = await redisInterface.findHashInRedis('miner_data_downcase',minerAddressDowncase);
-     if(existingNewMinerDataJSON )
-     {
-       var existingNewMinerData = JSON.parse(existingNewMinerDataJSON)
-       minerData.tokenBalance += existingNewMinerData.tokenBalance;
-       console.log('summing token balance', minerAddressDowncase , minerData.tokenBalance)
-     }
+    // var existingNewMinerDataJSON = await redisInterface.findHashInRedis('miner_data_downcase',minerAddressDowncase);
 
+    //wipe out all balances and start over 
+     minerData.tokenBalance = 0;
 
 
      var result = await redisInterface.storeRedisHashData('miner_data_downcase',minerAddressDowncase,JSON.stringify(minerData));
