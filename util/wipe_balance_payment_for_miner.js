@@ -26,16 +26,18 @@ async function init()
    {
      console.log('no miner data exists!', minerAddress  )
      return;
+   }else {
+      console.log('original miner data:', minerAddress, minerData )
    }
 
    minerData.tokenBalance = 0;
 
-   await  saveMinerDataToRedis(minerAddress,minerData)
+   await saveMinerDataToRedis(minerAddress,minerData)
 
 
   // var balance_xfers = await redisInterface.deleteHashArrayInRedis('balance_payment')
 
-   console.log('saved miner data!', minerAddress, minerData )
+   console.log('saved new iner data:', minerAddress, minerData )
    return;
 }
 
