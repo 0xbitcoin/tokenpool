@@ -66,9 +66,16 @@ var poolconfig = {
 
    - Redis will serve/connect at localhost:6379 by default - the pool will use this port
 
+
+
+   redis-cli
+   config set stop-writes-on-bgsave-error yes
+
+   cron job to clean redis
+
+
 ## Redis Commands
 
-LRANGE broadcasted_payments 0 -1
 
 
 
