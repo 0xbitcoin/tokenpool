@@ -1,6 +1,4 @@
 
-
-
 html
 {
   //color: white;
@@ -14,43 +12,100 @@ html
    display: none;
  }
 
+ .shadow-md {
+   -webkit-box-shadow: 0 4.5px 3px -3px #999;
+   -moz-box-shadow: 0 4.5px 3px -3px #999;
+     box-shadow: 0 2.25px 4.5px rgba(0,0,0,0.16), 0 2.25px 4.5px rgba(0,0,0,0.23);
+ }
 
 a
 {
-  color: #ff7209;
+  color: white;
 }
 
+// #fab329
+// #e19725
+// #3d3d47
+// #32333c
+// #d5c8c6
 
 .font-primary-title
 {
     font-family: 'Roboto Mono', monospace;
 }
-
 .color-primary
+
 {
-  color: #ff7209;
+  color: #fab329;
+}
+
+
+.color-yellow
+{
+  color: #fab329;
+}
+
+.color-alternate
+{
+  color: white;
+}
+
+.color-primary-heavy
+{
+  color: white;
+}
+
+.color-beigh
+{
+  color: #fab329;
+}
+
+
+
+.button-gradient
+{
+  color: #f7f1e1;
+
+   background: linear-gradient(#fab329, #e19725);
 }
 
 .button-primary
 {
   color: white;
+  background: #e19725;
+  border: 1px solid #e19725;
 
-   background: linear-gradient(#ff7209, #ff6206);
 }
 
-.button-secondary
-{
-  color: #ff7209;
 
-   background: linear-gradient(#fff, #eee);
+.button:hover {
+    border: 1px solid #e19725;
 }
 
 .button-bubble
 {
   padding:8px;
-  border: 1px solid black;
+  border: 1px solid #e19725;
   border-radius: 3px;
   display: inline-block;
+}
+
+.button-bubble-secondary
+{
+  padding:8px;
+  border: 1px solid white;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+
+.button-bubble:hover
+{
+  padding:9px;
+  border: 0px solid #e19725;
+  border-radius: 3px;
+  display: inline-block;
+  color: #ddd;
 }
 
 
@@ -66,7 +121,7 @@ a
 
 @media only screen and (max-width: 768px) {
 
-  .has-small-text-mobile
+  .has-small-text-mobileorange
   {
     font-size: 10px;
   }
@@ -83,13 +138,9 @@ a
     color: white;
   }
 
-  .button-primary
-  {
-    color: white;
 
-  }
 
-  .button-secondary
+  .button-secondary-bubble button-primary
   {
     color: black;
 
@@ -97,21 +148,25 @@ a
 }
 
 
+ 
+
+
+
 .transaction-list
 {
   .status-success
     {
-        border-left: 4px solid #6ab04c;
+        border-left: 4px solid #A3CB38;
 
         .tx-status-cell
         {
-          color: #6ab04c
+          color: #d5c8c6
         }
     }
 
   .status-mined
   {
-    border-left: 4px solid #30336b;
+    border-left: 4px solid #1289A7;
       .tx-status-cell
       {
         color: #30336b
@@ -147,25 +202,20 @@ a
 
 .title
 {
-  color: #6ab04c;
+  color: white;
 
 }
 .subtitle
 {
-    color: white;
+    color: #fab329;
 }
 
 
 .slate-theme-dark
 {
-    background-color: #282c34;
+    background-color: #3d3d47;
 
 
-}
-
-.color-orange
-{
-   color: #ff7209
 }
 
 .acts-as-link
@@ -175,9 +225,7 @@ a
 
 .slate-theme
 {
-    background-color: #21252b;
-
-
+    background-color: #32333c;
 
 
   .color-fun-primary
@@ -187,18 +235,23 @@ a
 
   .color-fun-secondary
   {
-      color: #73c990;
+      color: #d5c8c6;
   }
 
   .background-primary
   {
-    background-color: #21252b;
+    background-color: #32333c;
   }
   .background-secondary
   {
-    background-color: #282c34;
+    background-color: #3d3d47;
   }
 
+
+.card-background-secondary
+{
+  background-color: #3d3d47;
+}
 
 }
 
@@ -210,6 +263,45 @@ a
 
 }
 
+.account-search-container
+{
+  max-width: 400px;
+  margin:0 auto;
+
+  .input
+  {
+    background: rgba(0,0,0,0.2);
+    color:white;
+  }
+}
+
+.navbar-end
+{
+  .button
+  {
+    margin:5px;
+  }
+}
+
+.navbar-start
+{
+  .navbar-item
+  {
+    color:white;
+    font-size:1.2em;
+    padding:10px 35px;
+  }
+}
+
+.hover-line-blue:hover
+{
+  border-bottom: 2px solid #1289A7;
+}
+
+.hover-line-green:hover
+{
+  border-bottom: 2px solid #A3CB38;
+}
 
 .toggle-mining-instructions
 {
@@ -237,7 +329,7 @@ a
   thead
   {
     td {
-      color: #73c990;
+      color: #d5c8c6;
     }
   }
 
@@ -254,7 +346,7 @@ a
 
     margin: 0 auto;
     border: 11px solid #f3f3f3; /* Light grey */
-    border-top: 11px solid #6ab04c; /* Blue */
+    border-top: 11px solid #d5c8c6; /* Blue */
     border-radius: 50%;
     width: 80px;
     height: 80px;
