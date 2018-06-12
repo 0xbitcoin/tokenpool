@@ -20,9 +20,9 @@ var cluster = require('cluster')
 
 const poolConfig = require('./pool.config').config
 
-console.log(poolConfig)
+// console.log(poolConfig)
 
-console.log('init');
+// console.log('init');
 
 fs = require('fs');
 
@@ -68,7 +68,6 @@ if(pool_env == "test"){
    accountConfig = require('./account.config').accounts;
 }
 
-
 init(web3);
 
 
@@ -96,6 +95,7 @@ async function init(web3)
 
            await webServer.init(https_enabled,webInterface,peerInterface)
 
+           console.log("Web3 provider:", web3.currentProvider.host);
 
       // Code to run if we're in a worker process
       } else {
@@ -106,8 +106,6 @@ async function init(web3)
             {
                await redisInterface.init()
                await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,pool_env)
-
-
                await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,pool_env) //initJSONRPCServer();
                tokenInterface.update();
                peerInterface.update();
