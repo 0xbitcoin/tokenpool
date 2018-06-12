@@ -4,6 +4,7 @@ import Vue from 'vue';
 
 
 var io = require('socket.io-client');
+var web3utils = require('web3-utils')
 
 import HashGraph from './hash-graph'
 
@@ -16,6 +17,7 @@ var dashboardData;
 var solutiontxlist;
 var transfertxlist;
 var jumbotron;
+var wallets;
 
 export default class HomeRenderer {
 
@@ -105,7 +107,7 @@ export default class HomeRenderer {
         data.etherscanPaymentURL = "https://etherscan.io/address/"+data.paymentAddress.toString();
 
 
-          Vue.set(jumbotron.pool, 'poolData',  data )
+          Vue.set(wallets.pool, 'poolData',  data )
 
       //  Vue.set(jumbotron.pool, 'etherscanMintingURL',  etherscanMintingURL )
       //  Vue.set(jumbotron.pool, 'etherscanPaymentURL',  etherscanPaymentURL )
@@ -158,8 +160,8 @@ export default class HomeRenderer {
           })
 
 
-         jumbotron = new Vue({
-        el: '#jumbotron',
+      wallets = new Vue({
+        el: '#wallets',
         data:{
           pool:{
             poolData: { address:'' },
@@ -167,6 +169,14 @@ export default class HomeRenderer {
            }
          }
       });
+
+
+            jumbotron = new Vue({
+              el: '#jumbotron',
+              data:{
+
+               }
+            });
 
 
       var hashingDataSet= {
@@ -185,6 +195,29 @@ export default class HomeRenderer {
       $('.toggle-mining-instructions').on('click',function(){
           $('.mining-instructions-container').toggle();
       });
+
+      $('#mining-account-input').on('keypress', function (e) {
+         if(e.which === 13){
+
+
+            //Disable textbox to prevent multiple submit
+            $(this).attr("disabled", "disabled");
+
+            var address = $('#mining-account-input').val();
+
+             console.log('submit the thing ', address)
+
+             if( web3utils.isAddress(address) )
+             {
+               window.location.href = '/profile?address='+address;
+             }else{
+               console.error("Please provide a valid address")
+             }
+
+            //Enable the textbox again if needed.
+            $(this).removeAttr("disabled");
+         }
+   });
 
 
       this.show();

@@ -82,14 +82,6 @@
       </div>
 
 
-      <a v-cloak v-bind:href='pool.poolData.etherscanMintingURL' >
-        <p>Minting: {{pool.poolData.mintingAddress}}</p>
-      </a>
-
-      <a v-cloak v-bind:href='pool.poolData.etherscanPaymentURL' >
-        <p>Payments: {{pool.poolData.paymentAddress}}</p>
-      </a>
-
 
   <div class="container is-hidden" id="poolstats">
       <div class="columns" >
@@ -199,30 +191,18 @@
       </div>
     </div>
     <div class="column ">
-      <div class="card card-background-secondary" id="topPerformers">
-        <div class="card-content is-hidden">
-          <div class='subtitle has-text-centered'>Top Performers</div>
+      <div class="card card-background-secondary" id="wallets">
+        <div class="card-content  ">
 
 
+          <a v-cloak v-bind:href='pool.poolData.etherscanMintingURL' >
+            <p>Minting: {{pool.poolData.mintingAddress}}</p>
+          </a>
 
-                  <table class='table table-dark zeroauto' v-cloak>
+          <a v-cloak v-bind:href='pool.poolData.etherscanPaymentURL' >
+            <p>Payments: {{pool.poolData.paymentAddress}}</p>
+          </a>
 
-                    <thead>
-                      <tr >
-                        <td> Address </td>
-                        <td> Hashrate </td>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-
-                      <tr v-for="(item, index) in performers.list"  v-bind:class="item.htmlClass">
-                        <td>   </td>
-                        <td> </td>
-                       </tr>
-
-                    </tbody>
-                  </table>
 
 
         </div>
