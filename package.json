@@ -15,7 +15,8 @@
     "clean_redis": "node clean-redis.js",
     "payment_log": "node util/payment-log.js",
     "fix_balance_transfers": "node util/fix_balance_transfers.js",
-    "wipe_balance_payments": "node util/wipe_balance_payments.js"
+    "wipe_balance_payments": "node util/wipe_balance_payments.js",
+    "wipe_balance_payment_for_miner": "node util/wipe_balance_payment_for_miner.js"
   },
   "keywords": [
     "token",
