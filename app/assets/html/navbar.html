@@ -1,23 +1,59 @@
-<nav id="navbar" class="navbar slate-theme-dark" role="navigation" aria-label="main navigation">
-       <div class="navbar-brand" style="padding-left:10px;">
+
+<nav id="navbar" class="navbar slate-theme-dark has-shadow" role="navigation" aria-label="main navigation">
+       <div class="navbar-brand" style="padding-left:10px; padding-right:10px;">
          <a class="navbar-item" href="/">
-           <img :src="brandImageUrl" height="28" width="28" />
+           <img :src="brandImageUrl" style="border-radius:50%" height="28" width="28" />
          </a>
-
-
-
        </div>
 
-       <div class="navbar-menu">
-         <div class="navbar-end" style="padding:5px;">
-           <a href="https://github.com/0xbitcoin/tokenpool" target="_blank">
-             <img :src="githubLogo" height="28" width="28" target="_blank"/>
+
+
+  <div class="navbar-menu">
+    <div class="navbar-start">
+
+      <a href="/account" target="_blank" class="is-pulled-right" >
+        <div class='navbar-item hover-line-blue'>Account Shares</div>
+      </a>
+
+      <a href="/overview" target="_blank" class="is-pulled-right" style="margin-right: 10px;">
+        <div class='navbar-item hover-line-green'>Server Statistics</div>
+      </a>
+
+    </div>
+
+
+     <div class="navbar-end  " style="padding-right:10px;">
+
+
+             <div class="field is-grouped">
+               <div class="control">
+                <a class="button button-primary is-shadowless" target="_blank" href="https://github.com/0xbitcoin/tokenpool">
+                  <!--<span class="icon">
+                    <i class="material-icons"></i>
+                  </span> !-->
+                  <span>
+                    Github
+                  </span>
+            </a>
+          </div>
+
+
+        <div class="control">
+           <a class="button button-primary is-shadowless"  target="_blank" href="https://discord.gg/QtyRxzw">
+             <!--<span class="icon">
+               <i class="material-icons"></i>
+             </span> !-->
+             <span>
+               Discord
+             </span>
            </a>
-
-
-
-
-
          </div>
-       </div>
+
+        </div>
+
+    </div>
+
+    </div>
+
+   </div>
 </nav>
