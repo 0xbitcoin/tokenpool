@@ -37,7 +37,7 @@ async function init()
 
   // var balance_xfers = await redisInterface.deleteHashArrayInRedis('balance_payment')
 
-   console.log('saved new iner data:', minerAddress, minerData )
+   console.log('saved new miner data:', minerAddress, minerData )
    return;
 }
 
@@ -58,6 +58,6 @@ async function getMinerData(minerEthAddress)
 
 async function saveMinerDataToRedis(minerEthAddress, minerData)
 {
-  await this.redisInterface.storeRedisHashData("miner_data", minerEthAddress , JSON.stringify(minerData))
+  await  redisInterface.storeRedisHashData("miner_data", minerEthAddress , JSON.stringify(minerData))
 
 }
