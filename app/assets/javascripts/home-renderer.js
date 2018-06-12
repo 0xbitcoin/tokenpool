@@ -77,11 +77,17 @@ export default class HomeRenderer {
 
           if( data[i].txType=='solution'  )
           {
-            solution_list.push( data[i] )
+            if(data[i].receiptData.success || data[i].receiptData.mined)
+            {
+              solution_list.push( data[i] )
+            }
           }
           if( data[i].txType=='transfer'  )
           {
-            transfer_list.push( data[i] )
+            if(data[i].receiptData.success)
+            {
+              transfer_list.push( data[i] )
+            }
           }
 
         }
