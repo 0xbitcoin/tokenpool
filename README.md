@@ -68,12 +68,15 @@ var poolconfig = {
 
 
    https://stackoverflow.com/questions/19581059/misconf-redis-is-configured-to-save-rdb-snapshots?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-   
+
+
+ 
 
    redis-cli
    config set stop-writes-on-bgsave-error yes
 
    cron job to clean redis
+   30 6 1 * * /home/andy/.nvm/versions/node/v8.9.4/bin/node /home/andy/deploy/tokenpool/clean-redis.js
 
 
 ## Redis Commands
