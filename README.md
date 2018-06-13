@@ -60,6 +60,12 @@ var poolconfig = {
 2. View website interface at http://localhost:3000 (you can set up nginx to serve the static files in /public)
 
 
+
+## Installing MongoDB
+
+https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-16-04#step-3-%E2%80%94-adjusting-the-firewall-(optional)
+
+
 ## Installing Redis  
   1. sudo apt-get install redis
   2. sudo service redis-server start
@@ -70,7 +76,7 @@ var poolconfig = {
    https://stackoverflow.com/questions/19581059/misconf-redis-is-configured-to-save-rdb-snapshots?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 
 
- 
+
 
    redis-cli
    config set stop-writes-on-bgsave-error yes
