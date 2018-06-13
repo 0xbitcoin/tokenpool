@@ -27,6 +27,7 @@ console.log('init');
 fs = require('fs');
 
 var redisInterface = require('./lib/redis-interface')
+var mongoInterface = require('./lib/mongo-interface')
 var peerInterface = require('./lib/peer-interface')
 var tokenInterface = require('./lib/token-interface')
 var webInterface = require('./lib/web-interface')
@@ -89,6 +90,7 @@ async function init(web3)
 
 
            await redisInterface.init()
+           await mongoInterface.init()
            await webInterface.init(web3,accountConfig,poolConfig,redisInterface)
            await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,pool_env)
            await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,pool_env) //initJSONRPCServer();
@@ -105,6 +107,7 @@ async function init(web3)
             if(worker_id == 1)
             {
                await redisInterface.init()
+               await mongoInterface.init()
                await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,pool_env)
 
 
@@ -115,6 +118,7 @@ async function init(web3)
             if(worker_id == 2)
             {
               await redisInterface.init()
+              await mongoInterface.init()
               await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,pool_env)
               await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,pool_env) //initJSONRPCServer();
               //tokenInterface.update();
