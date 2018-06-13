@@ -67,6 +67,8 @@ var poolconfig = {
    - Redis will serve/connect at localhost:6379 by default - the pool will use this port
 
 
+   https://stackoverflow.com/questions/19581059/misconf-redis-is-configured-to-save-rdb-snapshots?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+   
 
    redis-cli
    config set stop-writes-on-bgsave-error yes
