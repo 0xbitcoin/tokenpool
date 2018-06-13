@@ -3,6 +3,8 @@
 
 var redisInterface = require('../lib/redis-interface')
 
+var mongoInterface = require('../lib/mongo-interface')
+
 
 init();
 
@@ -16,6 +18,7 @@ async function init()
    console.log('minerAddress',minerAddress)
 
    var redis = await redisInterface.init()
+   var mongo = await mongoInterface.init()
 
 
    //set miners pending balance to 0
@@ -58,6 +61,13 @@ async function getMinerData(minerEthAddress)
 
 async function saveMinerDataToRedis(minerEthAddress, minerData)
 {
-  await  redisInterface.storeRedisHashData("miner_data_downcase", minerEthAddress , JSON.stringify(minerData))
+
+  if(minerEthAddress == null) return;
+
+  minerEthAddress = minerEthAddress.toString().toLowerCase()
+
+  await redisInterface.storeRedisHashData("miner_data_downcase", minerEthAddress , JSON.stringify(minerData))
+
+  await mongoInterface.upsertOne("miner_data_downcase",{minerEthAddress: minerEthAddress},minerData)
 
 }
