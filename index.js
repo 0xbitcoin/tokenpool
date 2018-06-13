@@ -89,11 +89,13 @@ async function init(web3)
           }
 
 
+          //primary and webserver 
+
            await redisInterface.init()
            await mongoInterface.init()
            await webInterface.init(web3,accountConfig,poolConfig,redisInterface)
            await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,pool_env)
-           await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,pool_env) //initJSONRPCServer();
+           await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
            await diagnosticsManager.init(redisInterface,webInterface,peerInterface)
 
            await webServer.init(https_enabled,webInterface,peerInterface)
@@ -104,23 +106,23 @@ async function init(web3)
         var worker_id = cluster.worker.id
 
 
-            if(worker_id == 1)
+            if(worker_id == 1)  //updater
             {
                await redisInterface.init()
                await mongoInterface.init()
                await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,pool_env)
 
 
-               await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,pool_env) //initJSONRPCServer();
+               await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
                tokenInterface.update();
                peerInterface.update();
             }
-            if(worker_id == 2)
+            if(worker_id == 2)  //jsonlistener
             {
               await redisInterface.init()
               await mongoInterface.init()
               await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,pool_env)
-              await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,pool_env) //initJSONRPCServer();
+              await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
               //tokenInterface.update();
               peerInterface.listenForJSONRPC();
             }

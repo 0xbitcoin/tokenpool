@@ -45,7 +45,7 @@ async function init()
 async function getMinerData(minerEthAddress)
 {
 
-  var minerDataJSON = await  redisInterface.findHashInRedis("miner_data", minerEthAddress );
+  var minerDataJSON = await  redisInterface.findHashInRedis("miner_data_downcase", minerEthAddress );
 
   if(minerDataJSON==null)
   {
@@ -58,6 +58,6 @@ async function getMinerData(minerEthAddress)
 
 async function saveMinerDataToRedis(minerEthAddress, minerData)
 {
-  await  redisInterface.storeRedisHashData("miner_data", minerEthAddress , JSON.stringify(minerData))
+  await  redisInterface.storeRedisHashData("miner_data_downcase", minerEthAddress , JSON.stringify(minerData))
 
 }
