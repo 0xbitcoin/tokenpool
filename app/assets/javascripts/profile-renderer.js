@@ -69,7 +69,7 @@ export default class ProfileRenderer {
 
 
      data.address = minerAddress;
-     data.etherscanURL = ('https://etherscan.io/address/'+minerAddress.toString());
+     data.etherscanURL = ('https://etherscan.io/address/'+minerAddress.toString().toLowerCase());
 
      data.tokenBalanceFormatted = self.formatTokenQuantity( data.tokenBalance );
      data.tokenRewardsFormatted = self.formatTokenQuantity( data.tokensAwarded );
@@ -173,7 +173,7 @@ export default class ProfileRenderer {
          el: '#jumbotron',
          data:{
            miner:{
-             minerData: { address: minerAddress , etherscanURL: ('https://etherscan.io/address/'+minerAddress.toString())},
+             minerData: { address: minerAddress , etherscanURL: ('https://etherscan.io/address/'+minerAddress.toString().toLowerCase())},
             }
           }
        });

@@ -55,7 +55,7 @@ export default class AccountRenderer {
           data.map(item =>  (totalShares =  (totalShares + item.minerData.shareCredits) ) )
 
           data.map(item => item.minerData.sharesPercent = (  ((item.minerData.shareCredits / parseFloat(totalShares)) * 100  ).toFixed(2).toString() + '%')   )
-         data.map(item => item.profileURL = ('/profile/?address=' + item.minerAddress.toString())  )
+         data.map(item => item.profileURL = ('/profile/?address=' + item.minerAddress.toString().toLowerCase())  )
 
 
 
