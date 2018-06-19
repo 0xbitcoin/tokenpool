@@ -1,5 +1,6 @@
 
 var INFURA_ROPSTEN_URL = 'https://ropsten.infura.io/gmXEVo5luMPUGPqg6mhy';
+var INFURA_MAINNET_URL = 'https://mainnet.infura.io/gmXEVo5luMPUGPqg6mhy';
 
 const poolConfig = require('../pool.config').config;
 var accountConfig = require('../test.account.config').account;
@@ -17,6 +18,23 @@ var web3 = new Web3()
 
 var assert = require('assert');
 describe('Peer Interface', function() {
+
+
+  describe('Transaction Receipt', function() {
+    it('should return a good receipt', async function() {
+
+       web3.setProvider(INFURA_MAINNET_URL);
+
+      var tx_hash = '0x95d5cb7f76e20af273ea31ad472b671974c404ddb1286ef330b5ae8a7a97361f';
+ 
+      var receipt = await web3.eth.getTransactionReceipt(tx_hash);
+      console.log(receipt)
+      assert.ok(receipt) ;
+
+
+
+    });
+  });
 
 
   describe('Estimate Share Hashrate', function() {
