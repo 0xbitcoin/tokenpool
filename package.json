@@ -7,7 +7,7 @@
   "description": "A token pool coordinator which poolmines energy tokens such as 0xBitcoin",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --timeout 15000",
     "webpack": "webpack",
     "dev": "webpack-dev-server --port 3030 ",
     "server": "node index.js",

@@ -26,7 +26,7 @@ describe('Peer Interface', function() {
        web3.setProvider(INFURA_MAINNET_URL);
 
       var tx_hash = '0x95d5cb7f76e20af273ea31ad472b671974c404ddb1286ef330b5ae8a7a97361f';
- 
+
       var receipt = await web3.eth.getTransactionReceipt(tx_hash);
       console.log(receipt)
       assert.ok(receipt) ;
@@ -55,7 +55,7 @@ describe('Peer Interface', function() {
      web3.setProvider(INFURA_ROPSTEN_URL);
 
 
-     redisInterface.init(  accountConfig, poolConfig , tokenInterface ,test_mode)
+     redisInterface.init(  )
 
      peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode)
 
