@@ -48,6 +48,6 @@ async function init()
 
   // var balance_xfers = await redisInterface.deleteHashArrayInRedis('balance_payment')
 
-   console.log('saved new miner data:', minerAddress, minerData )
+   console.log('saved new balance_transfer:', transferData  )
    return;
 }
