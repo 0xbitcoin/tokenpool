@@ -16,7 +16,8 @@
     "payment_log": "node util/payment-log.js",
     "fix_balance_transfers": "node util/fix_balance_transfers.js",
     "wipe_balance_payments": "node util/wipe_balance_payments.js",
-    "wipe_balance_payment_for_miner": "node util/wipe_balance_payment_for_miner.js"
+    "wipe_balance_payment_for_miner": "node util/wipe_balance_payment_for_miner.js",
+    "confirm_balance_transfer": "node util/confirm_balance_transfer.js"
   },
   "keywords": [
     "token",
