@@ -11,13 +11,13 @@
       "staging": {
               "contracts": {
                 "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x176762d66f15ccdd0d3a1dc13040d794c9c93776"},
-                "batchedpayments": {"name":"BatchedPayments", "blockchain_address":""} 
+                "batchedpayments": {"name":"BatchedPayments", "blockchain_address":""}
               }
             },
       "testnet": {
               "contracts": {
                 "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x9d2cc383e677292ed87f63586086cff62a009010"},
-                "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0x96c1d3a9558d04ed603b95530222cc00067c7bc4"}
+                "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0xe9615472f074a2b38a23fc5603fed79b623d780a"}
 
               }
             }

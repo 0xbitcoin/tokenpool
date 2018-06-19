@@ -18,12 +18,16 @@ var Web3 = require('web3')
 var web3 = new Web3()
  var pool_env = 'test'
 
+
+var transactionCoordinator;
+
+
 var assert = require('assert');
 describe('Peer Interface', function() {
 
 
   describe('Balance Payments', function() {
-    it('should  ', async function() {
+    it('can batch payments  ', async function() {
 
 
        web3.setProvider(INFURA_ROPSTEN_URL);
@@ -61,8 +65,8 @@ describe('Peer Interface', function() {
 
 
       await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,poolConfig,pool_env)
-      var transactionCoordinator = tokenInterface.getTransactionCoordinator();
-      transactionCoordinator.init(web3,null,poolConfig,accountConfig,redisInterface,mongoInterface,tokenInterface)
+        transactionCoordinator = tokenInterface.getTransactionCoordinator();
+      transactionCoordinator.init(web3,null,poolConfig,accountConfig,redisInterface,mongoInterface,tokenInterface,pool_env)
 
       //Make sure the 5 tx batch
       var unbatched_pmnts = await mongoInterface.findAll('balance_payment',{batchId: undefined})
@@ -75,7 +79,7 @@ describe('Peer Interface', function() {
      assert.equal(result.batchedPayments,5);
 
 
-       //Make sure batching again does nothing 
+       //Make sure batching again does nothing
      var unbatched_pmnts = await mongoInterface.findAll('balance_payment',{batchId: undefined})
 
      var result = await transactionCoordinator.batchMinedPayments(unbatched_pmnts)
@@ -97,6 +101,15 @@ describe('Peer Interface', function() {
 
 
     });
+
+
+      it('can monitor batch payments  ', async function() {
+          var result = await transactionCoordinator.checkBatchPaymentsStatus( )
+
+
+          assert.ok(result);
+
+     });
   });
 
 
