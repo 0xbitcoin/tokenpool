@@ -42,28 +42,46 @@ describe('Peer Interface', function() {
 
       var minerEthAddress = '0xB11ca87E32075817C82Cc471994943a4290f4a14'
 
-      var balancePaymentData = {
-        id: web3utils.randomHex(32),
-        minerAddress: minerEthAddress.toLowerCase(),
-        previousTokenBalance: 1,
-        newTokenBalance: 0,
-        block: 1000
+      for(var i=0;i<5;i++)
+      {
+
+        var balancePaymentData = {
+          id: web3utils.randomHex(32),
+          minerAddress: minerEthAddress.toLowerCase(),
+          previousTokenBalance: 1,
+          newTokenBalance: 0,
+          block: 1000
+        }
+        console.log( balancePaymentData )
+
+        var upsert = await mongoInterface.upsertOne('balance_payment',{id: balancePaymentData.id},  balancePaymentData  )
+        assert.ok(upsert) ;
+
       }
 
-      var upsert = await mongoInterface.upsertOne('balance_payment',{id: balancePaymentData.id},  balancePaymentData  )
-      assert.ok(upsert) ;
 
-
-      await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,pool_env)
+      await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,poolConfig,pool_env)
       var transactionCoordinator = tokenInterface.getTransactionCoordinator();
+      transactionCoordinator.init(web3,null,poolConfig,accountConfig,redisInterface,mongoInterface,tokenInterface)
+
+      //Make sure the 5 tx batch
+      var unbatched_pmnts = await mongoInterface.findAll('balance_payment',{batchId: undefined})
+
+        assert.equal(unbatched_pmnts.length,5);
+
+      var result = await transactionCoordinator.batchMinedPayments(unbatched_pmnts)
+
+      assert.equal(result.success,true);
+     assert.equal(result.batchedPayments,5);
 
 
-      var balance_pmnts = await mongoInterface.findAll('balance_payment')
+       //Make sure batching again does nothing 
+     var unbatched_pmnts = await mongoInterface.findAll('balance_payment',{batchId: undefined})
 
-      var result = await transactionCoordinator.batchMinedPayments(balance_pmnts)
+     var result = await transactionCoordinator.batchMinedPayments(unbatched_pmnts)
 
-
-      assert.equal(result.success,true) ;
+     assert.equal(result.success,true);
+     assert.equal(result.batchedPayments,0);
 
        //add some fake balance payments
 

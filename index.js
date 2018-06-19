@@ -89,12 +89,12 @@ async function init(web3)
           }
 
 
-          //primary and webserver 
+          //primary and webserver
 
            await redisInterface.init()
            await mongoInterface.init()
            await webInterface.init(web3,accountConfig,poolConfig,redisInterface)
-           await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,pool_env)
+           await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,poolConfig,pool_env)
            await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
            await diagnosticsManager.init(redisInterface,webInterface,peerInterface)
 
@@ -110,7 +110,7 @@ async function init(web3)
             {
                await redisInterface.init()
                await mongoInterface.init()
-               await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,pool_env)
+               await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,poolConfig,pool_env)
 
 
                await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
@@ -121,7 +121,7 @@ async function init(web3)
             {
               await redisInterface.init()
               await mongoInterface.init()
-              await tokenInterface.init(redisInterface,web3,accountConfig,poolConfig,pool_env)
+              await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,poolConfig,pool_env)
               await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
               //tokenInterface.update();
               peerInterface.listenForJSONRPC();
