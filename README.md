@@ -96,4 +96,10 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
 - Make sure good solns ARE BEING TRANFERRED
 
 
--If there is a queued TX and it has a paymentID and that has already been fulfilled w a transfer, dont transfer again 
+-If there is a queued TX and it has a paymentID and that has already been fulfilled w a transfer, dont transfer again
+
+
+**there are tons of active transaction payouts with the same ethblock !!?
+
+
+*** The balance_transfers can get the wrong TXID in them!! need to store a record for EACH one or wait longer or implement mikers batching
