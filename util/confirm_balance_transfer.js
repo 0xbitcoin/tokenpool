@@ -42,7 +42,7 @@ async function init()
 
    await redisInterface.storeRedisHashData('balance_transfer' ,paymentId,JSON.stringify(transferData) )
 
-   await redisInterface.storeRedisHashData('balance_transfer:'+transferData.minerAddress.toString().toLowerCase() ,paymentId,JSON.stringify(transferData) )
+   await redisInterface.storeRedisHashData('balance_transfer:'+transferData.addressTo.toString().toLowerCase() ,paymentId,JSON.stringify(transferData) )
 
 
 
