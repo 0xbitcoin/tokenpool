@@ -100,7 +100,11 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
 
 
 **there are tons of active transaction payouts with the same ethblock !!?
-*** many of them dont have a txhash but the payment did succeed !!  without a txhash it will never be found to be mined 
+*** many of them dont have a txhash but the payment did succeed !!  without a txhash it will never be found to be mined
 
 
 *** The balance_transfers can get the wrong TXID in them!! need to store a record for EACH one or wait longer or implement mikers batching
+
+
+
+** wipe out total_pool_hashrate with script (redis) 
