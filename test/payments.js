@@ -104,8 +104,7 @@ describe('Peer Interface', function() {
 
 
       it('can monitor batch payments  ', async function() {
-          var result = await transactionCoordinator.checkBatchPaymentsStatus( )
-
+          var result = await transactionCoordinator.checkBatchPaymentsStatus( ) 
 
           assert.ok(result);
 

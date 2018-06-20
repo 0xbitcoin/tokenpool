@@ -128,9 +128,14 @@ export default class HomeRenderer {
         var hashRates = [];
 
         data.reverse().slice(0,100).map(function(item){
-          labels.push('Block '+ item.block.toString()),
-          blocks.push(item.block),
-          hashRates.push(item.hashrate)
+
+          if( item.hashrate!=null && item.block != null )
+          {
+            labels.push('Block '+ item.block.toString())
+            blocks.push(item.block)
+            hashRates.push(item.hashrate)
+           }
+
         })
 
         var hashingDataSet = {blocks: blocks, points: hashRates, labels:labels};
