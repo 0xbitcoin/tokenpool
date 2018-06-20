@@ -21,7 +21,7 @@ var web3 = new Web3()
 
 var transactionCoordinator;
 
-var NUM_PAYMENTS = 1;
+var NUM_PAYMENTS = 5;
 
 var assert = require('assert');
 describe('Peer Interface', function() {
@@ -129,9 +129,10 @@ describe('Peer Interface', function() {
          var result = await transactionCoordinator.broadcastPaymentBatches( )
 
          assert.ok(result.success);
-         assert.equal(result.paymentsInBatch,NUM_PAYMENTS);
+ 
+         assert.equal(result.paymentsInBatch.length,NUM_PAYMENTS);
 
-
+         assert.ok(result.txHash);
     });
 
 
