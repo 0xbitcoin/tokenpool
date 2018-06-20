@@ -17,7 +17,7 @@
       "testnet": {
               "contracts": {
                 "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x9d2cc383e677292ed87f63586086cff62a009010"},
-                "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0x56c2d85cd0e9abdaa2ae2fe8bf4518b3f6c01a5d"}
+                "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0x4d222439c623b10a0ad8f8eba3ebd8a48d3526f5"}
 
               }
             }
