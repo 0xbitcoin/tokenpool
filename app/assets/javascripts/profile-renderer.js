@@ -91,10 +91,10 @@ export default class ProfileRenderer {
 
       data.map( function(item){
 
-           if(item.transferData)
+           if(item.txHash)
            {
-             item.transferTxHash = item.transferData.txHash;
-             item.etherscanTxURL = ('https://etherscan.io/tx/' + item.transferData.txHash.toString())
+             item.transferTxHash = item.txHash;
+             item.etherscanTxURL = ('https://etherscan.io/tx/' + item.txHash.toString())
            }
 
           return item;
