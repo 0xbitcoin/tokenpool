@@ -93,18 +93,17 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
 
 ## TODO / BUGS
 - Add more clustering/workers and more JSONRPC/socket ports to handle heavy loads
-- Make sure good solns ARE BEING TRANFERRED
+
+#### MINT HELPER
+- Tell miner to mine using ethaddress of the mint helper
+- Submit mints to the minthelper instead of the actual token smart contract 
 
 
--If there is a queued TX and it has a paymentID and that has already been fulfilled w a transfer, dont transfer again
 
-
-**there are tons of active transaction payouts with the same ethblock !!?
-*** many of them dont have a txhash but the payment did succeed !!  without a txhash it will never be found to be mined
 
 
 *** The balance_transfers can get the wrong TXID in them!! need to store a record for EACH one or wait longer or implement mikers batching
 
 
 
-** wipe out total_pool_hashrate with script (redis) 
+** wipe out total_pool_hashrate with script (redis)
