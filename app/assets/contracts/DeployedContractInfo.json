@@ -6,7 +6,7 @@
                 "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31"},
                 "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0xebf6245689194a6e43096551567827c6726ede0b"},
                 "mintforwarder":{"name":"MintHelper", "blockchain_address":"0xf118fde3f634e5c47638030ab0514debf39465d1"},
-                "kingForwarder":{"name":"MiningKing", "blockchain_address":"0xd1356a1560949050f37c3945a40d001afa1253c0"}
+                "miningking":{"name":"MiningKing", "blockchain_address":"0xd1356a1560949050f37c3945a40d001afa1253c0"}
 
               }
             },
@@ -15,7 +15,7 @@
                 "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x176762d66f15ccdd0d3a1dc13040d794c9c93776"},
                 "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0xebf6245689194a6e43096551567827c6726ede0b"},
                 "mintforwarder":{"name":"MintHelper", "blockchain_address":"0xf118fde3f634e5c47638030ab0514debf39465d1"},
-                "kingForwarder":{"name":"MiningKing", "blockchain_address":"0xd1356a1560949050f37c3945a40d001afa1253c0"}
+                "miningking":{"name":"MiningKing", "blockchain_address":"0xd1356a1560949050f37c3945a40d001afa1253c0"}
               }
             },
       "testnet": {
@@ -23,7 +23,7 @@
                 "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x9d2cc383e677292ed87f63586086cff62a009010"},
                 "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0x4d222439c623b10a0ad8f8eba3ebd8a48d3526f5"},
                 "mintforwarder":{"name":"MintHelper", "blockchain_address":"0xba657623001bc6f99eea165145cfeb18d4ac6539"},
-                "kingForwarder":{"name":"MiningKing", "blockchain_address":"0x1cb92224d4af2f9342d2164f37d060dd5021aac8"}
+                "miningking":{"name":"MiningKing", "blockchain_address":"0x1cb92224d4af2f9342d2164f37d060dd5021aac8"}
               }
             }
     }
