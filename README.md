@@ -7,13 +7,6 @@ Developed by the 0xBitcoin Community
 A pool for mining RC20 Tokens
 
 
-CSS Colors: https://flatuicolors.com/palette/au
-
-1) improve colors
-2) more workers  (jsonrpc listeners?)
-3) two eth accounts .. xfers and mints
-4) separate geth
-5) why does it say 'Reply:OK' ??
 
 ### BASIC SETUP  (needs Node8)
 1. npm install -g node-gyp
@@ -46,13 +39,16 @@ var poolconfig = {
   communityTokenFee: 2,   //percent of tokens the pool pledges to donate
   minBalanceForTransfer: 1500000000,   
   payoutWalletMinimum: 100000000000,
-  allowCustomVardiff: true,
-  populationLimit: 100,    //not implemented yet...
+  allowCustomVardiff: true, 
   web3provider: "http://127.0.0.1:8545"   //point at Geth or remove to use Infura
 }
 
 
+###### deployedContractInfo.json    found in app/assets/contracts
+EDIT THIS FILE!!!
 
+Replace 'mintforwarder' with your own deployed version of the contract !!!
+Replace 'batch payments' contract as well !!!
 
 
 ### HOW TO USE
@@ -96,7 +92,7 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
 
 #### MINT HELPER
 - Tell miner to mine using ethaddress of the mint helper
-- Submit mints to the minthelper instead of the actual token smart contract 
+- Submit mints to the minthelper instead of the actual token smart contract
 
 
 
