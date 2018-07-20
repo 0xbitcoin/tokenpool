@@ -22,7 +22,7 @@
               "contracts": {
                 "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x9d2cc383e677292ed87f63586086cff62a009010"},
                 "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0x4d222439c623b10a0ad8f8eba3ebd8a48d3526f5"},
-                "mintforwarder":{"name":"MintHelper", "blockchain_address":"0xba657623001bc6f99eea165145cfeb18d4ac6539"},
+                "mintforwarder":{"name":"MintHelper", "blockchain_address":"0x6ffcad89b80bfa3064437c3fbaefef31b1e90f85"},
                 "miningking":{"name":"MiningKing", "blockchain_address":"0x2a20403757ffa6b4e5c613026b7a7308f8722db7"}
               }
             }
