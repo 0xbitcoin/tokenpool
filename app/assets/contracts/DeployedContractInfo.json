@@ -6,7 +6,7 @@
                 "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31"},
                 "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0xebf6245689194a6e43096551567827c6726ede0b"},
                 "mintforwarder":{"name":"MintHelper", "blockchain_address":"0xf118fde3f634e5c47638030ab0514debf39465d1"},
-                "miningking":{"name":"MiningKing", "blockchain_address":""}
+                "miningking":{"name":"MiningKing", "blockchain_address":"0x0b98f937f6edd6f66b0f0a210d3dcd8ec1063cb6"}
 
               }
             },
@@ -15,7 +15,7 @@
                 "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x176762d66f15ccdd0d3a1dc13040d794c9c93776"},
                 "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0xebf6245689194a6e43096551567827c6726ede0b"},
                 "mintforwarder":{"name":"MintHelper", "blockchain_address":"0xf118fde3f634e5c47638030ab0514debf39465d1"},
-                "miningking":{"name":"MiningKing", "blockchain_address":""}
+                "miningking":{"name":"MiningKing", "blockchain_address":"0x0b98f937f6edd6f66b0f0a210d3dcd8ec1063cb6"}
               }
             },
       "testnet": {
