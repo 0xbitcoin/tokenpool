@@ -8,6 +8,10 @@ A pool for mining RC20 Tokens
 
 
 
+// TODO
+make sure submitted_solutions_list renders 
+
+
 ### BASIC SETUP  (needs Node8)
 1. npm install -g node-gyp
 1.1. sudo apt-get install build-essential
@@ -39,7 +43,7 @@ var poolconfig = {
   communityTokenFee: 2,   //percent of tokens the pool pledges to donate
   minBalanceForTransfer: 1500000000,   
   payoutWalletMinimum: 100000000000,
-  allowCustomVardiff: true, 
+  allowCustomVardiff: true,
   web3provider: "http://127.0.0.1:8545"   //point at Geth or remove to use Infura
 }
 

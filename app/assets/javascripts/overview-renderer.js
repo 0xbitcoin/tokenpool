@@ -129,7 +129,7 @@ export default class OverviewRenderer {
         });
 
 
-//working ?
+
         this.socket.on('submittedSolutions', function (data) {
 
           console.log('got submittedSolutions ',  data );
@@ -239,6 +239,8 @@ export default class OverviewRenderer {
        this.socket.emit('getUnconfirmedBroadcastedPaymentData')
        this.socket.emit('getSubmittedShares')
 
+       this.socket.emit('getSubmittedSolutions')
+
     }
 
 
@@ -262,6 +264,8 @@ export default class OverviewRenderer {
       this.socket.emit('getQueuedReplacementPaymentData')
       this.socket.emit('getUnconfirmedBroadcastedPaymentData')
       this.socket.emit('getSubmittedShares')
+
+      this.socket.emit('getSubmittedSolutions')
 
         this.show();
     }
