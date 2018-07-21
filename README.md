@@ -9,7 +9,7 @@ A pool for mining RC20 Tokens
 
 
 // TODO
-make sure submitted_solutions_list renders 
+make sure submitted_solutions_list renders
 
 
 ### BASIC SETUP  (needs Node8)
@@ -52,7 +52,10 @@ var poolconfig = {
 EDIT THIS FILE!!!
 
 Replace 'mintforwarder' with your own deployed version of the contract !!!
-Replace 'batch payments' contract as well !!!
+Replace 'batch payments' contract as well !!! your own deployed contract !!
+replace 'DoubleKingsReward' with your own deployed contract !
+
+YOU DO NOT have to replace/redeploy the MiningKing contract as this is 'global' and for everyone 
 
 
 ### HOW TO USE
