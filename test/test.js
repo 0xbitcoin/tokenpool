@@ -6,6 +6,8 @@ const poolConfig = require('../pool.config').config;
 var accountConfig = require('../test.account.config').account;
 
 
+   var peerUtils = require('../lib/peer-utils')
+
 
 var renderUtils = require('../app/assets/javascripts/render-utils')
 
@@ -38,13 +40,54 @@ describe('Peer Interface', function() {
 
 
   describe('Estimate Share Hashrate', function() {
-    it('should return a good hashrate', function() {
+    it('should return a good hashrate', async function() {
 
       var diff = web3utils.toBN(30000);
-      
+
       assert.equal(peerInterface.getEstimatedShareHashrate(diff,50 ), 2516582400) ;
 
+      var test_mode = true;
+      web3.setProvider(INFURA_ROPSTEN_URL);
 
+
+      redisInterface.init(null,null,null,'test') //specify env and care?
+      peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode)
+
+
+      var testMinerAddress = "0x00000000000000000000000000000000";
+      var shareData=  {
+        block: 1000,
+        nonce: 1,
+        miner: testMinerAddress,
+        difficulty: 50000,
+        isSolution: false,
+        hashRateEstimate: 2516582400,
+        time: peerUtils.getUnixTimeNow()-4000,
+        timeToFind: 400  //helps estimate hashrate- look at recent shares
+      };
+
+      var shareData2=  {
+        block: 1000,
+        nonce: 1,
+        miner: testMinerAddress,
+        difficulty: 50000,
+        isSolution: false,
+        hashRateEstimate: 2516582400,
+        time: peerUtils.getUnixTimeNow()-3000,
+        timeToFind: 4000  //helps estimate hashrate- look at recent shares
+      };
+
+      //fake data
+
+      await redisInterface.dropList("miner_submitted_share:"+testMinerAddress.toString().toLowerCase())
+
+      await redisInterface.pushToRedisList("miner_submitted_share:"+testMinerAddress.toString().toLowerCase(),  JSON.stringify(shareData))
+
+      await redisInterface.pushToRedisList("miner_submitted_share:"+testMinerAddress.toString().toLowerCase(),  JSON.stringify(shareData2))
+
+
+      var est = await peerInterface.estimateMinerHashrate(testMinerAddress);
+      assert.equal(est, '419430400') ;
 
     });
   });
@@ -52,13 +95,10 @@ describe('Peer Interface', function() {
   describe('Estimate Miner Vardiff', function() {
    it('should return a good vardiff', async function() {
 
-     var test_mode = true;
-     web3.setProvider(INFURA_ROPSTEN_URL);
 
 
-     redisInterface.init(  )
 
-     peerInterface.init(web3,accountConfig,poolConfig,redisInterface,tokenInterface,test_mode)
+
 
      var testMinerAddress = "0x00000000000000000000000000000000";
      var testMinerData = {varDiff:205 };
