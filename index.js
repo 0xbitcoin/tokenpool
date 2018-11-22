@@ -100,15 +100,17 @@ async function init(web3)
            await mongoInterface.init()
            await webInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface)
            await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,pool_env)
-           await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
-           await diagnosticsManager.init(redisInterface,webInterface,peerInterface)
+              await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
+     await diagnosticsManager.init(redisInterface,webInterface,peerInterface)
 
+
+        //unexpect token o 
            await webServer.init(https_enabled,webInterface,peerInterface)
 
 
       // Code to run if we're in a worker process
       } else {
-        var worker_id = cluster.worker.id
+    /*    var worker_id = cluster.worker.id
 
 
             if(worker_id == 1)  //updater
@@ -136,7 +138,7 @@ async function init(web3)
             }
 
 
-
+*/
 
       }
 
