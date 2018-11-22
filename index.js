@@ -104,13 +104,13 @@ async function init(web3)
      await diagnosticsManager.init(redisInterface,webInterface,peerInterface)
 
 
-        //unexpect token o 
+        //unexpect token o
            await webServer.init(https_enabled,webInterface,peerInterface)
 
 
       // Code to run if we're in a worker process
       } else {
-    /*    var worker_id = cluster.worker.id
+    var worker_id = cluster.worker.id
 
 
             if(worker_id == 1)  //updater
@@ -138,7 +138,7 @@ async function init(web3)
             }
 
 
-*/
+ 
 
       }
 
