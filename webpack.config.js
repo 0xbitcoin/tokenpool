@@ -5,27 +5,45 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
 
+
+var CleanWebpackPlugin = require('clean-webpack-plugin')
+
+
+var CopyWebpackPlugin = require('copy-webpack-plugin');
+
+
+
+
 var environment = process.env.NODE_ENV || 'development';
 
-/*
-var htmlPlugin = new HtmlWebpackPlugin({
-      title: '0xBitcoin',
-     filename: 'index.html',
-      template: 'app/index.html',
-});
-*/
+
+
+let pathsToClean = [
+  'public'
+]
+let cleanOptions = {
+  verbose:  true,
+  dry:      false
+}
+
+
+
 var extractPlugin = new ExtractTextPlugin({
    filename: 'app/assets/main.css'
 });
 
 
 var webpackPlugins = [
+    new CleanWebpackPlugin(pathsToClean, cleanOptions),
     extractPlugin,
     new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: '"production"'
         }
-      })
+      }),
+      new CopyWebpackPlugin([
+            {from:'app/assets/images',to:'app/assets/images'  }
+        ])
 ]
 
 

@@ -26,6 +26,11 @@ console.log('init');
 
 fs = require('fs');
 
+
+
+var tokenScout = require('./lib/token-scout')
+
+
 var redisInterface = require('./lib/redis-interface')
 var mongoInterface = require('./lib/mongo-interface')
 var peerInterface = require('./lib/peer-interface')
@@ -116,6 +121,8 @@ async function init(web3)
                await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
                tokenInterface.update();
                peerInterface.update();
+
+               await tokenScout.init();
             }
             if(worker_id == 2)  //jsonlistener
             {
@@ -127,6 +134,10 @@ async function init(web3)
               //tokenInterface.update();
               peerInterface.listenForJSONRPC();
             }
+
+
+
+
       }
 
 
