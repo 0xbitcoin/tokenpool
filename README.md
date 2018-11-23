@@ -4,12 +4,20 @@ Developed by the 0xBitcoin Community
 
 (GNU PUBLIC LICENSE)
 
-A pool for mining RC20 Tokens
+A pool for mining ERC20/EIP918 Tokens
 
 
+Windows GPU Miner 1
+https://bitbucket.org/LieutenantTofu/cosmic-v3/downloads/COSMiC-v4.1.1-MultiGPU-TMP.zip
 
-// TODO
-make sure submitted_solutions_list renders
+Windows GPU Miner 2
+ https://github.com/mining-visualizer/MVis-tokenminer/releases
+
+ Windows GPU Miner 3
+ https://github.com/lwYeo/SoliditySHA3MinerUI/releases/tag/1.0.2
+
+ Linux GPU Miner
+ https://github.com/lwYeo/SoliditySHA3Miner/releases
 
 
 ### BASIC SETUP  (needs Node8)
@@ -55,7 +63,7 @@ Replace 'mintforwarder' with your own deployed version of the contract !!!
 Replace 'batch payments' contract as well !!! your own deployed contract !!
 replace 'DoubleKingsReward' with your own deployed contract !
 
-YOU DO NOT have to replace/redeploy the MiningKing contract as this is 'global' and for everyone 
+YOU DO NOT have to replace/redeploy the MiningKing contract as this is 'global' and for everyone
 
 
 ### HOW TO USE
