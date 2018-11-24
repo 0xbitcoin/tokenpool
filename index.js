@@ -124,7 +124,7 @@ async function init(web3)
                tokenInterface.update();
                peerInterface.update();
 
-               await tokenScout.init();
+               await tokenScout.init(redisInterface);
             }
             if(worker_id == 2)  //jsonlistener
             {
@@ -138,7 +138,7 @@ async function init(web3)
             }
 
 
- 
+
 
       }
 
