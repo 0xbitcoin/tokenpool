@@ -51,7 +51,7 @@
           <thead>
             <tr >
               <td> Miner # </td>
-
+                <td>  <!-- icon -->  </td>
               <td> Eth Address </td>
               <td> Hash Rate </td>
               <td> Share % </td>
@@ -65,6 +65,7 @@
             <tr v-for="(item, index) in accounts.account_list">
               <td> Miner {{ index }} </td>
 
+              <td> <img v-if='item.tokenData.punkImageURL' v-bind:src='item.tokenData.punkImageURL' class="punk-icon" /> </td>
 
                 <td>
                       <a v-bind:href='item.profileURL' >

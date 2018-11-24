@@ -26,6 +26,11 @@ console.log('init');
 
 fs = require('fs');
 
+
+
+var tokenScout = require('./lib/token-scout')
+
+
 var redisInterface = require('./lib/redis-interface')
 var mongoInterface = require('./lib/mongo-interface')
 var peerInterface = require('./lib/peer-interface')
@@ -95,15 +100,17 @@ async function init(web3)
            await mongoInterface.init()
            await webInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface)
            await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,pool_env)
-           await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
-           await diagnosticsManager.init(redisInterface,webInterface,peerInterface)
+              await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
+     await diagnosticsManager.init(redisInterface,webInterface,peerInterface)
 
+
+        //unexpect token o
            await webServer.init(https_enabled,webInterface,peerInterface)
 
 
       // Code to run if we're in a worker process
       } else {
-        var worker_id = cluster.worker.id
+    var worker_id = cluster.worker.id
 
 
             if(worker_id == 1)  //updater
@@ -116,6 +123,8 @@ async function init(web3)
                await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
                tokenInterface.update();
                peerInterface.update();
+
+               await tokenScout.init(redisInterface);
             }
             if(worker_id == 2)  //jsonlistener
             {
@@ -127,6 +136,10 @@ async function init(web3)
               //tokenInterface.update();
               peerInterface.listenForJSONRPC();
             }
+
+
+
+
       }
 
 
