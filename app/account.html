@@ -65,7 +65,7 @@
             <tr v-for="(item, index) in accounts.account_list">
               <td> Miner {{ index }} </td>
 
-              <td> {{  item.tokenData.punkId    }} </td>
+              <td> <img v-if='item.tokenData.punkImageURL' v-bind:src='item.tokenData.punkImageURL' class="punk-icon" /> </td>
 
                 <td>
                       <a v-bind:href='item.profileURL' >
