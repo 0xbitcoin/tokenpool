@@ -2,7 +2,7 @@
 const $ = require('jquery');
 import Vue from 'vue';
 
-var blockies = require('ethereum-blockies')
+//var blockies = require('ethereum-blockies')
 var io = require('socket.io-client');
 var renderUtils = require('./render-utils')
 
@@ -115,7 +115,7 @@ export default class AccountRenderer {
 
     }
 
-    getIdenticon(hash)
+  /*  getIdenticon(hash)
     {
 
       var icon = blockies.create({ // All options are optional
@@ -132,7 +132,7 @@ export default class AccountRenderer {
 
       return this.htmlEntities( icon.toString() );
 
-    }
+    }*/
 
      htmlEntities(str) {
         return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
