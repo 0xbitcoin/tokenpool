@@ -1,4 +1,4 @@
-var INFURA_MAINNET_URL = 'https://mainnet.infura.io/gmXEVo5luMPUGPqg6mhy';
+var INFURA_MAINNET_URL = 'https://mainnet.infura.io/v3/244edbea5c684f28abebcff483b9a8b9';
 
 
 var redisInterface = require('./lib/redis-interface')
