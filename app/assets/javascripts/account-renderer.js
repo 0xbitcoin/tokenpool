@@ -59,7 +59,7 @@ export default class AccountRenderer {
 
 
 
-         data.sort(function(a, b){return b.minerData.shareCredits - a.minerData.shareCredits});
+         data.sort(function(a, b){return b.sharesData.shareCredits - a.sharesData.shareCredits});
 
 
         for(var i in data)
