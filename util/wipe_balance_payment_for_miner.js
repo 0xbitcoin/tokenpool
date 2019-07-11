@@ -48,7 +48,7 @@ async function init()
 async function getMinerData(minerEthAddress)
 {
 
-  var minerDataJSON = await  mongoInterface.findOne("miner_data_downcase", minerEthAddress );
+  var minerDataJSON = await  mongoInterface.findOne("miner_data_downcase", {minerEthAddress: minerEthAddress } );
 
   if(minerDataJSON==null)
   {
