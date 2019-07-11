@@ -98,8 +98,8 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
    30 6 1 * * /home/andy/.nvm/versions/node/v8.9.4/bin/node /home/andy/deploy/tokenpool/clean-redis.js
 
 
-## Redis Commands
-
+## Task Commands Example 
+node util/reset_all_miner_reward_data.js
 
 
 
