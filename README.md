@@ -51,8 +51,10 @@ var poolconfig = {
   communityTokenFee: 2,   //percent of tokens the pool pledges to donate
   minBalanceForTransfer: 1500000000,   
   payoutWalletMinimum: 100000000000,
-  allowCustomVardiff: true,
-  web3provider: "http://127.0.0.1:8545"   //point at Geth or remove to use Infura
+  allowCustomVardiff: false,
+  rebroadcastPaymentWaitBlocks: 500,
+  minPaymentsInBatch: 5,
+  //web3provider: "http://127.0.0.1:8545"   //point at Geth or remove to use Infura
 }
 
 
