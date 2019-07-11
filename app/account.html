@@ -55,8 +55,8 @@
               <td> Eth Address </td>
               <td> Hash Rate </td>
               <td> Share % </td>
-              <td> Pending Token Balance </td>
-              <td> Total Tokens Earned </td>
+              <td> Token Balance </td>
+              <td> Tokens Earned </td>
             </tr>
           </thead>
 
@@ -72,9 +72,9 @@
                       </a>
                 </td>
 
-              <td> {{ item.sharesData.hashRateFormatted }} </td>
+              <td> {{ item.minerData.hashRateFormatted }} </td>
 
-              <td>  {{ item.sharesData.sharesPercent}} </td>
+              <td>  {{ item.minerData.sharesPercent}} </td>
               <td>  {{ item.minerData.tokenBalanceFormatted }} </td>
               <td>  {{ item.minerData.tokenRewardsFormatted }} </td>
             </tr>

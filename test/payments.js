@@ -19,12 +19,6 @@ var web3 = new Web3()
  var pool_env = 'test'
 
 
-
- const Tx = require('ethereumjs-tx')
- const TransactionHelper = require('../lib/util/transaction-helper')
-
-
-
 var transactionCoordinator;
 
 var NUM_PAYMENTS = 5;
@@ -79,12 +73,12 @@ describe('Peer Interface', function() {
       }
 
 
-      await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,pool_env)
+      await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,poolConfig,pool_env)
         transactionCoordinator = tokenInterface.getTransactionCoordinator();
 
         var tokenContract = tokenInterface.getTokenContract()
 
-      transactionCoordinator.init(web3,pool_env,  redisInterface,mongoInterface )
+      transactionCoordinator.init(web3,tokenContract,poolConfig,accountConfig,redisInterface,mongoInterface,tokenInterface,pool_env)
 
       //Make sure the 5 tx batch
       var unbatched_pmnts = await mongoInterface.findAll('balance_payment',{batchId: undefined})
@@ -122,10 +116,7 @@ describe('Peer Interface', function() {
 
 
       it('can monitor batch payments  ', async function() {
-
-
-
-        var result = await TransactionHelper.checkBatchPaymentsStatus( )
+          var result = await transactionCoordinator.checkBatchPaymentsStatus( )
 
           assert.ok(result);
 
@@ -133,18 +124,16 @@ describe('Peer Interface', function() {
 
 
 
-    /* it('can broadcast batch payments  ', async function() {
+     it('can broadcast batch payments  ', async function() {
 
-          var result = await TransactionHelper.broadcastPaymentBatches( )
+         var result = await transactionCoordinator.broadcastPaymentBatches( )
 
          assert.ok(result.success);
 
          assert.equal(result.paymentsInBatch.length,NUM_PAYMENTS);
 
          assert.ok(result.txHash);
-
-
-    });*/
+    });
 
 
 

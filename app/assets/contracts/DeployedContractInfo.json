@@ -15,7 +15,7 @@
       "staging": {
               "contracts": {
                 "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x176762d66f15ccdd0d3a1dc13040d794c9c93776"},
-                "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0x8abA3900567Dff202b634eCf98E71A6Dd251daF7"},
+                "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0xebf6245689194a6e43096551567827c6726ede0b"},
                 "mintforwarder":{"name":"MintHelper", "blockchain_address":"0xeabe48908503b7efb090f35595fb8d1a4d55bd66"},
                 "miningking":{"name":"MiningKing", "blockchain_address":"0x0b98f937f6edd6f66b0f0a210d3dcd8ec1063cb6"},
                 "doubleKingsReward":{"name":"DoubleKingsReward", "blockchain_address":"0x40e690e430710cfca6583b24d8c187b85b7fc1a7"}
@@ -24,7 +24,7 @@
       "testnet": {
               "contracts": {
                 "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x9d2cc383e677292ed87f63586086cff62a009010"},
-                "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0x8abA3900567Dff202b634eCf98E71A6Dd251daF7"},
+                "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0x4d222439c623b10a0ad8f8eba3ebd8a48d3526f5"},
                 "mintforwarder":{"name":"MintHelper", "blockchain_address":"0x6ffcad89b80bfa3064437c3fbaefef31b1e90f85"},
                 "miningking":{"name":"MiningKing", "blockchain_address":"0x2a20403757ffa6b4e5c613026b7a7308f8722db7"},
                 "doubleKingsReward":{"name":"DoubleKingsReward", "blockchain_address":"0x40e690e430710cfca6583b24d8c187b85b7fc1a7"}

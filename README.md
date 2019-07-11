@@ -51,10 +51,8 @@ var poolconfig = {
   communityTokenFee: 2,   //percent of tokens the pool pledges to donate
   minBalanceForTransfer: 1500000000,   
   payoutWalletMinimum: 100000000000,
-  allowCustomVardiff: false,
-  rebroadcastPaymentWaitBlocks: 500,
-  minPaymentsInBatch: 5,
-  //web3provider: "http://127.0.0.1:8545"   //point at Geth or remove to use Infura
+  allowCustomVardiff: true,
+  web3provider: "http://127.0.0.1:8545"   //point at Geth or remove to use Infura
 }
 
 
@@ -98,8 +96,8 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
    30 6 1 * * /home/andy/.nvm/versions/node/v8.9.4/bin/node /home/andy/deploy/tokenpool/clean-redis.js
 
 
-## Task Commands Example 
-node util/reset_all_miner_reward_data.js
+## Redis Commands
+
 
 
 

@@ -45,16 +45,16 @@ export default class AccountRenderer {
 
 
       this.socket.on('minerData', function (data) {
-      //  console.log('got miner data ', JSON.stringify(data));
+        console.log('got miner data ', JSON.stringify(data));
 
         var totalShares = 0;
 
-        data.map(item => item.sharesData.hashRateFormatted = renderUtils.formatHashRate(item.sharesData.hashRate   ))
+        data.map(item => item.minerData.hashRateFormatted = renderUtils.formatHashRate(item.minerData.hashRate   ))
         data.map(item => item.minerData.tokenBalanceFormatted = (item.minerData.tokenBalance / parseFloat(1e8)  ))
         data.map(item => item.minerData.tokenRewardsFormatted = (item.minerData.tokensAwarded / parseFloat(1e8)  ))
-          data.map(item =>  (totalShares =  (totalShares + item.sharesData.shareCredits) ) )
+          data.map(item =>  (totalShares =  (totalShares + item.minerData.shareCredits) ) )
 
-          data.map(item => item.sharesData.sharesPercent = (  ((item.sharesData.shareCredits / parseFloat(totalShares)) * 100  ).toFixed(2).toString() + '%')   )
+          data.map(item => item.minerData.sharesPercent = (  ((item.minerData.shareCredits / parseFloat(totalShares)) * 100  ).toFixed(2).toString() + '%')   )
          data.map(item => item.profileURL = ('/profile/?address=' + item.minerAddress.toString().toLowerCase())  )
 
 
@@ -64,7 +64,7 @@ export default class AccountRenderer {
 
         for(var i in data)
         {
-          var shares = parseInt(data[i].sharesData.shareCredits)
+          var shares = parseInt(data[i].minerData.shareCredits)
           console.log(shares)
           if( isNaN(shares) || shares <= 0)
           {
@@ -77,8 +77,6 @@ export default class AccountRenderer {
 
 
         }
-
-        console.log('got miner data ', JSON.stringify(data));
 
 
         self.accountListData.minerAccountData = data;

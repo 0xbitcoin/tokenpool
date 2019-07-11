@@ -158,7 +158,7 @@ var OWED_PAYMENT_BLOCK_CUTOFF = 5341507;
        console.log(balancePayment)
 
        if(owedPayments[balancePayment.minerAddress] == null){owedPayments[balancePayment.minerAddress]=0}
-       owedPayments[balancePayment.minerAddress] += balancePayment.amountToPay;
+       owedPayments[balancePayment.minerAddress] += balancePayment.previousTokenBalance;
        missingTransfers.push(balancePayment)
       //  console.log('missing transfer')
      }
