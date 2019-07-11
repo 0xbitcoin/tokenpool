@@ -87,7 +87,7 @@ export default class ProfileRenderer {
     this.socket.on('minerBalancePayments', function (data) {
 
 
-     data.map(item => item.previousTokenBalanceFormatted  = self.formatTokenQuantity(item.previousTokenBalance)    )
+     data.map(item => item.amountToPayFormatted  = self.formatTokenQuantity(item.amountToPay)    )
 
       data.map( function(item){
 
