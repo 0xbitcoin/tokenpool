@@ -72,6 +72,7 @@ export default class ProfileRenderer {
      data.etherscanURL = ('https://etherscan.io/address/'+minerAddress.toString().toLowerCase());
 
      data.tokenBalanceFormatted = self.formatTokenQuantity( data.tokenBalance );
+     data.tokenAlltimeBalanceFormatted = self.formatTokenQuantity( data.alltimeTokenBalance );
      data.tokenRewardsFormatted = self.formatTokenQuantity( data.tokensAwarded );
      data.hashRateFormatted = renderUtils.formatHashRate( data.hashRate );
 
@@ -87,7 +88,7 @@ export default class ProfileRenderer {
     this.socket.on('minerBalancePayments', function (data) {
 
 
-     data.map(item => item.previousTokenBalanceFormatted  = self.formatTokenQuantity(item.previousTokenBalance)    )
+     data.map(item => item.amountToPayFormatted  = self.formatTokenQuantity(item.amountToPay)    )
 
       data.map( function(item){
 

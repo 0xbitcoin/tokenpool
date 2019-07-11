@@ -14,6 +14,8 @@ var renderUtils = require('../app/assets/javascripts/render-utils')
 var tokenInterface = require('../lib/token-interface')
 var peerInterface = require('../lib/peer-interface')
 var redisInterface = require('../lib/redis-interface')
+var mongoInterface = require('../lib/mongo-interface')
+
 var web3utils =  require('web3-utils');
 var Web3 = require('web3')
 var web3 = new Web3()

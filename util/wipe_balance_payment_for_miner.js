@@ -35,7 +35,7 @@ async function init()
 
    minerData.tokenBalance = 0;
 
-   await saveMinerDataToRedis(minerAddress,minerData)
+   await saveMinerDataToRedisMongo(minerAddress,minerData)
 
 
   // var balance_xfers = await redisInterface.deleteHashArrayInRedis('balance_payment')
@@ -48,7 +48,7 @@ async function init()
 async function getMinerData(minerEthAddress)
 {
 
-  var minerDataJSON = await  redisInterface.findHashInRedis("miner_data_downcase", minerEthAddress );
+  var minerDataJSON = await  mongoInterface.findOne("miner_data_downcase", {minerEthAddress: minerEthAddress } );
 
   if(minerDataJSON==null)
   {
@@ -59,7 +59,7 @@ async function getMinerData(minerEthAddress)
 
 }
 
-async function saveMinerDataToRedis(minerEthAddress, minerData)
+async function saveMinerDataToRedisMongo(minerEthAddress, minerData)
 {
 
   if(minerEthAddress == null) return;

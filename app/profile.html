@@ -43,9 +43,13 @@
             </a>
           </td>
        </tr>
-       <tr> <td> Total Rewards Mined: {{  miner.minerData.tokenRewardsFormatted }}  </td> </tr>
+       <!-- <tr> <td> Total Rewards Mined: {{  miner.minerData.tokenRewardsFormatted }}  </td> </tr> -->
 
-        <tr> <td> Pending Open Balance: {{  miner.minerData.tokenBalanceFormatted }}  </td> </tr>
+        <!-- <tr> <td> Pending Open Balance: {{  miner.minerData.tokenBalanceFormatted }}  </td> </tr> --> 
+
+        <tr> <td> Total Tokens Mined: {{  miner.minerData.tokenAlltimeBalanceFormatted }}  </td> </tr>
+
+        <tr> <td> Token Tokens Paid Out: {{  miner.minerData.tokenRewardsFormatted }}  </td> </tr>
 
 
 
@@ -149,7 +153,7 @@
 
               <td>    {{ item.block }} </td>
               <td>    {{ item.id }} </td>
-              <td>    {{ item.previousTokenBalance  }} </td>
+              <td>    {{ item.amountToPay  }} </td>
               <td>  <a v-bind:href='item.etherscanTxURL' >  {{ item.transferTxHash }}   </a> </td>
 
             </tr>
