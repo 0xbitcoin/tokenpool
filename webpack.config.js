@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var path = require('path');
 
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
@@ -21,6 +22,7 @@ var extractPlugin = new ExtractTextPlugin({
 
 var webpackPlugins = [
     extractPlugin,
+    new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: '"production"'
@@ -58,7 +60,7 @@ module.exports = {
     entry: ['./app/assets/javascripts/index', './app/assets/stylesheets/application.scss' ],
     output: {
         path: path.resolve(__dirname, 'public'),
-        filename: 'bundle.js',
+        filename: 'bundle.[hash:12].js',
         publicPath: '/'
     },
     module: {
