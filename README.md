@@ -6,6 +6,8 @@ Developed by the 0xBitcoin Community
 
 A pool for mining ERC20/EIP918 Tokens
 
+See me running at https://tokenminingpool.com
+
 
 Windows GPU Miner 1
 https://bitbucket.org/LieutenantTofu/cosmic-v3/downloads/COSMiC-v4.1.1-MultiGPU-TMP.zip
