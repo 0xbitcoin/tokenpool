@@ -38,6 +38,8 @@ var Web3 = require('web3')
 
 var web3 = new Web3()
 
+var mongoInitParam;
+
 
 var specified_web3 = poolConfig.web3provider;
 
@@ -49,6 +51,7 @@ var specified_web3 = poolConfig.web3provider;
 
 if(pool_env == "test"){
   console.log("Using test mode!!! - Ropsten ")
+  mongoInitParam = 'testdb'
   if(specified_web3 == null)
   {
     web3.setProvider(INFURA_ROPSTEN_URL)
@@ -92,7 +95,8 @@ async function init(web3)
           //primary and webserver
 
            await redisInterface.init()
-           await mongoInterface.init()
+           await mongoInterface.init(mongoInitParam)
+
            await webInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface)
            await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,pool_env)
            await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
@@ -109,7 +113,7 @@ async function init(web3)
             if(worker_id == 1)  //updater
             {
                await redisInterface.init()
-               await mongoInterface.init()
+               await mongoInterface.init(mongoInitParam)
 
                await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,pool_env)
 
@@ -120,7 +124,7 @@ async function init(web3)
             if(worker_id == 2)  //jsonlistener
             {
               await redisInterface.init()
-              await mongoInterface.init()
+              await mongoInterface.init(mongoInitParam)
 
               await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,pool_env)
               await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();

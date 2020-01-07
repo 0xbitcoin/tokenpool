@@ -4,7 +4,7 @@ Developed by the 0xBitcoin Community
 
 (GNU PUBLIC LICENSE)
 
-A pool for mining ERC20/EIP918 Tokens
+A pool for mining EIP918 Tokens
 
 See me running at https://tokenminingpool.com
 
@@ -66,9 +66,8 @@ EDIT THIS FILE!!!
 
 * Replace 'mintforwarder' with your own deployed version of the contract !!!
 * Replace 'batch payments' contract as well !!! your own deployed contract !!
-* replace 'DoubleKingsReward' with your own deployed contract ! [or disable in the code]
 
-YOU DO NOT have to replace/redeploy the MiningKing contract as this is 'global' and for everyone
+
 
 
 ### HOW TO USE
@@ -82,7 +81,7 @@ YOU DO NOT have to replace/redeploy the MiningKing contract as this is 'global' 
 Digitalocean guide:
 https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-16-04#step-3-%E2%80%94-adjusting-the-firewall-(optional)
 
- - Mongo is used to store data related to miner shares, balances, and payments 
+ - Mongo is used to store data related to miner shares, balances, and payments
 
 
 ## Installing Redis  
@@ -91,14 +90,13 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
 
    - Redis will serve/connect at localhost:6379 by default - the pool will use this port
    - Redis is only used for frontend non-critical data, but is required for this web application
- 
- 
- 
-## Task Commands Example 
+
+
+
+## Task Commands Example
 node util/reset_all_miner_reward_data.js
 
 
 
 
 ## TODO / BUGS
- 

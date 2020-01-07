@@ -23,9 +23,11 @@
             },
       "testnet": {
               "contracts": {
-                "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x9d2cc383e677292ed87f63586086cff62a009010"},
+                "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x4fb6715cf6118746c1f08f1d739e17f2b12aaba8"},
                 "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0x8abA3900567Dff202b634eCf98E71A6Dd251daF7"},
+
                 "mintforwarder":{"name":"MintHelper", "blockchain_address":"0x6ffcad89b80bfa3064437c3fbaefef31b1e90f85"},
+
                 "miningking":{"name":"MiningKing", "blockchain_address":"0x2a20403757ffa6b4e5c613026b7a7308f8722db7"},
                 "doubleKingsReward":{"name":"DoubleKingsReward", "blockchain_address":"0x40e690e430710cfca6583b24d8c187b85b7fc1a7"}
               }
