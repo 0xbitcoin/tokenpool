@@ -2,9 +2,9 @@ var webpack = require('webpack');
 var path = require('path');
 
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
+var HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
 
 var environment = process.env.NODE_ENV || 'development';
 
@@ -15,9 +15,16 @@ var htmlPlugin = new HtmlWebpackPlugin({
       template: 'app/index.html',
 });
 */
-var extractPlugin = new ExtractTextPlugin({
+/*var extractPlugin = new ExtractTextPlugin({
    filename: 'app/assets/main.css'
-});
+});*/
+
+
+var extractPlugin = new MiniCssExtractPlugin({
+     // Options similar to the same options in webpackOptions.output
+     // both options are optional
+     filename: 'app/assets/main.css'
+   });
 
 
 var webpackPlugins = [
@@ -65,22 +72,29 @@ module.exports = {
     },
     module: {
         rules: [
+
             {
                 test: /\.js$/,
                 use: [
                     {
                         loader: 'babel-loader',
                         options: {
-                            presets: ['es2016']
+                            presets: ['@babel/preset-env']
                         }
                     }
                 ]
             },
             {
                 test: /\.scss$/,
-                use: extractPlugin.extract({
-                    use: ['css-loader', 'sass-loader']
-                })
+                use: [
+               {
+                 loader: MiniCssExtractPlugin.loader,
+                 options: {
+
+                 },
+               },
+               'css-loader','sass-loader'
+             ],
             },
             {
               test: /\.(png|jpg|gif)$/,
