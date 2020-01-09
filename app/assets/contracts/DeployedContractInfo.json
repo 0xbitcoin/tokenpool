@@ -5,9 +5,10 @@
               "contracts": {
                 "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31"},
                 "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0xebf6245689194a6e43096551567827c6726ede0b"},
-                "mintforwarder":{"name":"MintHelper", "blockchain_address":"0xeabe48908503b7efb090f35595fb8d1a4d55bd66"},
+                "mintforwarder":{"name":"MintHelper", "blockchain_address":"eabe48908503b7efb090f35595fb8d1a4d55bd66"},
                 "miningking":{"name":"MiningKing", "blockchain_address":"0x0b98f937f6edd6f66b0f0a210d3dcd8ec1063cb6"},
-                "doubleKingsReward":{"name":"DoubleKingsReward", "blockchain_address":"0xfd6be1247a5d32ee83aad9d1b09b5df9e2988d6f"}
+                "doubleKingsReward":{"name":"DoubleKingsReward", "blockchain_address":"0xfd6be1247a5d32ee83aad9d1b09b5df9e2988d6f"} 
+
 
 
               }
