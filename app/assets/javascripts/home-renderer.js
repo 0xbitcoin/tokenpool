@@ -35,7 +35,7 @@ export default class HomeRenderer {
 
 //https://stackoverflow.com/questions/6599470/node-js-socket-io-with-ssl
 
-      const socketServer = '//'+current_hostname+':2052';
+      const socketServer = 'https://'+current_hostname+':2052';
 
       const options = {secure:true, transports: ['websocket'], forceNew: true};
       this.socket = io(socketServer, options);
