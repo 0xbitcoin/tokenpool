@@ -6,7 +6,7 @@ Developed by the 0xBitcoin Community
 
 A pool for mining EIP918 Tokens
 
-See me running at https://tokenminingpool.com
+See me running at http://tokenminingpool.com
 
 
 Windows GPU Miner 1
