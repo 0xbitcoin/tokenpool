@@ -34,7 +34,7 @@ export default class HomeRenderer {
       var current_hostname = window.location.hostname;
 
       //port 8443
-      const socketServer = '//'+current_hostname+':8443';
+      const socketServer = '//'+current_hostname+':2052';
 
       const options = {transports: ['websocket'], forceNew: true};
       this.socket = io(socketServer, options);
