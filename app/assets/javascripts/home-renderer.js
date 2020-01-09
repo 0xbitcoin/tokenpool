@@ -33,11 +33,10 @@ export default class HomeRenderer {
 
       var current_hostname = window.location.hostname;
 
-//https://stackoverflow.com/questions/6599470/node-js-socket-io-with-ssl
+      //port 8443
+      const socketServer = '//'+current_hostname+':8443';
 
-      const socketServer = 'https://'+current_hostname+':2052';
-
-      const options = {secure:true, transports: ['websocket'], forceNew: true};
+      const options = {transports: ['websocket'], forceNew: true};
       this.socket = io(socketServer, options);
 
 
