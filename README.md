@@ -85,7 +85,7 @@ https://etherscan.io/address/0xebf6245689194a6e43096551567827c6726ede0b#code
 
 
 ## HOW TO USE
-1. Point a EIP918 tokenminer at your pool using http://localhost:8586  (or ipaddress:8586 or domain.com:8586)  (make sure firewall allows this port)
+1. Point a EIP918 tokenminer (https://github.com/0xbitcoin/0xbitcoin-miner) at your pool using http://localhost:8080   (make sure firewall allows this port)
 2. View website interface at http://localhost:3000 (Feel free to set up nginx/apache to serve the static files in /public)
 
 
