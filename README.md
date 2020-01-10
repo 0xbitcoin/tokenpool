@@ -84,10 +84,12 @@ Batched Payments Contract Code:
 https://etherscan.io/address/0xebf6245689194a6e43096551567827c6726ede0b#code
 
 
-## HOW TO USE
+## HOW TO TEST
 1. Point a EIP918 tokenminer (https://github.com/0xbitcoin/0xbitcoin-miner) at your pool using http://localhost:8080   (make sure firewall allows this port)
-2. View website interface at http://localhost:3000 (Feel free to set up nginx/apache to serve the static files in /public)
+2. Start the server with 'npm run webpack' and 'npm run server test' to put it into ropsten mode
+3. View website interface at http://localhost:3000 (Feel free to set up nginx/apache to serve the static files in /public)
 
+You should see that the miner is able to successfully submit shares to the pool when the share difficulty is set to a low value such as 100 and the pool is in 'ropsten mode'.  Then you can run the pool on mainnet using 'npm run server'.
 
 
 ## Installing MongoDB
