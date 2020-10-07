@@ -43,7 +43,7 @@ export default class EthHelper {
         this.getContractABI()
       )
 
-       console.log(tokenContract)
+       console.log('tokencontract ', tokenContract)
 
        var contractAddress = this.getContractAddress() ;
 

@@ -98,12 +98,14 @@ async function init(web3)
            await redisInterface.init()
            await mongoInterface.init(mongoInitParam)
 
-           await webInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface)
-           await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,pool_env)
+           web3apihelper.init(redisInterface,pool_env)
+
+           await webInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,pool_env)
+           await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,pool_env, web3apihelper)
            await peerInterface.init(web3,accountConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
            await diagnosticsManager.init(redisInterface,webInterface,peerInterface)
 
-           await webServer.init(https_enabled,webInterface,peerInterface)
+           await webServer.init(https_enabled,webInterface,peerInterface,web3apihelper)
 
 
       // Code to run if we're in a worker process
@@ -116,20 +118,25 @@ async function init(web3)
                await redisInterface.init()
                await mongoInterface.init(mongoInitParam)
 
-               await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,pool_env)
+               web3apihelper.init(redisInterface,pool_env)
 
-               await web3apihelper.init(redisInterface,pool_env)
+               await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,pool_env , web3apihelper)
+
+
 
                await peerInterface.init(web3,accountConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
                tokenInterface.update();
                peerInterface.update();
+               web3apihelper.update()
             }
             if(worker_id == 2)  //jsonlistener
             {
               await redisInterface.init()
               await mongoInterface.init(mongoInitParam)
 
-              await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,pool_env)
+               web3apihelper.init(redisInterface,pool_env)
+
+              await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,pool_env, web3apihelper)
               await peerInterface.init(web3,accountConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
               //tokenInterface.update();
               peerInterface.listenForJSONRPC();
