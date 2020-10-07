@@ -55,8 +55,8 @@ You may need to do.. (depending on operating system and python version)
 var poolconfig = {
   minimumShareDifficulty: 5000,   //lowest miner share difficulty
   maximumShareDifficulty: 10000    //highest miner share difficulty
-  solutionGasPriceWei: 10,   //ether paid by the pool for each mint
-  transferGasPriceWei: 6,   //ether paid by the pool for each payment
+  maxSolutionGasPriceWei: 10,   //ether paid by the pool for each mint
+  maxTransferGasPriceWei: 6,   //ether paid by the pool for each payment
   poolTokenFee: 5,     //percent of tokens the pool keeps for itself
   communityTokenFee: 2,   //percent of tokens the pool pledges to donate
   minBalanceForTransfer: 1500000000,   

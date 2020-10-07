@@ -1,8 +1,8 @@
 
 var poolconfig = {
   minimumShareDifficulty: 105,
-  solutionGasPriceWei: 10,
-  transferGasPriceWei: 6,
+  maxSolutionGasPriceWei: 10,
+  maxTransferGasPriceWei: 6,
   poolTokenFee: 5,
   communityTokenFee: 2,
   minBalanceForTransfer: 1500000000,

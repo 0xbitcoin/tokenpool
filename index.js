@@ -33,6 +33,7 @@ var tokenInterface = require('./lib/token-interface')
 var webInterface = require('./lib/web-interface')
 var webServer =  require('./lib/web-server')
 var diagnosticsManager =  require('./lib/diagnostics-manager')
+var web3apihelper =  require('./lib/web3-api-helper')
 var accountConfig;
 var Web3 = require('web3')
 
@@ -99,7 +100,7 @@ async function init(web3)
 
            await webInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface)
            await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,pool_env)
-           await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
+           await peerInterface.init(web3,accountConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
            await diagnosticsManager.init(redisInterface,webInterface,peerInterface)
 
            await webServer.init(https_enabled,webInterface,peerInterface)
@@ -117,7 +118,9 @@ async function init(web3)
 
                await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,pool_env)
 
-               await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
+               await web3apihelper.init(redisInterface,pool_env)
+
+               await peerInterface.init(web3,accountConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
                tokenInterface.update();
                peerInterface.update();
             }
@@ -127,7 +130,7 @@ async function init(web3)
               await mongoInterface.init(mongoInitParam)
 
               await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,pool_env)
-              await peerInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
+              await peerInterface.init(web3,accountConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
               //tokenInterface.update();
               peerInterface.listenForJSONRPC();
             }
