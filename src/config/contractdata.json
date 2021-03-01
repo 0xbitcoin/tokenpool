@@ -1,0 +1,39 @@
+{
+  "mainnet":{
+    "contracts":{
+      "0xbitcoin":{"address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31"},
+
+      "uniswapv2router":{"address":"0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"},
+
+
+      "uniswapv2add":{"address":"0xD3cF4e98e1e432B3d6Ae42AE406A78F2AC8293D0"},
+      "uniswapv2remove":{"address":"0x79B6C6F8634ea477ED725eC23b7b6Fcb41F00E58"},
+      "weth":{"address":"0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"},
+      "0xbitcoinmarketpair":{"address":"0xc12c4c3e0008b838f75189bfb39283467cf6e5b3"}
+
+
+    }
+
+
+  },
+  "kovan":{
+    "contracts":{
+      "0xbitcoin":{"address":"0x24a19ee5a5c8757acdebe542a9436d9c796d1c9e"},
+
+      "uniswapv2router":{"address":"0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"},
+
+
+
+      "uniswapv2add":{"address":"0x08cf6d4af1ca2cf978e42e706877f1c2d905b1d0"},
+      "uniswapv2remove":{"address":"0x388f486dbcbe05029ba7adf784459b580b427032"},
+      "weth":{"address":"0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"},
+      "0xbitcoinmarketpair":{"address":"0x0638f19ea7748f4bc7d26898be8084b7e2905bf2"}
+
+
+    }
+
+
+  }
+
+
+}

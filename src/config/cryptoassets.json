@@ -1,0 +1,18 @@
+{
+  "assets":{
+    "ETH":{
+        "Decimals": 18
+    },
+    "0xBTC":{
+        "Decimals": 8
+    },
+    "LPToken":{
+        "Decimals": 18
+    }
+
+
+  }
+
+
+
+}

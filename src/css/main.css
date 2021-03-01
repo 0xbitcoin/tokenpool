@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
+
+.loader {
+  border: 3px solid #f3f3f3; /* Light grey */
+  border-top: 3px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* -----
+SVG Icons - svgicons.sparkk.fr
+----- */
+
+.svg-icon {
+  width: 1em;
+  height: 1em;
+}
+
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+  fill: #4691f6;
+}
+
+.svg-icon circle {
+  stroke: #4691f6;
+  stroke-width: 1;
+}
+
+.markdown a
+{
+ color: #1b366d;
+ text-decoration: underline;
+ font-weight: bold;
+}
+
+.pull-right
+{
+  float:right;
+}
+
+.brand {
+  font-weight: 900;
+  font-family: sans-serif;
+}
+
+.font-sans {
+    font-family: sans-serif;
+}
+
+.origin-top-right {
+  transform-origin: top right;
+}
+.transition-all {
+  transition-property: all;
+}
+.transition-fastest {
+  transition-duration: 50ms;
+}
+.transition-faster {
+  transition-duration: 100ms;
+}
+.transition-fast {
+  transition-duration: 150ms;
+}
+.transition-medium {
+  transition-duration: 200ms;
+}
+.ease-out-quad {
+  transition-timing-function: cubic-bezier(.25, .46, .45, .94);
+}
+.ease-in-quad {
+  transition-timing-function: cubic-bezier(.55, .085, .68, .53);
+}
+.scale-70 {
+  transform: scale(.7);
+}
+.scale-100 {
+  transform: scale(1);
+}
