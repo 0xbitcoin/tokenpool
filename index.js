@@ -27,7 +27,7 @@ var mongoInterface = require('./lib/mongo-interface')
 var peerInterface = require('./lib/peer-interface')
 var tokenInterface = require('./lib/token-interface')
 
-var webInterface = require('./lib/web-interface')
+import PoolStatsHelper from ('./lib/pool-stats-helper')
 var webServer =  require('./lib/web-server')
 
 var diagnosticsManager =  require('./lib/diagnostics-manager')
@@ -101,12 +101,12 @@ async function init(web3)
 
            web3apihelper.init( pool_env )
 
-           await webInterface.init(web3,accountConfig,poolConfig,mongoInterface,pool_env)
+           //await webInterface.init(web3,accountConfig,poolConfig,mongoInterface,pool_env)
            await tokenInterface.init(mongoInterface,web3,accountConfig,pool_env, web3apihelper)
            await peerInterface.init(web3,accountConfig,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
            await diagnosticsManager.init(webInterface,peerInterface)
 
-           await webServer.init(https_enabled,webInterface,peerInterface,web3apihelper)
+           await webServer.init(https_enabled,mongoInterface)
 
 
       // Code to run if we're in a worker process
@@ -117,7 +117,8 @@ async function init(web3)
             if(worker_id == 1)  //updater
             {
               // await redisInterface.init()
-               await mongoInterface.init(mongoInitParam)
+              await mongoInterface.init( 'tokenpool_'.concat(pool_env))
+
 
                web3apihelper.init(pool_env)
 
@@ -130,7 +131,8 @@ async function init(web3)
             if(worker_id == 2)  //jsonlistener
             {
               //await redisInterface.init()
-              await mongoInterface.init(mongoInitParam)
+              await mongoInterface.init( 'tokenpool_'.concat(pool_env))
+
 
                web3apihelper.init(pool_env)
 

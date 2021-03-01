@@ -15,7 +15,7 @@
       "maxSolutionGasPriceWei": 100, 
       "poolTokenFee": 5,
       "communityTokenFee": 2,
-      "mintingWeb3Provider":""
+      "web3Provider":""
     },
   
     "paymentsConfig":{
@@ -23,7 +23,7 @@
       "minBalanceForTransfer": 1500000000,  
       "rebroadcastPaymentWaitBlocks": 10,
       "minPaymentsInBatch": 1,
-      "paymentsWeb3Provider": ""
+      "web3Provider": ""
     }
   },
   "production":{
