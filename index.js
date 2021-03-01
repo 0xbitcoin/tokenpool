@@ -98,14 +98,18 @@ async function init(web3)
           //primary and webserver
 
           // await redisInterface.init()
-           await mongoInterface.init( 'tokenpool_'.concat(pool_env))
-
+        
           // web3apihelper.init( pool_env )
 
            //await webInterface.init(web3,accountConfig,poolConfig,mongoInterface,pool_env)
      //      await tokenInterface.init(mongoInterface,web3,accountConfig,pool_env, web3apihelper)
      //      await peerInterface.init(web3,accountConfig,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
-           await diagnosticsManager.init(mongoInterface)
+        
+     
+     await mongoInterface.init( 'tokenpool_'.concat(pool_env))
+
+
+         await diagnosticsManager.init(mongoInterface)
 
            await webServer.init(https_enabled,mongoInterface)
            diagnosticsManager.update()
@@ -119,7 +123,6 @@ async function init(web3)
             {
               // await redisInterface.init()
               await mongoInterface.init( 'tokenpool_'.concat(pool_env))
-
 
                let web3apihelper = new Web3ApiHelper(mongoInterface)
 
