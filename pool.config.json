@@ -1,0 +1,59 @@
+
+ {
+
+  "staging":{
+    "apiConfig":{
+      "defiPulseApiKey": "df094dded7c2d47f90912d736c23dd06135bce039fde814e7a2e457a0ab8"
+    }, 
+    
+    "miningConfig":{
+      "minimumShareDifficulty": 5000,
+      "allowCustomVardiff": false,
+    },
+  
+    "mintingConfig":{
+      "maxSolutionGasPriceWei": 100, 
+      "poolTokenFee": 5,
+      "communityTokenFee": 2,
+      "mintingWeb3Provider":""
+    },
+  
+    "paymentsConfig":{
+      "maxTransferGasPriceWei": 96,
+      "minBalanceForTransfer": 1500000000,  
+      "rebroadcastPaymentWaitBlocks": 10,
+      "minPaymentsInBatch": 1,
+      "paymentsWeb3Provider": ""
+    }
+  },
+  "production":{
+    "apiConfig":{
+      "defiPulseApiKey": "df094dded7c2d47f90912d736c23dd06135bce039fde814e7a2e457a0ab8"
+    }, 
+    
+    "miningConfig":{
+      "minimumShareDifficulty": 5000,
+      "allowCustomVardiff": false,
+    },
+  
+    "mintingConfig":{
+      "maxSolutionGasPriceWei": 100, 
+      "poolTokenFee": 5,
+      "communityTokenFee": 2,
+      "mintingWeb3Provider":""
+    },
+  
+    "paymentsConfig":{
+      "maxTransferGasPriceWei": 96,
+      "minBalanceForTransfer": 1500000000,  
+      "rebroadcastPaymentWaitBlocks": 10,
+      "minPaymentsInBatch": 1,
+      "paymentsWeb3Provider": ""
+    }
+  }
+  
+  
+  
+ 
+}
+ 

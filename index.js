@@ -1,16 +1,12 @@
 
-var INFURA_ROPSTEN_URL = 'https://ropsten.infura.io/v3/244edbea5c684f28abebcff483b9a8b9';
-var INFURA_MAINNET_URL = 'https://mainnet.infura.io/v3/244edbea5c684f28abebcff483b9a8b9';
+//var INFURA_ROPSTEN_URL = 'https://ropsten.infura.io/v3/244edbea5c684f28abebcff483b9a8b9';
+//var INFURA_MAINNET_URL = 'https://mainnet.infura.io/v3/244edbea5c684f28abebcff483b9a8b9';
 
 
 var https_enabled = process.argv[2] === 'https';
 var pool_env = 'production';
 
-if( process.argv[2] == "test" )
-{
-  pool_env = 'test'
-}
-
+ 
 if( process.argv[2] == "staging" )
 {
   pool_env = 'staging'
@@ -18,30 +14,35 @@ if( process.argv[2] == "staging" )
 
 var cluster = require('cluster')
 
-const poolConfig = require('./pool.config').config
+const poolConfig = require('./pool.config')[pool_env]
 
-console.log(poolConfig)
+console.log('poolConfig',poolConfig)
 
 console.log('init');
 
 fs = require('fs');
 
-var redisInterface = require('./lib/redis-interface')
+//var redisInterface = require('./lib/redis-interface')
 var mongoInterface = require('./lib/mongo-interface')
 var peerInterface = require('./lib/peer-interface')
 var tokenInterface = require('./lib/token-interface')
+
 var webInterface = require('./lib/web-interface')
 var webServer =  require('./lib/web-server')
+
 var diagnosticsManager =  require('./lib/diagnostics-manager')
 var web3apihelper =  require('./lib/web3-api-helper')
 var accountConfig;
 var Web3 = require('web3')
 
-var web3 = new Web3()
+
+
+var mintingWeb3 = new Web3(poolConfig.mintingConfig.web3Provider)
+var paymentsWeb3 = new Web3(poolConfig.paymentsConfig.web3Provider)
 
 var mongoInitParam;
 
-
+/*
 var specified_web3 = poolConfig.web3provider;
 
  if(specified_web3 != null)
@@ -72,7 +73,7 @@ if(pool_env == "test"){
     }
    accountConfig = require('./account.config').accounts;
 }
-
+*/
 
 init(web3);
 
@@ -95,15 +96,15 @@ async function init(web3)
 
           //primary and webserver
 
-           await redisInterface.init()
-           await mongoInterface.init(mongoInitParam)
+          // await redisInterface.init()
+           await mongoInterface.init( 'tokenpool_'.concat(pool_env))
 
-           web3apihelper.init(redisInterface,pool_env)
+           web3apihelper.init( pool_env )
 
-           await webInterface.init(web3,accountConfig,poolConfig,redisInterface,mongoInterface,pool_env)
-           await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,pool_env, web3apihelper)
-           await peerInterface.init(web3,accountConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
-           await diagnosticsManager.init(redisInterface,webInterface,peerInterface)
+           await webInterface.init(web3,accountConfig,poolConfig,mongoInterface,pool_env)
+           await tokenInterface.init(mongoInterface,web3,accountConfig,pool_env, web3apihelper)
+           await peerInterface.init(web3,accountConfig,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
+           await diagnosticsManager.init(webInterface,peerInterface)
 
            await webServer.init(https_enabled,webInterface,peerInterface,web3apihelper)
 
@@ -115,29 +116,26 @@ async function init(web3)
 
             if(worker_id == 1)  //updater
             {
-               await redisInterface.init()
+              // await redisInterface.init()
                await mongoInterface.init(mongoInitParam)
 
-               web3apihelper.init(redisInterface,pool_env)
+               web3apihelper.init(pool_env)
 
-               await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,pool_env , web3apihelper)
-
-
-
-               await peerInterface.init(web3,accountConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
+               await tokenInterface.init(mongoInterface,web3,accountConfig,pool_env , web3apihelper)
+               await peerInterface.init(web3,accountConfig,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
                tokenInterface.update();
                peerInterface.update();
                web3apihelper.update()
             }
             if(worker_id == 2)  //jsonlistener
             {
-              await redisInterface.init()
+              //await redisInterface.init()
               await mongoInterface.init(mongoInitParam)
 
-               web3apihelper.init(redisInterface,pool_env)
+               web3apihelper.init(pool_env)
 
-              await tokenInterface.init(redisInterface,mongoInterface,web3,accountConfig,pool_env, web3apihelper)
-              await peerInterface.init(web3,accountConfig,redisInterface,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
+              await tokenInterface.init(mongoInterface,web3,accountConfig,pool_env, web3apihelper)
+              await peerInterface.init(web3,accountConfig,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
               //tokenInterface.update();
               peerInterface.listenForJSONRPC();
             }

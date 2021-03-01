@@ -8,7 +8,7 @@ const config={
     ]},
     {"title":"DOCS","rows":[
       {"title":"0xBitcoin Token","url":"https://0xBitcoin.org"},
-      {"title":"Github","url":"https://github.org/0xbitcoin/tokenpool"}
+      {"title":"Github","url":"https://github.com/0xbitcoin/tokenpool"}
     ]}
   ]
 
