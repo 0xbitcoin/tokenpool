@@ -23,19 +23,19 @@ export default new Router({
     },
 
     {
-      path: '/Accounts',
+      path: '/accounts',
       name: 'accounts',
       component: Accounts
     },
 
     {
-      path: '/Profile',
+      path: '/profile/:publicAddress',
       name: 'profile',
       component: Profile
     },
 
     {
-      path: '/Overview',
+      path: '/overview',
       name: 'overview',
       component: Overview
     },

@@ -6,11 +6,7 @@
 
 
    
-       <Navbar
-       
-
-
-        />
+       <Navbar />
 
 
 
@@ -21,37 +17,44 @@
 
 
 
-       <section class="hero circuit-overlay">
-        <div class="hero-body">
-          <div class="container has-text-centered" id='jumbotron'>
-            <h1 class="title font-primary-title color-alternate">
+       <section class="hero circuit-overlay  text-center ">
+          <div class="flex flex-col lg:w-1/2" style="margin:0 auto">
+
+          <div class=" text-center  "  >
+            <span class="title font-roboto text-white font-bold text-4xl">
                 Token Mining Pool
-            </h1>
+            </span>
+            </div>
 
             <div  v-if="false"  class="loading-animation">
                 <div class="loader"></div>
             </div> 
 
-                <p class="color-primary-heavy">Mining URL: http://tokenminingpool.com:8080 </p>
+                <p class="text-white font-bold">Mining URL: http://tokenminingpool.com:8080 </p>
 
                 <div class="whitespace-md"></div>
 
-                <div class="account-search-container">
+                <div class="account-search-container ">
                   <div class="field">
-                    <div class="label color-white">View Mining Account</div>
+                    <div class="label text-white font-bold">View Mining Account</div>
                     <div class="control">
-                      <input id="mining-account-input" class="input  " type="text" placeholder="Primary input">
+                      <form v-on:submit.prevent="submitMiningAccountSearch">
+   
+
+                       <input v-model="miningAccountSearchQuery" class="input dark-input  " type="text" placeholder="0x...">
+                      </form>
+                   
                     </div>
                   </div>
                 </div>
-
+            </div>
                 <div class="whitespace-lg"></div>
                 <br>
  
              <div class="whitespace-lg"></div>
              <div class="whitespace-lg"></div>
-          </div>
-        </div>
+          
+         
       </section>
 
  <section id="guide" class="box background-primary has-text-centered ">
@@ -94,14 +97,16 @@
 
 
 
-    <section>
-      <div class="flex flex-col">
-      <HashrateChart 
+    <section class="flex flex-row">
       
-      />
+        <div>
+          
+            <HashrateChart 
+            
+            />
       </div>
       <div>
-
+         
             <div class="card card-background-secondary"  >
               <div class="card-content  ">
 
@@ -168,8 +173,9 @@ export default {
   components: {Navbar,HashrateChart,TransactionsTable,VerticalNav,Footer},
   data() {
     return {
-      activeSection: 'home',
-      poolAPIData: {}, //read this from sockets 
+      
+      poolAPIData: {}, //read this from sockets
+      miningAccountSearchQuery: null, 
       web3Plug: null
     }
   },
@@ -177,9 +183,9 @@ export default {
     
   },
   methods: {
-    verticalNavButtonClicked(buttonName){
-      this.activeSection = buttonName
-      console.log('verticalNavButtonClicked ', buttonName)
+    submitMiningAccountSearch( ){  
+        this.$router.push('profile/'+this.miningAccountSearchQuery );
+    //  console.log('submitMiningAccountSearch ', this.miningAccountSearchQuery)
     },
  
 

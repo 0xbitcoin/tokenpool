@@ -10,6 +10,7 @@ import './css/main.css'
 import './css/normalize.css'
 import './css/webflow.css'
 import './css/custom.webflow.css'
+import './css/whitespace.css'
 
 Vue.config.productionTip = false
 

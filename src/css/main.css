@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
 
 body{
@@ -6,6 +8,9 @@ body{
 
 } 
 
+.font-roboto {
+  font-family: 'Roboto Mono', monospace;
+}
 
 .loader {
   border: 3px solid #f3f3f3; /* Light grey */
