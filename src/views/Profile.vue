@@ -5,12 +5,7 @@
 
 
  
-       <Navbar
-       v-bind:web3Plug="web3Plug"
-
-
-        />
-     
+        <Navbar />
 
    <div class="section bg-gray-100 autospacing mb-16">
      <div class="w-container pt-8">

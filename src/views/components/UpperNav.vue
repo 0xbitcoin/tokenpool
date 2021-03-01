@@ -58,15 +58,13 @@
 
 <script>
 
-
-import Web3NetButton from './Web3NetButton.vue'
-
+ 
 import Config from '../config/UpperNav.js'
 
 export default {
   name: 'UpperNav',
-  props: ['web3Plug' ],
-  components:{Web3NetButton},
+  props: [  ],
+  components:{ },
   data() {
     return {
       activeAccountAddress:null,
@@ -80,38 +78,13 @@ export default {
     this.navConfig = Config;
 
 
-
-    this.web3Plug.getPlugEventEmitter().on('stateChanged', function(connectionState) {
-          console.log('stateChanged',connectionState);
-
-          this.activeAccountAddress = connectionState.activeAccountAddress
-          this.activeNetworkId = connectionState.activeNetworkId
-
-        }.bind(this));
+ 
 
 
   },
   methods: {
 
-          connectedToWeb3(){
-
-            return  this.activeAccountAddress != null
-          },
-
-
-          connectToWeb3(){
-            this.web3Plug.connectWeb3( )
-          },
-
-
-          getEtherscanBaseURL(){
-              if(this.activeNetworkId == 42){
-                return  'https://kovan.etherscan.io'
-              }
-
-              return 'https://etherscan.io'
-          },
-
+          
 
 
   }
