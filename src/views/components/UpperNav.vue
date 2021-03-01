@@ -13,7 +13,7 @@
         }"
       >
         <button
-          class="flex text-md  p-2 m-1 mx-2 text-gray-900 items-center pr-3 bg-transparent focus:outline-none focus:shadow-solid transition duration-150 ease-in-out border-2 border-gray-200"
+          class="flex text-md  p-2 m-1 mx-2   items-center pr-3 bg-transparent focus:outline-none focus:shadow-solid transition duration-150 ease-in-out border-2 border-gray-200"
           :class="{ 'border-gray-300 bg-gray-500 text-white ': isShown }"
           aria-label="User menu"
           aria-haspopup="true"
@@ -32,8 +32,7 @@
         <a
         :href="row.url"
         v-for="row in item.rows"
-        target="_blank"
-        :key="row.title"
+         :key="row.title"
         class="block w-full px-4 py-2 leading-5 hover:bg-gray-600 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
         role="menuitem"
         @blur="blurHandler"

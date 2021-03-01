@@ -1,11 +1,14 @@
 const config={
 
   "dropdowns":[
-    {"title":"DOCS","rows":[
-         {"title":"Etherscan","url":"https://etherscan.io/"}
+    {"title":"POOL","rows":[
+         {"title":"Home","url":"/"},
+         {"title":"Accounts","url":"/accounts"},
+         {"title":"Overview","url":"/overview"}
     ]},
-    {"title":"EXCHANGES","rows":[
-      {"title":"UniswapV2","url":"https://uniswap.exchange/swap"}
+    {"title":"DOCS","rows":[
+      {"title":"0xBitcoin Token","url":"https://0xBitcoin.org"},
+      {"title":"Github","url":"https://github.org/0xbitcoin/tokenpool"}
     ]}
   ]
 

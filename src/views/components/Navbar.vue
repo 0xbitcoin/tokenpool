@@ -1,4 +1,13 @@
 <template>
+
+
+
+        <div class="section bg-gray-900  px-0 lg:px-1 border-b-2 border-gray-500">
+
+     <div class=" ">
+     
+
+
   <div data-collapse="small" data-animation="default" data-duration="400" class="navbar w-nav">
     <div class="bg-transparent   ">
     <div class="container w-container">
@@ -6,12 +15,12 @@
 
         <div class="flex-grow">
           <a href="/" class="brand w-nav-brand w--current">
-               <img src="@/assets/images/logo.png" height="35"  alt="" class="w-6 m-2">
-            <div class=" inline-block text-xl text-gray-900">Token Mining Pool</div>
+               <img src="@/assets/images/logo.png" height="55"  alt="" class="w-6 m-2">
+            <div class=" inline-block text-xl text-gray-100">Token Mining Pool</div>
          </a>
        </div>
 
-       <div class="hidden lg:inline-block   " style=" ">
+       <div class="hidden lg:inline-block text-gray-100  " style=" ">
          <UpperNav
          v-bind:web3Plug="web3Plug"
 
@@ -43,6 +52,10 @@
     </div>
     </div>
   </div>
+  </div>
+
+
+   </div>
 </template>
 
 

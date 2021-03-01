@@ -12,8 +12,8 @@ import NotFound from './views/NotFound.vue'
 Vue.use(Router)
 
 export default new Router({
-//  mode: 'history',
-//  base: process.env.PUBLIC_URL,
+   mode: 'history',
+   base: process.env.PUBLIC_URL,
   routes: [
 
     {
