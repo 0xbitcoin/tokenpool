@@ -109,6 +109,18 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
 
 
 
+
+## DEV TODO 
+1. Remove Redis and replace with mongo 
+2. Update the frontend to a more modernized Vue architecture 
+3. Fix gas price oracles 
+4. Move the payouts system to Matic
+5. Integrate PPLNS instead of Proportional Payouts (https://en.bitcoin.it/wiki/Comparison_of_mining_pools)
+6. Search, better interface on mobile 
+
+
+
+
 ## Task Commands Example
 node util/reset_all_miner_reward_data.js
 
