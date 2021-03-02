@@ -30,7 +30,7 @@ import PeerInterface from './lib/peer-interface';
 import TokenInterface from './lib/token-interface';
 
 import Web3ApiHelper from './lib/web3-api-helper';
-import PoolStatsHelper from  './lib/pool-stats-helper'  
+import PoolStatsHelper from  './lib/util/pool-stats-helper'  
 var webServer =  require('./lib/web-server')
 
 var diagnosticsManager =  require('./lib/diagnostics-manager')

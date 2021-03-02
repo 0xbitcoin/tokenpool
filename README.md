@@ -122,6 +122,9 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
 https://mintpond.com/b/prop-vs-pplns-vs-pps-mining-pool-reward-systems
 
 
+https://arxiv.org/pdf/1112.4980.pdf
+
+
 ## Task Commands Example
 node util/reset_all_miner_reward_data.js
 
