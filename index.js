@@ -78,10 +78,10 @@ if(pool_env == "test"){
 }
 */
 
-init(web3);
+init( );
 
 
-async function init(web3)
+async function init( )
 {
 
 
@@ -126,7 +126,7 @@ async function init(web3)
               // await redisInterface.init()
               await mongoInterface.init( 'tokenpool_'.concat(pool_env))
 
-               let web3apihelper = new Web3ApiHelper(mongoInterface)
+               let web3apihelper = new Web3ApiHelper(mongoInterface, poolConfig)
 
                let tokenInterface = new TokenInterface(mongoInterface, poolConfig)
               // await peerInterface.init(web3,accountConfig,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();

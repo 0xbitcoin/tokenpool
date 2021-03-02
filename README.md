@@ -115,10 +115,11 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
 2. Update the frontend to a more modernized Vue architecture 
 3. Fix gas price oracles 
 4. Move the payouts system to Matic
-5. Integrate PPLNS instead of Proportional Payouts (https://en.bitcoin.it/wiki/Comparison_of_mining_pools)
+5. Integrate PPS instead of Proportional Payouts (https://en.bitcoin.it/wiki/Comparison_of_mining_pools)
 6. Search, better interface on mobile 
+7. disconnect all miners when pool is on standby, API will say pool is in standby  (show on pool page) 
 
-
+https://mintpond.com/b/prop-vs-pplns-vs-pps-mining-pool-reward-systems
 
 
 ## Task Commands Example
