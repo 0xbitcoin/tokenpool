@@ -8,7 +8,7 @@
     
     "miningConfig":{
       "minimumShareDifficulty": 5000,
-      "allowCustomVardiff": false,
+      "allowCustomVardiff": false 
     },
   
     "mintingConfig":{
@@ -33,7 +33,7 @@
     
     "miningConfig":{
       "minimumShareDifficulty": 5000,
-      "allowCustomVardiff": false,
+      "allowCustomVardiff": false 
     },
   
     "mintingConfig":{

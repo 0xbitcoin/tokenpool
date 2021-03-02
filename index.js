@@ -20,7 +20,7 @@ console.log('poolConfig',poolConfig)
 
 console.log('init');
 
-fs = require('fs');
+var fs = require('fs');
 
 //var redisInterface = require('./lib/redis-interface')
 var mongoInterface = require('./lib/mongo-interface')
@@ -28,7 +28,7 @@ var peerInterface = require('./lib/peer-interface')
 var tokenInterface = require('./lib/token-interface')
 
 import Web3ApiHelper from './lib/web3-api-helper';
-import PoolStatsHelper from ('./lib/pool-stats-helper')
+import PoolStatsHelper from  './lib/pool-stats-helper' 
 var webServer =  require('./lib/web-server')
 
 var diagnosticsManager =  require('./lib/diagnostics-manager')

@@ -1,0 +1,6 @@
+/media/andy/Starflask/dev2/tokenpool/index.js:31
+import PoolStatsHelper from ('./lib/pool-stats-helper')
+                            ^
+
+SyntaxError: Invalid or unexpected token
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:789:10)
