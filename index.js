@@ -24,11 +24,13 @@ var fs = require('fs');
 
 //var redisInterface = require('./lib/redis-interface')
 var mongoInterface = require('./lib/mongo-interface')
-var peerInterface = require('./lib/peer-interface')
-var tokenInterface = require('./lib/token-interface')
+
+ 
+import PeerInterface from './lib/peer-interface';
+import TokenInterface from './lib/token-interface';
 
 import Web3ApiHelper from './lib/web3-api-helper';
-import PoolStatsHelper from  './lib/pool-stats-helper' 
+import PoolStatsHelper from  './lib/pool-stats-helper'  
 var webServer =  require('./lib/web-server')
 
 var diagnosticsManager =  require('./lib/diagnostics-manager')
@@ -38,8 +40,8 @@ var Web3 = require('web3')
 
 
 
-var mintingWeb3 = new Web3(poolConfig.mintingConfig.web3Provider)
-var paymentsWeb3 = new Web3(poolConfig.paymentsConfig.web3Provider)
+//var mintingWeb3 = new Web3(poolConfig.mintingConfig.web3Provider)
+//var paymentsWeb3 = new Web3(poolConfig.paymentsConfig.web3Provider)
 
 var mongoInitParam;
 
@@ -126,7 +128,7 @@ async function init(web3)
 
                let web3apihelper = new Web3ApiHelper(mongoInterface)
 
-               await tokenInterface.init(mongoInterface,web3,accountConfig,pool_env , web3apihelper)
+               let tokenInterface = new TokenInterface(mongoInterface, poolConfig)
               // await peerInterface.init(web3,accountConfig,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
                tokenInterface.update();
                
@@ -141,8 +143,10 @@ async function init(web3)
               // web3apihelper.init(pool_env)
 
             //  await tokenInterface.init(mongoInterface,web3,accountConfig,pool_env, web3apihelper)
-              await peerInterface.init(web3,accountConfig,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
+             // await peerInterface.init( mongoInterface,  poolConfig ) //initJSONRPCServer();
               //tokenInterface.update();
+              let peerInterface = new PeerInterface(mongoInterface, poolConfig) 
+
               peerInterface.update();
               peerInterface.listenForJSONRPC();
             }
