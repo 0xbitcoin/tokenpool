@@ -57,23 +57,14 @@
          
       </section>
 
- <section id="guide" class="box background-primary has-text-centered ">
-        <div class='title'> Start Mining 0xBitcoin </div>
+ <section id="guide" class="box background-primary text-center ">
+        <div class='text-lg text-white'> Start Mining 0xBitcoin </div>
 
-        <a href="https://bitbucket.org/LieutenantTofu/cosmic-v3/downloads/COSMiC-v4.1.1-MultiGPU-TMP.zip" target="_blank">
-          <div class='button-bubble button-gradient'>Download the Token Miner (Windows)</div>
-        </a>
-      <div class="whitespace-sm"></div>
-        <a href="https://github.com/lwYeo/SoliditySHA3Miner/releases" target="_blank">
-          <div class='button-bubble button-gradient'>Download the Token Miner (Linux)</div>
-        </a>
+         <div class="cursor-pointer   select-none bg-gray-800 p-1 mt-1 rounded text-white text-xs inline-block hover:bg-gray-700"> Instructions</div>
 
-
-
-
-        <div class="toggle-mining-instructions acts-as-link color-fun-secondary"> Instructions</div>
-
-        <div class="mining-instructions-container">
+          <br>
+      
+        <div class="mining-instructions-container hidden ">
             <div class="columns">
             <div class= "column background-secondary color-primary is-half-desktop " style=" margin: 0 auto;">
               <p>Download the mining software</p>
@@ -92,6 +83,21 @@
            </div>
      </div>
 
+
+
+        <a href="https://bitbucket.org/LieutenantTofu/cosmic-v3/downloads/COSMiC-v4.1.1-MultiGPU-TMP.zip" target="_blank">
+          <div class='bg-yellow-500 p-4 mt-4 rounded text-white inline-block hover:bg-yellow-400'>Download the Token Miner (Windows)</div>
+        </a>
+      <div class=" "></div>
+        <a href="https://github.com/lwYeo/SoliditySHA3Miner/releases" target="_blank">
+          <div class='bg-yellow-500 p-4 mt-4 rounded text-white inline-block  hover:bg-yellow-400'>Download the Token Miner (Linux)</div>
+        </a>
+
+     <div class="whitespace-sm"></div>
+
+
+       
+
     </section>
 
 
@@ -99,13 +105,13 @@
 
     <section class="flex flex-row">
       
-        <div>
+        <div class="w-1/2">
           
             <HashrateChart 
             
             />
       </div>
-      <div>
+      <div class="w-1/2">
          
             <div class="card card-background-secondary"  >
               <div class="card-content  ">

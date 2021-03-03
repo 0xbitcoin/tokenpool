@@ -8,6 +8,10 @@ body{
 
 } 
 
+a {
+  color: rgb(154, 177, 26);
+}
+
 .font-roboto {
   font-family: 'Roboto Mono', monospace;
 }
