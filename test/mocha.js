@@ -1,12 +1,20 @@
 
 const chai = require('chai')
+const ganache = require('ganache-cli')
+const Web3 = require('web3');
+const fs = require("fs");
+
+const TokenContractJSON = require("./assets/contracts/build/_0xBitcoinToken.json")
+
+import TestHelper from './TestHelper'
 
 var assert = chai.assert;
 
-describe('Array', function() {
-  it('should start empty', function() {
-    var arr = [];
+describe('Pool System', async function() {
+  it('should deploy contract', async  function() {
 
-    assert.equal(arr.length, 0);
+  //  let compiledContractJSON = TokenContractJSON
+    let contract = await TestHelper.deployContract( TokenContractJSON  )
+
   });
 });
