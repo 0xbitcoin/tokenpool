@@ -55,7 +55,8 @@ describe('Pool System', async function() {
 
     //set up the pool config variable 
     testPoolConfig = {
-
+      poolEnv:"test",
+      
       mintingConfig:{
         maxSolutionGasPriceWei: 100, 
         poolTokenFee: 5,
@@ -129,9 +130,7 @@ describe('Pool System', async function() {
 
 
   it('should queueTokenTransfersForBalances ', async (   ) => {
-
-    
-
+ 
     let results = await TokenInterface.queueTokenTransfersForBalances(mongoInterface,testPoolConfig)
 
     let firstMiner = results[0]

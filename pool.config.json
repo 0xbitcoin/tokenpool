@@ -3,6 +3,7 @@
  
 
   "staging":{
+    "poolEnv":"staging",
     "apiConfig":{
       "defiPulseApiKey": "df094dded7c2d47f90912d736c23dd06135bce039fde814e7a2e457a0ab8"
     }, 
@@ -28,6 +29,7 @@
     }
   },
   "production":{
+    "poolEnv":"production",
     "apiConfig":{
       "defiPulseApiKey": "df094dded7c2d47f90912d736c23dd06135bce039fde814e7a2e457a0ab8"
     }, 
