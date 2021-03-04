@@ -32,6 +32,8 @@ var testPoolConfig
 
 var web3
 
+var testMinerEthAddress  
+
 describe('Pool System', async function() {
   it('should deploy contract', async  function() {
 
@@ -40,7 +42,8 @@ describe('Pool System', async function() {
     provider.setMaxListeners(15);       // Suppress MaxListenersExceededWarning warning
       web3 = new Web3(provider);
     let accounts = await web3.eth.getAccounts();
- 
+    
+    testMinerEthAddress = accounts[1]
 
   //  let compiledContractJSON = TokenContractJSON
     let deployment = await TestHelper.deployContract(web3, TokenContractJSON  )
@@ -54,10 +57,18 @@ describe('Pool System', async function() {
     testPoolConfig = {
 
       mintingConfig:{
-        "maxSolutionGasPriceWei": 100, 
-        "poolTokenFee": 5,
-        "communityTokenFee": 2,
-         web3Provider: ganache.provider() 
+        maxSolutionGasPriceWei: 100, 
+        poolTokenFee: 5,
+        communityTokenFee: 2,
+        web3Provider: ganache.provider() 
+      },
+
+      paymentsConfig:{
+        maxTransferGasPriceWei: 96,
+        minBalanceForTransfer: 1500000000,  
+        rebroadcastPaymentWaitBlocks: 10,
+        minPaymentsInBatch: 1,
+        web3Provider: ganache.provider() 
       }
       
 
@@ -75,10 +86,18 @@ describe('Pool System', async function() {
     
   });
 
-  it('should init token interface ', async (   ) => {
+  it('should init mongo   ', async (   ) => {
 
-      await mongoInterface.init( 'tokenpool_'.concat(pool_env))
+    await mongoInterface.init( 'tokenpool_'.concat(pool_env))
 
+     
+});
+
+
+
+  it('should collect token params  ', async (   ) => {
+
+     
       let tokenInterface = new TokenInterface(mongoInterface, testPoolConfig)
 
       assert.isOk( tokenInterface );
@@ -87,9 +106,37 @@ describe('Pool System', async function() {
 
       let results = await TokenDataHelper.collectTokenParameters(tokenContract,  web3,  mongoInterface)
 
-
-
+ 
 
   });
 
+
+  it('should stub DB Data ', async (   ) => {
+
+    await mongoInterface.dropDatabase()
+
+    console.log('testMinerEthAddress', testMinerEthAddress)
+
+    let newMinerData = PeerHelper.getDefaultMinerData( testMinerEthAddress )
+
+
+    newMinerData.alltimeTokenBalance =  2500000000
+    await mongoInterface.insertOne('minerData', newMinerData )
+
+  });
+
+
+  it('should queueTokenTransfersForBalances ', async (   ) => {
+
+    
+
+    let results = await TokenInterface.queueTokenTransfersForBalances(mongoInterface,testPoolConfig)
+
+    let firstMiner = results[0]
+
+    assert.equal( firstMiner.tokenBalance, 0  );
+
+  });
+
+ 
 });
