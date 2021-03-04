@@ -17,7 +17,7 @@
       "maxSolutionGasPriceWei": 100, 
       "poolTokenFee": 5,
       "communityTokenFee": 2,
-      "web3Provider":""
+      "web3Provider":"https://kovan.infura.io/v3/244edbea5c684f28abebcff483b9a8b9"
     },
   
     "paymentsConfig":{
@@ -25,7 +25,7 @@
       "minBalanceForTransfer": 1500000000,  
       "rebroadcastPaymentWaitBlocks": 10,
       "minPaymentsInBatch": 1,
-      "web3Provider": ""
+      "web3Provider": "https://kovan.infura.io/v3/244edbea5c684f28abebcff483b9a8b9"
     }
   },
   "production":{
@@ -43,7 +43,7 @@
       "maxSolutionGasPriceWei": 100, 
       "poolTokenFee": 5,
       "communityTokenFee": 2,
-      "mintingWeb3Provider":""
+      "web3Provider":"https://mainnet.infura.io/v3/244edbea5c684f28abebcff483b9a8b9"
     },
   
     "paymentsConfig":{
@@ -51,7 +51,7 @@
       "minBalanceForTransfer": 1500000000,  
       "rebroadcastPaymentWaitBlocks": 10,
       "minPaymentsInBatch": 1,
-      "paymentsWeb3Provider": ""
+      "web3Provider": "https://mainnet.infura.io/v3/244edbea5c684f28abebcff483b9a8b9"
     }
   }
   
