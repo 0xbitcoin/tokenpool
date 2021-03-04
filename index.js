@@ -1,6 +1,6 @@
 
-//var INFURA_ROPSTEN_URL = 'https://ropsten.infura.io/v3/244edbea5c684f28abebcff483b9a8b9';
-//var INFURA_MAINNET_URL = 'https://mainnet.infura.io/v3/244edbea5c684f28abebcff483b9a8b9';
+//var INFURA_ROPSTEN_URL = 'https://ropsten.infura.io/v3/';
+//var INFURA_MAINNET_URL = 'https://mainnet.infura.io/v3/';
 
 
 var https_enabled = process.argv[2] === 'https';
@@ -29,12 +29,12 @@ var mongoInterface = require('./lib/mongo-interface')
 import PeerInterface from './lib/peer-interface';
 import TokenInterface from './lib/token-interface';
 
-import Web3ApiHelper from './lib/web3-api-helper';
+import Web3ApiHelper from './lib/util/web3-api-helper';
 import PoolStatsHelper from  './lib/util/pool-stats-helper'  
 var webServer =  require('./lib/web-server')
 
 var diagnosticsManager =  require('./lib/diagnostics-manager')
-var web3apihelper =  require('./lib/web3-api-helper')
+ 
 var accountConfig;
 var Web3 = require('web3')
 
