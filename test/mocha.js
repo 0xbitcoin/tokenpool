@@ -90,7 +90,7 @@ describe('Pool System', async function() {
 
     await mongoInterface.init( 'tokenpool_'.concat(pool_env))
 
-     
+    await mongoInterface.dropDatabase()
 });
 
 
@@ -106,14 +106,16 @@ describe('Pool System', async function() {
 
       let results = await TokenDataHelper.collectTokenParameters(tokenContract,  web3,  mongoInterface)
 
- 
+      let ethBlockNumber = await TokenDataHelper.getEthBlockNumber(mongoInterface)
+
+      assert.isOk( ethBlockNumber );
 
   });
 
 
   it('should stub DB Data ', async (   ) => {
 
-    await mongoInterface.dropDatabase()
+    
 
     console.log('testMinerEthAddress', testMinerEthAddress)
 
