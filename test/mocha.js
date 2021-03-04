@@ -56,7 +56,7 @@ describe('Pool System', async function() {
     //set up the pool config variable 
     testPoolConfig = {
       poolEnv:"test",
-      
+
       mintingConfig:{
         maxSolutionGasPriceWei: 100, 
         poolTokenFee: 5,
@@ -138,6 +138,8 @@ describe('Pool System', async function() {
     assert.equal( firstMiner.tokenBalance, 0  );
 
   });
+
+  
 
  
 });

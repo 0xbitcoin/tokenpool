@@ -104,13 +104,16 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
 
 
 ## DEV TODO 
-1. Remove Redis and replace with mongo 
-2. Update the frontend to a more modernized Vue architecture 
-3. Fix gas price oracles 
+1. Remove Redis and replace with mongo   [done]
+2. Update the frontend to a more modernized Vue architecture  [done] 
+3. Fix gas price oracles  (use bree?)
 4. Move the payouts system to Matic
 5. Integrate PPS instead of Proportional Payouts (https://en.bitcoin.it/wiki/Comparison_of_mining_pools)
 6. Search, better interface on mobile 
 7. disconnect all miners when pool is on standby, API will say pool is in standby  (show on pool page) 
+
+8. Ditch MintForwarder,  make batchpayments piece optional  via config (for farmer pools) 
+
 
 https://mintpond.com/b/prop-vs-pplns-vs-pps-mining-pool-reward-systems
 

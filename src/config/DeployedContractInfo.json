@@ -4,27 +4,21 @@
       "mainnet": {
               "contracts": {
                 "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0xb6ed7644c69416d67b522e20bc294a9a9b405b31"},
-                "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0xebf6245689194a6e43096551567827c6726ede0b"},
-                "mintforwarder":{"name":"MintHelper", "blockchain_address":"0xeAbE48908503b7eFb090F35595fb8d1A4D55bD66"}
-
-
-
+                "batchedpayments": {"name":"BatchedPayments", "blockchain_address":" "} 
+               
               }
             },
-      "staging": {
+      "kovan": {
               "contracts": {
-                "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x176762d66f15ccdd0d3a1dc13040d794c9c93776"},
-                "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0x8abA3900567Dff202b634eCf98E71A6Dd251daF7"},
-                "mintforwarder":{"name":"MintHelper", "blockchain_address":"0xeAbE48908503b7eFb090F35595fb8d1A4D55bD66"}
+                "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x24a19ee5a5c8757acdebe542a9436d9c796d1c9e"},
+                "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0x2600c1d268a53b69f3e8488fe91f2c269dba1eb2"} 
               }
             },
-      "testnet": {
-              "contracts": {
-                "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x4fb6715cf6118746c1f08f1d739e17f2b12aaba8"},
-                "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0x8abA3900567Dff202b634eCf98E71A6Dd251daF7"},
-
-                "mintforwarder":{"name":"MintHelper", "blockchain_address":"0x6ffcad89b80bfa3064437c3fbaefef31b1e90f85"}
-              }
-            }
+      "matic": {
+        "contracts": {
+          "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":" "},
+          "batchedpayments": {"name":"BatchedPayments", "blockchain_address":" "} 
+        }
+      } 
     }
 }

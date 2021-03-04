@@ -9,7 +9,7 @@
     }, 
     
     "miningConfig":{
-      "minimumShareDifficulty": 5000,
+      "minimumShareDifficulty": 50,
       "allowCustomVardiff": false 
     },
   
@@ -17,6 +17,10 @@
       "maxSolutionGasPriceWei": 100, 
       "poolTokenFee": 5,
       "communityTokenFee": 2,
+      "publicAddress": "0xB11ca87E32075817C82Cc471994943a4290f4a14",
+      "privateKey":"",
+
+      "networkName":"kovan",
       "web3Provider":"https://kovan.infura.io/v3/244edbea5c684f28abebcff483b9a8b9"
     },
   
@@ -25,6 +29,10 @@
       "minBalanceForTransfer": 1500000000,  
       "rebroadcastPaymentWaitBlocks": 10,
       "minPaymentsInBatch": 1,
+      "publicAddress": "0xB11ca87E32075817C82Cc471994943a4290f4a14",
+      "privateKey":"",
+
+      "networkName":"kovan",
       "web3Provider": "https://kovan.infura.io/v3/244edbea5c684f28abebcff483b9a8b9"
     }
   },
@@ -43,6 +51,7 @@
       "maxSolutionGasPriceWei": 100, 
       "poolTokenFee": 5,
       "communityTokenFee": 2,
+      "networkName":"mainnet",
       "web3Provider":"https://mainnet.infura.io/v3/244edbea5c684f28abebcff483b9a8b9"
     },
   
@@ -51,6 +60,7 @@
       "minBalanceForTransfer": 1500000000,  
       "rebroadcastPaymentWaitBlocks": 10,
       "minPaymentsInBatch": 1,
+      "networkName":"matic",
       "web3Provider": "https://mainnet.infura.io/v3/244edbea5c684f28abebcff483b9a8b9"
     }
   }
