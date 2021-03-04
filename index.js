@@ -108,10 +108,10 @@ async function init( )
      //      await peerInterface.init(web3,accountConfig,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
         
      
-     await mongoInterface.init( 'tokenpool_'.concat(pool_env))
+            await mongoInterface.init( 'tokenpool_'.concat(pool_env))
 
 
-         await diagnosticsManager.init(mongoInterface)
+           await diagnosticsManager.init(mongoInterface)
 
            await webServer.init(https_enabled,mongoInterface)
            diagnosticsManager.update()
@@ -124,7 +124,7 @@ async function init( )
             if(worker_id == 1)  //updater
             {
               // await redisInterface.init()
-              await mongoInterface.init( 'tokenpool_'.concat(pool_env))
+               await mongoInterface.init( 'tokenpool_'.concat(pool_env))
 
                let web3apihelper = new Web3ApiHelper(mongoInterface, poolConfig)
 

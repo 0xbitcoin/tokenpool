@@ -10,7 +10,7 @@
     "build": "vue-cli-service build",
     "deploy": "node deploy.js",
     "lint": "vue-cli-service lint",
-    "mocha": "mocha -r esm  test/mocha.js",
+    "mocha": "mocha -r esm  test/mocha.js --timeout 15000",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {

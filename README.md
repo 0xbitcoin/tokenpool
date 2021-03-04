@@ -99,14 +99,7 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
 
  - Mongo is used to store data related to miner shares, balances, and payments
 
-
-## Installing Redis  
-  1. sudo apt-get install redis
-  2. sudo service redis-server start
-
-   - Redis will serve/connect at localhost:6379 by default - the pool will use this port
-   - Redis is only used for frontend non-critical data, but is required for this web application
-
+ (WSL: sudo mongod --dbpath ~/data/db)
 
 
 
