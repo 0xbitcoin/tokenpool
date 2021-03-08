@@ -113,7 +113,7 @@ async function init( )
 
            await diagnosticsManager.init(mongoInterface)
 
-           await webServer.init(https_enabled,mongoInterface)
+           await webServer.init(https_enabled,poolConfig,mongoInterface)
            diagnosticsManager.update()
 
       // Code to run if we're in a worker process

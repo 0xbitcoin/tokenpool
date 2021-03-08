@@ -25,7 +25,7 @@
                </a>
                </td>
 
-              <td class="tx-status-cell">  {{ item.formattedStatus}} </td>
+              <td class="tx-status-cell">  {{ item.status}} </td>
             </tr>
 
           </tbody>

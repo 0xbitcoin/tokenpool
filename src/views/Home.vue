@@ -60,30 +60,30 @@
  <section id="guide" class="box background-primary text-center ">
         <div class='text-lg text-white'> Start Mining 0xBitcoin </div>
 
-         <div class="cursor-pointer   select-none bg-gray-800 p-1 mt-1 rounded text-white text-xs inline-block hover:bg-gray-700"> Instructions</div>
+         <div @click="showInstructions=!showInstructions" class="cursor-pointer   select-none bg-gray-800 p-1 mt-1 rounded text-white text-xs inline-block hover:bg-gray-700"> Instructions</div>
 
           <br>
       
-        <div class="mining-instructions-container hidden ">
-            <div class="columns">
-            <div class= "column background-secondary color-primary is-half-desktop " style=" margin: 0 auto;">
+        <div class="  m-2 "  v-if="showInstructions">
+             
+            <div class= " inline-block bg-gray-800 p-2 text-white">
               <p>Download the mining software</p>
               <hr>
               <p>Set pool URL to 'http://tokenminingpool.com:8080'</p>
               <hr>
               <p>Set address to your ETH address and begin mining!</p>
-                <div class="whitespace-sm"></div>
-              <a href="https://github.com/0xbitcoin/0xbitcoin-miner/blob/master/RELEASES.md" target="_blank">
-                <div class='button-bubble button-gradient'>Links for Other Miners</div>
-              </a>
+                
              </div>
 
 
 
-           </div>
+            
      </div>
-
-
+      <div class="whitespace-sm"></div>
+        <a href="https://github.com/0xbitcoin/0xbitcoin-miner/blob/master/RELEASES.md" target="_blank">
+          <div class='button-bubble button-gradient'>Links for Other Miners</div>
+        </a>
+      
 
         <a href="https://bitbucket.org/LieutenantTofu/cosmic-v3/downloads/COSMiC-v4.1.1-MultiGPU-TMP.zip" target="_blank">
           <div class='bg-yellow-500 p-4 mt-4 rounded text-white inline-block hover:bg-yellow-400'>Download the Token Miner (Windows)</div>
@@ -121,8 +121,8 @@
                   <p>Minting: {{poolAPIData.mintingAddress}}</p>
                 </a>
 
-                <a v-cloak v-bind:href='poolAPIData.etherscanPaymentURL' >
-                  <p>Payments: {{poolAPIData.paymentAddress}}</p>
+                <a v-cloak v-bind:href='poolAPIData.etherscanPaymentsURL' >
+                  <p>Payments: {{poolAPIData.paymentsAddress}}</p>
                 </a>
 
 
@@ -136,12 +136,14 @@
      
     <section>
        <TransactionsTable
-        label="Recent Solutions"
+        label="Recent Solutions" 
+        v-bind:transactionsList="recentSolutionTx"
       />
     </section>
     <section>
        <TransactionsTable
         label="Recent Payments"
+        v-bind:transactionsList="recentPaymentTx"
       />
     </section>
 
@@ -182,7 +184,13 @@ export default {
       
       poolAPIData: {}, //read this from sockets
       miningAccountSearchQuery: null, 
-      web3Plug: null
+      web3Plug: null,
+      showInstructions: false,
+
+
+
+      recentSolutionTx:[],
+      recentPaymentTx:[] 
     }
   },
   created(){
@@ -195,15 +203,16 @@ export default {
      
      
       this.socketsListener.on('poolData', (data) => {  
-            console.log('got pool data',data)
+             
+            this.poolAPIData = data 
         });
 
          this.socketsListener.on('recentSolutions', (data) => {  
-            console.log('got recentSolutions data',data)
+            this.recentSolutionTx=data
         });
 
          this.socketsListener.on('recentPayments', (data) => {  
-            console.log('got recentPayments data',data)
+            this.recentPaymentTx=data
         });
 
       
