@@ -8,7 +8,7 @@
        <Navbar />
      
 
-   <div class="section bg-gray-100 autospacing mb-16">
+   <div class="section bg-slate   ">
      <div class="w-container pt-8">
 
        

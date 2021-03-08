@@ -10,7 +10,7 @@
 
 
 
-   <div class="section dark   autospacing  ">
+   <div class="section bg-slate   autospacing  ">
      <div class=" w-container pt-8">
 
 
@@ -224,9 +224,9 @@ export default {
     },
 
     pollSockets(){
-      this.socketHelper.emitEvents(['getPoolData'])
-      this.socketHelper.emitEvents(['getRecentSolutions'])
-      this.socketHelper.emitEvents(['getRecentPayments'])
+      this.socketHelper.emitEvent('getPoolData')
+      this.socketHelper.emitEvent('getRecentSolutions')
+      this.socketHelper.emitEvent('getRecentPayments')
     }
  
 

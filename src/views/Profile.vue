@@ -7,66 +7,66 @@
  
         <Navbar />
 
-   <div class="section bg-gray-100 autospacing mb-16">
+   <div class="section bg-slate text-gray-100">
      <div class="w-container pt-8">
 
        
-
-
-
+ 
        
       
             <h1 class="title font-primary-title color-primary">
-              Mining Account List
+              Mining Account 
             </h1>
             <h2 class="subtitle">
-             Token Mining Pool
+             {{ publicAddress }}
             </h2>
 
 
 
              <div class="whitespace-sm"></div>
 
- 
+              <div v-if="minerData">
+                <div> Hashrate Average: {{ minerData.avgHashrate }} </div>
+                 <div> Tokens Owed: {{ minerData.tokensBalance }} </div>
+                  <div> Tokens Awarded: {{ minerData.tokensAwarded }} </div>
+              </div>
 
 
 
      
-     
+      <div class="whitespace-md"></div>
 
-      <div   class="box  background-secondary" style="overflow-x:auto; min-height:480px;">
-        <div class='subtitle'>Miners</div>
+      <div   class="box  background-secondary" 
+         style="overflow-x:auto; min-height:480px;">
+
+        <div class='text-lg font-bold'>Shares</div>
         <table class='table table-dark zeroauto'>
 
           <thead>
             <tr >
-              <td> Miner # </td>
+              
 
-              <td> Eth Address </td>
-              <td> Hash Rate </td>
-              <td> Share % </td>
-              <td> Pending Token Balance </td>
-              <td> Total Tokens Earned </td>
+               
+              <td> Block # </td>
+              <td> Difficulty  </td>
+              <td> Hashrate Est </td>
+              <td> Is Full Soln </td>
             </tr>
           </thead>
 
           <tbody>
 
-            <tr v-for="(item, index) in accountList">
-              <td> Miner {{ index }} </td>
+            <tr v-for="(share, index) in shares">
+             
 
 
-                <td>
-                      <a v-bind:href='item.profileURL' >
-                        <p>  {{ item.minerAddress }}  </p>
-                      </a>
-                </td>
+               
 
-              <td> {{ item.sharesData.hashRateFormatted }} </td>
+              <td> {{ share.block }} </td>
 
-              <td>  {{ item.sharesData.sharesPercent}} </td>
-              <td>  {{ item.minerData.tokenBalanceFormatted }} </td>
-              <td>  {{ item.minerData.tokenRewardsFormatted }} </td>
+              <td>  {{ share.difficulty }} </td>
+              <td>  {{ share.hashrateEstimate  }} </td>
+              <td>  {{ share.isSolution }} </td>
             </tr>
 
 
@@ -77,6 +77,41 @@
 
 
 
+<div class="whitespace-md"></div>
+
+      <div   class="box  background-secondary" 
+         style="overflow-x:auto; min-height:480px;">
+
+        <div class='text-lg font-bold'>Payouts</div>
+        <table class='table table-dark zeroauto'>
+
+          <thead>
+            <tr > 
+               
+              <td> Block # </td>
+              <td> Difficulty  </td>
+              <td> Hashrate Est </td>
+              <td> Is Full Soln </td>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr v-for="(tx, index) in payment_tx">
+              
+
+              <td> {{ tx.block }} </td>
+
+              <td>  {{ tx.difficulty }} </td>
+              <td>  {{ tx.hashrateEstimate  }} </td>
+              <td>  {{ tx.isSolution }} </td>
+            </tr>
+
+
+          </tbody>
+        </table>
+
+      </div>
 
 
 
@@ -98,28 +133,64 @@
 
 
 <script>
+import Vue from 'vue'
+
 import Navbar from './components/Navbar.vue';
 import AppPanel from './components/AppPanel.vue';
 import VerticalNav from './components/VerticalNav.vue'
 import Footer from './components/Footer.vue';
  
 
+import SocketHelper from '../js/socket-helper'
 
 export default {
-  name: 'Accounts',
+  name: 'Profile',
   props: [],
   components: {Navbar,AppPanel,VerticalNav,Footer},
   data() {
     return {
-       
-      accountList: [] 
+         publicAddress:null,
+         minerData:{}, 
+         shares: [],
+         payment_tx: [] 
     }
   },
   created(){
+    this.publicAddress = this.$route.params.publicAddress
+  
+
+    this.socketHelper = new SocketHelper()
     
+    setInterval(this.pollSockets.bind(this),5000)
+
+
+    this.socketsListener = this.socketHelper.initSocket()
+    
+    
+    this.socketsListener.on('minerData', (data) => {               
+        console.log('got data',data)
+       this.minerData = data 
+    });
+
+      this.socketsListener.on('minerShares', (data) => {               
+        console.log('got shares',data)
+       this.shares = data 
+    });
+
+    this.socketsListener.on('minerPayments', (data) => {               
+        console.log('got payments',data)
+       this.payment_tx = data 
+    });
+
+      
+
   },
   methods: {
-     
+    pollSockets(){
+      this.socketHelper.emitEvent( 'getMinerData', {ethMinerAddress: this.publicAddress})
+      this.socketHelper.emitEvent( 'getMinerShares', {ethMinerAddress: this.publicAddress})
+      this.socketHelper.emitEvent( 'getMinerPayments', {ethMinerAddress: this.publicAddress})
+    }
 
   }
 }

@@ -8,6 +8,10 @@ body{
 
 } 
 
+.bg-slate{
+  background: #32333c;
+}
+
 a {
   color: rgb(154, 177, 26);
 }
