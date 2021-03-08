@@ -8,74 +8,28 @@
         <Navbar />
      
 
-   <div class="section bg-gray-100 autospacing mb-16">
+   <div class="section bg-slate  text-white">
      <div class="w-container pt-8">
 
        
-
-
-
-       
-      
-            <h1 class="title font-primary-title color-primary">
-              Mining Account List
-            </h1>
-            <h2 class="subtitle">
-             Token Mining Pool
-            </h2>
-
-
-
-             <div class="whitespace-sm"></div>
-
  
 
+      <h1 class="title font-primary-title color-primary">
+        Pool Overview
+      </h1>
+      
+
+
+        <div class="whitespace-sm"></div>
+
+      --  TBD --
+
 
 
      
      
 
-      <div   class="box  background-secondary" style="overflow-x:auto; min-height:480px;">
-        <div class='subtitle'>Miners</div>
-        <table class='table table-dark zeroauto'>
-
-          <thead>
-            <tr >
-              <td> Miner # </td>
-
-              <td> Eth Address </td>
-              <td> Hash Rate </td>
-              <td> Share % </td>
-              <td> Pending Token Balance </td>
-              <td> Total Tokens Earned </td>
-            </tr>
-          </thead>
-
-          <tbody>
-
-            <tr v-for="(item, index) in accountList">
-              <td> Miner {{ index }} </td>
-
-
-                <td>
-                      <a v-bind:href='item.profileURL' >
-                        <p>  {{ item.minerAddress }}  </p>
-                      </a>
-                </td>
-
-              <td> {{ item.sharesData.hashRateFormatted }} </td>
-
-              <td>  {{ item.sharesData.sharesPercent}} </td>
-              <td>  {{ item.minerData.tokenBalanceFormatted }} </td>
-              <td>  {{ item.minerData.tokenRewardsFormatted }} </td>
-            </tr>
-
-
-          </tbody>
-        </table>
-
-      </div>
-
+      
 
 
 

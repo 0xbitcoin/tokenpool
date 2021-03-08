@@ -80,9 +80,7 @@
             
      </div>
       <div class="whitespace-sm"></div>
-        <a href="https://github.com/0xbitcoin/0xbitcoin-miner/blob/master/RELEASES.md" target="_blank">
-          <div class='button-bubble button-gradient'>Links for Other Miners</div>
-        </a>
+        
       
 
         <a href="https://bitbucket.org/LieutenantTofu/cosmic-v3/downloads/COSMiC-v4.1.1-MultiGPU-TMP.zip" target="_blank">
@@ -91,6 +89,12 @@
       <div class=" "></div>
         <a href="https://github.com/lwYeo/SoliditySHA3Miner/releases" target="_blank">
           <div class='bg-yellow-500 p-4 mt-4 rounded text-white inline-block  hover:bg-yellow-400'>Download the Token Miner (Linux)</div>
+        </a>
+
+     <div class="whitespace-sm"></div>
+     
+        <a href="https://github.com/0xbitcoin/0xbitcoin-miner/blob/master/RELEASES.md" target="_blank">
+          <div class='button-bubble button-gradient'>Links for Other Miners</div>
         </a>
 
      <div class="whitespace-sm"></div>

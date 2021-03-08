@@ -40,7 +40,7 @@
          style="overflow-x:auto; min-height:480px;">
 
         <div class='text-lg font-bold'>Shares</div>
-        <table class='table table-dark zeroauto'>
+        <table class='table w-full'>
 
           <thead>
             <tr >
@@ -83,7 +83,7 @@
          style="overflow-x:auto; min-height:480px;">
 
         <div class='text-lg font-bold'>Payouts</div>
-        <table class='table table-dark zeroauto'>
+        <table class='table w-full'>
 
           <thead>
             <tr > 
@@ -182,7 +182,7 @@ export default {
        this.payment_tx = data 
     });
 
-      
+    this.pollSockets()
 
   },
   methods: {

@@ -25,6 +25,7 @@
     },
   
     "paymentsConfig":{
+      "enablePPS":true,
       "maxTransferGasPriceWei": 96,
       "minBalanceForTransfer": 1500000000,  
       "rebroadcastPaymentWaitBlocks": 10,
@@ -56,6 +57,7 @@
     },
   
     "paymentsConfig":{
+      "enablePPS":true,
       "maxTransferGasPriceWei": 96,
       "minBalanceForTransfer": 1500000000,  
       "rebroadcastPaymentWaitBlocks": 10,

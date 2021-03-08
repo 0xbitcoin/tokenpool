@@ -3,7 +3,7 @@
         <div class='subtitle'>{{label}}</div>
 
 
-        <table class='table table-dark zeroauto' v-cloak>
+        <table class='table w-full' v-cloak>
 
           <thead>
             <tr >

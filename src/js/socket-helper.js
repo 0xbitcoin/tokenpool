@@ -37,7 +37,7 @@ export default class SocketHelper{
 
 
     emitEvent(evt,args){
-      
+        console.log('emit',evt,args)
         socket.emit(evt,args); 
        
          

@@ -9,7 +9,7 @@
      
 
    <div class="section bg-slate   ">
-     <div class="w-container pt-8">
+     <div class="w-container pt-8 text-gray-100">
 
        
 
@@ -17,11 +17,11 @@
 
        
       
-            <h1 class="title font-primary-title color-primary">
+            <h1 class="title text-lg text-gray-100">
               Mining Account List
             </h1>
-            <h2 class="subtitle">
-             Token Mining Pool
+            <h2 class=" ">
+             
             </h2>
 
 
@@ -36,8 +36,8 @@
      
 
       <div   class="box  background-secondary" style="overflow-x:auto; min-height:480px;">
-        <div class='subtitle'>Miners</div>
-        <table class='table table-dark zeroauto'>
+        <div class='subtitle'> </div>
+        <table class='table w-full'>
 
           <thead>
             <tr >
@@ -45,7 +45,7 @@
 
               <td> Eth Address </td>
               <td> Hash Rate </td>
-              <td> Share % </td>
+             
               <td> Pending Token Balance </td>
               <td> Total Tokens Earned </td>
             </tr>
@@ -58,16 +58,16 @@
 
 
                 <td>
-                      <a v-bind:href='item.profileURL' >
-                        <p>  {{ item.minerAddress }}  </p>
+                      <a v-bind:href='"/profile/"+item.minerEthAddress' >
+                        <span>  {{ item.minerEthAddress }}  </span>
                       </a>
                 </td>
 
-              <td> {{ item.sharesData.hashRateFormatted }} </td>
+              <td> {{ item.avgHashrate}} </td>
 
-              <td>  {{ item.sharesData.sharesPercent}} </td>
-              <td>  {{ item.minerData.tokenBalanceFormatted }} </td>
-              <td>  {{ item.minerData.tokenRewardsFormatted }} </td>
+               
+              <td> {{ item.tokenBalance}}   </td>
+              <td> {{ item.alltimeTokenBalance}}    </td>
             </tr>
 
 
@@ -105,6 +105,7 @@ import VerticalNav from './components/VerticalNav.vue'
 import Footer from './components/Footer.vue';
  
 
+import SocketHelper from '../js/socket-helper'
 
 export default {
   name: 'Accounts',
@@ -118,9 +119,28 @@ export default {
   },
   created(){
     
+     this.socketHelper = new SocketHelper()
+    
+     setInterval(this.pollSockets.bind(this),5000)
+
+
+    this.socketsListener = this.socketHelper.initSocket()
+    
+    
+    this.socketsListener.on('minerList', (data) => {               
+        console.log('got data',data)
+       this.accountList = data 
+    });
+
+
+   this.pollSockets()
+
   },
   methods: {
-     
+      pollSockets(){
+       
+          this.socketHelper.emitEvent( 'getMinerList')
+      }
 
   }
 }
