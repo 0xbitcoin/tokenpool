@@ -192,8 +192,18 @@ export default {
 
 
       this.socketsListener = this.socketHelper.initSocket()
+     
+     
       this.socketsListener.on('poolData', (data) => {  
             console.log('got pool data',data)
+        });
+
+         this.socketsListener.on('recentSolutions', (data) => {  
+            console.log('got recentSolutions data',data)
+        });
+
+         this.socketsListener.on('recentPayments', (data) => {  
+            console.log('got recentPayments data',data)
         });
 
       
@@ -206,6 +216,8 @@ export default {
 
     pollSockets(){
       this.socketHelper.emitEvents(['getPoolData'])
+      this.socketHelper.emitEvents(['getRecentSolutions'])
+      this.socketHelper.emitEvents(['getRecentPayments'])
     }
  
 
