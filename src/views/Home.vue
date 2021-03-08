@@ -171,7 +171,7 @@ import Footer from './components/Footer.vue';
 import TransactionsTable from './components/TransactionsTable.vue';
 import HashrateChart from './components/HashrateChart.vue';
 
-
+import SocketHelper from '../js/socket-helper'
 
 export default {
   name: 'Home',
@@ -186,13 +186,27 @@ export default {
     }
   },
   created(){
-    
+      this.socketHelper = new SocketHelper()
+      
+      setInterval(this.pollSockets.bind(this),5000)
+
+
+      this.socketsListener = this.socketHelper.initSocket()
+      this.socketsListener.on('poolData', (data) => {  
+            console.log('got pool data',data)
+        });
+
+      
   },
   methods: {
     submitMiningAccountSearch( ){  
         this.$router.push('profile/'+this.miningAccountSearchQuery );
     //  console.log('submitMiningAccountSearch ', this.miningAccountSearchQuery)
     },
+
+    pollSockets(){
+      this.socketHelper.emitEvents(['getPoolData'])
+    }
  
 
 

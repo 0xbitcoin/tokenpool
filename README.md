@@ -115,6 +115,7 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
 8. Ditch MintForwarder,  make batchpayments piece optional  via config (for farmer pools) 
 
 
+
 https://mintpond.com/b/prop-vs-pplns-vs-pps-mining-pool-reward-systems
 
 
