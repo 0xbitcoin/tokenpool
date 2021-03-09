@@ -3,11 +3,19 @@
   "description": "Mining Pool for ERC20 Tokens",
   "version": "1.5.0",
   "scripts": {
-    "server_log": "node -r esm index.js > ./log/std.log 2> ./log/err.log",
-    "server": "node -r esm index.js  ",
-    "express": "node express.js",
-    "dev": "vue-cli-service serve",
+    "pool_with_log": "node -r esm index.js > ./log/std.log 2> ./log/err.log",
+    
+    "pool": "node -r esm index.js  ",
+
     "build": "vue-cli-service build",
+    "web_production": "vue-cli-service serve --mode=production --port 3000",
+
+    
+    "web_dev": "vue-cli-service serve",
+    
+
+    "express": "node express.js",
+
     "deploy": "node deploy.js",
     "lint": "vue-cli-service lint",
     "mocha": "mocha -r esm  test/mocha.js --timeout 3000",

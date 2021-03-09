@@ -32,7 +32,10 @@ Windows GPU Miner 2
 
 4. 'npm run build'  #(to build the website files)
 
-5. 'npm run server' #(or 'npm run server staging 'for staging test mode)
+5. 'npm run pool' #(or 'npm run pool staging 'for staging test mode)
+
+6. 'npm run web_production' (in a separate screen to serve HTML) 
+ 
 
 
 
@@ -74,7 +77,8 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
  
 3. show payment tokens and their approval to the payments contract - on pool overview , make it easy for pool owner to approve tokens to it (dapp button) 
 4. fix hashrate chart 
- 
+
+5. add stratum https://mvis.ca/stratum-spec.html
 
 https://mintpond.com/b/prop-vs-pplns-vs-pps-mining-pool-reward-systems
 
