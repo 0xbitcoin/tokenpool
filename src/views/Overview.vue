@@ -35,6 +35,7 @@
           <div>ethRequiredForMint: {{poolStatus.poolFeesMetrics.ethRequiredForMint}}</div>
 
            <div>poolBaseFeeFactor: {{poolStatus.poolFeesMetrics.poolBaseFee}}</div>
+            <div>gasCostFeeFactor: {{poolStatus.poolFeesMetrics.gasCostFee}}</div>
 
           <div>overallFeeFactor: {{Number.parseFloat(poolStatus.poolFeesMetrics.overallFeeFactor).toFixed(4)  }}</div>
 
@@ -55,7 +56,7 @@
 
           <div class="whitespace-sm"></div>
 
-         <div v-if="poolData.miningContract">
+         <div v-if="poolData && poolData.miningContract">
            
             <div>Current Challenge Number: {{poolData.miningContract.challengeNumber}}</div>
 
@@ -148,7 +149,7 @@ export default {
 
          this.socketsListener.on('poolStatus', (data) => {   
             this.poolStatus = data 
-            console.log('poolstatus',data)
+            
         });
 
 

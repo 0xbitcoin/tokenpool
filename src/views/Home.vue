@@ -50,8 +50,29 @@
             </div>
                 <div class="whitespace-lg"></div>
                 <br>
- 
+            <div class="w-full p-4 m-4">
+                <div class="m-2 text-lg text-white">Pool Status</div>
+                <div v-if="poolStatus.poolStatus == 'active'" >
+                    <div class="bg-green-500 w-full p-2">
+                      Token Mining Pool is Active
+                    </div>
+                  
+                 </div>
+
+                 <div v-if="poolStatus.poolStatus != 'active'" >
+                   <div class="bg-yellow-500 w-full p-2">
+                        <div class="text-md">Token Mining Pool is Suspended</div>
+                         <div class="text-sm"> [{{poolStatus.suspensionReason}}] </div>
+                   </div>
+                  
+                 </div>
+
+              </div>
+
+
              <div class="whitespace-lg"></div>
+
+             
              <div class="whitespace-lg"></div>
           
          
@@ -110,10 +131,11 @@
     <section class="flex flex-row">
       
         <div class="w-1/2">
-          
+            <div class="hidden">
             <HashrateChart 
             
             />
+            </div>
       </div>
       <div class="w-1/2">
          
@@ -180,6 +202,7 @@ export default {
     return {
       
       poolAPIData: {}, //read this from sockets
+      poolStatus: null,
       miningAccountSearchQuery: null, 
       web3Plug: null,
       showInstructions: false,
@@ -202,6 +225,12 @@ export default {
             this.poolAPIData = data 
         });
 
+          this.socketsListener.on('poolStatus', (data) => {   
+            this.poolStatus = data 
+           
+        });
+
+
          this.socketsListener.on('recentSolutions', (data) => {  
             this.recentSolutionTx=data
         });
@@ -220,6 +249,7 @@ export default {
 
     pollSockets(){
       this.socketHelper.emitEvent('getPoolData')
+       this.socketHelper.emitEvent('getPoolStatus')
       
     }
  

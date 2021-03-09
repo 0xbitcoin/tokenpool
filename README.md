@@ -67,23 +67,14 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
 
 
 
-## DEV TODO 
-1. Remove Redis and replace with mongo   [done]
-2. Update the frontend to a more modernized Vue architecture  [done] 
-3. Fix gas price oracles  (use bree?)
-4. Move the payouts system to Matic 
-5. Integrate PPS instead of Proportional Payouts [done] 
-6. Search, better interface on mobile  [done] 
-7. disconnect all miners when pool is on standby, API will say pool is in standby  (show on pool page) 
-
-8. Make batchpayments piece optional  via config (for farmer pools) [done] 
-
+## DEV TODO  
+1. Optimize gas price oracles task runner (use bree?)
  
-9. show payment tokens and their approval to the payments contract - on pool overview , make it easy for pool owner to approve tokens to it (dapp button) 
-10. fix hashrate chart 
-11. display many stats on overview like gas prices  [done]  
-12. implement suspension and overriding it using the poolconfig  [done]  
-
+2. disconnect all miners when pool is on standby, API will say pool is in standby  (show on pool page) 
+ 
+3. show payment tokens and their approval to the payments contract - on pool overview , make it easy for pool owner to approve tokens to it (dapp button) 
+4. fix hashrate chart 
+ 
 
 https://mintpond.com/b/prop-vs-pplns-vs-pps-mining-pool-reward-systems
 
