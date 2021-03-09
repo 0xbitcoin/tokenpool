@@ -46,6 +46,10 @@ Windows GPU Miner 2
  
 
 
+### Test running tasks 
+node -r esm  --experimental-worker collectTokenParameters.js 
+
+
 
 ## Deploying Contracts
 You no longer need to deploy contracts 

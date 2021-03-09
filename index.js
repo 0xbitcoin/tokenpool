@@ -2,7 +2,6 @@
 //var INFURA_ROPSTEN_URL = 'https://ropsten.infura.io/v3/';
 //var INFURA_MAINNET_URL = 'https://mainnet.infura.io/v3/';
 
-
 var https_enabled = process.argv[2] === 'https';
 var pool_env = 'production';
 
@@ -12,7 +11,7 @@ if( process.argv[2] == "staging" )
   pool_env = 'staging'
 }
 
-var cluster = require('cluster')
+ 
 
 const poolConfig = require('./pool.config')[pool_env]
 
@@ -40,43 +39,56 @@ var Web3 = require('web3')
 
 
 
-//var mintingWeb3 = new Web3(poolConfig.mintingConfig.web3Provider)
-//var paymentsWeb3 = new Web3(poolConfig.paymentsConfig.web3Provider)
+const Cabin = require('cabin'); 
+const Bree = require('bree');
 
-var mongoInitParam;
+const bree = new Bree({
+   
+  //logger: new Cabin(),
 
-/*
-var specified_web3 = poolConfig.web3provider;
+   
+  jobs: [
+   /* // runs `./jobs/foo.js` on start
+    'foo',
 
- if(specified_web3 != null)
- {
-   web3.setProvider(specified_web3)
-   console.log('using web3',specified_web3)
- }
-
-if(pool_env == "test"){
-  console.log("Using test mode!!! - Ropsten ")
-  mongoInitParam = 'testdb'
-  if(specified_web3 == null)
-  {
-    web3.setProvider(INFURA_ROPSTEN_URL)
-  }
-   accountConfig = require('./test.account.config').accounts;
-}else if(pool_env == "staging"){
-    console.log("Using staging mode!!! - Mainnet ")
-    if(specified_web3 == null)
+    // runs `./jobs/foo-bar.js` on start
     {
-     web3.setProvider(INFURA_MAINNET_URL)
-   }
-   accountConfig = require('./account.config').accounts;
-}else{
-    if(specified_web3 == null)
+      name: 'foo-bar'
+    },
+
+    // runs `./jobs/some-other-path.js` on start
     {
-     web3.setProvider(INFURA_MAINNET_URL)
-    }
-   accountConfig = require('./account.config').accounts;
-}
-*/
+      name: 'beep',
+      path: path.join(__dirname, 'jobs', 'some-other-path')
+    },
+
+ 
+
+    // runs `./jobs/worker-5.js` on after 10 minutes have elapsed
+    {
+      name: 'worker-5',
+      timeout: '10m'
+    },*/
+
+    // runs `./jobs/collectTokenParameters.js` after 1 minute and every 5 minutes thereafter
+    {
+      name: 'collectTokenParameters',
+      timeout: '2s',
+      interval: '20s',
+      worker: {
+        workerData: {
+          pool_env: pool_env 
+        }
+      }
+      // this is unnecessary but shows you can pass a Number (ms)
+      // interval: ms('5m')
+    } 
+ 
+    
+  ]
+});
+
+ 
 
 init( );
 
@@ -86,27 +98,9 @@ async function init( )
 
 
         // Code to run if we're in the master process
-      if (cluster.isMaster) {
-
-          // Count the machine's CPUs
-        //  var cpuCount = require('os').cpus().length;
-
-          // Create a worker for each CPU
-          for (var i = 0; i < 2; i += 1) {
-              cluster.fork();
-          }
-
-
-          //primary and webserver
-
-          // await redisInterface.init()
-        
-          // web3apihelper.init( pool_env )
-
-           //await webInterface.init(web3,accountConfig,poolConfig,mongoInterface,pool_env)
-     //      await tokenInterface.init(mongoInterface,web3,accountConfig,pool_env, web3apihelper)
-     //      await peerInterface.init(web3,accountConfig,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
-        
+      
+  
+         
      
             await mongoInterface.init( 'tokenpool_'.concat(pool_env))
 
@@ -116,43 +110,32 @@ async function init( )
            await webServer.init(https_enabled,poolConfig,mongoInterface)
            diagnosticsManager.update()
 
-      // Code to run if we're in a worker process
-      } else {
-        var worker_id = cluster.worker.id
 
 
-            if(worker_id == 1)  //updater
-            {
-              // await redisInterface.init()
-               await mongoInterface.init( 'tokenpool_'.concat(pool_env))
 
-               let web3apihelper = new Web3ApiHelper(mongoInterface, poolConfig)
+           let web3apihelper = new Web3ApiHelper(mongoInterface, poolConfig)
 
-               let tokenInterface = new TokenInterface(mongoInterface, poolConfig)
-              // await peerInterface.init(web3,accountConfig,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
-               tokenInterface.update();
-               
-               web3apihelper.update()  //fetch API data 
-            }
-            if(worker_id == 2)  //jsonlistener
-            {
-              //await redisInterface.init()
-              await mongoInterface.init( 'tokenpool_'.concat(pool_env))
+           let tokenInterface = new TokenInterface(mongoInterface, poolConfig)
+          // await peerInterface.init(web3,accountConfig,mongoInterface,tokenInterface,pool_env) //initJSONRPCServer();
+         
+                //This worker is dying !!!
+           tokenInterface.update();
+           
+           web3apihelper.update()  //fetch API data 
+
+           bree.start();
 
 
-              // web3apihelper.init(pool_env)
 
-            //  await tokenInterface.init(mongoInterface,web3,accountConfig,pool_env, web3apihelper)
-             // await peerInterface.init( mongoInterface,  poolConfig ) //initJSONRPCServer();
-              //tokenInterface.update();
-              let peerInterface = new PeerInterface(mongoInterface, poolConfig) 
+
+
+           let peerInterface = new PeerInterface(mongoInterface, poolConfig) 
 
               peerInterface.update();
               peerInterface.listenForJSONRPC();
-            }
-      }
 
 
+ 
 
 
 
