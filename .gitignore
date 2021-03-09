@@ -3,7 +3,9 @@ account.config.json
 test.account.config.json
 pool.config.json
 dump.rdb
-public/*
+ 
+
+dist/*
 
 logs
 
