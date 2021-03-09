@@ -111,7 +111,7 @@ async function init( )
             await mongoInterface.init( 'tokenpool_'.concat(pool_env))
 
 
-           await diagnosticsManager.init(mongoInterface)
+           await diagnosticsManager.init(poolConfig, mongoInterface)
 
            await webServer.init(https_enabled,poolConfig,mongoInterface)
            diagnosticsManager.update()

@@ -82,6 +82,7 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
 9. show payment tokens and their approval to the payments contract - on pool overview , make it easy for pool owner to approve tokens to it (dapp button) 
 10. fix hashrate chart 
 11. display many stats on overview like gas prices 
+12. implement suspension and overriding it using the poolconfig 
 
 
 https://mintpond.com/b/prop-vs-pplns-vs-pps-mining-pool-reward-systems

@@ -5,6 +5,7 @@
   "staging":{
     "poolEnv":"staging",
     "apiConfig":{
+      "coinGeckoApiURL": "https://api.coingecko.com/api/v3/coins/oxbitcoin?localization=en&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false",
       "defiPulseApiKey": ""
     }, 
     
@@ -14,6 +15,7 @@
     },
   
     "mintingConfig":{
+      "overrideSuspension": true, 
       "maxSolutionGasPriceWei": 100, 
       "poolTokenFee": 5,
       "communityTokenFee": 2,
@@ -40,6 +42,7 @@
   "production":{
     "poolEnv":"production",
     "apiConfig":{
+      "coinGeckoApiURL": "https://api.coingecko.com/api/v3/coins/oxbitcoin?localization=en&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false",
       "defiPulseApiKey": ""
     }, 
     
@@ -49,6 +52,7 @@
     },
   
     "mintingConfig":{
+      "overrideSuspension": false, 
       "maxSolutionGasPriceWei": 100, 
       "poolTokenFee": 5,
       "communityTokenFee": 2,
