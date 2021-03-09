@@ -4,17 +4,13 @@
   "version": "1.5.0",
   "scripts": {
     "pool_with_log": "node -r esm index.js > ./log/std.log 2> ./log/err.log",
-    
     "pool": "node -r esm index.js  ",
-
     "build": "vue-cli-service build",
-    "web_production": "vue-cli-service serve --mode=production --port 3000",
-
-    
-    "web_dev": "vue-cli-service serve",
-    
-
     "express": "node express.js",
+
+    
+    "web_production": "vue-cli-service serve --mode=production --port 3000",
+    "web_dev": "vue-cli-service serve",
 
     "deploy": "node deploy.js",
     "lint": "vue-cli-service lint",
@@ -25,6 +21,8 @@
     "@fortawesome/fontawesome-free": "^5.14.0",
     "@tailwindcss/forms": "^0.2.1",
     "axios": "^0.21.1",
+    "connect": "^3.7.0",
+    "connect-history-api-fallback": "^1.6.0",
     "core-js": "^2.6.5",
     "esm": "^3.2.25",
     "gh-pages": "^3.1.0",

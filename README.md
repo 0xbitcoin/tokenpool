@@ -34,7 +34,7 @@ Windows GPU Miner 2
 
 5. 'npm run pool' #(or 'npm run pool staging 'for staging test mode)
 
-6. 'npm run web_production' (in a separate screen to serve HTML) 
+6. 'npm run express' (in a separate screen to serve HTML) 
  
 
 
