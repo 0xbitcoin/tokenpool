@@ -16,7 +16,7 @@
   
     "mintingConfig":{
       "overrideSuspension": true, 
-      "maxSolutionGasPriceWei": 100, 
+      "maxGasPriceGwei": 200, 
       "poolTokenFee": 5,
       "communityTokenFee": 2,
       "publicAddress": "0xB11ca87E32075817C82Cc471994943a4290f4a14",
@@ -28,7 +28,7 @@
   
     "paymentsConfig":{
       "enablePPS":true,
-      "maxTransferGasPriceWei": 96,
+      "maxGasPriceGwei": 5,
       "minBalanceForTransfer": 1500000000,  
       "rebroadcastPaymentWaitBlocks": 10,
       "minPaymentsInBatch": 1,
@@ -53,7 +53,7 @@
   
     "mintingConfig":{
       "overrideSuspension": false, 
-      "maxSolutionGasPriceWei": 100, 
+      "maxGasPriceGwei": 200, 
       "poolTokenFee": 5,
       "communityTokenFee": 2,
       "networkName":"mainnet",
@@ -62,7 +62,7 @@
   
     "paymentsConfig":{
       "enablePPS":true,
-      "maxTransferGasPriceWei": 96,
+      "maxGasPriceGwei": 5,
       "minBalanceForTransfer": 1500000000,  
       "rebroadcastPaymentWaitBlocks": 10,
       "minPaymentsInBatch": 1,

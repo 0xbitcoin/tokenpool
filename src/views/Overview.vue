@@ -19,6 +19,51 @@
       </h1>
       
 
+      <div class="whitespace-sm"></div>
+        
+
+        <div v-if="poolStatus">
+          <div>Pool Status: {{poolStatus.poolStatus}}</div>
+          <div v-if="poolStatus.poolStatus!='active'">Suspension Reason: {{poolStatus.suspensionReason}}</div>
+
+
+
+          <div>avgGasPriceGWei: {{poolStatus.poolFeesMetrics.avgGasPriceGWei}}</div>
+          <div>Full Mining Reward: {{poolStatus.poolFeesMetrics.miningRewardFormatted}}</div>
+
+          <div>miningRewardInEth: {{poolStatus.poolFeesMetrics.miningRewardInEth}}</div>
+          <div>ethRequiredForMint: {{poolStatus.poolFeesMetrics.ethRequiredForMint}}</div>
+
+           <div>poolBaseFeeFactor: {{poolStatus.poolFeesMetrics.poolBaseFee}}</div>
+
+          <div>overallFeeFactor: {{Number.parseFloat(poolStatus.poolFeesMetrics.overallFeeFactor).toFixed(4)  }}</div>
+
+        </div> 
+
+         <div class="whitespace-sm"></div>
+
+        <div v-if="poolData">
+            <div>Last Known Block Number: {{poolData.ethBlockNumber}}</div>
+            <div>Minting Account Address: {{poolData.mintingAddress}}</div>
+            <div>Minting Network Name: {{poolData.mintingNetwork}}</div>
+
+            <div>Payments Accounts Address: {{poolData.paymentsAddress}}</div>
+            <div>Payments Network Name: {{poolData.paymentsNetwork}}</div>
+            <div>Minimum User Balance For Payment: {{poolData.minBalanceForPayment}}</div>
+            
+        </div> 
+
+          <div class="whitespace-sm"></div>
+
+         <div v-if="poolData.miningContract">
+           
+            <div>Current Challenge Number: {{poolData.miningContract.challengeNumber}}</div>
+
+            <div>Full Mining Difficulty: {{poolData.miningContract.miningDifficulty}}</div> 
+        </div> 
+
+          
+
 
         <div class="whitespace-sm"></div>
  
@@ -78,6 +123,9 @@ export default {
   components: {Navbar,AppPanel,VerticalNav,Footer,TransactionsTable},
   data() {
     return {
+      poolData: null,
+      poolStatus: null,
+
        
       accountList: [] ,
 
@@ -94,10 +142,15 @@ export default {
       this.socketsListener = this.socketHelper.initSocket()
      
      
-      this.socketsListener.on('poolData', (data) => {  
-             
-            this.poolAPIData = data 
+       this.socketsListener.on('poolData', (data) => {   
+            this.poolData = data 
         });
+
+         this.socketsListener.on('poolStatus', (data) => {   
+            this.poolStatus = data 
+            console.log('poolstatus',data)
+        });
+
 
          this.socketsListener.on('recentSolutions', (data) => {  
             this.recentSolutionTx=data
@@ -110,8 +163,9 @@ export default {
       this.pollSockets()
   },
   methods: {
-      pollSockets(){
+    pollSockets(){
       this.socketHelper.emitEvent('getPoolData')
+      this.socketHelper.emitEvent('getPoolStatus')
       this.socketHelper.emitEvent('getRecentSolutions')
       this.socketHelper.emitEvent('getRecentPayments')
     }

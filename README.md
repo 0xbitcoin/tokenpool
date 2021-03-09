@@ -76,13 +76,13 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
 6. Search, better interface on mobile  [done] 
 7. disconnect all miners when pool is on standby, API will say pool is in standby  (show on pool page) 
 
-8. Ditch MintForwarder,  make batchpayments piece optional  via config (for farmer pools)
+8. Make batchpayments piece optional  via config (for farmer pools) [done] 
 
  
 9. show payment tokens and their approval to the payments contract - on pool overview , make it easy for pool owner to approve tokens to it (dapp button) 
 10. fix hashrate chart 
-11. display many stats on overview like gas prices 
-12. implement suspension and overriding it using the poolconfig 
+11. display many stats on overview like gas prices  [done]  
+12. implement suspension and overriding it using the poolconfig  [done]  
 
 
 https://mintpond.com/b/prop-vs-pplns-vs-pps-mining-pool-reward-systems

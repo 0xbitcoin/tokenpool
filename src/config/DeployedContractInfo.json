@@ -8,12 +8,12 @@
                
               }
             },
-      "kovan": {
-              "contracts": {
-                "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x24a19ee5a5c8757acdebe542a9436d9c796d1c9e"},
-                "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0x2600c1d268a53b69f3e8488fe91f2c269dba1eb2"} 
-              }
-            },
+    "kovan": {
+        "contracts": {
+          "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x24a19ee5a5c8757acdebe542a9436d9c796d1c9e"},
+          "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0x2600c1d268a53b69f3e8488fe91f2c269dba1eb2"} 
+        }
+      },
 
     "goerli": {
       "contracts": {
@@ -23,8 +23,8 @@
     },
       "matic": {
         "contracts": {
-          "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":" "},
-          "batchedpayments": {"name":"BatchedPayments", "blockchain_address":" "} 
+          "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x71B821aa52a49F32EEd535fCA6Eb5aa130085978"},
+          "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0xCEBb8370Eb673F57e369D4FfD11912F944998911"} 
         }
       } 
     }
