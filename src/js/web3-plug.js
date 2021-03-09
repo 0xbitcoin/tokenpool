@@ -67,6 +67,7 @@ const web3PlugEmitter = new Web3PlugEmitter();
 
 
   const mainnetChainID = 1
+  const goerliChainId = 5 
   const kovanChainID = 42
 
 
@@ -118,6 +119,13 @@ export default class Web3Plug {
     if(networkId == kovanChainID){
       return 'kovan'
     }
+
+    if(networkId == goerliChainId){
+      return 'goerli'
+    }
+
+
+    
 
      console.error('Invalid network Id: ',networkId)
     return null

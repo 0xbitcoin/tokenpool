@@ -22,74 +22,38 @@ Windows GPU Miner 2
  https://github.com/lwYeo/SoliditySHA3Miner/releases
 
 
-### BASIC SETUP  (needs Node 8.10)
-1. npm install -g node-gyp
-1.1. sudo apt-get install build-essential
+### BASIC SETUP  (needs Node 10) [nvm install 10]
+ 
+1. npm install
 
-You may need to do.. (depending on operating system and python version)
-1.2.sudo apt-get install python2.7
-1.3.npm config set python python2.7
+2. rename 'sample.pool.config.json' to 'pool.config.json' and fill it with the pool's ethereum account data (make two new accounts, one for minting one for payments and fill both with a small amount of ETH)
 
-2. npm install
+3. Install mongodb, make sure it is running as a service
 
-3. rename 'sample.account.config.js' to 'account.config.js' and fill it with the pool's ethereum account data (make two new accounts, one for minting one for payments and fill both with a small amount of ETH)
+4. 'npm run build'  #(to build the website files)
 
-4. install redis-server and start it with 'npm run redis' in another screen ('screen -S redis', ctrl+shift+A+D)
-
-5. Edit pool.config.js to your tastes (optional)
-
-6. Deploy two contracts (see the section below) and add their addresses to app/assets/contracts/DeployedContractInfo.json
-
-7. Edit the website files in /app  to change the look of the website (optional)
-8. Install mongodb, make sure it is running as a daemon service
-9. 'npm run webpack'  #(to build the website files)
-10. 'npm run server' #(or 'npm run server test 'for Ropsten test mode)
+5. 'npm run server' #(or 'npm run server staging 'for staging test mode)
 
 
 
-### CONFIGURING  - set up  account.config.js and pool.config.js
+### CONFIGURING  - set up  pool.config.json
 
-##### pool.config.js
+##### pool.config.json
 
-```
-var poolconfig = {
-  minimumShareDifficulty: 5000,   //lowest miner share difficulty
-  maximumShareDifficulty: 10000    //highest miner share difficulty
-  maxSolutionGasPriceWei: 10,   //ether paid by the pool for each mint
-  maxTransferGasPriceWei: 6,   //ether paid by the pool for each payment
-  poolTokenFee: 5,     //percent of tokens the pool keeps for itself
-  communityTokenFee: 2,   //percent of tokens the pool pledges to donate
-  minBalanceForTransfer: 1500000000,   
-  payoutWalletMinimum: 100000000000,
-  allowCustomVardiff: false,
-  rebroadcastPaymentWaitBlocks: 500,
-  minPaymentsInBatch: 5,
-  //web3provider: "http://127.0.0.1:8545"   //point at Geth or remove to use Infura
-}
-```
+ 
+
+
 
 ## Deploying Contracts
-####     [found in app/assets/contracts/deployedContractInfo.json]
-EDIT THIS FILE!!!
-
-* Replace 'mintforwarder' address with your own deployed version of the contract !!!
-* Replace 'batch payments' contract address as well !!! your own deployed contract !!
-
-Here are examples of these contracts to copy and paste the code and deploy using https://remix.ethereum.org:
-
-Mint Helper (Mint Forwarder) Contract Code:
-https://etherscan.io/address/0xeabe48908503b7efb090f35595fb8d1a4d55bd66#code
-
-Batched Payments Contract Code:
-https://etherscan.io/address/0xebf6245689194a6e43096551567827c6726ede0b#code
+You no longer need to deploy contracts 
 
 
 ## HOW TO TEST
 1. Point a EIP918 tokenminer (https://github.com/0xbitcoin/0xbitcoin-miner) at your pool using http://localhost:8080   (make sure firewall allows this port)
-2. Start the server with 'npm run webpack' and 'npm run server test' to put it into ropsten mode
-3. View website interface at http://localhost:3000 (Feel free to set up nginx/apache to serve the static files in /public)
+2. Start the server with 'npm run build' and 'npm run server staging' to put it into staging test mode
+3. View website interface at http://localhost:3000 (Feel free to set up nginx/apache to serve the static files in /dist)
 
-You should see that the miner is able to successfully submit shares to the pool when the share difficulty is set to a low value such as 100 and the pool is in 'ropsten mode'.  Then you can run the pool on mainnet using 'npm run server'.
+You should see that the miner is able to successfully submit shares to the pool when the share difficulty is set to a low value such as 100 and the pool is in 'staging mode'.  Then you can run the pool on mainnet using 'npm run server'.
 
 
 ## Installing MongoDB

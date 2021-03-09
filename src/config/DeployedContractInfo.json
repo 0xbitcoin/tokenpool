@@ -14,6 +14,13 @@
                 "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0x2600c1d268a53b69f3e8488fe91f2c269dba1eb2"} 
               }
             },
+
+    "goerli": {
+      "contracts": {
+        "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x24a19ee5a5c8757acdebe542a9436d9c796d1c9e"},
+        "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0xb491574844b84dcbaef821990df27122a178a283"} 
+      }
+    },
       "matic": {
         "contracts": {
           "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":" "},
