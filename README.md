@@ -80,6 +80,8 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
 
 5. add stratum https://mvis.ca/stratum-spec.html
 
+6. *** Make sure that if a mint() gets stuck that it is cleared out !! Like  if it stuck 'Pending' for too long.  same with a payment!! *** 
+
 https://mintpond.com/b/prop-vs-pplns-vs-pps-mining-pool-reward-systems
 
 
