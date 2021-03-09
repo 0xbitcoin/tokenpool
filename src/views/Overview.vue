@@ -21,15 +21,23 @@
 
 
         <div class="whitespace-sm"></div>
+ 
 
-      --  TBD --
-
-
-
-     
-     
-
+         <section>
+       <TransactionsTable
+        label="Recent Solutions" 
+        v-bind:transactionsList="recentSolutionTx"
+        />
+        </section>
+        <section>
+          <TransactionsTable
+            label="Recent Payments"
+            v-bind:transactionsList="recentPaymentTx"
+          />
+        </section>
       
+
+         <div class="whitespace-sm"></div>
 
 
 
@@ -59,22 +67,55 @@ import VerticalNav from './components/VerticalNav.vue'
 import Footer from './components/Footer.vue';
  
 
+import TransactionsTable from './components/TransactionsTable.vue';
+import HashrateChart from './components/HashrateChart.vue';
+
+import SocketHelper from '../js/socket-helper'
 
 export default {
   name: 'Accounts',
   props: [],
-  components: {Navbar,AppPanel,VerticalNav,Footer},
+  components: {Navbar,AppPanel,VerticalNav,Footer,TransactionsTable},
   data() {
     return {
        
-      accountList: [] 
+      accountList: [] ,
+
+      recentSolutionTx:[],
+      recentPaymentTx:[] 
     }
   },
   created(){
-    
+     this.socketHelper = new SocketHelper()
+      
+      setInterval(this.pollSockets.bind(this),5000)
+
+
+      this.socketsListener = this.socketHelper.initSocket()
+     
+     
+      this.socketsListener.on('poolData', (data) => {  
+             
+            this.poolAPIData = data 
+        });
+
+         this.socketsListener.on('recentSolutions', (data) => {  
+            this.recentSolutionTx=data
+        });
+
+         this.socketsListener.on('recentPayments', (data) => {  
+            this.recentPaymentTx=data
+        });
+
+      this.pollSockets()
   },
   methods: {
-     
+      pollSockets(){
+      this.socketHelper.emitEvent('getPoolData')
+      this.socketHelper.emitEvent('getRecentSolutions')
+      this.socketHelper.emitEvent('getRecentPayments')
+    }
+ 
 
   }
 }

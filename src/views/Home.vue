@@ -84,11 +84,11 @@
       
 
         <a href="https://bitbucket.org/LieutenantTofu/cosmic-v3/downloads/COSMiC-v4.1.1-MultiGPU-TMP.zip" target="_blank">
-          <div class='bg-yellow-500 p-4 mt-4 rounded text-white inline-block hover:bg-yellow-400'>Download the Token Miner (Windows)</div>
+          <div class='bg-purple-500 p-4 mt-4 rounded text-black inline-block hover:bg-purple-400'>Download the Token Miner (Windows)</div>
         </a>
       <div class=" "></div>
         <a href="https://github.com/lwYeo/SoliditySHA3Miner/releases" target="_blank">
-          <div class='bg-yellow-500 p-4 mt-4 rounded text-white inline-block  hover:bg-yellow-400'>Download the Token Miner (Linux)</div>
+          <div class='bg-purple-500 p-4 mt-4 rounded text-black inline-block  hover:bg-purple-400'>Download the Token Miner (Linux)</div>
         </a>
 
      <div class="whitespace-sm"></div>
@@ -121,13 +121,18 @@
               <div class="card-content  ">
 
 
-                <a v-cloak v-bind:href='poolAPIData.etherscanMintingURL' >
-                  <p>Minting: {{poolAPIData.mintingAddress}}</p>
+                
+                  <p>Minting:
+                     <a v-cloak v-bind:href='poolAPIData.etherscanMintingURL' >
+                       {{poolAPIData.mintingAddress}}
+                       </a> 
+                  </p>
+                
+                <p>Payments:   
+                 <a v-cloak v-bind:href='poolAPIData.etherscanPaymentsURL' >
+                  {{poolAPIData.paymentsAddress}}
                 </a>
-
-                <a v-cloak v-bind:href='poolAPIData.etherscanPaymentsURL' >
-                  <p>Payments: {{poolAPIData.paymentsAddress}}</p>
-                </a>
+                </p>
 
 
 
@@ -138,19 +143,7 @@
 
     </section>
      
-    <section>
-       <TransactionsTable
-        label="Recent Solutions" 
-        v-bind:transactionsList="recentSolutionTx"
-      />
-    </section>
-    <section>
-       <TransactionsTable
-        label="Recent Payments"
-        v-bind:transactionsList="recentPaymentTx"
-      />
-    </section>
-
+    
   
 
 
@@ -193,8 +186,6 @@ export default {
 
 
 
-      recentSolutionTx:[],
-      recentPaymentTx:[] 
     }
   },
   created(){
@@ -219,7 +210,7 @@ export default {
             this.recentPaymentTx=data
         });
 
-      
+        this.pollSockets()
   },
   methods: {
     submitMiningAccountSearch( ){  
@@ -229,8 +220,7 @@ export default {
 
     pollSockets(){
       this.socketHelper.emitEvent('getPoolData')
-      this.socketHelper.emitEvent('getRecentSolutions')
-      this.socketHelper.emitEvent('getRecentPayments')
+      
     }
  
 

@@ -27,7 +27,7 @@
 
               <div v-if="minerData">
                 <div> Hashrate Average: {{ minerData.avgHashrate }} </div>
-                 <div> Tokens Owed: {{ minerData.tokensBalance }} </div>
+                 <div> Tokens Owed: {{ minerData.tokenBalance }} </div>
                   <div> Tokens Awarded: {{ minerData.tokensAwarded }} </div>
               </div>
 
@@ -50,7 +50,7 @@
               <td> Block # </td>
               <td> Difficulty  </td>
               <td> Hashrate Est </td>
-              <td> Is Full Soln </td>
+              <td> Is Full Solution? </td>
             </tr>
           </thead>
 
@@ -89,9 +89,9 @@
             <tr > 
                
               <td> Block # </td>
-              <td> Difficulty  </td>
-              <td> Hashrate Est </td>
-              <td> Is Full Soln </td>
+              <td> Amount  </td>
+              <td> BatchedPaymentUUID </td>
+              <td> txHash </td>
             </tr>
           </thead>
 
@@ -102,9 +102,9 @@
 
               <td> {{ tx.block }} </td>
 
-              <td>  {{ tx.difficulty }} </td>
-              <td>  {{ tx.hashrateEstimate  }} </td>
-              <td>  {{ tx.isSolution }} </td>
+              <td>  {{ tx.amountToPay }} </td>
+              <td>  {{ tx.batchedPaymentUuid  }} </td>
+              <td>  {{ tx.txHash }} </td>
             </tr>
 
 
