@@ -27,7 +27,7 @@
 
               <div v-if="minerData">
                 <div> Hashrate Average: {{ minerData.avgHashrate }} </div>
-                 <div> Tokens Owed: {{ minerData.tokenBalance }} </div>
+                 <div> Tokens Earned: {{ minerData.alltimeTokenBalance }} </div>
                   <div> Tokens Awarded: {{ minerData.tokensAwarded }} </div>
               </div>
 

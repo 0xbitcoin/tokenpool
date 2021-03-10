@@ -46,8 +46,9 @@
               <td> Eth Address </td>
               <td> Hash Rate </td>
              
-              <td> Pending Token Balance </td>
+              
               <td> Total Tokens Earned </td>
+              <td> Tokens Awarded </td>
             </tr>
           </thead>
 
@@ -65,9 +66,9 @@
 
               <td> {{ item.avgHashrate}} </td>
 
-               
-              <td> {{ item.tokenBalance}}   </td>
-              <td> {{ item.alltimeTokenBalance}}    </td>
+                <td> {{ item.alltimeTokenBalance}}    </td>
+              <td> {{ item.tokensAwarded}}   </td>
+             
             </tr>
 
 
