@@ -13,36 +13,42 @@ if( process.argv[2] == "staging" )
   pool_env = 'staging'
 }
 
-import  fs from 'fs' 
+import fs from 'fs' 
+import path from 'path'
 
-const poolConfig = require('./pool.config')[pool_env]
+import FileUtils from './lib/util/file-utils.js'
+ 
 
-console.log('poolConfig',poolConfig)
+let poolConfigFull = FileUtils.readJsonFileSync('/pool.config.json');
+let poolConfig = poolConfigFull[pool_env]
+
+
+
+console.log('poolConfig',poolConfig, poolConfigFull)
 
 console.log('init');
 
 
-
-//var redisInterface = require('./lib/redis-interface')
-var mongoInterface = require('./lib/mongo-interface')
-
+ 
+import MongoInterface from './lib/mongo-interface.js'
  
 import PeerInterface from './lib/peer-interface.js';
 import TokenInterface from './lib/token-interface.js';
 
 import Web3ApiHelper from './lib/util/web3-api-helper.js';
 import PoolStatsHelper from  './lib/util/pool-stats-helper.js'  
-import  webServer from './lib/web-server.js' 
+import  WebServer from './lib/web-server.js' 
 
-import diagnosticsManager from './lib/diagnostics-manager.js' 
+import DiagnosticsManager from './lib/diagnostics-manager.js' 
  
 var accountConfig;
  
 import Web3 from 'web3'
 
+import Cabin from 'cabin'
+import Bree from 'bree'
+ 
 
-const Cabin = require('cabin'); 
-const Bree = require('bree');
 
 const bree = new Bree({
    
@@ -101,8 +107,9 @@ async function init( )
 
         // Code to run if we're in the master process
       
-  
-         
+           let mongoInterface = new MongoInterface()
+           let diagnosticsManager = new DiagnosticsManager()
+           let webServer = new WebServer()
      
             await mongoInterface.init( 'tokenpool_'.concat(pool_env))
 
