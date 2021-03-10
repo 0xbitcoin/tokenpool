@@ -22,8 +22,8 @@
       "publicAddress": "0xB11ca87E32075817C82Cc471994943a4290f4a14",
       "privateKey":"",
 
-      "networkName":"kovan",
-      "web3Provider":"https://kovan.infura.io/v3/###"
+      "networkName":"goerli",
+      "web3Provider":"https://goerli.infura.io/v3/###"
     },
   
     "paymentsConfig":{
@@ -35,8 +35,8 @@
       "publicAddress": "0xB11ca87E32075817C82Cc471994943a4290f4a14",
       "privateKey":"",
 
-      "networkName":"kovan",
-      "web3Provider": "https://kovan.infura.io/v3/###"
+      "networkName":"goerli",
+      "web3Provider": "https://goerli.infura.io/v3/###"
     }
   },
   "production":{

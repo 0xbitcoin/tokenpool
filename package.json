@@ -3,6 +3,13 @@
   "description": "Mining Pool for ERC20 Tokens",
   "version": "1.5.0",
   "type": "module",
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {},
+      "tailwindcss": {}
+    }
+  },
+
   "scripts": {
     "pool_with_log": "node -r esm index.js > ./log/std.log 2> ./log/err.log",
     "pool": "node index.js  ",
