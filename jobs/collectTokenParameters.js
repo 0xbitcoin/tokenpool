@@ -1,13 +1,18 @@
 
- const { Worker, isMainThread, workerData } = require('worker_threads');
+ import { Worker, isMainThread, workerData } from 'worker_threads' 
+ 
+ 
+import Web3 from 'web3'
+ 
+import TokenDataHelper from '../lib/util/token-data-helper.js'
+
+ import ContractHelper from '../lib/util/contract-helper.js'
  
 
-const  Web3   = require('web3');
-
-import TokenDataHelper from '../lib/util/token-data-helper'
+import FileUtils from '../lib/util/file-utils.js'
+ 
 
  
-const ContractHelper = require('../lib/util/contract-helper.js')
 
 
 var pool_env = 'staging';   
@@ -20,9 +25,13 @@ if( workerData!=null && workerData.pool_env == "production" )
 }
  
 
-const poolConfig = require('../pool.config')[pool_env]
-var mongoInterface = require('../lib/mongo-interface')
 
+let poolConfigFull = FileUtils.readJsonFileSync('/pool.config.json');
+let poolConfig = poolConfigFull[pool_env]
+ 
+
+import MongoInterface from '../lib/mongo-interface.js'
+ 
 
 
 console.log('collect token params','poolenv',pool_env)
@@ -30,7 +39,9 @@ console.log('collect token params','poolenv',pool_env)
 
 
 async function runTask( )
-{
+{   
+    let mongoInterface = new MongoInterface()
+
 
     var web3 = new Web3(poolConfig.mintingConfig.web3Provider);
 

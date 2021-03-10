@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "pool_with_log": "node -r esm index.js > ./log/std.log 2> ./log/err.log",
-    "poolold": "node    index.js  ",
+   
     "pool": "node index.js  ",
     "build": "vue-cli-service build",
     "express": "node express.js",
@@ -21,7 +21,7 @@
     "@tailwindcss/forms": "^0.2.1",
     "axios": "^0.21.1",
     "bree": "^6.2.0",
-    "bthreads": "^0.5.1",
+    
     "cabin": "^9.0.4",
     "connect": "^3.7.0",
     "connect-history-api-fallback": "^1.6.0",
