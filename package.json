@@ -2,9 +2,11 @@
   "name": "tokenpool",
   "description": "Mining Pool for ERC20 Tokens",
   "version": "1.5.0",
+  "type": "module",
   "scripts": {
     "pool_with_log": "node -r esm index.js > ./log/std.log 2> ./log/err.log",
-    "pool": "node -r esm   index.js  ",
+    "poolold": "node    index.js  ",
+    "pool": "node index.js  ",
     "build": "vue-cli-service build",
     "express": "node express.js",
     "web_production": "vue-cli-service serve --mode=production --port 3000",
@@ -28,6 +30,7 @@
     "gh-pages": "^3.1.0",
     "jayson": "^3.4.4",
     "mongodb": "^3.6.4",
+    "segfault-handler": "^1.3.0",
     "socket.io": "^3.1.2",
     "socket.io-client": "^3.1.2",
     "tailwindcss": "^1.0.0-beta.4",
@@ -37,9 +40,11 @@
     "web3": "^1.2.11"
   },
   "devDependencies": {
-    "@babel/cli": "^7.10.5",
+    "@babel/cli": "^7.13.10",
+    "@babel/core": "^7.13.10",
+    "@babel/node": "^7.13.10",
     "@babel/plugin-transform-runtime": "^7.11.5",
-    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-env": "^7.13.10",
     "@babel/register": "^7.7.4",
     "@vue/cli-plugin-babel": "^3.5.0",
     "@vue/cli-plugin-eslint": "^3.5.0",
@@ -54,6 +59,7 @@
     "ganache-cli": "^6.12.2",
     "highlight.js": "^10.2.0",
     "mocha": "^8.2.1",
+    "nodemon": "^2.0.7",
     "vue-template-compiler": "^2.5.21"
   }
 }

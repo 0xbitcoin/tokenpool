@@ -1,3 +1,5 @@
+import  SegfaultHandler from  'segfault-handler' 
+SegfaultHandler.registerHandler('crash.log');
 
 //var INFURA_ROPSTEN_URL = 'https://ropsten.infura.io/v3/';
 //var INFURA_MAINNET_URL = 'https://mainnet.infura.io/v3/';
@@ -11,7 +13,7 @@ if( process.argv[2] == "staging" )
   pool_env = 'staging'
 }
 
- 
+import  fs from 'fs' 
 
 const poolConfig = require('./pool.config')[pool_env]
 
@@ -19,24 +21,24 @@ console.log('poolConfig',poolConfig)
 
 console.log('init');
 
-var fs = require('fs');
+
 
 //var redisInterface = require('./lib/redis-interface')
 var mongoInterface = require('./lib/mongo-interface')
 
  
-import PeerInterface from './lib/peer-interface';
-import TokenInterface from './lib/token-interface';
+import PeerInterface from './lib/peer-interface.js';
+import TokenInterface from './lib/token-interface.js';
 
-import Web3ApiHelper from './lib/util/web3-api-helper';
-import PoolStatsHelper from  './lib/util/pool-stats-helper'  
-var webServer =  require('./lib/web-server')
+import Web3ApiHelper from './lib/util/web3-api-helper.js';
+import PoolStatsHelper from  './lib/util/pool-stats-helper.js'  
+import  webServer from './lib/web-server.js' 
 
-var diagnosticsManager =  require('./lib/diagnostics-manager')
+import diagnosticsManager from './lib/diagnostics-manager.js' 
  
 var accountConfig;
-var Web3 = require('web3')
-
+ 
+import Web3 from 'web3'
 
 
 const Cabin = require('cabin'); 

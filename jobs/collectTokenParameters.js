@@ -42,7 +42,7 @@ async function runTask( )
 
     console.log('finished task: collect token params')
 
-    process.exit(0)
+    process.exit(0);
 }
 
 
