@@ -1,8 +1,9 @@
 
 
-const ganache = require('ganache-cli')
-const Web3 = require('web3');
-
+import chai from 'chai'
+import ganache from 'ganache-cli'
+import Web3 from 'web3' 
+import fs from 'fs'
 export default class TestHelper{
 
     static async deployContract(web3,  compiledContractJSON ){

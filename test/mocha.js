@@ -1,25 +1,30 @@
 
-const chai = require('chai')
-const ganache = require('ganache-cli')
-const Web3 = require('web3');
-const fs = require("fs");
 
-const TokenContractJSON = require("./assets/contracts/build/_0xBitcoinToken.json")
+import chai from 'chai'
+import ganache from 'ganache-cli'
+import Web3 from 'web3' 
+import fs from 'fs'
 
+import FileUtils from '../lib/util/file-utils.js'
 
-const ContractHelper = require('../lib/util/contract-helper.js')
+//const TokenContractJSON = require("./assets/contracts/build/_0xBitcoinToken.json")
 
+const TokenContractJSON = FileUtils.readJsonFileSync('/test/assets/contracts/build/_0xBitcoinToken.json');
 
-import PeerHelper from '../lib/util/peer-helper';
-import TokenDataHelper from '../lib/util/token-data-helper';
+ 
+import ContractHelper from '../lib/util/contract-helper.js'
 
-
-import TestHelper from './TestHelper'
-
-import TokenInterface from '../lib/token-interface';
-var mongoInterface = require('../lib/mongo-interface')
+import PeerHelper from '../lib/util/peer-helper.js';
+import TokenDataHelper from '../lib/util/token-data-helper.js';
 
 
+import TestHelper from './TestHelper.js'
+
+import TokenInterface from '../lib/token-interface.js';
+ 
+
+import MongoInterface from '../lib/mongo-interface.js'
+import Web3ApiHelper from '../lib/util/web3-api-helper.js'
 
 
 const pool_env = 'test'
@@ -33,6 +38,8 @@ var testPoolConfig
 var web3
 
 var testMinerEthAddress  
+
+var mongoInterface = new MongoInterface()
 
 describe('Pool System', async function() {
   it('should deploy contract', async  function() {
@@ -56,6 +63,11 @@ describe('Pool System', async function() {
     //set up the pool config variable 
     testPoolConfig = {
       poolEnv:"test",
+
+      "apiConfig":{
+        "coinGeckoApiURL": "https://api.coingecko.com/api/v3/coins/oxbitcoin?localization=en&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false",
+        "defiPulseApiKey": ""
+      }, 
 
       mintingConfig:{
         maxSolutionGasPriceWei: 100, 
@@ -131,7 +143,7 @@ describe('Pool System', async function() {
 
   it('should queueTokenTransfersForBalances ', async (   ) => {
  
-    let results = await TokenInterface.queueTokenTransfersForBalances(mongoInterface,testPoolConfig)
+    let results = await TokenInterface.buildBalancePayments(mongoInterface,testPoolConfig)
 
     let firstMiner = results[0]
 
@@ -139,7 +151,14 @@ describe('Pool System', async function() {
 
   });
 
-  
+  it('should not crash on failed api call  ', async (   ) => {
+ 
+    let results = await Web3ApiHelper.fetchAPIData(testPoolConfig, mongoInterface)
+
+      console.log('api results',results)
+    assert.equal( results , undefined );
+
+  });
 
  
 });
