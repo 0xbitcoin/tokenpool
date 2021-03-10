@@ -1,10 +1,12 @@
-const express = require('express')
-const path = require('path')
-const history = require('connect-history-api-fallback')
+
+import express from 'express'
+import path from 'path'
  
+import history from 'connect-history-api-fallback'
+  
 const app = express();
 
-const staticFileMiddleware = express.static(path.join(__dirname))
+const staticFileMiddleware = express.static(path.join( path.resolve() ))
 
 app.use(staticFileMiddleware)
 app.use(history())
