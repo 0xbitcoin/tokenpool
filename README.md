@@ -22,7 +22,7 @@ Windows GPU Miner 2
  https://github.com/lwYeo/SoliditySHA3Miner/releases
 
 
-### BASIC SETUP  (needs Node 10) [nvm install 10]
+### BASIC SETUP  (needs Node 14) [nvm install 14]
  
 1. npm install
 

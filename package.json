@@ -10,6 +10,10 @@
     }
   },
 
+  "engines" : { "node" : ">=0.14" } ,
+  "engineStrict" : true ,
+
+
   "scripts": {
     "pool_with_log": "node -r esm index.js > ./log/std.log 2> ./log/err.log",
     "pool": "node index.js  ",
