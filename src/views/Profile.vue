@@ -50,7 +50,7 @@
               <td> Block # </td>
               <td> Difficulty  </td>
               <td> Hashrate Est </td>
-              <td> Is Full Solution? </td>
+               
             </tr>
           </thead>
 
@@ -64,7 +64,7 @@
 
               <td>  {{ share.difficulty }} </td>
               <td>  {{ hashrateToMH( share.hashrateEstimate )  }} </td>
-              <td>  {{ share.isSolution }} </td>
+              
             </tr>
 
 
