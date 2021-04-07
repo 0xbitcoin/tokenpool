@@ -1,0 +1,4 @@
+{
+    "contractName": "UniqueBatchedPayments",
+    "abi":[{"type":"function","stateMutability":"nonpayable","payable":false,"outputs":[{"type":"uint256","name":""}],"name":"multisend","inputs":[{"type":"address","name":"_tokenAddr"},{"type":"bytes32","name":"paymentId"},{"type":"address[]","name":"dests"},{"type":"uint256[]","name":"values"}],"constant":false},{"type":"function","stateMutability":"view","payable":false,"outputs":[{"type":"bool","name":""}],"name":"paymentSuccessful","inputs":[{"type":"address","name":"sender"},{"type":"bytes32","name":"paymentId"}],"constant":true},{"type":"fallback","stateMutability":"payable","payable":true}]
+}
