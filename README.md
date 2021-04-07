@@ -75,14 +75,12 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
 
 
 ## DEV TODO  
-1. Optimize gas price oracles task runner (use bree?)
+1. Remove console logging and replace it with socket emissions -> show on a html frontend feed, sort by log type 
  
-2. disconnect all miners when pool is on standby, API will say pool is in standby  (show on pool page) 
  
-3. show payment tokens and their approval to the payments contract - on pool overview , make it easy for pool owner to approve tokens to it (dapp button) 
-4. fix hashrate chart 
+2. fix hashrate chart 
 
-5. add stratum https://mvis.ca/stratum-spec.html
+3. add stratum https://mvis.ca/stratum-spec.html
 
 6. *** Make sure that if a mint() gets stuck that it is cleared out !! Like  if it stuck 'Pending' for too long.  same with a payment!! *** 
 
