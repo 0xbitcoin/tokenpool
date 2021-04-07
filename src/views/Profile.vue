@@ -26,7 +26,7 @@
              <div class="whitespace-sm"></div>
 
               <div v-if="minerData">
-                <div> Hashrate Average: {{ minerData.avgHashrate }} </div>
+                <div> Hashrate Average: {{ hashrateToMH(minerData.avgHashrate) }} MH/s </div>
                  <div> Tokens Earned: {{ tokenBalanceFormatted()  }} </div>
                   <div> Tokens Awarded: {{ tokensAwardedFormatted()   }} </div>
               </div>
@@ -63,7 +63,7 @@
               <td> {{ share.block }} </td>
 
               <td>  {{ share.difficulty }} </td>
-              <td>  {{ hashrateToMH( share.hashrateEstimate )  }} MH/s</td>
+              <td>  {{ hashrateToMH( share.hashrateEstimate )  }} </td>
               <td>  {{ share.isSolution }} </td>
             </tr>
 
