@@ -26,6 +26,12 @@
           "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0x71B821aa52a49F32EEd535fCA6Eb5aa130085978"},
           "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0xCEBb8370Eb673F57e369D4FfD11912F944998911"} 
         }
+      } ,
+      "mumbai": {
+        "contracts": {
+          "_0xbitcointoken": {"name":"0xBitcoinToken", "blockchain_address":"0xb491574844b84dCBAeF821990df27122a178a283"},
+          "batchedpayments": {"name":"BatchedPayments", "blockchain_address":"0x24a19eE5A5C8757ACDEBe542a9436D9C796d1c9E"} 
+        }
       } 
     }
 }

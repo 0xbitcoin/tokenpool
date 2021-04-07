@@ -27,8 +27,8 @@
 
               <div v-if="minerData">
                 <div> Hashrate Average: {{ minerData.avgHashrate }} </div>
-                 <div> Tokens Earned: {{ minerData.alltimeTokenBalance }} </div>
-                  <div> Tokens Awarded: {{ minerData.tokensAwarded }} </div>
+                 <div> Tokens Earned: {{ tokenBalanceFormatted()  }} </div>
+                  <div> Tokens Awarded: {{ tokensAwardedFormatted()   }} </div>
               </div>
 
 
@@ -58,14 +58,12 @@
 
             <tr v-for="(share, index) in shares">
              
-
-
-               
+  
 
               <td> {{ share.block }} </td>
 
               <td>  {{ share.difficulty }} </td>
-              <td>  {{ share.hashrateEstimate  }} </td>
+              <td>  {{ hashrateToMH( share.hashrateEstimate )  }} MH/s</td>
               <td>  {{ share.isSolution }} </td>
             </tr>
 
@@ -140,6 +138,7 @@ import AppPanel from './components/AppPanel.vue';
 import VerticalNav from './components/VerticalNav.vue'
 import Footer from './components/Footer.vue';
  
+import MathHelper from '../js/math-helper'
 
 import SocketHelper from '../js/socket-helper'
 
@@ -190,7 +189,23 @@ export default {
       this.socketHelper.emitEvent( 'getMinerData', {ethMinerAddress: this.publicAddress})
       this.socketHelper.emitEvent( 'getMinerShares', {ethMinerAddress: this.publicAddress})
       this.socketHelper.emitEvent( 'getMinerPayments', {ethMinerAddress: this.publicAddress})
+    },
+
+
+    tokenBalanceFormatted(){
+      return  MathHelper.rawAmountToFormatted(this.minerData.alltimeTokenBalance , 8) 
+
+    }, 
+
+    tokensAwardedFormatted(){
+      return MathHelper.rawAmountToFormatted( this.minerData.tokensAwarded , 8)
+
+    },
+    hashrateToMH(hashrate){
+      return MathHelper.rawAmountToFormatted( hashrate , 6 )
     }
+    
+ 
 
   }
 }
