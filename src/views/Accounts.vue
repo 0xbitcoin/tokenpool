@@ -138,7 +138,9 @@ export default {
     });
 
 
-   this.accountList = minerList.filter(x => web3utils.isAddress( x.minerEthAddress ) )
+    minerList.filter(x => web3utils.isAddress( x.minerEthAddress ) )
+
+   this.accountList = minerList
 
    this.pollSockets()
 
