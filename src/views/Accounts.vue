@@ -108,6 +108,8 @@ import Footer from './components/Footer.vue';
 
 import SocketHelper from '../js/socket-helper'
 
+import web3utils from 'web3-utils'
+
 export default {
   name: 'Accounts',
   props: [],
@@ -133,6 +135,8 @@ export default {
        this.accountList = data 
     });
 
+
+   this.accountList = this.accountList.filter(x => web3utils.isAddress( x.minerEthAddress ) )
 
    this.pollSockets()
 
