@@ -129,18 +129,14 @@ export default {
 
     this.socketsListener = this.socketHelper.initSocket()
     
-
-    let minerList = []
     
     this.socketsListener.on('minerList', (data) => {               
         console.log('got data',data)
-       minerList = data 
+       this.accountList = data 
     });
 
 
-    minerList.filter(x => web3utils.isAddress( x.minerEthAddress ) )
-
-   this.accountList = minerList
+   //this.accountList = this.accountList.filter(x => web3utils.isAddress( x.minerEthAddress ) )
 
    this.pollSockets()
 
