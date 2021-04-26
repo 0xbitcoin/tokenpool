@@ -140,7 +140,7 @@ export default {
    //this.accountList = this.accountList.filter(x => web3utils.isAddress( x.minerEthAddress ) )
   
 
-   this.accountList.sort((a,b) => {b.alltimeTokenBalance - a.alltimeTokenBalance})
+   this.accountList = this.accountList.sort((a,b) => {b.alltimeTokenBalance - a.alltimeTokenBalance})
 
 
    this.pollSockets()

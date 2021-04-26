@@ -14,12 +14,14 @@
  
        
       
-            <h1 class="title font-primary-title color-primary">
+            <div class="text-lg md:text-2xl text-white overflow-x-auto">
               Mining Account 
-            </h1>
-            <h2 class="subtitle">
-             {{ publicAddress }}
-            </h2>
+            </div>
+
+             <div class="text-md md:text-xl text-white overflow-x-auto">
+              {{ publicAddress }}
+            </div>
+             
 
 
 
