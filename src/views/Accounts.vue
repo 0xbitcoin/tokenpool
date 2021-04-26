@@ -132,21 +132,44 @@ export default {
     
     
     this.socketsListener.on('minerList', (data) => {               
-        console.log('got data',data)
-       this.accountList = data 
+       
+         
+          this.updateAccountList(data)
+
     });
 
-
-   //this.accountList = this.accountList.filter(x => web3utils.isAddress( x.minerEthAddress ) )
-  
-
-   this.accountList = this.accountList.sort((a,b) => {b.alltimeTokenBalance - a.alltimeTokenBalance})
 
 
    this.pollSockets()
 
   },
+  beforeDestroy(){
+    this.socketsListener.removeAllListeners()
+  },
   methods: {
+
+
+      async updateAccountList(newList){
+ 
+           this.accountList = newList 
+    
+         /* this.accountList.push({
+            alltimeTokenBalance: 100,
+            minerEthAddress: '0x000000',
+            tokenBalance: 100000,
+            tokensAwarded: 0
+
+          } )*/
+
+           console.log('this.accountList', this.accountList)
+
+           this.accountList = this.accountList.filter(x => web3utils.isAddress( x.minerEthAddress ) )
+  
+
+
+          this.accountList.sort((a,b) => {return b.alltimeTokenBalance - a.alltimeTokenBalance})
+        
+      },
       pollSockets(){
        
           this.socketHelper.emitEvent( 'getMinerList')
