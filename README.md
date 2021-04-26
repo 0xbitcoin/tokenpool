@@ -1,6 +1,6 @@
 ### Token Mining Pool  
 
-Developed by the 0xBitcoin Community
+Developed by InfernalToast with help from the 0xBitcoin Community
 
 (GNU PUBLIC LICENSE)
 
@@ -33,8 +33,6 @@ Windows GPU Miner 2
 4. 'npm run build'  #(to build the website files)
 
 5. 'npm run pool' #(or 'npm run pool staging 'for staging test mode)
-
-6. 'npm run express' (in a separate screen to serve HTML) 
  
 
 
