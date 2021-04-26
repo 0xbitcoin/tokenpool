@@ -17,15 +17,15 @@
           <tbody>
 
             <tr v-for="(item, index) in transactionsList"  v-bind:class="item.htmlClass">
-              <td>  {{ item.block  }} </td>
-              <td>
+              <td class="px-1">  {{ item.block  }} </td>
+              <td class="px-1">
 
                 <a v-bind:href='item.txURL' >
                  {{ item.txHash  }}
                </a>
                </td>
 
-              <td class="tx-status-cell">  {{ item.status}} </td>
+              <td class="tx-status-cell px-1">  {{ item.status}} </td>
             </tr>
 
           </tbody>

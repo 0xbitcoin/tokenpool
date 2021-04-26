@@ -17,9 +17,12 @@
     "pool_with_log": "node -r esm index.js > ./log/std.log 2> ./log/err.log",
     "pool": "node index.js  ",
     "build": "vue-cli-service build",
+    
+
     "express": "node express.js",
     "web_production": "vue-cli-service serve --mode=production --port 3000",
-    "web_dev": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
+     
     "deploy": "node deploy.js",
     "lint": "vue-cli-service lint",
     "mocha": "mocha   test/mocha.js --timeout 3000",

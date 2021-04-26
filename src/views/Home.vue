@@ -128,7 +128,7 @@
 
 
 
-    <section class="flex flex-row">
+    <section class="flex flex-row hidden ">
       
         <div class="w-1/2">
             <div class="hidden">
@@ -140,7 +140,7 @@
       <div class="w-1/2">
          
             <div class="card card-background-secondary"  >
-              <div class="card-content  ">
+              <div class="card-content text-white ">
 
 
                 

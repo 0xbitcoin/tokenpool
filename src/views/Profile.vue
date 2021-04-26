@@ -36,8 +36,8 @@
      
       <div class="whitespace-md"></div>
 
-      <div   class="box  background-secondary" 
-         style="overflow-x:auto; min-height:480px;">
+      <div   class="box  background-secondary overflow-x-auto" 
+         style=" min-height:480px;">
 
         <div class='text-lg font-bold'>Shares</div>
         <table class='table w-full'>
@@ -60,10 +60,10 @@
              
   
 
-              <td> {{ share.block }} </td>
+              <td class="px-1"> {{ share.block }} </td>
 
-              <td>  {{ share.difficulty }} </td>
-              <td>  {{ hashrateToMH( share.hashrateEstimate )  }} </td>
+              <td class="px-1">  {{ share.difficulty }} </td>
+              <td class="px-1">  {{ hashrateToMH( share.hashrateEstimate )  }} </td>
               
             </tr>
 
@@ -77,8 +77,8 @@
 
 <div class="whitespace-md"></div>
 
-      <div   class="box  background-secondary" 
-         style="overflow-x:auto; min-height:480px;">
+      <div   class="box  background-secondary overflow-x-auto" 
+         style="  min-height:480px;">
 
         <div class='text-lg font-bold'>Payouts</div>
         <table class='table w-full'>
@@ -98,11 +98,11 @@
             <tr v-for="(tx, index) in payment_tx">
               
 
-              <td> {{ tx.block }} </td>
+              <td class="px-1"> {{ tx.block }} </td>
 
-              <td>  {{ tx.amountToPay }} </td>
-              <td>  {{ tx.batchedPaymentUuid  }} </td>
-              <td>  {{ tx.txHash }} </td>
+              <td class="px-1" >  {{ tx.amountToPay }} </td>
+              <td class="px-1">  {{ tx.batchedPaymentUuid  }} </td>
+              <td class="px-1">  {{ tx.txHash }} </td>
             </tr>
 
 

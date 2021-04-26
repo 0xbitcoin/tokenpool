@@ -22,7 +22,7 @@
       <div class="whitespace-sm"></div>
         
 
-        <div v-if="poolStatus">
+        <div v-if="poolStatus" class="overflow-x-auto">
           <div>Pool Status: {{poolStatus.poolStatus}}</div>
           <div v-if="poolStatus.poolStatus!='active'">Suspension Reason: {{poolStatus.suspensionReason}}</div>
 
@@ -43,7 +43,7 @@
 
          <div class="whitespace-sm"></div>
 
-        <div v-if="poolData">
+        <div v-if="poolData"  class="overflow-x-auto">
             <div>Last Known Block Number: {{poolData.ethBlockNumber}}</div>
             <div>Minting Account Address: {{poolData.mintingAddress}}</div>
             <div>Minting Network Name: {{poolData.mintingNetwork}}</div>
@@ -56,7 +56,7 @@
 
           <div class="whitespace-sm"></div>
 
-         <div v-if="poolData && poolData.miningContract">
+         <div v-if="poolData && poolData.miningContract"  class="overflow-x-auto">
            
             <div>Current Challenge Number: {{poolData.miningContract.challengeNumber}}</div>
 

@@ -33,7 +33,7 @@
         :href="row.url"
         v-for="row in item.rows"
          :key="row.title"
-        class="block w-full px-4 py-2 leading-5 hover:bg-gray-600 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+        class="block w-full  text-black border-2 border-gray-100 px-4 py-2 leading-5 hover:bg-purple-400 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
         role="menuitem"
         @blur="blurHandler"
         >
