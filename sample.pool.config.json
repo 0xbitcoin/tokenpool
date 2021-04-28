@@ -17,6 +17,7 @@
     "mintingConfig":{
       "overrideSuspension": true, 
       "maxGasPriceGwei": 200, 
+      "gasPriceBoost":10,
       "poolTokenFee": 5,
       "communityTokenFee": 2,
       "publicAddress": "0xB11ca87E32075817C82Cc471994943a4290f4a14",
@@ -54,6 +55,7 @@
     "mintingConfig":{
       "overrideSuspension": false, 
       "maxGasPriceGwei": 200, 
+      "gasPriceBoost":10,
       "poolTokenFee": 5,
       "communityTokenFee": 2,
       "networkName":"mainnet",

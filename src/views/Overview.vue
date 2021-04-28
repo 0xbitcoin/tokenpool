@@ -24,25 +24,29 @@
           class="mb-8"
          v-bind:activeSection="activeSection" 
          v-bind:buttonClickedCallback="onHorizontalNavClicked" 
-         v-bind:buttonNamesArray="['Status','Mining Data','Recent Transactions','Operations']"
+         v-bind:buttonNamesArray="['Status','Mining Data','Recent Transactions' ]"
    
        />
         
 
         <div v-if="poolStatus && activeSection=='Status'" class="overflow-x-auto  mb-4">
-          <div>Pool Status: {{poolStatus.poolStatus}}</div>
-          <div v-if="poolStatus.poolStatus!='active'">Suspension Reason: {{poolStatus.suspensionReason}}</div>
+          
+          <div class="mb-4">
+            <div>Pool Status: {{poolStatus.poolStatus}}</div>
+            <div v-if="poolStatus.poolStatus!='active'">Suspension Reason: {{poolStatus.suspensionReason}}</div>
+          </div>
 
 
-
-          <div>avgGasPriceGWei: {{poolStatus.poolFeesMetrics.avgGasPriceGWei}}</div>
-          <div>Full Mining Reward: {{poolStatus.poolFeesMetrics.miningRewardFormatted}}</div>
+          <div class="mb-4">avgGasPriceGWei: {{poolStatus.poolFeesMetrics.avgGasPriceGWei}}</div>
+          
+          
+          <div>Full Mining Reward: {{Number.parseFloat(rawAmountToFormatted(poolStatus.poolFeesMetrics.miningRewardRaw,8))}}</div>
 
           <div>miningRewardInEth: {{poolStatus.poolFeesMetrics.miningRewardInEth}}</div>
           <div>ethRequiredForMint: {{poolStatus.poolFeesMetrics.ethRequiredForMint}}</div>
 
            <div>poolBaseFeeFactor: {{poolStatus.poolFeesMetrics.poolBaseFee}}</div>
-            <div>gasCostFeeFactor: {{poolStatus.poolFeesMetrics.gasCostFee}}</div>
+           <div>gasCostFeeFactor: {{poolStatus.poolFeesMetrics.gasCostFee}}</div>
 
           <div>overallFeeFactor: {{Number.parseFloat(poolStatus.poolFeesMetrics.overallFeeFactor).toFixed(4)  }}</div>
 
@@ -50,14 +54,21 @@
 
          
 
-        <div v-if="poolData && activeSection=='Mining Data'"  class="overflow-x-auto mb-4">
+        <div v-if="poolData && poolStatus && activeSection=='Mining Data'"  class="overflow-x-auto mb-4">
             <div class="my-4">
               <div>Minting Account Address: {{poolData.mintingAddress}}</div>
               <div>Minting Network Name: {{poolData.mintingNetwork}}</div>
+              <div v-if="poolStatus.mintingAccountBalances">Minting Balance ETH: {{rawAmountToFormatted(poolStatus.mintingAccountBalances['ETH'] , 18 ) }}</div>
+              <div v-if="poolStatus.mintingAccountBalances">Minting Balance Token: {{rawAmountToFormatted(poolStatus.mintingAccountBalances['token'], 8)}}</div>
             </div>
             <div class="my-4">
               <div>Payments Accounts Address: {{poolData.paymentsAddress}}</div>
               <div>Payments Network Name: {{poolData.paymentsNetwork}}</div>
+              <div v-if="poolStatus.paymentsAccountBalances">Payments Balance ETH: {{rawAmountToFormatted(poolStatus.paymentsAccountBalances['ETH'],18)}}</div>
+              <div v-if="poolStatus.paymentsAccountBalances">Payments Balance Token: {{rawAmountToFormatted(poolStatus.paymentsAccountBalances['token'], 8)}}</div>
+
+              <div v-if="poolData.batchedPaymentsContractAddress">Batched Payments Contract Address: {{poolData.batchedPaymentsContractAddress}}</div>
+              <div >Tokens Approved to Batched Payments: {{rawAmountToFormatted(poolStatus.tokensApprovedToBatchPayments,8)}}</div>
             </div>
             <div class="my-4">
               <div>Last Known Block Number: {{poolData.ethBlockNumber}}</div>
@@ -73,6 +84,11 @@
 
             <div>Full Mining Difficulty: {{poolData.miningContract.miningDifficulty}}</div> 
         </div> 
+
+
+
+ 
+
 
           
 
