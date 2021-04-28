@@ -1,6 +1,6 @@
 <template>
   <div id="solutiontxlist"  class="box background-secondary transaction-list " style="overflow-x:auto; min-height:480px;">
-        <div class='subtitle'>{{label}}</div>
+        <div class='text-xl'>{{label}}</div>
 
 
         <table class='table w-full' v-cloak>

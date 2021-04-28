@@ -8,21 +8,28 @@
         <Navbar />
      
 
-   <div class="section bg-slate  text-white">
+   <div class="section bg-slate  text-white  pb-8">
      <div class="w-container pt-8">
 
        
  
 
-      <h1 class="title font-primary-title color-primary">
+      <h1 class="title font-primary-title color-primary mb-4">
         Pool Overview
       </h1>
       
 
-      <div class="whitespace-sm"></div>
+      
+      <HorizontalNav 
+          class="mb-8"
+         v-bind:activeSection="activeSection" 
+         v-bind:buttonClickedCallback="onHorizontalNavClicked" 
+         v-bind:buttonNamesArray="['Status','Mining Data','Recent Transactions','Operations']"
+   
+       />
         
 
-        <div v-if="poolStatus" class="overflow-x-auto">
+        <div v-if="poolStatus && activeSection=='Status'" class="overflow-x-auto  mb-4">
           <div>Pool Status: {{poolStatus.poolStatus}}</div>
           <div v-if="poolStatus.poolStatus!='active'">Suspension Reason: {{poolStatus.suspensionReason}}</div>
 
@@ -41,22 +48,26 @@
 
         </div> 
 
-         <div class="whitespace-sm"></div>
+         
 
-        <div v-if="poolData"  class="overflow-x-auto">
-            <div>Last Known Block Number: {{poolData.ethBlockNumber}}</div>
-            <div>Minting Account Address: {{poolData.mintingAddress}}</div>
-            <div>Minting Network Name: {{poolData.mintingNetwork}}</div>
-
-            <div>Payments Accounts Address: {{poolData.paymentsAddress}}</div>
-            <div>Payments Network Name: {{poolData.paymentsNetwork}}</div>
-            <div>Minimum User Balance For Payment: {{poolData.minBalanceForPayment}}</div>
-            
+        <div v-if="poolData && activeSection=='Mining Data'"  class="overflow-x-auto mb-4">
+            <div class="my-4">
+              <div>Minting Account Address: {{poolData.mintingAddress}}</div>
+              <div>Minting Network Name: {{poolData.mintingNetwork}}</div>
+            </div>
+            <div class="my-4">
+              <div>Payments Accounts Address: {{poolData.paymentsAddress}}</div>
+              <div>Payments Network Name: {{poolData.paymentsNetwork}}</div>
+            </div>
+            <div class="my-4">
+              <div>Last Known Block Number: {{poolData.ethBlockNumber}}</div>
+              <div>Minimum User Balance For Payment: {{rawAmountToFormatted(poolData.minBalanceForPayment,8)}}</div>
+            </div>
         </div> 
 
-          <div class="whitespace-sm"></div>
+          
 
-         <div v-if="poolData && poolData.miningContract"  class="overflow-x-auto">
+         <div v-if="poolData && poolData.miningContract && activeSection=='Mining Data'"  class="overflow-x-auto  mb-4">
            
             <div>Current Challenge Number: {{poolData.miningContract.challengeNumber}}</div>
 
@@ -65,42 +76,43 @@
 
           
 
-
-        <div class="whitespace-sm"></div>
- 
+        <div v-if="activeSection =='Recent Transactions'" class="mb-4">
 
          <section>
        <TransactionsTable
+        class="mb-4"
         label="Recent Solutions" 
         v-bind:transactionsList="recentSolutionTx"
         />
         </section>
         <section>
           <TransactionsTable
+            class="mb-4"
             label="Recent Payments"
             v-bind:transactionsList="recentPaymentTx"
           />
         </section>
-      
-
-         <div class="whitespace-sm"></div>
 
 
+        </div>
 
-
+       
 
  
 
 
      </div>
+
+
+    
    </div>
 
    
 
-
+ 
     
 
-  <Footer/>
+  <Footer    />
 
 </div>
 </template>
@@ -116,16 +128,22 @@ import Footer from './components/Footer.vue';
 import TransactionsTable from './components/TransactionsTable.vue';
 import HashrateChart from './components/HashrateChart.vue';
 
+import HorizontalNav from './components/HorizontalNav.vue';
+
 import SocketHelper from '../js/socket-helper'
+
+import MathHelper from '../js/math-helper'
 
 export default {
   name: 'Accounts',
   props: [],
-  components: {Navbar,AppPanel,VerticalNav,Footer,TransactionsTable},
+  components: {Navbar,AppPanel,VerticalNav,Footer,TransactionsTable, HorizontalNav},
   data() {
     return {
       poolData: null,
       poolStatus: null,
+
+      activeSection: 'Status',
 
        
       accountList: [] ,
@@ -169,7 +187,19 @@ export default {
       this.socketHelper.emitEvent('getPoolStatus')
       this.socketHelper.emitEvent('getRecentSolutions')
       this.socketHelper.emitEvent('getRecentPayments')
+    },
+
+    rawAmountToFormatted(amount, decimals){
+      return MathHelper.rawAmountToFormatted(amount,decimals)
+    },
+
+    onHorizontalNavClicked(item){
+     
+      this.activeSection = item
+
+
     }
+
  
 
   }
