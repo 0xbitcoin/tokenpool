@@ -19,7 +19,7 @@
       "maxGasPriceGwei": 200, 
       "gasPriceBoost":10,
       "poolTokenFee": 5,
-      "communityTokenFee": 2,
+    
       "publicAddress": "0xB11ca87E32075817C82Cc471994943a4290f4a14",
       "privateKey":"",
 
@@ -57,7 +57,7 @@
       "maxGasPriceGwei": 200, 
       "gasPriceBoost":10,
       "poolTokenFee": 5,
-      "communityTokenFee": 2,
+      
       "networkName":"mainnet",
       "web3Provider":"https://mainnet.infura.io/v3/###"
     },

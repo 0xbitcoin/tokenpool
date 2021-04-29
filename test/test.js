@@ -64,7 +64,7 @@ describe('Peer Interface', function() {
         difficulty: 50000,
         isSolution: false,
         hashRateEstimate: 2516582400,
-        time: peerUtils.getUnixTimeNow()-4000,
+        time: peerUtils.getTimeNowSeconds()-4000,
         timeToFind: 400  //helps estimate hashrate- look at recent shares
       };
 
@@ -75,7 +75,7 @@ describe('Peer Interface', function() {
         difficulty: 50000,
         isSolution: false,
         hashRateEstimate: 2516582400,
-        time: peerUtils.getUnixTimeNow()-3000,
+        time: peerUtils.getTimeNowSeconds()-3000,
         timeToFind: 4000  //helps estimate hashrate- look at recent shares
       };
 
