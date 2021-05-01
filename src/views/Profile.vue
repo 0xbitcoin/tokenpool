@@ -104,7 +104,7 @@
 
               <td class="px-1" >  {{ tx.amountToPay }} </td>
               <td class="px-1">  {{ tx.batchedPaymentUuid  }} </td>
-              <td class="px-1">  {{ tx.txHash }} </td>
+              <td class="px-1"> <a v-if="poolData"  v-bind:href="getExplorerBaseURLForPayments() +'address/' + tx.txHash   " target="_blank">   {{ tx.txHash }} </a>  </td>
             </tr>
 
 
@@ -142,6 +142,8 @@ import Footer from './components/Footer.vue';
  
 import MathHelper from '../js/math-helper'
 
+import FrontendHelper from '../js/frontend-helper'
+
 import SocketHelper from '../js/socket-helper'
 
 export default {
@@ -152,6 +154,7 @@ export default {
     return {
          publicAddress:null,
          minerData:{}, 
+         poolData: {},
          shares: [],
          payment_tx: [] 
     }
@@ -166,15 +169,21 @@ export default {
 
 
     this.socketsListener = this.socketHelper.initSocket()
-    
+
+    this.socketsListener.on('poolData', (data) => {   
+        console.log('got poolData',data)
+
+        this.poolData = data 
+    }); 
+
     
     this.socketsListener.on('minerData', (data) => {               
-        console.log('got data',data)
+        console.log('got minerData',data)
        this.minerData = data 
     });
 
       this.socketsListener.on('minerShares', (data) => {               
-        console.log('got shares',data)
+        console.log('got minerShares',data)
        this.shares = data 
     });
 
@@ -188,6 +197,7 @@ export default {
   },
   methods: {
     pollSockets(){
+      this.socketHelper.emitEvent('getPoolData')
       this.socketHelper.emitEvent( 'getMinerData', {ethMinerAddress: this.publicAddress})
       this.socketHelper.emitEvent( 'getMinerShares', {ethMinerAddress: this.publicAddress})
       this.socketHelper.emitEvent( 'getMinerPayments', {ethMinerAddress: this.publicAddress})
@@ -205,6 +215,11 @@ export default {
     },
     hashrateToMH(hashrate){
       return MathHelper.rawAmountToFormatted( hashrate , 6 )
+    },
+    getExplorerBaseURLForPayments(){
+      if(!this.poolData) return;
+     
+      return FrontendHelper.getExplorerBaseURL( this.poolData.paymentsNetwork   )
     }
     
  
