@@ -104,7 +104,7 @@
 
               <td class="px-1" >  {{ tx.amountToPay }} </td>
               <td class="px-1">  {{ tx.batchedPaymentUuid  }} </td>
-              <td class="px-1"> <a v-if="poolData"  v-bind:href="getExplorerBaseURLForPayments() +'address/' + tx.txHash   " target="_blank">   {{ tx.txHash }} </a>  </td>
+              <td class="px-1"> <a v-if="poolData"  v-bind:href="getExplorerBaseURLForPayments() +'tx/' + tx.txHash   " target="_blank">   {{ tx.txHash }} </a>  </td>
             </tr>
 
 
