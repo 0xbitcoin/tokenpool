@@ -51,15 +51,15 @@
                 <div class="whitespace-lg"></div>
                 <br>
             <div class="w-full p-4 m-4">
-                <div class="m-2 text-lg text-white">Pool Status</div>
-                <div v-if="poolStatus.poolStatus == 'active'" >
+                <div v-if="poolStatus" class="m-2 text-lg text-white">Pool Status</div>
+                <div v-if="poolStatus && poolStatus.poolStatus == 'active'" >
                     <div class="bg-green-500 w-full p-2">
                       Token Mining Pool is Active
                     </div>
                   
                  </div>
 
-                 <div v-if="poolStatus.poolStatus != 'active'" >
+                 <div v-if="poolStatus && poolStatus.poolStatus != 'active'" >
                    <div class="bg-yellow-500 w-full p-2">
                         <div class="text-md">Token Mining Pool is Suspended</div>
                          <div class="text-sm"> [{{poolStatus.suspensionReason}}] </div>
@@ -162,6 +162,20 @@
           </div>
 
        </div>
+
+    </section>
+
+
+
+    <section class="flex flex-row my-16  ">
+      
+        <div class="text-center w-full flex flex-col">
+           
+           <img style="width:400px; margin:0 auto;" src="@/assets/images/Token30.gif"  />
+            
+           <a href="https://opensea.io/assets/0x6c10511ddea5f3ed38a0163224198e37b81525bc/30" target="_blank"> View this artwork on OpenSea </a>
+      </div>
+     
 
     </section>
      
