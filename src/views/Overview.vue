@@ -43,7 +43,7 @@
           <div>Full Mining Reward: {{Number.parseFloat(rawAmountToFormatted(poolStatus.poolFeesMetrics.miningRewardRaw,8))}}</div>
 
           <div>miningRewardInEth: {{poolStatus.poolFeesMetrics.miningRewardInEth}}</div>
-          <div>ethRequiredForMint: {{poolStatus.poolFeesMetrics.ethRequiredForMint}}</div>
+          <div class="mb-4">ethRequiredForMint: {{poolStatus.poolFeesMetrics.ethRequiredForMint}}</div>
 
            <div>poolBaseFeeFactor: {{poolStatus.poolFeesMetrics.poolBaseFee}}</div>
            <div>gasCostFeeFactor: {{poolStatus.poolFeesMetrics.gasCostFee}}</div>
@@ -56,18 +56,18 @@
 
         <div v-if="poolData && poolStatus && activeSection=='Mining Data'"  class="overflow-x-auto mb-4">
             <div class="my-4">
-              <div>Minting Account Address: {{poolData.mintingAddress}}</div>
+              <div>Minting Account Address: <a v-if="getExplorerBaseURLFromType('solutions')" target="_blank" v-bind:href="getExplorerBaseURLFromType('solutions') + 'address/' + poolData.mintingAddress  "> {{poolData.mintingAddress}}  </a> </div>
               <div>Minting Network Name: {{poolData.mintingNetwork}}</div>
               <div v-if="poolStatus.mintingAccountBalances">Minting Balance ETH: {{rawAmountToFormatted(poolStatus.mintingAccountBalances['ETH'] , 18 ) }}</div>
               <div v-if="poolStatus.mintingAccountBalances">Minting Balance Token: {{rawAmountToFormatted(poolStatus.mintingAccountBalances['token'], 8)}}</div>
             </div>
             <div class="my-4">
-              <div>Payments Accounts Address: {{poolData.paymentsAddress}}</div>
+              <div>Payments Accounts Address: <a v-if="getExplorerBaseURLFromType('payments')" target="_blank" v-bind:href="getExplorerBaseURLFromType('payments') + 'address/' + poolData.paymentsAddress  "> {{poolData.paymentsAddress}} </a> </div>
               <div>Payments Network Name: {{poolData.paymentsNetwork}}</div>
               <div v-if="poolStatus.paymentsAccountBalances">Payments Balance ETH: {{rawAmountToFormatted(poolStatus.paymentsAccountBalances['ETH'],18)}}</div>
               <div v-if="poolStatus.paymentsAccountBalances">Payments Balance Token: {{rawAmountToFormatted(poolStatus.paymentsAccountBalances['token'], 8)}}</div>
 
-              <div v-if="poolData.batchedPaymentsContractAddress">Batched Payments Contract Address: {{poolData.batchedPaymentsContractAddress}}</div>
+              <div v-if="poolData.batchedPaymentsContractAddress">Batched Payments Contract Address: <a v-if="getExplorerBaseURLFromType('payments')" target="_blank" v-bind:href="getExplorerBaseURLFromType('payments') + 'address/' + poolData.batchedPaymentsContractAddress  ">  {{poolData.batchedPaymentsContractAddress}}  </a> </div>
               <div >Tokens Approved to Batched Payments: {{rawAmountToFormatted(poolStatus.tokensApprovedToBatchPayments,8)}}</div>
             </div>
             <div class="my-4">
@@ -245,13 +245,30 @@ export default {
       if(txType == 'payments'){
         baseURL =  FrontendHelper.getExplorerBaseURL(paymentsNetworkName)
       }else{
-          baseURL = FrontendHelper.getExplorerBaseURL(solutionsNetworkName) 
+        baseURL = FrontendHelper.getExplorerBaseURL(solutionsNetworkName) 
       }
 
 
 
       txData.txURL=baseURL.concat('/tx/').concat(txData.txHash)
 
+    },
+
+    getExplorerBaseURLFromType(txType){
+
+      if(!this.poolData) return null; 
+      
+      const solutionsNetworkName = this.poolData.mintingNetwork
+
+      const paymentsNetworkName = this.poolData.paymentsNetwork
+
+     if(txType == 'payments'){
+        return FrontendHelper.getExplorerBaseURL(paymentsNetworkName)
+      }else{
+        return FrontendHelper.getExplorerBaseURL(solutionsNetworkName) 
+      }
+
+ 
     }
 
  
