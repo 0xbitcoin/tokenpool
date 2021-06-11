@@ -97,14 +97,14 @@
          <section>
        <TransactionsTable
         class="mb-4"
-        label="Recent Solutions" 
+        label="Recent Solutions"  
         v-bind:transactionsList="recentSolutionTx"
         />
         </section>
         <section>
           <TransactionsTable
             class="mb-4"
-            label="Recent Payments"
+            label="Recent Payments" 
             v-bind:transactionsList="recentPaymentTx"
           />
         </section>
@@ -148,6 +148,9 @@ import HorizontalNav from './components/HorizontalNav.vue';
 
 import SocketHelper from '../js/socket-helper'
 
+ import FrontendHelper from '../js/frontend-helper';
+ 
+
 import MathHelper from '../js/math-helper'
 
 export default {
@@ -168,6 +171,8 @@ export default {
       recentPaymentTx:[] 
     }
   },
+ 
+
   created(){
      this.socketHelper = new SocketHelper()
       
@@ -189,10 +194,18 @@ export default {
 
          this.socketsListener.on('recentSolutions', (data) => {  
             this.recentSolutionTx=data
+
+            this.recentSolutionTx.map( x => this.addExplorerUrl(x, 'solutions')  )
         });
 
          this.socketsListener.on('recentPayments', (data) => {  
             this.recentPaymentTx=data
+            
+            this.recentPaymentTx.map( x => this.addExplorerUrl(x, 'payments')  )
+
+            console.log('recent payment tx ',this.recentPaymentTx)
+
+
         });
 
       this.pollSockets()
@@ -213,6 +226,31 @@ export default {
      
       this.activeSection = item
 
+
+    },
+
+    addExplorerUrl(txData, txType){
+
+      
+      if(!this.poolData) return ; 
+      
+      const solutionsNetworkName = this.poolData.mintingNetwork
+
+      const paymentsNetworkName = this.poolData.paymentsNetwork
+
+   
+      
+      let baseURL = ''
+ 
+      if(txType == 'payments'){
+        baseURL =  FrontendHelper.getExplorerBaseURL(paymentsNetworkName)
+      }else{
+          baseURL = FrontendHelper.getExplorerBaseURL(solutionsNetworkName) 
+      }
+
+
+
+      txData.txURL=baseURL.concat('/tx/').concat(txData.txHash)
 
     }
 

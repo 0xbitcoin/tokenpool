@@ -28,7 +28,7 @@ export default class FrontendHelper {
     }
 
     if(networkName == 'matic'){
-        return 'https://explorer-mainnet.maticvigil.com/'
+        return 'https://polygonscan.com/'
     }
 
     return 'https://etherscan.io/'

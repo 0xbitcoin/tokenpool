@@ -20,7 +20,7 @@
               <td class="px-1">  {{ item.block  }} </td>
               <td class="px-1">
 
-                <a v-bind:href='item.txURL' >
+                <a target="_blank" v-bind:href='item.txURL' >
                  {{ item.txHash  }}
                </a>
                </td>
@@ -39,7 +39,7 @@
 
 export default {
   name: 'TransactionsTable',
-  props: [ 'transactionsList' , 'label'],
+  props: [ 'transactionsList' , 'label' ],
   components: { },
   data() {
     return { 

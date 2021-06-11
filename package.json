@@ -21,7 +21,7 @@
 
     "express": "node express.js",
     "web_production": "vue-cli-service serve --mode=production --port 3000",
-    "dev": "vue-cli-service serve",
+    "dev": "vue-cli-service serve --port 3030",
      
     "deploy": "node deploy.js",
     "lint": "vue-cli-service lint",
