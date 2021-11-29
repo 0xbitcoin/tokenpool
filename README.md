@@ -31,6 +31,7 @@ Added support for EIP1559 (thank you RedManStan for assistance) via new pool.con
  
  `
  transactionType - Set to '0x02' for eip1559 style or leave null for legacy 
+ 
  gasPriorityFeeGwei - If using type 0x02, use this to specify the miner tip 
  `
  
