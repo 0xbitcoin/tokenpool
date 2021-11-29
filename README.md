@@ -22,6 +22,18 @@ Windows GPU Miner 2
  https://github.com/lwYeo/SoliditySHA3Miner/releases
 
 
+
+
+
+#### Update 1.6.0 
+
+Added support for EIP1559 (thank you RedManStan for assistance) via new pool.config variables (see sample.pool.config.json)
+ 
+ transactionType - Set to '0x02' for eip1559 style or leave null for legacy 
+ gasPriorityFeeGwei - If using type 0x02, use this to specify the miner tip 
+ 
+
+
 ### BASIC SETUP  (needs Node 14) [nvm install 14]
  
 1. npm install
