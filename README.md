@@ -89,6 +89,83 @@ https://mintpond.com/b/prop-vs-pplns-vs-pps-mining-pool-reward-systems
 https://arxiv.org/pdf/1112.4980.pdf
 
 
+
+
+
+#### Add eip1559 
+ 
+sudo npm install @ethereumjs/tx
+Then in lib/transaction-coordinator.js
+I added this to the very top
+var cluster = require('cluster')
+
+const Tx = require('ethereumjs-tx').Transaction
+
+const { FeeMarketEIP1559Transaction } = require( '@ethereumjs/tx' );
+var web3Utils = require('web3-utils')
+const Common = require('@ethereumjs/common');
+const { Chain, Hardfork } = require('@ethereumjs/common');
+ var lastRebroadcastBlock = 0;
+//
+//___ Then at the bottom of transaction-coordinator.js i changed the way it submits the answer to:
+
+
+      const txOptions = {
+        nonce: web3Utils.toHex(txCount),
+        gasLimit: web3Utils.toHex(estimatedGasCost),
+    maxFeePerGas: web3Utils.toHex( web3Utils.toWei( '1.5' , 'gwei' ) ),
+    maxPriorityFeePerGas: web3Utils.toHex( web3Utils.toWei( '1.5' , 'gwei' ) ),
+        value: 0,
+        to: addressTo,
+        data: txData,
+    chainId: web3Utils.toHex(3),
+    type: "0x02"
+      }
+      var privateKey =  this.getMintingAccount().privateKey;
+
+      ret['tx_hash'] = await  new Promise(function (result,error) {
+
+         this.sendSignedRawTransaction(this.web3,txOptions,addressFrom,privateKey, function(err, res) {
+          if (err) error(err)
+            result(res)
+        })
+
+      }.bind(this));
+
+      return ret;
+
+    },
+
+
+
+
+    async sendSignedRawTransaction(web3,txOptions,addressFrom,private_key,callback) {
+
+      var privKey = this.truncate0xFromString( private_key )
+
+      const privateKey = new Buffer( privKey, 'hex')
+    console.log(txOptions);
+      const tx = FeeMarketEIP1559Transaction.fromTxData( txOptions, { chain: 'ropsten', hardfork: 'london' }  );
+    const signedTransaction = tx.sign( privateKey );
+
+    console.log(await web3.eth.net.getId());
+      const serializedTx2 = signedTransaction.serialize().toString('hex')
+
+        try
+        {
+          var result =  web3.eth.sendSignedTransaction('0x' + serializedTx2)
+        }catch(e)
+        {
+          console.log('error fail send signed',e);
+        }
+    }
+
+
+
+
+
+
+
 ## Task Commands Example
 node util/reset_all_miner_reward_data.js
 
