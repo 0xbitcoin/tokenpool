@@ -17,6 +17,7 @@
     "mintingConfig":{
       "overrideSuspension": true, 
       "maxGasPriceGwei": 200, 
+      "transactionType":"0x02",
 
       "gasPriorityFeeGwei":2,
       "gasPriceBoost":10,
@@ -32,6 +33,7 @@
     "paymentsConfig":{
       "enablePPS":true,
       "maxGasPriceGwei": 5,
+      "transactionType":"0x00",
 
       "gasPriorityFeeGwei":2,
       "minBalanceForTransfer": 1500000000,  
@@ -62,6 +64,7 @@
 
       "gasPriorityFeeGwei":2,
       "gasPriceBoost":10,
+      "transactionType":"0x02",
       
       "poolTokenFee": 5,
       
@@ -72,6 +75,7 @@
     "paymentsConfig":{
       "enablePPS":true,
       "maxGasPriceGwei": 5,
+      "transactionType":"0x00",
 
       "gasPriorityFeeGwei":2,
       "minBalanceForTransfer": 1500000000,  
