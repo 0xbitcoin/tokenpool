@@ -97,7 +97,7 @@ https://arxiv.org/pdf/1112.4980.pdf
 sudo npm install @ethereumjs/tx
 Then in lib/transaction-coordinator.js
 I added this to the very top
-var cluster = require('cluster')
+ 
 
 const Tx = require('ethereumjs-tx').Transaction
 
