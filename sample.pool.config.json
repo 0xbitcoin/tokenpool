@@ -76,7 +76,7 @@
       "enablePPS":true,
       "maxGasPriceGwei": 5,
       "transactionType":"0x00",
-
+      "gasPriceBoost":10,
       "gasPriorityFeeGwei":2,
       "minBalanceForTransfer": 1500000000,  
       "rebroadcastPaymentWaitBlocks": 10,
