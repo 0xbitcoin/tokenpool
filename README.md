@@ -88,6 +88,9 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubunt
 
 
 ## DEV TODO  
+- make suer requestTransactionData is working for payments on alt network 
+
+
 1. Remove console logging and replace it with socket emissions -> show on a html frontend feed, sort by log type 
  
  * allow for worker name (append to end of address)
