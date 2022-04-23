@@ -1,0 +1,13 @@
+{
+    "apps": [
+      {
+        "name": "tokenpool",
+        "script": "npm run pool",
+        "watch": false,
+        "env": {
+          "NODE_ENV": "production"
+        }
+      } 
+    ]
+  }
+  
