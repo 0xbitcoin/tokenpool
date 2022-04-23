@@ -50,6 +50,7 @@
 
                
               <td> Block # </td>
+              <td> Time </td>
               <td> Difficulty  </td>
               <td> Hashrate Est </td>
                
@@ -63,6 +64,7 @@
   
 
               <td class="px-1"> {{ share.block }} </td>
+              <td class="px-1"> {{ formattedTime(share.time) }} </td>
 
               <td class="px-1">  {{ share.difficulty }} </td>
               <td class="px-1">  {{ hashrateToMH( share.hashrateEstimate )  }} </td>
@@ -146,6 +148,8 @@ import FrontendHelper from '../js/frontend-helper'
 
 import SocketHelper from '../js/socket-helper'
 
+import moment from 'moment'
+
 export default {
   name: 'Profile',
   props: [],
@@ -155,7 +159,7 @@ export default {
          publicAddress:null,
          minerData:{}, 
          poolData: {},
-         shares: [],
+         shares: [{block:1234,time:1650670204}],
          payment_tx: [] 
     }
   },
@@ -213,6 +217,14 @@ export default {
       return MathHelper.rawAmountToFormatted( this.minerData.tokensAwarded , 8)
 
     },
+
+    formattedTime(unixTime){
+
+        if(unixTime){
+          return moment.unix(unixTime).format("MM/DD HH:mm");
+        }
+    },
+
     hashrateToMH(hashrate){
       return MathHelper.rawAmountToFormatted( hashrate , 6 )
     },
